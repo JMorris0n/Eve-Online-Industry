@@ -34,3 +34,7 @@
 - Refreshed Facilities and Rigs against current SDE-derived structure and rig attributes, added manufacturing versus reaction security multipliers, and corrected rig uniqueness to same rig type including T1/T2 variants.
 - Researched and replaced the Tech III Manufacturing placeholder with a source-backed four-stage production chain, relic/output mapping, sourcing, skill dependencies, and expected-attempt framework.
 - Recorded a material conflict: CCP's Ancient Relics article lists 40%/35%/25% base success chances, while EVE University and sampled SDE relic outputs show different percentages. No formula was inferred; live Industry-window verification remains open.
+
+- Researched and replaced the Planetary Industry placeholder with a source-backed colony, extraction, processor, skill, routing, export, tax, Skyhook, and Alpha-restriction concept.
+- Replaced the Planetary Commodities placeholder with P0-P4 tiers, P0-to-P1 mapping, P1-to-P4 recipe reference tables, and standard schematic batch structures. These remain draft pending reconciliation against the post-2025 CCP SDE.
+- Added CCP Planetary Interaction, Orbital Skyhook, Equinox, and current SDE documentation to the source catalog. Recorded the EVE University PI overview's explicit Equinox-update warning and the 2025 SDE schema break.
