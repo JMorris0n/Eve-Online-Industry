@@ -51,6 +51,12 @@ class RecipeParserTests(unittest.TestCase):
         self.assertEqual(result["products"][0]["quantity_per_run"], 2)
         self.assertEqual(result["base_time_seconds_per_run"], 120)
         self.assertEqual(result["required_skills"][0]["level"], 1)
+        self.assertEqual(result["schema_version"], 2)
+        self.assertEqual(result["recipe_data_status"], "complete")
+        self.assertEqual(
+            result["source_field_state"],
+            {"materials": "present", "products": "present", "required_skills": "present"},
+        )
 
     def test_absent_activity_is_not_an_error(self):
         self.assertIsNone(normalize_blueprint(self.blueprint, NAMES, "reaction"))
@@ -70,10 +76,35 @@ class RecipeParserTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "invalid quantity"):
             normalize_blueprint(self.blueprint, NAMES, "manufacturing")
 
-    def test_rejects_missing_products(self):
-        self.blueprint["activities"]["manufacturing"]["products"] = []
-        with self.assertRaisesRegex(ValueError, "has no products"):
-            normalize_blueprint(self.blueprint, NAMES, "manufacturing")
+    def test_missing_manufacturing_materials_are_preserved_as_incomplete(self):
+        del self.blueprint["activities"]["manufacturing"]["materials"]
+        result = normalize_blueprint(self.blueprint, NAMES, "manufacturing")
+        self.assertEqual(result["materials"], [])
+        self.assertEqual(result["source_field_state"]["materials"], "omitted")
+        self.assertEqual(result["recipe_data_status"], "incomplete")
+
+    def test_explicitly_empty_manufacturing_materials_are_distinct_from_omission(self):
+        self.blueprint["activities"]["manufacturing"]["materials"] = []
+        result = normalize_blueprint(self.blueprint, NAMES, "manufacturing")
+        self.assertEqual(result["materials"], [])
+        self.assertEqual(result["source_field_state"]["materials"], "empty")
+        self.assertEqual(result["recipe_data_status"], "complete")
+
+    def test_missing_products_are_skipped_not_emitted_as_recipes(self):
+        del self.blueprint["activities"]["manufacturing"]["products"]
+        stats = {}
+        result = normalize_blueprint(self.blueprint, NAMES, "manufacturing", stats)
+        self.assertIsNone(result)
+        self.assertEqual(stats["skipped_without_products"], 1)
+
+    def test_missing_required_reaction_materials_are_rejected(self):
+        self.blueprint["activities"]["reaction"] = {
+            "time": 360,
+            "products": [{"typeID": 200, "quantity": 1}],
+            "skills": [{"typeID": 400, "level": 1}],
+        }
+        with self.assertRaisesRegex(ValueError, "activity.materials is required"):
+            normalize_blueprint(self.blueprint, NAMES, "reaction")
 
     def test_iter_jsonl_supports_direct_and_key_value_records(self):
         with tempfile.TemporaryDirectory() as temp:

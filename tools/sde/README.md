@@ -76,7 +76,7 @@ Replace `BUILD` with the downloaded build number. The parser reads the current `
 
 The output is a normalized recipe reference, **not** a final job quote. It does not apply blueprint ME, structure/facility bonuses, system cost indices, job installation fees, character skill effects, or market prices. Do not use it directly as a profitability result.
 
-The parser supports direct SDE records and the documented generic `_key`/`_value` envelope. It is tested with representative fixtures; actual current-build ingestion remains pending until the archive is downloaded and inspected locally.
+The parser supports direct SDE records and the documented generic `_key`/`_value` envelope. In the current schema, manufacturing material/product/skill arrays are optional while reaction arrays are required. Omitted manufacturing arrays are retained as explicit source-field states; an omitted material list makes the recipe incomplete and unsuitable for cost calculation. Records without a product array are skipped and counted. The parser prints counts for examined activities, skipped records, and incomplete recipe fields so ingestion results can be audited.
 
 ## Data placement
 

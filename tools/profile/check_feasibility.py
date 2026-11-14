@@ -117,7 +117,25 @@ def evaluate_recipe(profile: dict[str, Any], recipe: dict[str, Any]) -> dict[str
         character_status = "ineligible"
         character_reason = "No character meets the recipe skill and job-capacity requirements."
 
-    component_statuses = [blueprint_status, facility_status, character_status]
+    source_state = recipe.get("source_field_state")
+    required_recipe_fields = {"materials", "products", "required_skills"}
+    if not isinstance(source_state, dict) or not required_recipe_fields.issubset(source_state):
+        recipe_data_status = "unknown"
+        recipe_data_reason = "Recipe predates completeness metadata or lacks source-field status."
+    elif (
+        source_state.get("materials") in {"omitted", "null"}
+        or source_state.get("products") != "present"
+        or source_state.get("required_skills") in {"omitted", "null"}
+    ):
+        recipe_data_status = "unknown"
+        recipe_data_reason = "One or more optional SDE recipe arrays were omitted/null; feasibility cannot be confirmed."
+    else:
+        recipe_data_status = "eligible"
+        recipe_data_reason = "Material, product, and required-skill fields are present or explicitly empty in the SDE."
+
+    component_statuses = [
+        blueprint_status, facility_status, character_status, recipe_data_status
+    ]
     overall = (
         "ineligible" if "ineligible" in component_statuses
         else "unknown" if "unknown" in component_statuses
@@ -131,6 +149,7 @@ def evaluate_recipe(profile: dict[str, Any], recipe: dict[str, Any]) -> dict[str
         "activity": recipe["activity"],
         "status": overall,
         "checks": {
+            "recipe_data": {"status": recipe_data_status, "reason": recipe_data_reason},
             "blueprint": {"status": blueprint_status, "reason": blueprint_reason},
             "facility": {"status": facility_status, "reason": facility_reason},
             "characters": {
@@ -143,6 +162,7 @@ def evaluate_recipe(profile: dict[str, Any], recipe: dict[str, Any]) -> dict[str
             "This is a hard-constraint screen, not a production quote or profitability recommendation.",
             "It does not calculate material efficiency, time efficiency, facility bonuses, job installation costs, or market access.",
             "A character with a free job slot is not proof that the slot is actually unused at job installation time.",
+            "Recipes with omitted/null source arrays remain unknown and must not be costed or recommended as executable plans.",
         ],
     }
 

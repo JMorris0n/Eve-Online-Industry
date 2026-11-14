@@ -130,3 +130,17 @@ No current market price or profitability conclusion is asserted by this audit.
 ### Audit interpretation
 
 The SDE download/integrity stage and the two global public ESI endpoint smoke tests are successful. M1 is not complete until the extracted current-build recipe parser and a small regional market-data collection have been validated. M2's local file/validator workflow is successful, but the actual operating profile remains unknown.
+
+
+## SDE parser finding from first actual archive run
+
+The first parser execution against build 3698585 stopped with `activity.materials must be an array`. The current community-maintained schema documents Manufacturing `materials`, `products`, and `skills` arrays as optional fields, while Reaction arrays are required. The parser's fixture assumptions were therefore too strict for manufacturing records.
+
+The parser has been updated to:
+- Preserve omitted, null, explicitly empty, and populated arrays as distinct source states.
+- Mark a recipe incomplete when its manufacturing material array is omitted/null. Such a recipe must not be priced as a zero-input recipe.
+- Skip and count activities without a usable product array rather than failing the entire SDE ingestion.
+- Keep reaction materials/products/skills required.
+- Make the profile feasibility report return `unknown` when normalized recipe arrays are incomplete or the recipe predates completeness metadata.
+
+Re-run the parser against the existing extracted build 3698585. No new download or extraction is required. Record the output counts and any remaining parse errors before treating the parser as reconciled with the live SDE.

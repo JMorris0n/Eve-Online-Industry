@@ -68,7 +68,7 @@ py -3 tools/profile/check_feasibility.py \
     --output data/derived/feasibility.json
 ```
 
-Omit `--product-type-id` to evaluate every recipe in the input file. The optional `--product-type-id` filter restricts evaluation to a specific output type ID. The report distinguishes `eligible`, `ineligible`, and `unknown`. Missing blueprints or facilities only count as definite blockers when the corresponding inventory completeness state is `verified`. A character's omitted skill counts as level zero only when that character's `skills_state` is `verified`.
+Omit `--product-type-id` to evaluate every recipe in the input file. The optional `--product-type-id` filter restricts evaluation to a specific output type ID. The report distinguishes `eligible`, `ineligible`, and `unknown`. It also checks SDE recipe-field completeness: records with omitted/null material, product, or skill arrays cannot be treated as confirmed feasible. Missing blueprints or facilities only count as definite blockers when the corresponding inventory completeness state is `verified`. A character's omitted skill counts as level zero only when that character's `skills_state` is `verified`.
 
 This is a hard-constraint screen only. It does not calculate blueprint ME/TE effects, facility bonuses, job installation fees, material procurement, market access, or profitability. An eligible result means the profile supports the listed static requirements, not that a job can be installed at this moment.
 

@@ -88,10 +88,32 @@ def _normalize_items(items: Any, type_metadata: dict[int, dict[str, Any]], field
     return sorted(normalized, key=lambda entry: entry["type_id"])
 
 
+def _normalize_optional_items(
+    activity: dict[str, Any],
+    field: str,
+    type_metadata: dict[int, dict[str, Any]],
+    *,
+    required: bool = False,
+) -> tuple[list[dict[str, Any]], str]:
+    """Normalize an optional SDE array while preserving whether it was omitted."""
+    if field not in activity:
+        if required:
+            raise ValueError(f"activity.{field} is required")
+        return [], "omitted"
+    raw_items = activity[field]
+    if raw_items is None:
+        if required:
+            raise ValueError(f"activity.{field} cannot be null")
+        return [], "null"
+    normalized = _normalize_items(raw_items, type_metadata, field)
+    return normalized, "present" if normalized else "empty"
+
+
 def normalize_blueprint(
     blueprint: dict[str, Any],
     type_metadata: dict[int, dict[str, Any]],
     activity_name: str,
+    stats: dict[str, int] | None = None,
 ) -> dict[str, Any] | None:
     activities = blueprint.get("activities")
     if not isinstance(activities, dict):
@@ -106,22 +128,40 @@ def normalize_blueprint(
     if isinstance(blueprint_id, bool) or not isinstance(blueprint_id, int) or blueprint_id <= 0:
         raise ValueError(f"invalid blueprintTypeID: {blueprint_id!r}")
 
-    products = _normalize_items(activity.get("products"), type_metadata, "products")
-    materials = _normalize_items(activity.get("materials"), type_metadata, "materials")
+    # Manufacturing arrays are optional in the current SDE schema. Preserve
+    # omission as an explicit incomplete-data state instead of interpreting it
+    # as a zero-input recipe. Reaction arrays are required by the schema.
+    arrays_required = activity_name == "reaction"
+    materials, materials_state = _normalize_optional_items(
+        activity, "materials", type_metadata, required=arrays_required
+    )
+    products, products_state = _normalize_optional_items(
+        activity, "products", type_metadata, required=arrays_required
+    )
     if not products:
-        raise ValueError(f"{activity_name} activity for blueprint {blueprint_id} has no products")
-    if not materials:
-        raise ValueError(f"{activity_name} activity for blueprint {blueprint_id} has no materials")
+        if stats is not None:
+            stats["skipped_without_products"] = stats.get("skipped_without_products", 0) + 1
+        return None
+    if activity_name == "reaction" and not materials:
+        raise ValueError(f"reaction activity for blueprint {blueprint_id} has no materials")
 
     time_seconds = activity.get("time")
     if isinstance(time_seconds, bool) or not isinstance(time_seconds, int) or time_seconds < 0:
         raise ValueError(f"{activity_name} activity for blueprint {blueprint_id} has invalid time")
 
-    skills = activity.get("skills", [])
-    if not isinstance(skills, list):
-        raise ValueError(f"{activity_name} activity skills must be an array")
+    if "skills" not in activity:
+        raw_skills, skills_state = [], "omitted"
+    elif activity["skills"] is None:
+        if activity_name == "reaction":
+            raise ValueError("activity.skills cannot be null")
+        raw_skills, skills_state = [], "null"
+    else:
+        raw_skills = activity["skills"]
+        if not isinstance(raw_skills, list):
+            raise ValueError(f"{activity_name} activity skills must be an array")
+        skills_state = "present" if raw_skills else "empty"
     normalized_skills = []
-    for skill in skills:
+    for skill in raw_skills:
         if not isinstance(skill, dict):
             raise ValueError("skill entries must be objects")
         type_id, level = skill.get("typeID"), skill.get("level")
@@ -132,9 +172,19 @@ def normalize_blueprint(
 
     blueprint_info = type_metadata.get(blueprint_id, {})
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "source": "CCP SDE",
         "activity": activity_name,
+        "source_field_state": {
+            "materials": materials_state,
+            "products": products_state,
+            "required_skills": skills_state,
+        },
+        "recipe_data_status": (
+            "complete"
+            if materials_state in {"present", "empty"} and products_state == "present"
+            else "incomplete"
+        ),
         "blueprint_type_id": blueprint_id,
         "blueprint_name": blueprint_info.get("name"),
         "blueprint_published": blueprint_info.get("published"),
@@ -151,6 +201,7 @@ def normalize_blueprint(
 def extract_recipes(
     sde_dir: Path,
     activity_names: tuple[str, ...] = SUPPORTED_ACTIVITIES,
+    stats: dict[str, int] | None = None,
 ) -> Iterator[dict[str, Any]]:
     blueprint_path = sde_dir / "blueprints.jsonl"
     types_path = sde_dir / "types.jsonl"
@@ -159,10 +210,23 @@ def extract_recipes(
     if not types_path.is_file():
         raise FileNotFoundError(f"Missing SDE file: {types_path}")
     type_metadata = load_type_metadata(types_path)
+    counters = stats if stats is not None else {}
+    counters.setdefault("activity_records_seen", 0)
+    counters.setdefault("recipes_with_omitted_materials", 0)
+    counters.setdefault("recipes_with_omitted_skills", 0)
+    counters.setdefault("skipped_without_products", 0)
     for blueprint in iter_jsonl(blueprint_path):
         for activity_name in activity_names:
-            recipe = normalize_blueprint(blueprint, type_metadata, activity_name)
+            activities = blueprint.get("activities")
+            if not isinstance(activities, dict) or activities.get(activity_name) is None:
+                continue
+            counters["activity_records_seen"] += 1
+            recipe = normalize_blueprint(blueprint, type_metadata, activity_name, counters)
             if recipe is not None:
+                if recipe["source_field_state"]["materials"] in {"omitted", "null"}:
+                    counters["recipes_with_omitted_materials"] += 1
+                if recipe["source_field_state"]["required_skills"] in {"omitted", "null"}:
+                    counters["recipes_with_omitted_skills"] += 1
                 yield recipe
 
 
@@ -178,9 +242,10 @@ def main() -> int:
     selected = SUPPORTED_ACTIVITIES if args.activity == "all" else (args.activity,)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     count = 0
+    stats: dict[str, int] = {}
     try:
         with args.output.open("w", encoding="utf-8", newline="\n") as output:
-            for recipe in extract_recipes(args.sde_dir, selected):
+            for recipe in extract_recipes(args.sde_dir, selected, stats):
                 output.write(json.dumps(recipe, ensure_ascii=False) + "\n")
                 count += 1
     except (OSError, ValueError) as exc:
@@ -188,6 +253,11 @@ def main() -> int:
         args.output.unlink(missing_ok=True)
         return 1
     print(f"PASS: wrote {count:,} normalized recipes to {args.output}")
+    print(f"Activity records examined: {stats.get('activity_records_seen', 0):,}")
+    print(f"Skipped because no product array was available: {stats.get('skipped_without_products', 0):,}")
+    print(f"Recipes with omitted/null material arrays: {stats.get('recipes_with_omitted_materials', 0):,}")
+    print(f"Recipes with omitted/null skill arrays: {stats.get('recipes_with_omitted_skills', 0):,}")
+    print("Recipes with omitted/null material arrays are marked incomplete and must not be costed as zero-input recipes.")
     print("Note: material quantities are SDE base quantities per run; industry job modifiers and facility costs are not applied.")
     return 0
 

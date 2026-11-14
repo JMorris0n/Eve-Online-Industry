@@ -31,6 +31,11 @@ def recipe(activity="manufacturing", skill_level=3):
         "blueprint_name": "Test Blueprint",
         "products": [{"type_id": 200, "name": "Test Product", "quantity_per_run": 1}],
         "required_skills": [{"type_id": 3380, "name": "Industry", "level": skill_level}],
+        "source_field_state": {
+            "materials": "present",
+            "products": "present",
+            "required_skills": "present",
+        },
     }
 
 
@@ -73,6 +78,28 @@ class FeasibilityTests(unittest.TestCase):
         data["facilities"] = [{"label": "Wrong service", "state": "verified",
                                "services": ["reaction"]}]
         self.assertEqual(evaluate_recipe(data, recipe())["status"], "ineligible")
+
+    def test_recipe_with_omitted_materials_is_unknown(self):
+        data = recipe()
+        data["materials"] = []
+        data["source_field_state"]["materials"] = "omitted"
+        data["recipe_data_status"] = "incomplete"
+        result = evaluate_recipe(profile(), data)
+        self.assertEqual(result["status"], "unknown")
+        self.assertEqual(result["checks"]["recipe_data"]["status"], "unknown")
+
+    def test_legacy_recipe_without_source_field_state_is_unknown(self):
+        data = recipe()
+        data.pop("source_field_state")
+        result = evaluate_recipe(profile(), data)
+        self.assertEqual(result["status"], "unknown")
+
+    def test_explicitly_empty_material_list_is_not_treated_as_omitted(self):
+        data = recipe()
+        data["materials"] = []
+        data["source_field_state"]["materials"] = "empty"
+        result = evaluate_recipe(profile(), data)
+        self.assertEqual(result["checks"]["recipe_data"]["status"], "eligible")
 
     def test_character_can_be_eligible_even_if_other_character_is_unknown(self):
         data = profile()
