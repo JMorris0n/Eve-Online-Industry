@@ -78,7 +78,7 @@ status: draft
 - [x] Document Manufacturing throughput, job-slot utilization, output rates, blueprint/BPC constraints, batch sizing, and bottleneck analysis.
 - [x] Document Science job-slot allocation, research/copying output rates, expected invention BPC throughput, and Science-to-Manufacturing bottlenecks.
 - [x] Document multi-pool production scheduling, precedence dependencies, slot/resource constraints, critical path, batch sizing, and replanning triggers.
-- [ ] Character specialization and marginal skill value.
+- [x] Document industrial role profiles, job-slot/time/invention/remote/market/PI skill categories, and marginal skill-value planning.
 - [ ] Multi-character and multi-facility scaling.
 
 ## P4: Market intelligence, tools, and playbooks
