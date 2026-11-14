@@ -36,7 +36,11 @@ status: draft
 - [x] Document Tech II invention inputs, skill-adjusted probability formula, category base chances, decryptor modifiers, output BPC characteristics, and expected-cost model.
   - [ ] Verify invention chance precision/cap and multi-run datacore/decryptor consumption against the Industry UI.
   - [ ] Verify output BPC runs/ME/TE for each decryptor and representative item families.
-- [ ] Complete standalone blueprint-copying mechanics and Tech II invention-to-manufacturing chain validation.
+- [x] Document standalone blueprint-copying mechanics, BPC inherited values, two-field copy-job setup, licensed-run limits, time model, and distribution use.
+  - [ ] Verify copy input materials against Job Runs versus Runs per Copy for a blueprint requiring exceptional inputs.
+  - [ ] Verify copy time and skill/facility modifiers against live Industry quotes.
+  - [ ] Verify concurrent copy-job restrictions from one BPO.
+- [ ] Validate the complete Tech II invention-to-manufacturing chain.
 - [ ] Tech II component manufacturing and dependencies.
 - [ ] Reactions and reaction facility constraints.
   - [x] Document reaction reactor families and the Refinery/security requirement.
