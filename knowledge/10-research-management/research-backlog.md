@@ -61,8 +61,10 @@ status: draft
 ## P2: Industrial economics
 
 - [x] Establish consistent replacement-cost, opportunity-cost, historical-cost, and EIV accounting conventions.
-- [ ] Manufacturing profitability model.
-- [ ] Market fees and taxation.
+- [x] Document manufacturing profitability framework, batch-level contribution, break-even pricing, slot-hour efficiency, and capital-return metrics.
+- [x] Document broker fees, sales tax, relist fees, NPC versus Upwell market differences, and transaction execution behavior.
+  - [ ] Validate fee calculations against wallet journal and live order quotes for NPC and Upwell markets.
+  - [ ] Build a representative worked manufacturing product example using current prices and a chosen market location.
 - [ ] Facility and regional location economics.
 - [ ] Logistics, capital, and inventory risk.
 
