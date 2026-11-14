@@ -24,7 +24,8 @@ status: draft
 - [x] Document the CCP industry installation-fee equation, EIV basis for Manufacturing, tax components, and activity-specific exceptions.
 - [ ] Independently verify facility role/rig modifiers against current in-game job quotes for representative item groups.
 - [ ] Verify current owner taxes, activity SCI, and fee rounding for NPC stations and Upwell facilities.
-- [ ] Confirm whether the temporary 2% ME/TE research SCC surcharge is still active in November 2026.
+- [x] Record CCP's 2025-07-18 reduction of the ME/TE research SCC surcharge from 4% to 2%, explicitly described as temporary; no later CCP reversal found as of 2026-11-14.
+- [ ] Confirm the current 2% ME/TE research surcharge against a live Industry quote; keep it configurable until then.
 - [ ] Validate current EIV/process-value bases and fee calculations for Science, Copying, Invention, and Reactions.
 - [ ] Set up repeatable live-data capture for ESI industry systems and adjusted prices.
 
