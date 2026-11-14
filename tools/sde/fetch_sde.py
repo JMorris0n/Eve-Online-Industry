@@ -129,7 +129,7 @@ def main() -> int:
         staging.unlink()
     info = download_file(latest_archive_url, staging, timeout=args.timeout)
     filename_pattern = re.compile(
-        r"eve-online-static-data-(\\d+)-" + re.escape(args.variant) + r"\\.zip$"
+        r"eve-online-static-data-(\d+)-" + re.escape(args.variant) + r"\.zip$"
     )
     match = filename_pattern.search(info["resolved_url"])
     if not match:
