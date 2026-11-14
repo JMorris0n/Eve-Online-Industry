@@ -81,3 +81,14 @@ This is a hard-constraint screen only. It does not calculate blueprint ME/TE eff
 ## Current limitations
 
 The profile validator checks structure and field types. The feasibility evaluator distinguishes eligible, ineligible, and unknown character/blueprint/facility requirements, but remains a hard-constraint screen. Neither tool calculates live market access from permissions, procurement cost, installation quotes, logistics cost, or profitability. An eligible result is not a production recommendation.
+
+## Private profile readiness report
+
+After entering local profile data, run:
+
+```powershell
+py -3 tools/profile/readiness_report.py `
+    --profile local/operating-profile.json
+```
+
+The report contains statuses and counts only. It intentionally omits character labels, skill IDs and levels, blueprint type IDs, facility and market names/IDs, and all ISK amounts. You can share the printed readiness report without sending the private profile. A valid schema does not mean the profile is complete: use the `unfilled_areas` list to identify what still needs verification.
