@@ -143,7 +143,7 @@ The roadmap is accepted as the working plan. Milestones M1 and M2 are now in pro
 
 ### M2. Define the local operating profile
 
-**Status:** In progress. The local profile schema, safe example, structural validator, and automated tests are in place; feasibility checks remain open.
+**Status:** In progress. The local profile schema, safe example, structural validator, feasibility screen, and automated tests are in place; the user's actual local operating data remains to be entered and verified.
 
 **Purpose:** Make product feasibility depend on the actual operation rather than generic character assumptions.
 
@@ -158,7 +158,7 @@ The roadmap is accepted as the working plan. Milestones M1 and M2 are now in pro
 **Acceptance criteria:**
 - [x] A documented local profile schema exists with a safe example configuration.
 - [x] The schema represents all three characters and separates known values from unknown values.
-- [ ] A feasibility check can distinguish eligible, ineligible, and unknown requirements. The current validator checks profile structure only.
+- [x] A feasibility check distinguishes eligible, ineligible, and unknown character, blueprint, and facility requirements. It is a hard-constraint screen, not a job quote or profitability result.
 - [x] No private profile, balance, asset export, or credential is committed to Git.
 
 ### M3. Establish doctrine-linked demand and market context
