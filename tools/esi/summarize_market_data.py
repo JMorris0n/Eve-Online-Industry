@@ -73,6 +73,8 @@ def summarize_book(orders: list[dict[str, Any]], quantities: list[int]) -> dict[
             raise ValueError("market order entry must be an object")
         price = dec(order.get("price"), "order.price")
         volume = order.get("volume_remain")
+        if price <= 0:
+            raise ValueError(f"order.price must be positive, got {price}")
         if isinstance(volume, bool) or not isinstance(volume, int) or volume < 0:
             raise ValueError(f"order volume_remain must be a non-negative integer, got {volume!r}")
         if volume == 0:
@@ -106,8 +108,8 @@ def summarize_book(orders: list[dict[str, Any]], quantities: list[int]) -> dict[
         "best_ask": float(best_ask) if best_ask is not None else None,
         "spread_isk": float(spread) if spread is not None else None,
         "spread_pct_of_best_ask": spread_pct,
-        "buy_depth": [sweep(bid_levels, quantity) for quantity in quantities],
-        "sell_depth": [sweep(ask_levels, quantity) for quantity in quantities],
+        "sell_into_bids": [sweep(bid_levels, quantity) for quantity in quantities],
+        "buy_from_asks": [sweep(ask_levels, quantity) for quantity in quantities],
         "caveat": "Regional orders include locations that may not be accessible to the operator; depth is a snapshot, not guaranteed execution.",
     }
 
@@ -194,11 +196,12 @@ def summarize_directory(input_dir: Path, quantities: list[int]) -> list[dict[str
             "order_book": summarize_book(book_orders, quantities) if book_orders else None,
             "history": summarize_history(histories[(region_id, type_id)])
             if (region_id, type_id) in histories else None,
-            "source_files": sorted(
-                name for name in source_hashes
+            "source_files": [
+                {"filename": name, "sha256": source_hashes[name]}
+                for name in sorted(source_hashes)
                 if f"region-{region_id}-type-{type_id}-" in name
                 or name == f"market-history-region-{region_id}-type-{type_id}.json"
-            ),
+            ],
         })
     return results
 
