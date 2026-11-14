@@ -29,6 +29,8 @@ py -3 tools/sde/fetch_sde.py --variant jsonl --extract
 
 See [`tools/sde/README.md`](tools/sde/README.md) for details. Raw SDE archives and extracted datasets belong under `data/raw/` and are excluded from Git. Keep build metadata, parser code, and reproducible derived outputs instead of committing the full archive.
 
+A public, read-only ESI collector is available under [`tools/esi/`](tools/esi/README.md). It collects selected regional market orders/history, adjusted prices, and industry system indices without EVE SSO credentials.
+
 ## Research status
 
 This repository has moved beyond its initial scaffold. It now contains source-backed draft concepts covering blueprint mechanics, job capacity, facilities, production systems, industrial economics, throughput, market intelligence, ESI/SDE data practices, and operational playbooks.
