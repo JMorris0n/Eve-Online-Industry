@@ -18,6 +18,16 @@ data/raw/
 data/processed/
 data/cache/
 
+# Private local operation data. Never commit character, asset, blueprint,
+# balance, order, or facility-access exports to the public repository.
+data/private/
+data/user/
+local/
+*.local.json
+*.local.yaml
+*.local.yml
+*.secrets.json
+
 # Python tooling
 __pycache__/
 *.py[cod]
