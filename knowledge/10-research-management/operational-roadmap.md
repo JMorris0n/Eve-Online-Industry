@@ -10,12 +10,12 @@ tags:
 generated:
   by: openai/gpt-6
   at: 2026-11-14T10:10:00Z
-status: draft
+status: active
 ---
 
 ## Status and purpose
 
-**Roadmap state:** Proposed, pending maintainer approval.
+**Roadmap state:** Accepted as the working plan on 2026-11-14.
 
 This roadmap translates the user's clarified objective into a sequence of measurable milestones. It should guide new development and reprioritize the existing research backlog. It does not declare any proposed milestone complete unless its acceptance criteria have actually been met.
 
@@ -104,7 +104,7 @@ Elapsed job time, active player time, character slot-hours, and cash-conversion 
 
 ## Milestones
 
-All milestones below are proposed. Only M0 is agreed at the strategic-direction level. The remaining milestones require acceptance and completion evidence.
+The roadmap is accepted as the working plan. Milestones M1 and M2 are now in progress. Completion still requires the evidence listed in each milestone's acceptance criteria.
 
 ### M0. Confirm the operating objective
 
@@ -123,7 +123,7 @@ All milestones below are proposed. Only M0 is agreed at the strategic-direction 
 
 ### M1. Validate the public data foundation
 
-**Status:** Not started. Acquisition scripts already exist.
+**Status:** In progress. Existing acquisition scripts are under review; local execution and live-data validation remain pending.
 
 **Purpose:** Establish a reproducible source of current static recipes and public market observations.
 
@@ -143,7 +143,7 @@ All milestones below are proposed. Only M0 is agreed at the strategic-direction 
 
 ### M2. Define the local operating profile
 
-**Status:** Not started.
+**Status:** In progress. The first local profile schema and safe example are being established.
 
 **Purpose:** Make product feasibility depend on the actual operation rather than generic character assumptions.
 
