@@ -31,6 +31,8 @@ status: draft
 
 ## Summary
 
+A deterministic estimate calculator is available at [`tools/calculations/market_fees.py`](../../tools/calculations/market_fees.py), with an illustrative scenario and tests. See the [calculator README](../../tools/calculations/README.md). The in-game order quote and wallet journal remain authoritative for actual fees.
+
 EVE market transaction costs have three distinct components:
 
 1. **Broker fee:** paid when creating a non-immediate market order.
