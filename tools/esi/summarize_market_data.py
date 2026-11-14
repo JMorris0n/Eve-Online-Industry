@@ -439,9 +439,12 @@ def summarize_target_location_book(
     )
     caveat = (
         "This target-location book includes only local sell orders and buy orders whose configured "
-        "range covers the target system. Sell-into-bids sweeps apply min_volume to each individual fill; below-minimum final fills are allowed only when the buy order's remaining volume is itself below min_volume. "
-        "requested sell quantity. " + range_note + " Market access, fees, order expiry, snapshot "
-        "changes, and exact same-price matching priority are not resolved; this is not a guaranteed quote."
+        "range covers the target system. Each buy order's min_volume is applied to its individual "
+        "fill. A final fill below min_volume is allowed only when it consumes the buy order's entire "
+        "remaining volume and that remaining volume is itself below min_volume. "
+        + range_note
+        + " Market access, fees, order expiry, snapshot changes, and exact same-price matching "
+        "priority are not resolved; this is not a guaranteed quote."
     )
     return {
         "market_scope": "target_location",

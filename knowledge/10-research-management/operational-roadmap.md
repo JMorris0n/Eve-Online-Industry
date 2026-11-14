@@ -35,7 +35,7 @@ The system should produce recommendations with the evidence, inputs, assumptions
 
 ## Operating principles
 
-1. **Optimize for player attention, not theoretical maximum margin.** The primary efficiency measure is risk-adjusted net contribution per active operator-hour. Count time spent evaluating, sourcing, staging, installing, adjusting orders, moving goods, and reconciling results. Do not count unattended job duration as active labor.
+1. **Optimize for player attention, not theoretical maximum margin.** The initial ranking measure is unadjusted net contribution per active operator-hour. Count time spent evaluating, sourcing, staging, installing, adjusting orders, moving goods, and reconciling results. Do not count unattended job duration as active labor. Show risk drivers and low/base/high scenarios separately; do not invent a risk premium before pilot data supports calibration.
 2. **Prefer predictable turnover.** Consider liquidity, realistic order-book depth, capital-days, expected liquidation time, and downside scenarios. A high-margin item with a long or uncertain sale horizon may rank below a simpler, faster-turning item.
 3. **Start shallow, not vertically integrated.** Assume inputs and intermediate components can be bought. Manufacture upstream inputs only when the incremental return justifies the additional jobs, skills, capital, and attention.
 4. **Treat alliance doctrine demand as a useful candidate signal, not guaranteed sales.** Evaluate doctrine relevance alongside actual regional history, order-book depth, local competition, staging-market access, and logistics.
@@ -50,14 +50,14 @@ The system should produce recommendations with the evidence, inputs, assumptions
 
 ### Primary measure
 
-**Risk-adjusted net contribution per active operator-hour**
+**Unadjusted net contribution per active operator-hour (initial ranking measure)**
 
-\[
-\frac{\text{Expected net contribution after variable costs and risk adjustment}}
-{\text{Active operator-hours}}
-\]
+\\[
+\\frac{\\text{Net contribution after variable costs}}
+{\\text{Active operator-hours}}
+\\]
 
-The exact risk adjustment and labor measurement method will be finalized during the first live pilot. Until then, show the unadjusted contribution and the underlying risks separately rather than inventing a risk premium.
+Do not subtract an invented risk premium. Display risk drivers, confidence, and low/base/high scenarios alongside the unadjusted measure. A risk-adjusted ranking may be considered only after pilot observations support a defensible calibration.
 
 ### Secondary measures
 
@@ -123,7 +123,7 @@ The roadmap is accepted as the working plan. Milestones M1 and M2 are now in pro
 
 ### M1. Validate the public data foundation
 
-**Status:** In progress. SDE build 3698585 download, integrity, extraction, and manufacturing/reaction parsing have passed local validation. The Forge regional ESI collection and v2 summary have been reviewed. Schema v3 now models target-location buy-order ranges and minimum sell-order quantities; local execution against the saved raw orders remains open.
+**Status:** In progress. SDE build 3698585 download, integrity, extraction, and parser execution have passed local validation at the command/output-count level. The Forge public ESI collection and v3 target-location summary have been reviewed. Schema v4 corrects per-fill minimum-volume handling and passed CI; the local v4 summary run and review remain the final M1 gate.
 
 **Purpose:** Establish a reproducible source of current static recipes and public market observations.
 
@@ -137,9 +137,10 @@ The roadmap is accepted as the working plan. Milestones M1 and M2 are now in pro
 
 **Acceptance criteria:**
 - [x] A current SDE build is downloaded, integrity-checked, and recorded.
-- [x] Current type, blueprint, and manufacturing/reaction recipe records are parsed from the live archive; optional fields and unresolved type metadata are documented.
+- [x] The current SDE archive was parsed locally; the available console output records aggregate counts and optional-field omissions. Record-level joins, publication flags, and exceptional recipes still require a generated local quality report.
 - [x] A small public ESI collection completes with a manifest and reproducible regional output.
-- [ ] Sample market history and order-book outputs are reconciled with location, order-range, minimum-fill, and cache semantics.
+- [x] The bounded collection manifest, order counts, daily history coverage, and location grouping have been reconciled against the uploaded summaries.
+- [ ] Schema-v4 target-location bid sweeps are executed locally and reviewed for range and per-fill minimum-volume behavior before their liquidation estimates are used.
 - [x] Missing or private market data is explicitly identified rather than imputed, including the access limitations of regional structure orders and private Upwell structure markets.
 
 ### M2. Define the local operating profile
@@ -152,6 +153,8 @@ The roadmap is accepted as the working plan. Milestones M1 and M2 are now in pro
 - Define a local, editable profile for the three industrial characters, their skills, job pools, specializations, and available slots.
 - Capture relevant blueprint/BPC availability and any limits on location or licensed runs.
 - Capture accessible facilities, service availability, rig assumptions, taxes, and production systems.
+- Capture market-access locations for procurement and sales, distinguishing NPC stations from Upwell structures.
+- Record the preferred hauling method and practical route/time/cargo limits where known.
 - Define an operating capital budget, liquidity reserve, and acceptable turnover horizon.
 - Record how much active attention the user is willing to spend on setup and periodic maintenance.
 - Keep actual character, asset, and financial details in ignored local files, never in tracked public repository files.
@@ -160,6 +163,8 @@ The roadmap is accepted as the working plan. Milestones M1 and M2 are now in pro
 - [x] A documented local profile schema exists with a safe example configuration.
 - [x] The schema represents all three characters and separates known values from unknown values.
 - [x] A feasibility check distinguishes eligible, ineligible, and unknown character, blueprint, and facility requirements. It is a hard-constraint screen, not a job quote or profitability result.
+- [x] The profile contract can represent market-access locations and logistics constraints without exposing them in the public repository.
+- [ ] The three character records, blueprint inventory, facilities, market access, capital, and attention/logistics limits are populated and reviewed locally.
 - [x] No private profile, balance, asset export, or credential is committed to Git.
 
 ### M3. Establish doctrine-linked demand and market context

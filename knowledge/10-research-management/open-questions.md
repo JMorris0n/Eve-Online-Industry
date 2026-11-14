@@ -137,10 +137,10 @@ status: draft
 - **Status:** Open, awaiting user input. Continue with generic mechanics, data tooling, and verification work until the operating environment is selected.
 
  
-### Q-015: Can the local SDE and public ESI tools be run and validated?
+### Q-015: Has the local SDE and public ESI pipeline been validated end to end?
 
-- **Question:** Can the SDE downloader/inspector and read-only ESI collector be run locally, with their manifests and sample output reviewed before building a deterministic parser?
+- **Question:** Have the SDE parser and public ESI market summarizer been run against saved live datasets, with output-level quality checks recorded?
 - **Affected concepts:** [ESI and Market Data](../07-tools-and-data/esi-and-market-data.md), [Data Quality and Reconciliation](../07-tools-and-data/data-quality.md), [Local SDE tools](../../tools/sde/README.md), [Read-only ESI collector](../../tools/esi/README.md).
-- **Why it matters:** The assistant environment cannot access the user's local data directory or ESI credentials. The current SDE schema and collector behavior must be inspected from an actual download before writing type/blueprint/reaction/PI parsers.
-- **Evidence needed:** Run the SDE downloader and inspector, then provide the build number, manifest, and relevant file listing/sample records. Run the ESI collector with one region and one common type ID and provide its manifest. No EVE SSO token is required for these public-data tests.
-- **Status:** Open, awaiting local execution. Continue with schema-independent documentation and code review in the meantime.
+- **Why it matters:** Live data can expose schema, cache, pagination, range, and execution-model assumptions that fixtures cannot.
+- **Evidence needed:** The SDE archive, integrity check, extraction, and parser command output are recorded. The bounded ESI collection and schema-v2/v3 summary structure have been reviewed. The remaining required evidence is a schema-v4 summary generated from the already saved raw ESI collection, followed by review of target-location buy-side fill results. No new SDE or ESI downloads are required.
+- **Status:** Partially complete. Awaiting the local schema-v4 summary and final M1 review.

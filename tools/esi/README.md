@@ -73,13 +73,13 @@ py -3 tools/esi/summarize_market_data.py --input-dir data/raw/esi/RUN_TIMESTAMP 
 
 The --sde-dir argument is optional. Without it, station, same-system, and region ranges can be resolved, but remote numeric jump ranges are marked unknown and excluded from target-location bid sweeps.
 
-The version 3 report separates three perspectives:
+The version 4 report separates three perspectives:
 
 - order_book is a region-wide composite for discovery. Its best bid and best ask can come from different stations or structures. A crossed composite is not evidence of executable arbitrage.
 - posted_location_books groups all orders by the location where each order was posted. This is a provenance/debugging view, not the market book available at that location.
 - location_books evaluates a target location. Sell orders are included only when posted at that exact station or structure. Buy orders are included when their range setting covers the target system. Numeric jump ranges use mapSolarSystems.jsonl and mapStargates.jsonl from the supplied SDE, with both the buy-order system and target system in the selected market region. A shortest route may pass through other regions.
 
-For target-location books, sell_into_bids checks each buy order's min_volume against the full requested sell-order quantity. If min_volume is omitted from the ESI response, it defaults to one unit. The minimum is not compared against the residual quantity after higher-priced bids have matched.
+For target-location books, sell_into_bids applies each buy order's min_volume to that individual fill. A fill smaller than min_volume is permitted only when it consumes the buy order's entire remaining volume and that remaining volume is itself below min_volume. If min_volume is omitted from the ESI response, it defaults to one unit. This interpretation follows the secondary [EVE Market Strategies reference](https://orbitalenterprises.github.io/eve-market-strategies/index), which describes minimum volume per fill and the below-minimum final-remainder exception. Treat the summary as a screening estimate, not a guaranteed execution quote; live in-game behavior remains the operational authority.
 
 Each target book reports range-resolution counts: eligible remote bids, excluded out-of-range bids, unresolved ranges, and eligible bids with invalid minimum-volume data. Equal-price bids use issue time and order ID as a deterministic ordering proxy; exact same-price in-game priority is not asserted as verified.
 

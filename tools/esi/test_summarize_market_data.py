@@ -311,6 +311,8 @@ class MarketSummaryTests(unittest.TestCase):
         self.assertEqual(result["range_resolution"]["excluded_out_of_range_buy_orders"], 1)
         self.assertEqual(result["sell_into_bids"][0]["vwap"], 12)
         self.assertEqual(result["buy_from_asks"][0]["vwap"], 10)
+        self.assertIn("min_volume is applied to its individual", result["caveat"])
+        self.assertNotIn("requested sell quantity", result["caveat"])
 
     def test_directory_builds_target_books_with_sde_ranges(self):
         with tempfile.TemporaryDirectory() as temp:
