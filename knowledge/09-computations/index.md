@@ -4,4 +4,5 @@
 - [Invention Economics Computation](invention-economics.md): expected cost per successful Tech II BPC/run, attempt variance, decryptor comparison, and slot-hour efficiency.
 - [Installation Cost Computation](installation-costs.md)
 - [Research Investment ROI](research-investment-roi.md): incremental ME/TE savings, Science slot opportunity cost, break-even jobs, and lifetime value.
-- [Capital Turnover Computation](capital-turnover.md): peak working capital, capital-days, inventory turnover, and cash conversion time.
+- [Capital Turnover Computation](capital-turnover.md)
+- [Hauling Cost and Route Risk](hauling-cost.md): compare self-haul and courier expected costs, cargo/ship loss, time, capital exposure, and collateral.: peak working capital, capital-days, inventory turnover, and cash conversion time.
