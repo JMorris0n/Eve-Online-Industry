@@ -76,6 +76,10 @@ def calculate(config: dict[str, Any]) -> dict[str, Any]:
     capital = nonnegative(required(plan, "capital_deployed_isk"), "capital_deployed_isk")
     slot_hours = nonnegative(required(plan, "manufacturing_slot_hours"), "manufacturing_slot_hours")
     elapsed_hours = nonnegative(required(plan, "elapsed_critical_path_hours"), "elapsed_critical_path_hours")
+    active_operator_hours = (
+        nonnegative(plan["active_operator_hours"], "active_operator_hours")
+        if "active_operator_hours" in plan else None
+    )
 
     materials = required(config, "materials")
     if not isinstance(materials, list):
@@ -242,6 +246,11 @@ def calculate(config: dict[str, Any]) -> dict[str, Any]:
             "net_margin_rate": fmt_decimal(projected_contribution / projected_gross) if projected_gross else None,
             "roi_on_capital_rate": fmt_decimal(projected_contribution / capital) if capital else None,
             "isk_per_manufacturing_slot_hour": fmt(projected_contribution / slot_hours) if slot_hours else None,
+            "active_operator_hours": fmt_decimal(active_operator_hours) if active_operator_hours is not None else None,
+            "isk_per_active_operator_hour": (
+                fmt(projected_contribution / active_operator_hours)
+                if active_operator_hours is not None and active_operator_hours > ZERO else None
+            ),
             "isk_per_elapsed_hour": fmt(projected_contribution / elapsed_hours) if elapsed_hours else None,
             "break_even_unit_price_isk": fmt(break_even_price) if break_even_price is not None else None,
             "target_net_margin_rate": fmt_decimal(target_margin),
@@ -253,7 +262,8 @@ def calculate(config: dict[str, Any]) -> dict[str, Any]:
             "Sale fills and projected price are assumptions or recorded executions, not guaranteed liquidity.",
             "Material cost is economic value, not necessarily historical wallet expenditure.",
             "The full-batch projection uses explicit aggregate broker/relist/other fees supplied by the user.",
-            "Cost allocation to sold units is proportional to delivered output; use a different inventory method if required."
+            "Cost allocation to sold units is proportional to delivered output; use a different inventory method if required.",
+            "Active operator time is optional user input; the active-operator-hour metric is null when omitted or zero."
         ],
     }
 
