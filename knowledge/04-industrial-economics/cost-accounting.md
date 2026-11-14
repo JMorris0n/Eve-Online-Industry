@@ -70,7 +70,7 @@ For historical reporting, preserve actual acquisition prices and fees. Do not ov
 
 ## Fees and cost attribution
 
-Installation fees, market broker fees, sales taxes, hauling costs, and other transaction costs should be separate line items. CCP's industry fee equation contains EIV, activity SCI and applicable bonuses, facility tax, SCC surcharge, and Alpha-clone tax. The facility/structure portion is documented in [Installation Cost Computation](../09-computations/installation-costs.md). [^ccp-viridian-fees]
+Installation fees, market broker fees, sales taxes, relist fees, hauling costs, and other transaction costs should be separate line items. CCP's industry fee equation contains EIV, activity SCI and applicable bonuses, facility tax, SCC surcharge, and Alpha-clone tax. The facility/structure portion is documented in [Installation Cost Computation](../09-computations/installation-costs.md). Market transaction fees are documented separately in [Market Fees and Taxation](market-fees-and-taxation.md). [^ccp-viridian-fees]
 
 Do not count an installation fee both as part of job cost and as a second generic overhead percentage. When comparing products, attribute a fee once to the job or batch that incurred it.
 
