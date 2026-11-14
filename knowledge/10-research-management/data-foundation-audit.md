@@ -54,7 +54,7 @@ Initial code review:
 - The parser has representative fixture tests and explicitly preserves base quantities/time without applying ME, facility bonuses, system indices, job fees, or market prices.
 - Actual ingestion of the current CCP archive remains unverified until the user can run the downloader and inspector locally.
 
-### Public ESI collector
+### Public ESI collector and market summarizer
 
 Existing files:
 - `tools/esi/collect_public_market_data.py`
@@ -67,6 +67,8 @@ Initial code review:
 - Implements X-Pages pagination, conditional requests, HTTP 429 Retry-After handling, and a stop on HTTP 420.
 - Saves order-book and market-history observations separately.
 - Does not collect private structure markets, character skills, assets, blueprints, or industry jobs. This is expected for the public-data-first phase.
+- Added `tools/esi/summarize_market_data.py` to combine paginated order books, distinguish asks from bids, calculate visible-book VWAP/depth for requested quantities, summarize backward-looking daily history, and retain source hashes.
+- The summarizer labels regional depth as potentially inaccessible and does not treat snapshot fillability as guaranteed execution. Fixture tests are in place; live ESI validation remains pending.
 
 ## Important compatibility-date note
 
@@ -81,6 +83,7 @@ The repository code review is not equivalent to local execution. The following r
 - [ ] Download the current SDE JSONL archive locally and confirm the build number, SHA-256, and ZIP test.
 - [ ] Inspect the archive's actual file paths and sample records for types, blueprints, industry activities, and reaction data.
 - [ ] Confirm the current SDE schema supports the recipe/material/product joins required for manufacturing and reactions.
+- [x] Add a deterministic summarizer for paginated public order books and daily history, with source hashes and snapshot caveats.
 - [ ] Run a deliberately small public ESI collection against a selected test region and a handful of item type IDs.
 - [ ] Confirm response headers, page counts, market-history records, and cache behavior from the saved raw outputs.
 - [ ] Record an explicit list of unavailable/private data, especially alliance Upwell structure market visibility.
