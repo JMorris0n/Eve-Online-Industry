@@ -100,3 +100,5 @@
 - Added Q-015 for local SDE/ESI tool execution and sample-schema review; generic research can continue while that input is pending.
 
 - Replaced Minerals and Ore, Moon Materials, Gas and Fullerites, Sleeper Salvage, and Procurement and Reprocessing placeholders with source-backed concepts. Avoided stale ore-location/yield tables, recorded current moon extraction and gas-family mechanics, separated Sleeper blue loot from Ancient Salvage, and documented reprocessing formulas with explicit warnings where the community reference is flagged for update.
+
+- Added a deterministic hauling-cost computation and standard-library Python calculator with a JSON scenario template and unit tests. It compares self-haul and courier costs from the cargo owner's perspective, including expected cargo/ship loss, collateral coverage, pilot time, and capital exposure. Real route probabilities remain user-supplied scenario inputs.
