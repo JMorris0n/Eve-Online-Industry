@@ -28,10 +28,10 @@ An empty region or type list skips regional order/history collection. The two gl
 ## Run
 
 ```powershell
-py -3 tools/esi/collect_public_market_data.py --config tools/esi/config.json --compatibility-date 2026-11-14
+py -3 tools/esi/collect_public_market_data.py --config tools/esi/config.json --compatibility-date YYYY-MM-DD
 ```
 
-The compatibility date must be a date that has been reviewed and tested against the current ESI schema. Update it deliberately when the project adopts a newer compatibility contract.
+The compatibility date must be a date that has actually been reviewed and tested against the current ESI schema. Do not copy the placeholder literally. CCP advances ESI compatibility dates at 11:00 UTC; before using the current calendar date, confirm that the date is available in the API Explorer. Record the tested date with the resulting collection manifest.
 
 Optional overrides:
 
