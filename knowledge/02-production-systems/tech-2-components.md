@@ -33,9 +33,6 @@ sources:
   - id: eveuni-invention
     resource: https://wiki.eveuniversity.org/Invention
     title: Invention | EVE University Wiki (last modified 2026-10-09)
-  - id: eveuni-ram
-    resource: https://wiki.eveuniversity.org/Robotic_Assembly_Modules
-    title: Robotic Assembly Modules | EVE University Wiki
 generated:
   by: openai/gpt-6
   at: 2026-11-14T06:25:24Z
