@@ -80,3 +80,5 @@
 
 - Added draft operational playbooks for product evaluation, Tech I/II production, PI, reactions, and market delivery; indexed them and retained draft status pending live workflow validation.
 - Added Q-014 to record the operating-environment inputs needed for a real product-ranking example. Continued work can proceed on generic mechanics and data tooling without blocking on those details.
+
+- Corrected an Alpha-clone PI restriction after checking CCP's current February 2026 Alpha/Omega article and July 2024 quick facts: Alpha clones can import materials into colonies but cannot export colony goods. Updated the Planetary Industry concept, PI playbook, character specialization guidance, and official source catalog; the older PI support article's broader wording is now explicitly noted as less precise.
