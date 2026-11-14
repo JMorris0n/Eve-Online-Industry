@@ -22,7 +22,7 @@ sources:
     title: Static Data Export Documentation
   - id: ccp-sde-rework
     resource: https://developers.eveonline.com/blog/reworking-the-sde-a-fresh-start-for-static-data
-    title: Reworking the SDE: a fresh start for static data (2025-09-22)
+    title: "Reworking the SDE: a fresh start for static data (2025-09-22)"
   - id: okf-spec
     resource: https://github.com/GoogleCloudPlatform/open-knowledge-format/blob/main/SPEC.md
     title: Open Knowledge Format Specification v0.2
