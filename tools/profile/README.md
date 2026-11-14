@@ -27,13 +27,13 @@ Every major record has a `state` field:
 - `partial`: some values are entered, but the record is incomplete.
 - `verified`: checked against an authoritative in-game or account source, with any caveats recorded.
 
-An empty skill map means "not recorded", not "untrained". A null capacity or capital value means unknown, not zero. Do not mark a record verified merely because a value was estimated.
+An empty skill map means "not recorded", not "untrained". Skill keys are SDE skill type IDs as strings, for example \`\"16622\": 4\`. Each character has a separate \`skills_state\`: only when it is \`verified\` can an omitted skill be treated as untrained (level zero). A null capacity or capital value means unknown, not zero. The root \`blueprints_state\` and \`facilities_state\` fields indicate whether the corresponding inventory lists are complete; an absent entry is not proof of non-ownership or non-access unless that inventory is verified. Do not mark a record verified merely because a value was estimated.
 
 ## Character records
 
 Exactly three character slots are represented. Use labels such as "Manufacturing", "Science", or "Market" if role labels help, but do not assume a character's specialization until its trained skills and available slots have been checked.
 
-Skill levels are integers from 0 to 5. The profile records the skills needed by the candidate products; it is not necessary to export every skill at the outset. Job capacities are separate fields for Manufacturing, Science, and Reaction.
+Skill levels are integers from 0 to 5, keyed by SDE type ID. The profile records the skills needed by candidate products; it is not necessary to export every skill at the outset. Record \`skills_state\` as \`partial\` while building the relevant skill list and \`verified\` only when the skill inventory is complete enough for absence to mean level zero. Job capacities are separate fields for Manufacturing, Science, and Reaction.
 
 ## Blueprints and facilities
 
@@ -59,4 +59,4 @@ The validator uses only the Python standard library. It checks the three charact
 
 ## Current limitations
 
-This is the first profile contract and structural validator, not yet a feasibility engine. The next implementation step is to use the profile to distinguish eligible, ineligible, and unknown character/blueprint/facility requirements. Do not use the template as a profitability recommendation by itself.
+This is the first profile contract and structural validator. A separate feasibility evaluator is being added to distinguish eligible, ineligible, and unknown character/blueprint/facility requirements. Do not use the template as a profitability recommendation by itself.
