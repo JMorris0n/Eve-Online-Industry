@@ -301,18 +301,18 @@ Unpublished, unresolved, incomplete, and zero-time records should be excluded or
 
 ### Q016 disposition
 
-**Q-016 is resolved for the current normalized SDE build.** The local audit has been executed and reviewed. Its identified exceptions are now explicit downstream filters and known limitations; they are not reasons to treat the entire normalized recipe dataset as unusable. The required-skill publication-field omission is recorded as a representation limitation for a later parser enhancement, not as a failed recipe audit.
+**Q-016 is resolved for the current normalized SDE build.** The local audit has been executed and reviewed. Its identified exceptions are now explicit downstream filters and known limitations; they are not reasons to treat the entire normalized recipe dataset as unusable. The required-skill publication-field omission was an intermediate parser limitation. It was corrected, tested, and verified against the regenerated normalized recipe output and refreshed version-2 audit later in this audit.
 
 
 
 
 ## Required-skill publication metadata follow-up (2026-11-14)
 
-Review of the uploaded recipe audit showed all **9,360** required-skill references with unknown publication status. Code inspection identified a normalization omission: `load_type_metadata()` already reads each type's `published` flag, but the required-skill serializer previously emitted only type ID, name, and required level.
+At the time of the initial refreshed audit, all **9,360** required-skill references had unknown publication status. Code inspection identified a normalization omission: `load_type_metadata()` already read each type's `published` flag, but the required-skill serializer previously emitted only type ID, name, and required level. This intermediate finding was superseded by the correction and subsequent local regeneration below.
 
 The parser now includes the joined `published` value in each normalized required-skill entry and preserves `null` when the skill type metadata is unresolved or lacks the flag. This does not change the underlying skill requirement or infer publication status. Regression tests cover both a known published skill and missing skill metadata.
 
-**Local follow-up required:** the existing `industry-recipes.jsonl` and `industry-recipes-audit.json` were generated before this correction. Re-run the parser against the already-extracted SDE build 3698585, then rerun the audit. Upload only the refreshed compact audit report. Do not upload the normalized JSONL or raw SDE data. Until that refresh is reviewed, do not quote a new skill-publication count or claim the existing report reflects the updated parser.
+**Follow-up completed:** the user regenerated `industry-recipes.jsonl` from the already-extracted SDE build 3698585, reran the audit, and uploaded the refreshed compact report. See the later version-2 audit section for the verified counts. Do not upload the normalized JSONL or raw SDE data.
 
 ## Local operating-profile readiness review (2026-11-14)
 
@@ -355,7 +355,7 @@ The parser metadata correction is validated against the live SDE-derived dataset
 - Published required-skill references: **9,225**.
 - Unpublished required-skill references: **135**.
 
-The 135 is a reference count, not a distinct type-ID count. The compact audit currently does not include unpublished skill IDs or unique unpublished skill counts. Preserve the flag and route such skill requirements through explicit downstream review; do not infer trainability or character eligibility solely from SDE publication status.
+The 135 is a reference count, not a distinct type-ID count. The subsequent audit version 2 reports the distinct IDs separately: 24 unpublished skill type IDs and zero unknown-publication skill IDs. Preserve these exceptions and do not infer trainability or character eligibility solely from SDE publication status.
 
 The remaining product/material/blueprint metadata exceptions are unchanged from the earlier audit: 21 unresolved type IDs (20 product, one material), 580 unpublished product type IDs, 54 unpublished material references, 811 unpublished blueprint records, and one zero-time recipe (blueprint type 34256). The 17 incomplete material recipes remain ineligible for costing as zero-input recipes.
 
@@ -376,6 +376,8 @@ The unpublished type IDs remain exceptions for review. A publication flag is not
 
 ### Next local reference
 
-A local tool, tools/sde/build_skill_requirements.py, now derives a skill-coverage reference from the normalized recipe JSONL. It retains all observed skill types, ranks requirements by the number of statically eligible recipes, and preserves exclusion reasons for incomplete recipes, unpublished blueprints/skills, unresolved metadata, and unknown skill arrays. The reference intentionally stays in Git-ignored data/derived/. Its local execution and report review are still pending.
+The user generated and uploaded `skill-requirements.json` to Dropbox root path `/skill-requirements.json`, modified **2026-11-14T23:15:24Z**. The 3.24 MB report is based on normalized recipe source hash `53d97771b76d077c5b241a282d207e1cbc00c049aa602d5a43a526ae7d1191ba`. It reports **5,022** source recipes; **4,145** statically eligible skill-reference recipes (4,026 manufacturing and 119 reaction); **85** distinct observed skill IDs; **58** published skill IDs to capture for at least one eligible recipe; **24** unpublished skill IDs; **137** records with omitted/null skill arrays; and **877** excluded recipes. Exclusion-reason counts overlap and must not be summed: 17 incomplete recipes, 600 without a published/resolvable output, 137 with unavailable/incomplete skill arrays, 811 unpublished blueprints, 135 with unpublished required skills, one unresolved material, and one zero/invalid-time record. No skill name conflicts or unknown/inconsistent publication states were found. Three published skills appear only in excluded records and have zero eligible-recipe coverage.
 
-This tool is a profile-preparation step only. It does not establish actual character skills, blueprint ownership, facility access, marketability, or profitability.
+The highest-coverage published skills are Industry (3,808 recipes), Capital Ship Construction (418), Electronic Engineering (255), Mechanical Engineering (254), High Energy Physics (192), Quantum Physics (191), Electromagnetic Physics (189), and Reactions (119). These counts are recipe coverage, not trained character levels or expected profitability. The 4,145 eligible records are a static-data set, not a marketability or user-feasibility set. The generator preserves SDE skill level 0 as a valid requirement; it must not be confused with missing data or treated as a training target.
+
+This tool is a profile-preparation step only. It does not establish actual character skills, blueprint ownership, facility access, marketability, or profitability. The user's operating profile remains unpopulated, so the next profile work should follow the product family and owned blueprint/facility constraints rather than entering all 58 skills indiscriminately.

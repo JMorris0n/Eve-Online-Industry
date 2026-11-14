@@ -137,7 +137,7 @@ The roadmap is accepted as the working plan. Milestones M1 and M2 are now in pro
 
 **Acceptance criteria:**
 - [x] A current SDE build is downloaded, integrity-checked, and recorded.
-- [x] The current SDE archive was parsed locally and its generated recipe-quality report reviewed: 5,022 records and 5,022 unique blueprint/activity keys, with zero structural issues or duplicate keys. The report identifies 17 incomplete material recipes, unpublished and unresolved type references, 54 unpublished material references, and one zero-time recipe. Candidate generation must filter or quarantine these exceptions; required-skill publication is not present in the normalized skill entries and remains an explicit metadata limitation.
+- [x] The current SDE archive was parsed locally and its generated recipe-quality report reviewed: 5,022 records and 5,022 unique blueprint/activity keys, with zero structural issues or duplicate keys. The report identifies 17 incomplete material recipes, unpublished and unresolved type references, 54 unpublished material references, and one zero-time recipe. Candidate generation filters or quarantines these exceptions. Required-skill publication metadata is now present and validated for all 9,360 references; audit version 2 identifies 24 distinct unpublished skill IDs across 135 references.
 - [x] A small public ESI collection completes with a manifest and reproducible regional output.
 - [x] The bounded collection manifest, order counts, daily history coverage, and location grouping have been reconciled against the uploaded summaries.
 - [x] Schema-v4 target-location bid sweeps were generated and reviewed for range and per-fill minimum-volume behavior. The underlying order snapshot had passed its ESI cache expiry by upload time and is not a live quote.
@@ -145,7 +145,7 @@ The roadmap is accepted as the working plan. Milestones M1 and M2 are now in pro
 
 ### M2. Define the local operating profile
 
-**Status:** In progress. The local profile schema, safe example, structural validator, feasibility screen, and automated tests are in place. The uploaded readiness report is schema-valid with zero errors but confirms that all three character records, blueprint/facility inventories, market access, capital, operations, and logistics remain unknown or unentered. No EVE SSO has been used; the current workflow is manual and public-data-only. The normalized SDE skill metadata correction has been validated against a regenerated local report: all 9,360 skill references have known publication status. Audit version 2 identifies 24 distinct unpublished skill type IDs across 135 references and zero unknown-publication skill IDs. A local skill-reference generator is now implemented; its run against the local recipe JSONL remains pending.
+**Status:** In progress. The local profile schema, safe example, structural validator, feasibility screen, and automated tests are in place. The uploaded readiness report is schema-valid with zero errors but confirms that all three character records, blueprint/facility inventories, market access, capital, operations, and logistics remain unknown or unentered. No EVE SSO has been used; the current workflow is manual and public-data-only. The normalized SDE skill metadata correction has been validated against a regenerated local report: all 9,360 skill references have known publication status. Audit version 2 identifies 24 distinct unpublished skill type IDs across 135 references and zero unknown-publication skill IDs. The local skill-reference generator has now been run and reviewed: 4,145 of 5,022 recipe records qualify for static skill mapping (4,026 manufacturing and 119 reaction), identifying 58 published skills for targeted profile capture.
 
 **Purpose:** Make product feasibility depend on the actual operation rather than generic character assumptions.
 
@@ -166,7 +166,8 @@ The roadmap is accepted as the working plan. Milestones M1 and M2 are now in pro
 - [x] A feasibility check distinguishes eligible, ineligible, and unknown character, blueprint, and facility requirements. It is a hard-constraint screen, not a job quote or profitability result.
 - [x] The profile contract can represent market-access locations and logistics constraints without exposing them in the public repository.
 - [x] A local skill-reference generator ranks published, known skill requirements across complete, resolved SDE recipes and preserves exclusion reasons.
-- [ ] Run and review the skill reference against the local normalized recipe file, then enter verified skill levels for the three characters.
+- [x] Run and review the skill reference against the local normalized recipe file; it identifies 58 published skills across the full manufacturing/reaction catalog.
+- [ ] Enter verified skill levels for the three characters after selecting the first product family and confirming owned blueprints; do not manually inventory unrelated skills yet.
 - [ ] The three character records, blueprint inventory, facilities, market access, capital, and attention/logistics limits are populated and reviewed locally.
 - [x] No private profile, balance, asset export, or credential is committed to Git.
 
