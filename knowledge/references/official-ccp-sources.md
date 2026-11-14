@@ -86,6 +86,9 @@ For each source, record its stable ID, publisher, title, canonical URL, source t
 | ccp-upwell-structures | CCP Support, [Upwell Structures](https://support.eveonline.com/hc/en-us/articles/213021829-Upwell-Structures) | Updated 2024-07-15 | Upwell structure categories, sizes, and intended industrial roles |
 | ccp-upwell-quick-facts | CCP Support, [Upwell Structures - Quick Facts](https://support.eveonline.com/hc/en-us/articles/209985225-Upwell-Structures-Quick-Facts) | Updated 2022-05-10 | Structure component and final structure Manufacturing availability; service-offline job behavior |
 
+| ccp-moon-mining | CCP Support, [Moon Mining](https://support.eveonline.com/hc/en-us/articles/115005404229-Moon-Mining) | Updated 2024-08-29 | Moon Drill/Refinery extraction schedule, automatic fracture, moon ore classes and processing skills |
+| ccp-salvaging | CCP Support, [Salvaging](https://support.eveonline.com/hc/en-us/articles/213014209-Salvaging) | Updated 2024-07-15 | Salvage access attempts, predetermined wreck salvage quantity, skill/rig effects, and free-for-all salvage rules |
+
 ## Source limitations
 
 CCP Support's blueprint, skill, and structure support pages have displayed update dates from 2022-2024. The 2025 SCC relief announcement explicitly calls its ME/TE research change temporary; keep it provisional until current in-game quotes or a later CCP statement establish its status. The Exordium change is a regional exception and the patch note does not provide a complete global fee model. The ESI overview is a live developer reference and may change as the API is versioned. Continue to check current patch notes and in-game UI before revising fee constants.
