@@ -145,7 +145,7 @@ The roadmap is accepted as the working plan. Milestones M1 and M2 are now in pro
 
 ### M2. Define the local operating profile
 
-**Status:** In progress. The local profile schema, safe example, structural validator, feasibility screen, and automated tests are in place. The uploaded readiness report is schema-valid with zero errors but confirms that all three character records, blueprint/facility inventories, market access, capital, operations, and logistics remain unknown or unentered. No EVE SSO has been used; the current workflow is manual and public-data-only.
+**Status:** In progress. The local profile schema, safe example, structural validator, feasibility screen, and automated tests are in place. The uploaded readiness report is schema-valid with zero errors but confirms that all three character records, blueprint/facility inventories, market access, capital, operations, and logistics remain unknown or unentered. No EVE SSO has been used; the current workflow is manual and public-data-only. The normalized SDE skill metadata correction has also been validated against a regenerated local report: all 9,360 skill references have known publication status (135 unpublished references remain flagged for downstream review).
 
 **Purpose:** Make product feasibility depend on the actual operation rather than generic character assumptions.
 

@@ -286,7 +286,7 @@ The user ran `tools/sde/audit_industry_recipes.py` against the normalized recipe
 - There are **21** distinct unresolved type IDs: 20 product references with missing names and one material reference with a missing name. Publication state is also unknown for those records. Do not infer that they are marketable, purchasable, or valid candidate outputs.
 - The report records **54** unpublished material references. Inputs marked unpublished or unresolved require explicit treatment; do not assume they can be purchased from the ordinary market.
 - One recipe has a zero-second base time: blueprint type ID **34256**, the Vargur Krusual Edition Blueprint. EVE Ref lists a zero-second manufacturing time, one Vargur as the input, and one Vargur Krusual Edition as the output. This is retained as an exceptional SDE record, not treated as a normal throughput candidate. [EVE Ref: Vargur Krusual Edition Blueprint](https://everef.net/types/34256)
-- All **9,360** required-skill references have unknown publication status in this audit because normalized `required_skills` entries currently contain type ID, joined name, and level, but do not carry the `published` field. This is a limitation of the normalized representation, not evidence that the referenced skills are unpublished. All required-skill names did resolve.
+- In the refreshed report, all **9,360** required-skill references have resolved names and known publication status: **9,225 published** and **135 unpublished references**, with **zero unknown-publication references**. These are reference counts, not distinct skill-type counts. The SDE `published` flag is retained for downstream review; do not infer trainability or current character eligibility from this flag alone.
 
 ### Candidate-generation controls
 
@@ -340,3 +340,23 @@ Private character/account information is intentionally deferred to **M8 (optiona
 ### M2 disposition
 
 M2 remains **in progress**. The schema, validator, feasibility screen, and safe readiness report work, but the operating profile has not yet been populated or verified. A useful first product evaluation needs only the relevant subset of the profile, but the necessary character eligibility, blueprint, facility, procurement/sales access, working-capital, and attention assumptions must be entered or explicitly left unknown.
+
+
+## Refreshed SDE recipe audit after skill metadata correction (2026-11-14)
+
+The user regenerated `industry-recipes.jsonl` using the corrected parser and uploaded a refreshed `industry-recipes-audit.json`. The report was retrieved from Dropbox root path `/industry-recipes-audit.json`, modified **2026-11-14T22:32:59Z**. Its source JSONL SHA-256 is `53d97771b76d077c5b241a282d207e1cbc00c049aa602d5a43a526ae7d1191ba`, confirming that it is a different generated artifact from the prior report.
+
+The refreshed report preserves the same **5,022** recipes (4,902 manufacturing, 120 reaction), 5,005 complete and 17 incomplete material records, 5,022 unique blueprint/activity keys, and zero duplicate keys, invalid keys, record-validation issues, invalid recipe items, or duplicate item IDs.
+
+The parser metadata correction is validated against the live SDE-derived dataset:
+- Required-skill references: **9,360 total**.
+- Missing required-skill names: **0**.
+- Unknown required-skill publication references: **0**.
+- Published required-skill references: **9,225**.
+- Unpublished required-skill references: **135**.
+
+The 135 is a reference count, not a distinct type-ID count. The compact audit currently does not include unpublished skill IDs or unique unpublished skill counts. Preserve the flag and route such skill requirements through explicit downstream review; do not infer trainability or character eligibility solely from SDE publication status.
+
+The remaining product/material/blueprint metadata exceptions are unchanged from the earlier audit: 21 unresolved type IDs (20 product, one material), 580 unpublished product type IDs, 54 unpublished material references, 811 unpublished blueprint records, and one zero-time recipe (blueprint type 34256). The 17 incomplete material recipes remain ineligible for costing as zero-input recipes.
+
+**Q-017 is resolved for SDE build 3698585.** Parser regression tests and a regenerated report demonstrate that required-skill publication metadata is now preserved and all skill references have known publication status in this normalized output. The unpublished-reference cases remain flagged for downstream handling; this resolution does not claim that those skills are trainable or untrainable.
