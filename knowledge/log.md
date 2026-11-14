@@ -82,3 +82,6 @@
 - Added Q-014 to record the operating-environment inputs needed for a real product-ranking example. Continued work can proceed on generic mechanics and data tooling without blocking on those details.
 
 - Corrected an Alpha-clone PI restriction after checking CCP's current February 2026 Alpha/Omega article and July 2024 quick facts: Alpha clones can import materials into colonies but cannot export colony goods. Updated the Planetary Industry concept, PI playbook, character specialization guidance, and official source catalog; the older PI support article's broader wording is now explicitly noted as less precise.
+
+- Added local CCP SDE acquisition tooling: a standard-library downloader that records build/URL/hash metadata and verifies ZIP integrity, plus an archive inspector. Added usage documentation and ignored raw/generated data paths in Git.
+- Updated the root README to reflect the current research repository state and local SDE workflow.
