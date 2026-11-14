@@ -101,6 +101,22 @@ status: draft
 - **Evidence needed:** Current versioned SDE recipe/BOM data plus matched in-game Industry quotes for representative components and final Tech II items. Record type IDs, SDE build identifier, retrieval timestamp, skill state, blueprint state, facility, and displayed inputs.
 - **Status:** Open. The concept documents the supply-chain structure, but a comprehensive type-level recipe and skill catalog has not been built.
 
+### Q-012: Are the published composite reaction input/output tables still current?
+
+- **Question:** Do the intermediate and composite recipe inputs, fuel-block quantities, and output batch quantities in the Reactions concept match the current SDE and live in-game Reaction Formulas?
+- **Affected concepts:** [Reactions](../02-production-systems/reactions.md), [Tech II Components](../02-production-systems/tech-2-components.md), [Moon Materials](../03-materials-and-sourcing/moon-materials.md).
+- **Why it matters:** These recipes are upstream dependencies for Advanced Components and a large portion of Tech II item production. A single recipe or yield mismatch propagates through the entire build-cost tree.
+- **Evidence needed:** Current SDE reaction formula records with build identifier and controlled in-game quotes for representative two-input, multi-input, special-intermediate, and special-composite formulas. Record exact type IDs, quantities, fuel blocks, output quantities, and rounding.
+- **Status:** Open. The current tables are transcribed from EVE University (last modified 2025-06-22); no type-by-type SDE or in-game comparison has yet been recorded.
+
+### Q-013: What is the complete current Biochemical and Molecular-Forged reaction catalog?
+
+- **Question:** Which formulas are currently supported by the Biochemical Reactor family, and what are their exact inputs, fuel blocks, outputs, acquisition routes, and dependencies?
+- **Affected concepts:** [Reactions](../02-production-systems/reactions.md), [Facilities and Rigs](../01-foundations/facilities-and-rigs.md), [Advanced Manufacturing](../02-production-systems/advanced-manufacturing.md).
+- **Why it matters:** CCP's Reactions support article mentions booster products and newer Neurolink/Isotropic industrial products, while community references separate these into Biochemical and Molecular-Forged formula groups. They should not be omitted or conflated in a comprehensive reaction dataset.
+- **Evidence needed:** Current ESI/SDE reaction formula list, exact compatible reactor service, in-game formula Bill of Materials, and current facility/rig applicability for each formula family.
+- **Status:** Open. The family-level support is documented, but no exhaustive type-level catalog is included in this concept.
+
 ## Entry format
 
 - **Question:** precise, answerable wording.
