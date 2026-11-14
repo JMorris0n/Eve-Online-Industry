@@ -14,4 +14,9 @@
 - Replaced Installation Cost Computation with the CCP fee formula, EIV basis, tax components, structure SCI bonuses, ESI inputs, and activity-specific exceptions.
 - Added Industrial Cost Accounting conventions to distinguish EIV from acquisition, replacement, and opportunity cost.
 - Added unresolved questions for temporary ME/TE SCC relief, non-manufacturing EIV/value bases, and live verification of rig stacking and location-specific modifiers.
+- Researched and replaced the Tech I Manufacturing placeholder with a source-backed draft covering job installation and delivery, BPO/BPC use, output-per-run, per-job material rounding, skill/structure/rig time and material models, and planning constraints.
+- Added CCP Industry UI and additional community formula/calculator references. The combined material/time formulas are labeled provisional pending controlled in-game quotes.
+- Added research questions for 30-day job-duration limits, BPO concurrency, and precise modifier/rounding behavior.
+- Corrected an Upwell rig uniqueness description to match CCP's rule that two rigs affecting the same attribute cannot be equipped together.
+- Normalized the Upwell structure-browser source identifier in Installation Cost Computation.
 - Documentation milestones do not constitute independent in-game verification; all three new concepts remain draft.
