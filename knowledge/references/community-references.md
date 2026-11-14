@@ -56,6 +56,13 @@ Do not use this catalog as evidence for a game mechanic. Individual concept file
 | eve-industry-formula-c4813 | [EVE Online Industry Formula](https://www.c4813.space/eve-online-industry-formula/) | 2025-07-25 | Community spreadsheet formulas for material/time multipliers, rounding, job cost, and job duration limits. The author describes the collection as incomplete; validate formulas in game. |
 | eve-omnitool-manufacturing | [EVE Omnitool Industry Cost Calculator](https://eve-omnitool.com/industry/manufacturing/cost) | Accessed 2026-11-14 | Current community calculator description of per-job material rounding, minimum one unit per run, BPC batch fragmentation, rig multipliers, and job costing. Calculator methodology is not CCP specification. |
 
+## Reaction calculators and formula references
+
+| Source ID | Reference | Accessed | Use and limitations |
+|---|---|---|---|
+| eve-omnitool-reactions | [EVE Omnitool Reactions Calculator](https://eve-omnitool.com/industry/manufacturing/reactions) | Accessed 2026-11-14 | Secondary reaction-family price and job-cost comparison tool; calculator methodology must be checked against live Industry quotes. |
+| eve-reactions-calculator-method | [EVE Reactions Calculator methodology](https://reactions.coalition.space/about) | 2026-11-14 | Documents reaction rig, time, material, EIV and fee calculations; calculator-specific methodology, not official game policy. |
+
 ## SDE-derived and calculator references
 
 | Source ID | Reference | Accessed | Use and limitations |
