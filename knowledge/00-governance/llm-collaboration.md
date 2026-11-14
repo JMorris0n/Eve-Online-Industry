@@ -6,8 +6,8 @@ tags:
   - governance
   - llm
 generated:
-  by: process:starter-scaffold
-  at: 2026-11-14T05:30:25Z
+  by: openai/gpt-6
+  at: 2026-11-14T11:15:00Z
 status: draft
 ---
 
@@ -36,4 +36,5 @@ status: draft
 - Preserve existing source IDs and cross-links unless there is a documented reason to change them.
 - Never mark content `stable` or add `verified` based only on model agreement.
 - Do not turn a hypothesis into a mechanic without evidence.
-- Keep proposed edits isolated in a branch or patch until reviewed.
+- Default to a branch or patch and wait for human review before integration.
+- If the user explicitly delegates direct repository maintenance, commits may be made within the delegated scope; summarize changes in the chronological log and never force-push.
