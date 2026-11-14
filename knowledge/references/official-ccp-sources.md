@@ -7,7 +7,7 @@ tags:
   - ccp
 generated:
   by: openai/gpt-6
-  at: 2026-11-14T06:04:20Z
+  at: 2026-11-14T06:12:17Z
 status: draft
 ---
 
@@ -17,7 +17,7 @@ Add sources only after confirming that the URL resolves and the source is releva
 
 For each source, record its stable ID, publisher, title, canonical URL, source type, publication or update date when available, access date, and scope/limitations. Source IDs are stable keys used by concept-level OKF `sources` frontmatter and matching Markdown footnotes.
 
-## Sources used by the first researched concept
+## Sources used by researched concepts
 
 | Source ID | Publisher / title | Displayed date | Relevance |
 |---|---|---|---|
@@ -27,8 +27,10 @@ For each source, record its stable ID, publisher, title, canonical URL, source t
 | `ccp-copying` | CCP Support, [Copying](https://support.eveonline.com/hc/en-us/articles/203210602-Copying) | Updated 2024-07-15 | Copy inheritance, licensed runs, and copy-job parameters |
 | `ccp-activities` | CCP Support, [Activities and Job Types](https://support.eveonline.com/hc/en-us/articles/203210272-Activities-and-Job-Types) | Updated 2024-08-29 | Activity classification and job categories |
 | `ccp-fractured-skies` | EVE Online, [Fractured Skies Expansion Notes](https://www.eveonline.com/news/view/fractured-skies-expansion-notes) | Published 2026-11-06 | New Navy attack battlecruiser BPCs offered by faction LP stores |
+| `ccp-activities-jobs` | CCP Support, [Activities and Job Types](https://support.eveonline.com/hc/en-us/articles/203210272-Activities-and-Job-Types) | Updated 2024-08-29 | Manufacturing, Science, and Reaction classifications; slot and remote-management skill names |
+| `ccp-manufacturing` | CCP Support, [Manufacturing](https://support.eveonline.com/hc/en-us/articles/203210292-Manufacturing) | Updated 2024-08-29 | Facility service requirements, character distance, Supply Chain Management range, and required inputs |
+| `ccp-industrialist-academy` | CCP, [EVE Academy: Industrialist](https://www.eveonline.com/eve-academy/careers/industrialist) | Accessed 2026-11-14 | Official high-level introduction to the industrialist role and support skills |
 
 ## Source limitations
 
-CCP Support's blueprint and research articles were accessible during the 2026-11-14 research pass, but their displayed update dates are from 2024. The 2026 expansion notes provide a recent item-specific acquisition example; they do not supersede the support articles' general ME/TE rules. Continue to check patch notes when a concept is revised.
-
+CCP Support's blueprint and research articles were accessible during the 2026-11-14 research pass, but their displayed update dates are from 2024. The 2026 expansion notes provide a recent item-specific acquisition example; they do not supersede the support articles' general ME/TE rules. The current EVE Academy page provides a high-level skill overview, but detailed per-level job-slot values and prerequisites are not enumerated there. Continue to check patch notes when a concept is revised.
