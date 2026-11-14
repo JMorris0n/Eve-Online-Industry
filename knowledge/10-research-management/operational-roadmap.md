@@ -221,7 +221,7 @@ The roadmap is accepted as the working plan. Milestones M1 and M2 are now in pro
 - Apply hard feasibility filters using skills, jobs, blueprints, facilities, capital, input availability, and output market access.
 - Eliminate candidates with insufficient data or clearly inadequate liquidity.
 - Evaluate candidates using the same single-product economics as M4.
-- Rank by risk-adjusted contribution per active operator-hour, then show supporting capital, liquidity, slot, and complexity measures.
+- In the initial scanner, rank by unadjusted net contribution per active operator-hour and display explicit risk indicators, low/base/high cases, capital, liquidity, slot, and complexity measures alongside it. Add a risk-adjusted score only after pilot data supports a defensible calibration; never hide an invented risk premium inside the ranking.
 - Explain why candidates were accepted, rejected, or left unranked.
 
 **Acceptance criteria:**
