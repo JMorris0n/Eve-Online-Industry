@@ -52,6 +52,12 @@ Do not upload the entire repository for a narrow task.
 
 The initial scope is comprehensive: foundations, T1/T2/T3 production, invention, reactions, planetary industry, sourcing, industrial economics, optimization, market intelligence, tooling, playbooks, and deterministic calculations. The repository contains source-backed draft concepts and computations, but `status: draft` means the content has not necessarily passed independent in-game verification. Consult the research backlog and verification queue before treating a claim as operationally confirmed.
 
+Local tooling:
+- `tools/sde/`: download and inspect CCP's current SDE with Python's standard library.
+- `tools/esi/`: collect selected public market orders/history, adjusted prices, and industry system indices without EVE SSO credentials.
+- `tools/calculations/`: deterministic calculators with reproducible JSON scenarios and standard-library unit tests.
+- `.github/workflows/python-tests.yml`: run the calculation test suite on pushes, pull requests, or manual dispatch.
+
 ## Format reference
 
 OKF v0.2 canonical specification: https://github.com/GoogleCloudPlatform/open-knowledge-format/blob/main/SPEC.md
