@@ -6,7 +6,7 @@ tags:
   - research
   - backlog
 generated:
-  by: process:starter-scaffold
+  by: openai/gpt-6
   at: 2026-11-14T06:04:20Z
 status: draft
 ---
