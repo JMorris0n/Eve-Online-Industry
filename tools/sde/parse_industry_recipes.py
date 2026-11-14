@@ -168,7 +168,13 @@ def normalize_blueprint(
         if (isinstance(type_id, bool) or not isinstance(type_id, int) or type_id <= 0
                 or isinstance(level, bool) or not isinstance(level, int) or not 0 <= level <= 5):
             raise ValueError(f"invalid required skill entry: {skill!r}")
-        normalized_skills.append({"type_id": type_id, "name": type_metadata.get(type_id, {}).get("name"), "level": level})
+        skill_info = type_metadata.get(type_id, {})
+        normalized_skills.append({
+            "type_id": type_id,
+            "name": skill_info.get("name"),
+            "level": level,
+            "published": skill_info.get("published"),
+        })
 
     blueprint_info = type_metadata.get(blueprint_id, {})
     return {

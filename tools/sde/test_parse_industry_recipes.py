@@ -51,12 +51,22 @@ class RecipeParserTests(unittest.TestCase):
         self.assertEqual(result["products"][0]["quantity_per_run"], 2)
         self.assertEqual(result["base_time_seconds_per_run"], 120)
         self.assertEqual(result["required_skills"][0]["level"], 1)
+        self.assertEqual(result["required_skills"][0]["name"], "Industry")
+        self.assertIs(result["required_skills"][0]["published"], True)
         self.assertEqual(result["schema_version"], 2)
         self.assertEqual(result["recipe_data_status"], "complete")
         self.assertEqual(
             result["source_field_state"],
             {"materials": "present", "products": "present", "required_skills": "present"},
         )
+
+
+    def test_missing_skill_metadata_remains_unknown_not_unpublished(self):
+        result = normalize_blueprint(self.blueprint, {}, "manufacturing")
+        skill = result["required_skills"][0]
+        self.assertIsNone(skill["name"])
+        self.assertIsNone(skill["published"])
+        self.assertEqual(skill["level"], 1)
 
     def test_absent_activity_is_not_an_error(self):
         self.assertIsNone(normalize_blueprint(self.blueprint, NAMES, "reaction"))

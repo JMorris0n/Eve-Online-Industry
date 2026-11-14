@@ -154,3 +154,13 @@ status: draft
 - **Evidence needed:** Run the existing `tools/sde/audit_industry_recipes.py` against the local normalized JSONL, then review the compact JSON report for duplicate keys, unresolved names, publication flags, incomplete records, repeated item IDs, and exceptional base times. Keep the raw recipe file local; share only `industry-recipes-audit.json` or relevant non-sensitive report fields.
 - **Resolution:** The user ran the local audit against SDE build 3698585 and uploaded the compact report. It found 5,022 records and 5,022 unique blueprint/activity keys, with zero duplicate keys, invalid keys, record-validation issues, invalid recipe items, or duplicate item IDs. It identified 17 incomplete material recipes, 811 unpublished blueprint records, 580 unpublished product type IDs, 21 unresolved type references (20 product and one material), 54 unpublished material references, and one zero-time recipe (blueprint type 34256). These records must be filtered or manually reviewed before candidate ranking. The 9,360 required-skill references have unknown publication status because the normalized skill entries do not currently carry that field; this is a representation limitation, not evidence the skills are unpublished. The report does not prove marketability or profitability.
 - **Status:** Resolved for the current normalized SDE build. Candidate generation must enforce the documented completeness, publication, metadata, and positive-time filters. This does not reopen M1.
+
+
+### Q-017: Does normalized recipe data preserve required-skill publication metadata?
+
+- **Question:** Does the normalized SDE recipe output retain each required skill type's publication flag from the joined `types.jsonl` metadata?
+- **Affected concepts:** [Data Quality and Reconciliation](../07-tools-and-data/data-quality.md), [SDE recipe parser](../../tools/sde/README.md), [Product Selection](../06-market-intelligence/product-selection.md).
+- **Why it matters:** The recipe audit should distinguish a skill with known publication status from missing/unresolved skill metadata. Unknown must not be silently treated as unpublished or as a usable skill reference.
+- **Evidence needed:** Parser regression tests for a known publication flag and a missing metadata join, followed by regeneration of the local recipe JSONL and audit report from the current extracted SDE build.
+- **Resolution:** The parser now carries the joined `published` flag into required-skill entries and preserves null when metadata is missing. Regression tests were added. The existing local JSONL/audit predates the change; a fresh run and compact report review are still required to validate the live SDE output.
+- **Status:** Implemented; awaiting local regeneration and report review.

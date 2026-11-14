@@ -304,6 +304,16 @@ Unpublished, unresolved, incomplete, and zero-time records should be excluded or
 **Q-016 is resolved for the current normalized SDE build.** The local audit has been executed and reviewed. Its identified exceptions are now explicit downstream filters and known limitations; they are not reasons to treat the entire normalized recipe dataset as unusable. The required-skill publication-field omission is recorded as a representation limitation for a later parser enhancement, not as a failed recipe audit.
 
 
+
+
+## Required-skill publication metadata follow-up (2026-11-14)
+
+Review of the uploaded recipe audit showed all **9,360** required-skill references with unknown publication status. Code inspection identified a normalization omission: `load_type_metadata()` already reads each type's `published` flag, but the required-skill serializer previously emitted only type ID, name, and required level.
+
+The parser now includes the joined `published` value in each normalized required-skill entry and preserves `null` when the skill type metadata is unresolved or lacks the flag. This does not change the underlying skill requirement or infer publication status. Regression tests cover both a known published skill and missing skill metadata.
+
+**Local follow-up required:** the existing `industry-recipes.jsonl` and `industry-recipes-audit.json` were generated before this correction. Re-run the parser against the already-extracted SDE build 3698585, then rerun the audit. Upload only the refreshed compact audit report. Do not upload the normalized JSONL or raw SDE data. Until that refresh is reviewed, do not quote a new skill-publication count or claim the existing report reflects the updated parser.
+
 ## Local operating-profile readiness review (2026-11-14)
 
 The user ran `tools/profile/readiness_report.py` against the private local profile and uploaded the privacy-safe `profile-readiness.json` report. The report is valid (`profile_schema_valid: true`) with **zero validation errors**, but it confirms that the local profile is still effectively the blank example template.
