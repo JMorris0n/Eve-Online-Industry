@@ -1,0 +1,246 @@
+#!/usr/bin/env python3
+"""Summarize public regional ESI market order books and daily history snapshots.
+
+Order-book depth is an observation, not a promise of executable liquidity:
+regional orders may be at inaccessible stations or structures, and snapshots
+can change before a player acts.
+"""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import re
+import sys
+from collections import defaultdict
+from decimal import Decimal, InvalidOperation
+from pathlib import Path
+from statistics import median
+from typing import Any
+
+
+ORDER_PATTERN = re.compile(
+    r"market-orders-region-(?P<region>\d+)-type-(?P<type>\d+)-page-(?P<page>\d+)\.json$"
+)
+HISTORY_PATTERN = re.compile(
+    r"market-history-region-(?P<region>\d+)-type-(?P<type>\d+)\.json$"
+)
+
+
+def dec(value: Any, label: str) -> Decimal:
+    try:
+        result = Decimal(str(value))
+    except (InvalidOperation, ValueError, TypeError) as exc:
+        raise ValueError(f"{label} must be numeric, got {value!r}") from exc
+    if not result.is_finite():
+        raise ValueError(f"{label} must be finite")
+    return result
+
+
+def sweep(levels: list[tuple[Decimal, int]], quantity: int) -> dict[str, Any]:
+    remaining = quantity
+    filled = 0
+    gross = Decimal("0")
+    worst_price: Decimal | None = None
+    for price, available in levels:
+        take = min(remaining, available)
+        if take <= 0:
+            continue
+        filled += take
+        remaining -= take
+        gross += price * take
+        worst_price = price
+        if remaining == 0:
+            break
+    return {
+        "requested_quantity": quantity,
+        "filled_quantity": filled,
+        "unfilled_quantity": remaining,
+        "vwap": float(gross / filled) if filled else None,
+        "gross_value_isk": float(gross) if filled else None,
+        "worst_fill_price": float(worst_price) if worst_price is not None else None,
+        "fully_fillable_in_snapshot": remaining == 0,
+    }
+
+
+def summarize_book(orders: list[dict[str, Any]], quantities: list[int]) -> dict[str, Any]:
+    asks: dict[Decimal, int] = defaultdict(int)
+    bids: dict[Decimal, int] = defaultdict(int)
+    ask_count = bid_count = 0
+    for order in orders:
+        if not isinstance(order, dict):
+            raise ValueError("market order entry must be an object")
+        price = dec(order.get("price"), "order.price")
+        volume = order.get("volume_remain")
+        if isinstance(volume, bool) or not isinstance(volume, int) or volume < 0:
+            raise ValueError(f"order volume_remain must be a non-negative integer, got {volume!r}")
+        if volume == 0:
+            continue
+        if order.get("is_buy_order") is True:
+            bids[price] += volume
+            bid_count += 1
+        elif order.get("is_buy_order") is False:
+            asks[price] += volume
+            ask_count += 1
+        else:
+            raise ValueError("order.is_buy_order must be boolean")
+
+    ask_levels = sorted(asks.items(), key=lambda pair: pair[0])
+    bid_levels = sorted(bids.items(), key=lambda pair: pair[0], reverse=True)
+    best_ask = ask_levels[0][0] if ask_levels else None
+    best_bid = bid_levels[0][0] if bid_levels else None
+    spread = best_ask - best_bid if best_ask is not None and best_bid is not None else None
+    spread_pct = (
+        float(spread / best_ask * 100)
+        if spread is not None and best_ask and best_ask > 0
+        else None
+    )
+    return {
+        "order_count": len(orders),
+        "buy_order_count": bid_count,
+        "sell_order_count": ask_count,
+        "buy_volume": sum(bids.values()),
+        "sell_volume": sum(asks.values()),
+        "best_bid": float(best_bid) if best_bid is not None else None,
+        "best_ask": float(best_ask) if best_ask is not None else None,
+        "spread_isk": float(spread) if spread is not None else None,
+        "spread_pct_of_best_ask": spread_pct,
+        "buy_depth": [sweep(bid_levels, quantity) for quantity in quantities],
+        "sell_depth": [sweep(ask_levels, quantity) for quantity in quantities],
+        "caveat": "Regional orders include locations that may not be accessible to the operator; depth is a snapshot, not guaranteed execution.",
+    }
+
+
+def summarize_history(rows: list[dict[str, Any]]) -> dict[str, Any]:
+    if not rows:
+        return {"days_observed": 0, "first_date": None, "last_date": None}
+    volumes: list[int] = []
+    total_volume = 0
+    total_trades = 0
+    weighted_price = Decimal("0")
+    dates: list[str] = []
+    for row in rows:
+        if not isinstance(row, dict):
+            raise ValueError("market history entry must be an object")
+        date = row.get("date")
+        volume = row.get("volume")
+        order_count = row.get("order_count")
+        if not isinstance(date, str):
+            raise ValueError("history.date must be a string")
+        if isinstance(volume, bool) or not isinstance(volume, int) or volume < 0:
+            raise ValueError("history.volume must be a non-negative integer")
+        if isinstance(order_count, bool) or not isinstance(order_count, int) or order_count < 0:
+            raise ValueError("history.order_count must be a non-negative integer")
+        average = dec(row.get("average"), "history.average")
+        dates.append(date)
+        volumes.append(volume)
+        total_volume += volume
+        total_trades += order_count
+        weighted_price += average * volume
+    return {
+        "days_observed": len(rows),
+        "first_date": min(dates),
+        "last_date": max(dates),
+        "total_volume": total_volume,
+        "average_daily_volume": total_volume / len(rows),
+        "median_daily_volume": median(volumes),
+        "total_reported_order_count": total_trades,
+        "volume_weighted_average_daily_price": (
+            float(weighted_price / total_volume) if total_volume else None
+        ),
+        "caveat": "History is completed daily regional activity; it is not a forecast or proof of current demand.",
+    }
+
+
+def load_json(path: Path) -> Any:
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise ValueError(f"cannot read {path}: {exc}") from exc
+
+
+def summarize_directory(input_dir: Path, quantities: list[int]) -> list[dict[str, Any]]:
+    orders: dict[tuple[int, int], list[dict[str, Any]]] = defaultdict(list)
+    histories: dict[tuple[int, int], list[dict[str, Any]]] = {}
+    source_hashes: dict[str, str] = {}
+
+    for path in sorted(input_dir.glob("*.json")):
+        match = ORDER_PATTERN.fullmatch(path.name)
+        if match:
+            key = (int(match.group("region")), int(match.group("type")))
+            data = load_json(path)
+            if not isinstance(data, list):
+                raise ValueError(f"{path} must contain a JSON array")
+            orders[key].extend(data)
+            source_hashes[path.name] = hashlib.sha256(path.read_bytes()).hexdigest()
+            continue
+        match = HISTORY_PATTERN.fullmatch(path.name)
+        if match:
+            key = (int(match.group("region")), int(match.group("type")))
+            data = load_json(path)
+            if not isinstance(data, list):
+                raise ValueError(f"{path} must contain a JSON array")
+            histories[key] = data
+            source_hashes[path.name] = hashlib.sha256(path.read_bytes()).hexdigest()
+
+    keys = sorted(set(orders) | set(histories))
+    results = []
+    for region_id, type_id in keys:
+        book_orders = orders.get((region_id, type_id), [])
+        results.append({
+            "region_id": region_id,
+            "type_id": type_id,
+            "order_book": summarize_book(book_orders, quantities) if book_orders else None,
+            "history": summarize_history(histories[(region_id, type_id)])
+            if (region_id, type_id) in histories else None,
+            "source_files": sorted(
+                name for name in source_hashes
+                if f"region-{region_id}-type-{type_id}-" in name
+                or name == f"market-history-region-{region_id}-type-{type_id}.json"
+            ),
+        })
+    return results
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--input-dir", type=Path, required=True,
+                        help="One timestamped ESI collection directory")
+    parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--quantities", default="1,10,100",
+                        help="Comma-separated target quantities for order-book sweeps")
+    args = parser.parse_args()
+    try:
+        quantities = sorted(set(int(value) for value in args.quantities.split(",")))
+        if not quantities or any(value <= 0 for value in quantities):
+            raise ValueError("--quantities must contain positive integers")
+        if not args.input_dir.is_dir():
+            raise ValueError(f"input directory does not exist: {args.input_dir}")
+        summaries = summarize_directory(args.input_dir, quantities)
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        args.output.write_text(
+            json.dumps({
+                "schema_version": 1,
+                "source": "public ESI regional market snapshots",
+                "input_directory": str(args.input_dir),
+                "requested_quantities": quantities,
+                "summaries": summaries,
+                "caveats": [
+                    "Order book data is a point-in-time regional snapshot.",
+                    "Regional order locations may be inaccessible to the operator.",
+                    "Market history is backward-looking and is not a sales forecast.",
+                    "No market fee, hauling, installation, or character/facility adjustment is applied.",
+                ],
+            }, indent=2, ensure_ascii=False) + "\n",
+            encoding="utf-8",
+        )
+    except (OSError, ValueError) as exc:
+        print(f"ERROR: {exc}", file=sys.stderr)
+        return 1
+    print(f"PASS: summarized {len(summaries)} region/type combinations to {args.output}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
