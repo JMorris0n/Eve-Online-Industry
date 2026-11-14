@@ -28,6 +28,8 @@ Place imported, legacy, or model-generated claims here when they may be useful b
 - [ ] **Market fees:** reconcile broker fees, sales tax, relist fees, and skill/standing effects with live order quotes and wallet journal entries.
 - [ ] **BPC copying:** verify copy time, copy-specific inputs, inherited ME/TE, and concurrent BPO restrictions. See [VP-002](verification-protocols.md#vp-002-bpc-copying-parameters).
 - [ ] **ME material rounding:** verify job-level rounding and single-item-per-run exceptions. See [VP-001](verification-protocols.md#vp-001-me-material-rounding).
+- [ ] **Reprocessing yield:** verify NPC/Upwell yield formulas, skill effects, structure/rig modifiers, scrapmetal processing, and taxes against the current Reprocessing UI. The EVE University page carries an update warning; treat its formula as provisional until tested.
+- [ ] **Ore and moon material matrices:** verify current type IDs, reprocessing outputs, and distribution from the current SDE and live in-game data.
 - [ ] **SDE/ESI tooling:** run local acquisition/collector scripts and validate build/schema, cache handling, pagination, and hashes. See [VP-009](verification-protocols.md#vp-009-esi-collector-smoke-test) and [VP-010](verification-protocols.md#vp-010-sde-acquisition-and-schema-inspection).
 
 ## Tech III production conflicts and open claims
