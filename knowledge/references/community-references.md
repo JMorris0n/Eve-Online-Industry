@@ -72,6 +72,16 @@ Do not use this catalog as evidence for a game mechanic. Individual concept file
 | everef-engineering-rigs | [Engineering Rigs](https://everef.net/structures/engineering-rigs) | 2026-11-14 | SDE-derived rig effects; exact type scopes should be checked against current in-game attributes. |
 | eve-reactions-calculator-method | [EVE Reactions Calculator methodology](https://reactions.coalition.space/about) | 2026-11-14 | Documents reaction rig, time, material, EIV and fee calculations; calculator-specific methodology, not official game policy. |
 
+## Tech III production and static-data references
+
+| Source ID | Reference | Last modified / accessed | Use and limitations |
+|---|---|---|---|
+| eveuni-tech3 | [Tech 3 Production](https://wiki.eveuniversity.org/Tech_3_Production) | 2024-09-22 | Four-stage T3 chain, skills, sourcing, and manufacturing requirements. Its relic success chance figures conflict with CCP's Ancient Relics support article. |
+| eveuni-science-skills | [Skills:Science](https://wiki.eveuniversity.org/Skills:Science) | Accessed 2026-11-14 | Sleeper Encryption Methods skill description and related prerequisites. |
+| everef-small-wrecked-hull | [Small Wrecked Hull Section](https://everef.net/types/34416) | Accessed 2026-11-14 | SDE-derived relic invention output probabilities, input datacores, and skill requirements; per-output probabilities need interpretation. |
+| everef-small-malfunctioning-hull | [Small Malfunctioning Hull Section](https://everef.net/types/34414) | Accessed 2026-11-14 | SDE-derived relic invention output probabilities, input datacores, and skill requirements; per-output probabilities need interpretation. |
+| eve-academy-tech3 | [Tech 3 Production](https://www.eveonline.com/eve-academy/careers/industrialist/tech-3-production) | Accessed 2026-11-14 | Official high-level overview of Tech III production using Sleeper technology and wormhole materials. |
+
 ## Source limitations
 
 EVE University is a community educational resource. EVE Ref is a structured SDE-derived reference. The EVE Reactions Calculator explains its own algorithm. These sources help identify item attributes and model mechanics, but the current in-game Industry UI is authoritative for an actual job quote and a real facility's configured services, rigs, and taxes.
