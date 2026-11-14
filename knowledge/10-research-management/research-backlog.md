@@ -7,7 +7,7 @@ tags:
   - backlog
 generated:
   by: openai/gpt-6
-  at: 2026-11-14T06:12:17Z
+  at: 2026-11-14T06:25:24Z
 status: draft
 ---
 
@@ -20,9 +20,13 @@ status: draft
 - [x] Document Manufacturing, Science, and Reaction job pools, slot formulas, support skills, and remote-management skills.
 - [ ] Independently verify maximum job counts and remote-start ranges in game for each job type.
 - [ ] Verify Alpha and Omega job capacity using actual character skill states.
-- [ ] Document facility, rig, system, and service modifiers.
-- [ ] Document installation fee calculation from current mechanics.
-- [ ] Set up the source catalog and verification log.
+- [x] Document facility families, role bonuses, industrial services, service-module fuel/downtime risk, and rig categories.
+- [x] Document the CCP industry installation-fee equation, EIV basis for Manufacturing, tax components, and activity-specific exceptions.
+- [ ] Independently verify facility role/rig modifiers against current in-game job quotes for representative item groups.
+- [ ] Verify current owner taxes, activity SCI, and fee rounding for NPC stations and Upwell facilities.
+- [ ] Confirm whether the temporary 2% ME/TE research SCC surcharge is still active in November 2026.
+- [ ] Validate current EIV/process-value bases and fee calculations for Science, Copying, Invention, and Reactions.
+- [ ] Set up repeatable live-data capture for ESI industry systems and adjusted prices.
 
 ## P1: Complete production systems
 
@@ -31,12 +35,13 @@ status: draft
 - [ ] Decryptor effects and invention output rules.
 - [ ] Tech II component manufacturing and dependencies.
 - [ ] Reactions and reaction facility constraints.
+  - [x] Document reaction reactor families and the Refinery/security requirement.
 - [ ] Tech III reverse engineering and manufacturing.
 - [ ] Planetary industry extraction, routing, schematics, and taxes.
 
 ## P2: Industrial economics
 
-- [ ] Cost accounting and input valuation conventions.
+- [x] Establish consistent replacement-cost, opportunity-cost, historical-cost, and EIV accounting conventions.
 - [ ] Manufacturing profitability model.
 - [ ] Market fees and taxation.
 - [ ] Facility and regional location economics.
@@ -61,4 +66,4 @@ status: draft
 
 A task is complete only when its key claims have sources, calculations are reproducible, known conflicts are recorded, dependencies are linked, and the proposed edits have passed critical review.
 
-A checked research item means the topic has been documented to the stated scope. It does not automatically mean the concept has received independent in-game verification. The concept's OKF lifecycle status and any `verified` events must reflect the actual review performed.
+A checked research item means the topic has been documented to the stated scope. It does not automatically mean the concept has received independent in-game verification. The concept's OKF lifecycle status and any verified events must reflect the actual review performed.
