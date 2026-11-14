@@ -32,13 +32,15 @@ From the repository root, run the complete local validation suite with one comma
 py -3 tools/validation/run_all.py
 ```
 
-This executes the calculation unit tests, validation-tool unit tests, and Markdown link scan in sequence. It returns a non-zero exit code if any check group fails.
+This executes calculation, repository-validation, operating-profile, SDE recipe-parser unit tests, and the Markdown link scan in sequence. It returns a non-zero exit code if any check group fails.
 
 To run individual stages, use:
 
 ```powershell
 py -3 -m unittest discover -s tools/calculations -p "test_*.py" -v
 py -3 -m unittest discover -s tools/validation -p "test_*.py" -v
+py -3 -m unittest discover -s tools/profile -p "test_*.py" -v
+py -3 -m unittest discover -s tools/sde -p "test_*.py" -v
 py -3 tools/validation/check_markdown_links.py
 ```
 
