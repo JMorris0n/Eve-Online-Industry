@@ -38,7 +38,7 @@ Sources:
 
 ## Review of existing repository tooling
 
-### SDE downloader and inspector
+### SDE downloader, inspector, and recipe parser
 
 Existing files:
 - `tools/sde/fetch_sde.py`
@@ -49,7 +49,10 @@ Initial code review:
 - Uses the standard library and the CCP latest-build redirect.
 - Records resolved archive URL, build number, retrieval time, SHA-256, HTTP metadata, and ZIP integrity.
 - Includes path traversal protection during extraction.
-- Inspector currently prints archive layout and a sample JSONL record, but does not yet identify and validate the exact blueprint/industry recipe records needed by the evaluator.
+- Inspector currently prints archive layout and a sample JSONL record.
+- Added `tools/sde/parse_industry_recipes.py`, which reads current-format `blueprints.jsonl` and `types.jsonl`, joins English type names, and emits normalized manufacturing/reaction recipe JSONL.
+- The parser has representative fixture tests and explicitly preserves base quantities/time without applying ME, facility bonuses, system indices, job fees, or market prices.
+- Actual ingestion of the current CCP archive remains unverified until the user can run the downloader and inspector locally.
 
 ### Public ESI collector
 
