@@ -27,7 +27,7 @@ HISTORY_PATTERN = re.compile(
     r"market-history-region-(?P<region>\d+)-type-(?P<type>\d+)\.json$"
 )
 
-SUMMARY_SCHEMA_VERSION = 3
+SUMMARY_SCHEMA_VERSION = 4
 
 
 def dec(value: Any, label: str) -> Decimal:
@@ -301,7 +301,7 @@ def _buy_order_minimum_volume(order: dict[str, Any]) -> int | None:
 
 
 def sweep_buy_orders(orders: list[dict[str, Any]], quantity: int) -> dict[str, Any]:
-    """Sweep bids while applying each minimum to the original requested sell order."""
+    """Sweep eligible bids, enforcing min_volume on each individual match."""
     def priority(order: dict[str, Any]):
         issued = order.get("issued")
         order_id = order.get("order_id")
@@ -318,6 +318,7 @@ def sweep_buy_orders(orders: list[dict[str, Any]], quantity: int) -> dict[str, A
     filled_order_count = 0
     skipped_below_minimum = 0
     skipped_invalid_minimum = 0
+
     for order in sorted(orders, key=priority):
         volume = order.get("volume_remain")
         if isinstance(volume, bool) or not isinstance(volume, int) or volume <= 0:
@@ -326,14 +327,18 @@ def sweep_buy_orders(orders: list[dict[str, Any]], quantity: int) -> dict[str, A
         if minimum_volume is None:
             skipped_invalid_minimum += 1
             continue
-        # The minimum qualifies the original sell order, not the residual quantity
-        # remaining after higher-priced buy orders have matched.
-        if quantity < minimum_volume:
-            skipped_below_minimum += 1
-            continue
+
         take = min(remaining, volume)
         if take <= 0:
             break
+
+        # min_volume applies to this individual fill. A below-minimum final fill
+        # is allowed only when it consumes the buy order's entire remaining volume.
+        final_below_minimum_fill = volume < minimum_volume and take == volume
+        if take < minimum_volume and not final_below_minimum_fill:
+            skipped_below_minimum += 1
+            continue
+
         price = dec(order.get("price"), "order.price")
         filled += take
         remaining -= take
@@ -353,7 +358,7 @@ def sweep_buy_orders(orders: list[dict[str, Any]], quantity: int) -> dict[str, A
         "fully_fillable_in_snapshot": remaining == 0,
         "minimum_volume_enforced": True,
         "filled_order_count": filled_order_count,
-        "orders_skipped_because_requested_quantity_below_min_volume": skipped_below_minimum,
+        "orders_skipped_because_fill_below_min_volume": skipped_below_minimum,
         "orders_skipped_with_invalid_min_volume": skipped_invalid_minimum,
         "same_price_order_priority": "issued_then_order_id_proxy",
     }
@@ -434,7 +439,7 @@ def summarize_target_location_book(
     )
     caveat = (
         "This target-location book includes only local sell orders and buy orders whose configured "
-        "range covers the target system. Sell-into-bids sweeps apply min_volume to the original "
+        "range covers the target system. Sell-into-bids sweeps apply min_volume to each individual fill; below-minimum final fills are allowed only when the buy order's remaining volume is itself below min_volume. "
         "requested sell quantity. " + range_note + " Market access, fees, order expiry, snapshot "
         "changes, and exact same-price matching priority are not resolved; this is not a guaranteed quote."
     )
@@ -708,6 +713,7 @@ def main() -> int:
                     "sde_jump_graph_loaded": args.sde_dir is not None,
                     "minimum_volume_enforced_for_sell_into_bids": True,
                     "min_volume_missing_default": 1,
+                    "min_volume_semantics": "per_individual_buy_order_fill_with_final_remainder_exception",
                     "same_price_order_priority": "issued_then_order_id_proxy",
                 },
                 "summaries": summaries,
@@ -718,7 +724,7 @@ def main() -> int:
                     "No market fee, hauling, installation, or character/facility adjustment is applied.",
                     "Target-location books include only local sell orders and buy orders whose posted range covers the target system.",
                     "Remote numeric buy-order jump ranges require the SDE stargate graph; unresolved ranges are excluded from target-location bid sweeps.",
-                    "Buy-order minimum volume is tested against the original requested sell quantity; omitted ESI min_volume defaults to one.",
+                    "Buy-order minimum volume is tested against each individual fill; a final below-minimum fill is allowed only when it consumes the buy order's entire remaining volume and that remainder is below min_volume. Omitted ESI min_volume defaults to one.",
                 ],
             }, indent=2, ensure_ascii=False) + "\n",
             encoding="utf-8",

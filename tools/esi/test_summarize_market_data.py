@@ -175,7 +175,7 @@ class MarketSummaryTests(unittest.TestCase):
         self.assertEqual(result[0]["location_count"], 0)
 
     def test_report_schema_version_is_current(self):
-        self.assertEqual(SUMMARY_SCHEMA_VERSION, 3)
+        self.assertEqual(SUMMARY_SCHEMA_VERSION, 4)
 
     def test_rejects_invalid_buy_order_flag(self):
         with self.assertRaisesRegex(ValueError, "must be boolean"):
@@ -245,31 +245,41 @@ class MarketSummaryTests(unittest.TestCase):
         self.assertEqual(reason, "numeric_range_requires_sde_map")
         self.assertIsNone(distance)
 
-    def test_buy_order_sweep_applies_minimum_to_original_sell_quantity(self):
+    def test_buy_order_sweep_applies_minimum_to_each_individual_fill(self):
         orders = [
-            {"price": 12, "volume_remain": 50, "min_volume": 100, "issued": "2026-11-01T00:00:00Z", "order_id": 1},
-            {"price": 11, "volume_remain": 700, "min_volume": 600, "issued": "2026-11-01T00:00:00Z", "order_id": 2},
-            {"price": 10, "volume_remain": 500, "min_volume": 400, "issued": "2026-11-01T00:00:00Z", "order_id": 3},
-            {"price": 9, "volume_remain": 200, "issued": "2026-11-01T00:00:00Z", "order_id": 4},
+            {"price": 12, "volume_remain": 700, "min_volume": 600, "order_id": 1},
+            {"price": 11, "volume_remain": 500, "min_volume": 400, "order_id": 2},
+            {"price": 10, "volume_remain": 200, "min_volume": 1, "order_id": 3},
         ]
         result = sweep_buy_orders(orders, 1000)
-        self.assertEqual(result["filled_quantity"], 1000)
-        self.assertEqual(result["unfilled_quantity"], 0)
-        self.assertEqual(result["gross_value_isk"], 10800)
-        self.assertEqual(result["orders_skipped_because_requested_quantity_below_min_volume"], 0)
+        self.assertEqual(result["filled_quantity"], 900)
+        self.assertEqual(result["unfilled_quantity"], 100)
+        self.assertEqual(result["gross_value_isk"], 10400)
+        self.assertEqual(result["orders_skipped_because_fill_below_min_volume"], 1)
         self.assertTrue(result["minimum_volume_enforced"])
-        self.assertTrue(result["fully_fillable_in_snapshot"])
+        self.assertFalse(result["fully_fillable_in_snapshot"])
 
-    def test_buy_order_sweep_skips_order_when_requested_batch_is_too_small(self):
+    def test_buy_order_sweep_allows_final_remainder_below_min_volume(self):
         orders = [
-            {"price": 12, "volume_remain": 500, "min_volume": 600, "order_id": 1},
-            {"price": 10, "volume_remain": 500, "min_volume": 1, "order_id": 2},
+            {"price": 12, "volume_remain": 50, "min_volume": 100, "order_id": 1},
+            {"price": 11, "volume_remain": 100, "min_volume": 100, "order_id": 2},
+            {"price": 10, "volume_remain": 50, "min_volume": 1, "order_id": 3},
         ]
         result = sweep_buy_orders(orders, 100)
         self.assertEqual(result["filled_quantity"], 100)
         self.assertEqual(result["unfilled_quantity"], 0)
-        self.assertEqual(result["vwap"], 10)
-        self.assertEqual(result["orders_skipped_because_requested_quantity_below_min_volume"], 1)
+        self.assertEqual(result["gross_value_isk"], 1100)
+        self.assertEqual(result["orders_skipped_because_fill_below_min_volume"], 1)
+        self.assertTrue(result["fully_fillable_in_snapshot"])
+
+    def test_buy_order_sweep_rejects_below_minimum_partial_of_small_remaining_order(self):
+        result = sweep_buy_orders(
+            [{"price": 12, "volume_remain": 50, "min_volume": 100, "order_id": 1}],
+            20,
+        )
+        self.assertEqual(result["filled_quantity"], 0)
+        self.assertEqual(result["unfilled_quantity"], 20)
+        self.assertEqual(result["orders_skipped_because_fill_below_min_volume"], 1)
 
     def test_missing_min_volume_uses_one_unit_default(self):
         result = sweep_buy_orders([{"price": 10, "volume_remain": 50, "order_id": 1}], 10)
