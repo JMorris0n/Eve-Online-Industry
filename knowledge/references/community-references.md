@@ -93,6 +93,14 @@ Do not use this catalog as evidence for a game mechanic. Individual concept file
 | eveuni-customs-office | [Player Owned Customs Office](https://wiki.eveuniversity.org/Player_Owned_Customs_Office) | Accessed 2026-11-14 | Customs-office logistics and owner-managed access/tax behavior; cross-check with CCP for official mechanics. |
 | eveuni-setup | [Setting up a planetary colony](https://wiki.eveuniversity.org/Setting_up_a_planetary_colony) | Accessed 2026-11-14 | Colony deployment, command center, ECU, extractor heads, and routing walkthrough. |
 
+## Market trading and fee references
+
+| Source ID | Reference | Last modified / accessed | Use and limitations |
+|---|---|---|---|
+| eveuni-market | [Trading / Market](https://wiki.eveuniversity.org/Market) | Accessed 2026-11-14 | Upwell owner-set broker fees, market skills, and market-order behavior; use CCP's fee article for official rates. |
+| eveuni-tax | [Tax](https://wiki.eveuniversity.org/Tax) | Accessed 2026-11-14 | Combined overview of broker, transaction, and relist fees; cross-check with CCP. |
+| eveuni-trade-skills | [Skills:Trade](https://wiki.eveuniversity.org/Skills:Trade) | Accessed 2026-11-14 | Accounting, Broker Relations, Advanced Broker Relations, and trade-skill effects. |
+
 ## Source limitations
 
 EVE University is a community educational resource. EVE Ref is a structured SDE-derived reference. The EVE Reactions Calculator explains its own algorithm. These sources help identify item attributes and model mechanics, but the current in-game Industry UI is authoritative for an actual job quote and a real facility's configured services, rigs, and taxes.
