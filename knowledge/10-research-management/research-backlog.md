@@ -13,6 +13,8 @@ status: draft
 
 ## P0: Establish trustworthy foundations
 
+- [x] Maintain source catalogs, claim-level citations, open questions, chronological research log, and repeatable verification protocols.
+
 - [x] Document blueprint object types, BPO/BPC distinctions, acquisition paths, and their industry roles.
 - [x] Document ME and TE research steps, effects, job-level formulas, and material-rounding limitations.
 - [ ] Independently test ME material rounding against representative in-game manufacturing jobs.
@@ -100,6 +102,8 @@ status: draft
   - [ ] Run the collector locally with a small region/type-ID set and validate response schemas, cache behavior, and output hashes.
 - [x] Draft operational playbooks for product evaluation, T1/T2 production, PI, reactions, and market delivery from the documented concepts.
 - [ ] Verify playbooks against live in-game workflows and promote them only when their underlying mechanics are independently reviewed.
+
+- [x] Create reproducible verification protocols for ME rounding, BPC copying, job slots, facility modifiers, fees, invention, reactions, Alpha PI, SDE, and ESI.
 
 ## Acceptance criteria for a research task
 
