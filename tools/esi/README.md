@@ -102,3 +102,25 @@ Official documentation:
 - https://developers.eveonline.com/docs/services/esi/overview/
 - https://developers.eveonline.com/docs/services/esi/best-practices/
 - https://esi.evetech.net/ui/?version=latest
+
+## Authenticated character data (new local-only integration path)
+
+The project is moving toward a local EVE SSO/ESI integration for private character data. The detailed endpoint/scope matrix, structure-discovery limitation, security rules, and implementation sequence are documented in [the authenticated data plan](../../knowledge/10-research-management/esi-authenticated-data-plan.md).
+
+Initial read-only character scopes:
+
+| Purpose | ESI scope |
+|---|---|
+| Trained skills | `esi-skills.read_skills.v1` |
+| Skill queue | `esi-skills.read_skillqueue.v1` |
+| Personal blueprints | `esi-characters.read_blueprints.v1` |
+| Personal assets and asset locations/names | `esi-assets.read_assets.v1` |
+| Personal industry jobs | `esi-industry.read_character_jobs.v1` |
+| Search structures accessible to a character | `esi-search.search_structures.v1` |
+| Resolve a known accessible structure | `esi-universe.read_structures.v1` |
+
+ESI has no account-level endpoints. Each industrial character must be separately authorized. Use the native Authorization Code with PKCE flow. Do not request wallet, mail, contacts, write/action, corporation asset, or structure-market scopes for the initial profile import.
+
+**Facility limitation:** ESI does not provide one endpoint that enumerates every Upwell structure a character can access. The public `/industry/facilities/` directory, targeted authenticated character structure searches, known structure resolution, and observed asset/job locations provide partial evidence. Do not mark the entire facility inventory verified from these sources alone.
+
+All authenticated responses, character identity data, and refresh tokens must remain local. The `.gitignore` excludes `data/private/` and `local/`; refresh tokens will use the operating system credential store. Never upload raw authenticated snapshots or a populated local profile to Dropbox.

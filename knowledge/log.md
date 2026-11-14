@@ -161,3 +161,11 @@
 - Reviewed the uploaded v2 The Forge market summary: 516 unique orders across Tritanium, Pyerite, and Mexallon; 72 location books reconcile to the regional counts. The most active observed location (60003760 / system 30000142) held 57.6% to 68.0% of each type's order records. Regional Pyerite/Mexallon crossed composites were not crossed at this location. Upgraded the ESI summarizer to schema v3: target-location books expand buy-order ranges through the SDE stargate graph and enforce buy-order min_volume against the original sell-order size; the prior posted-location groups remain for provenance. Local execution against saved raw files is pending.
 
 - Refined SDE jump-range handling: numeric buy-order distance is computed in the source-to-target direction using a reverse-graph BFS over the full stargate network. The buy order and target must be in the queried market region, but the shortest path may transit other regions. Added regression coverage for a cross-region transit route.
+
+## 2026-11-14 - Reprioritize authenticated character-data acquisition
+
+- Accepted the user's strategy correction: use local EVE SSO/ESI to import all three industrial characters' skills, skill queue, personal blueprints/assets, and active industry jobs rather than manually transcribing profile data.
+- Promoted native PKCE SSO integration from deferred M8 to the immediate M2 implementation path. Minimum initial scopes and endpoint mapping are recorded in `knowledge/10-research-management/esi-authenticated-data-plan.md`.
+- Confirmed the data boundary: ESI is character-oriented with no account-level endpoints, so each of the three characters requires separate authorization. Keep refresh tokens in the Windows credential store and private API snapshots under ignored `data/private/`/`local/` paths.
+- Recorded a material facility-access limitation: no unified ESI route enumerates every Upwell structure a character can access. Use public facilities plus targeted character structure search/resolution and retain partial/unknown coverage.
+- Deferred alliance-specific doctrine, buyback, shared corporation resources, staging market, and courier details until an alliance is selected. Keep three candidate strategy tracks: alliance-local manufacture, value-added export to higher-paying markets, and other high net-contribution-per-active-operator-hour opportunities.

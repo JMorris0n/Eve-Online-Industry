@@ -145,13 +145,17 @@ The roadmap is accepted as the working plan. Milestones M1 and M2 are now in pro
 
 ### M2. Define the local operating profile
 
-**Status:** In progress. The local profile schema, safe example, structural validator, feasibility screen, and automated tests are in place. The uploaded readiness report is schema-valid with zero errors but confirms that all three character records, blueprint/facility inventories, market access, capital, operations, and logistics remain unknown or unentered. No EVE SSO has been used; the current workflow is manual and public-data-only. The normalized SDE skill metadata correction has been validated against a regenerated local report: all 9,360 skill references have known publication status. Audit version 2 identifies 24 distinct unpublished skill type IDs across 135 references and zero unknown-publication skill IDs. The local skill-reference generator has now been run and reviewed: 4,145 of 5,022 recipe records qualify for static skill mapping (4,026 manufacturing and 119 reaction), identifying 58 published skills for targeted profile capture.
+**Status:** In progress. The profile schema, validator, readiness report, feasibility screen, and SDE skill reference are complete. The user selected a local read-only EVE SSO/ESI import as the preferred next data-acquisition path. The profile itself remains unpopulated; SSO implementation and authorization are now the immediate dependency. See [Local EVE SSO and null-sec operating-data plan](esi-authenticated-data-plan.md). The 58-skill SDE reference remains useful for explaining recipe requirements, but the project should import all trained skills for each character rather than manually transcribe this list.
 
 **Purpose:** Make product feasibility depend on the actual operation rather than generic character assumptions.
 
 **Work:**
-- Define a local, editable profile for the three industrial characters, their skills, job pools, specializations, and available slots.
-- Generate a local skill-requirements reference from complete, published SDE recipes; rank skills by candidate recipe coverage while preserving unpublished and incomplete exceptions.
+- Build a local, read-only SSO/ESI import for the three industrial characters using PKCE and minimum scopes.
+- Import all character skills and skill queue, blueprint inventory, relevant personal assets, and active industry jobs into timestamped local snapshots.
+- Populate the private operating profile from imported data, retaining unknowns and provenance.
+- Derive job capacity only from verified skills and active jobs after validating the applicable skill rules.
+- Discover public facilities and known accessible Upwell structures without claiming ESI can enumerate every structure ACL.
+- Retain the SDE skill-requirements reference to explain and filter recipe skill requirements.
 - Capture relevant blueprint/BPC availability and any limits on location or licensed runs.
 - Capture accessible facilities, service availability, rig assumptions, taxes, and production systems.
 - Capture market-access locations for procurement and sales, distinguishing NPC stations from Upwell structures.
@@ -167,8 +171,11 @@ The roadmap is accepted as the working plan. Milestones M1 and M2 are now in pro
 - [x] The profile contract can represent market-access locations and logistics constraints without exposing them in the public repository.
 - [x] A local skill-reference generator ranks published, known skill requirements across complete, resolved SDE recipes and preserves exclusion reasons.
 - [x] Run and review the skill reference against the local normalized recipe file; it identifies 58 published skills across the full manufacturing/reaction catalog.
-- [ ] Enter verified skill levels for the three characters after selecting the first product family and confirming owned blueprints; do not manually inventory unrelated skills yet.
-- [ ] The three character records, blueprint inventory, facilities, market access, capital, and attention/logistics limits are populated and reviewed locally.
+- [ ] A local PKCE client and OS-backed refresh-token store are implemented and tested.
+- [ ] Each of the three industrial characters is separately authorized with the minimum read-only scopes.
+- [ ] Full skill inventories/queues, blueprints, relevant assets, and current industry jobs are imported locally with provenance.
+- [ ] Facility access is populated from public facilities and targeted structure lookups, with incomplete coverage explicitly recorded.
+- [ ] Manual operating constraints (capital budget, attention, risk, hauling limits) and alliance-dependent market/facility information are added when known.
 - [x] No private profile, balance, asset export, or credential is committed to Git.
 
 ### M3. Establish doctrine-linked demand and market context
@@ -286,22 +293,25 @@ The roadmap is accepted as the working plan. Milestones M1 and M2 are now in pro
 
 ### M8. Add optional local EVE SSO integration
 
-**Status:** Deferred by design.
+**Status:** Promoted to the immediate M2 implementation path after the user selected authenticated character-data import as more efficient than manual inventory transcription.
 
-**Purpose:** Reduce manual data entry when public data and the local tool are already useful.
+**Purpose:** Reduce manual data entry and populate the operating profile with verified character-specific facts while retaining a local-only privacy boundary.
 
 **Potential data:**
 - Character skills and job capacity.
 - Personal assets, blueprints, and industry jobs.
-- Personal market orders where supported.
-- Authorized structure markets and other data justified by explicit need.
+- Personal market orders only if needed for a selected workflow.
+- Authorized structure markets only after an alliance staging market and accessible structures are known.
+- Targeted structure search and resolution, with the documented limitation that ESI cannot enumerate every accessible structure in one call.
 
 **Acceptance criteria:**
-- [ ] Exact required endpoints and minimum OAuth scopes are documented.
-- [ ] Tokens are stored locally using an appropriate secure mechanism.
-- [ ] No secret or private account data enters Git or exported LLM packets by default.
+- [x] Required character endpoints and minimum initial OAuth scopes are documented in the local ESI integration plan.
+- [ ] Native PKCE authorization, token validation/refresh, and Windows Credential Manager storage are implemented and tested.
+- [ ] All three character grants are authorized and imported into timestamped local snapshots.
+- [ ] Facility-access discovery limitation is represented explicitly rather than overstated.
+- [ ] No secret or private account data enters Git, Dropbox, or exported LLM packets by default.
 - [ ] Public-data functionality remains available when SSO is disconnected.
-- [ ] Each new private-data integration demonstrates a material improvement to recommendation quality or convenience.
+- [ ] Any later corporation/structure-market scope is justified by a known alliance workflow.
 
 ## Deferred decisions and dependencies
 

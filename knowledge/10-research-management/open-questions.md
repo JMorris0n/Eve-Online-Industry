@@ -183,3 +183,21 @@ status: draft
 - **Resolution:** The reference generator and regression suite are complete, and the live local output has been reviewed. It is a profile-preparation index only; it is not an operating-feasibility or profitability result. Capture character skills only after narrowing to the first candidate product family and confirming relevant blueprint ownership.
 - **Status:** Resolved for the current normalized SDE build. The private three-character profile remains incomplete under M2.
 
+
+### Q-020: Can ESI enumerate every Upwell facility a character can access?
+
+- **Question:** Does a single authenticated ESI route return a complete list of all Upwell structures a character can dock at or use for industry?
+- **Affected concepts:** [Facilities and Rigs](../01-foundations/facilities-and-rigs.md), [Local EVE SSO and null-sec operating-data plan](esi-authenticated-data-plan.md), [ESI and Market Data](../07-tools-and-data/esi-and-market-data.md).
+- **Why it matters:** A false claim of complete facility access could cause the planner to recommend a job at a structure where the character cannot dock or the required Industry service is unavailable.
+- **Evidence:** CCP's structure-discovery guidance states there is no unified way to discover accessible Upwell structures. The authenticated character search endpoint can search structures accessible to that character, while the structure resolver requires docking access to a known structure ID. The public industry-facilities directory covers publicly accessible facilities only.
+- **Resolution:** No complete one-call enumeration is available. Use the public industry facilities directory plus targeted character structure searches and resolution for known names/IDs. Treat asset/job locations as evidence of observed use, not proof of access to every other facility. Store facility coverage as partial/unknown unless independently verified.
+- **Status:** Resolved as an ESI capability limitation; implementation must preserve partial/unknown states.
+
+### Q-021: Which alliance/corporation resources can be imported after joining?
+
+- **Question:** Which doctrine, buyback, shared-resource, structure-access, and courier records are available through ESI for the eventual alliance/corporation, and which must be imported from alliance documents or user-supplied data?
+- **Affected concepts:** [Local EVE SSO and null-sec operating-data plan](esi-authenticated-data-plan.md), [Product Selection](../06-market-intelligence/product-selection.md), [Logistics](../04-industrial-economics/logistics.md).
+- **Why it matters:** Alliance-local production and higher-value export economics depend on actual buyback prices/terms, doctrine demand, staging access, market rules, and courier costs. Character SSO alone must not be assumed to expose those programs.
+- **Evidence needed:** After alliance selection, inspect actual corp roles, structures, buyback program, doctrine fitting source, market access, and courier contract rules. Compare current ESI corporation scopes/routes with the data the user is authorized to access.
+- **Status:** Deferred until alliance membership and operating rules are known.
+
