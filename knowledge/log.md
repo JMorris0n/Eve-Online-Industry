@@ -19,4 +19,7 @@
 - Added research questions for 30-day job-duration limits, BPO concurrency, and precise modifier/rounding behavior.
 - Corrected an Upwell rig uniqueness description to match CCP's rule that two rigs affecting the same attribute cannot be equipped together.
 - Normalized the Upwell structure-browser source identifier in Installation Cost Computation.
+- Researched and replaced the Tech II Invention placeholder with a source-backed draft covering required inputs/skills, the current skill-adjusted success formula, base chance categories, decryptor modifiers, output BPC runs/ME/TE, and expected-cost calculations.
+- Added official CCP invention, decryptor, datacore, and historical Phoebe patch-note sources, plus a current EVE University invention reference last modified 2026-10-09.
+- Added open verification questions for probability rounding/capping and multi-run datacore/decryptor consumption.
 - Documentation milestones do not constitute independent in-game verification; all three new concepts remain draft.
