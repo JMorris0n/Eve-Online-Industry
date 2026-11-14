@@ -47,6 +47,16 @@ Use integer ISK values. Keep working capital, liquidity reserve, and maximum cap
 
 These are planning limits, not a request to disclose balances in the public repository. Enter only the amount you intend to allocate to this operation.
 
+## Validate the private profile
+
+After entering values, run:
+
+```powershell
+py -3 tools/profile/validate_profile.py --profile local/operating-profile.json
+```
+
+The validator uses only the Python standard library. It checks the three character slots, skill levels, job-pool capacities, capital fields, operating limits, facilities, and blueprint records. Unknown values may remain null; they are not interpreted as zero. The public example is also covered by automated unit tests.
+
 ## Current limitations
 
-This is the first profile contract, not yet a validated feasibility engine. The next implementation step is to add a local validator and use the profile to distinguish eligible, ineligible, and unknown character/blueprint/facility requirements. Do not use the template as a profitability recommendation by itself.
+This is the first profile contract and structural validator, not yet a feasibility engine. The next implementation step is to use the profile to distinguish eligible, ineligible, and unknown character/blueprint/facility requirements. Do not use the template as a profitability recommendation by itself.
