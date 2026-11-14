@@ -37,7 +37,9 @@ Run from the repository root:
 py -3 tools/calculations/manufacturing_profitability.py --config tools/calculations/manufacturing-profitability.example.json
 ```
 
-The model reports economic material cost, installation/upstream/logistics costs, modeled realized sales, unsold inventory cost basis, full-batch projected contribution, net margin, ROI, slot-hour and elapsed-hour efficiency, break-even price, target-margin price, and a maximum affordable unit value for one selected input.
+The model reports economic material cost, installation/upstream/logistics costs, modeled realized sales, unsold inventory cost basis, full-batch projected contribution, net margin, ROI, slot-hour and elapsed-hour efficiency, active-operator-hour efficiency when supplied, break-even price, target-margin price, and a maximum affordable unit value for one selected input.
+
+Set `production.active_operator_hours` to the total hands-on operator time attributable to the production plan, in hours. Include attributable evaluation, sourcing, staging, installation, hauling, order maintenance, and reconciliation work. Exclude unattended job duration and passive inventory waiting. Do not count one person's simultaneous alt-character tasks as multiple operator-hours. If this input is omitted or zero, the active-operator-hour metric is reported as null rather than inferred.
 
 Inputs are deliberately explicit:
 - Material quantities and values are supplied by the user. Each line can record its valuation basis, location, and source timestamp.
