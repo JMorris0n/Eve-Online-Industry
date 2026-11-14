@@ -15,6 +15,7 @@ status: draft
 
 - [x] Maintain source catalogs, claim-level citations, open questions, chronological research log, and repeatable verification protocols.
 - [x] Establish a portable LLM coordination workflow with bounded task packets, role prompts, independent review, validation gates, and human-controlled integration.
+- [x] Add a standard-library Markdown link checker and run it in CI for documentation and tooling changes; the first scan found and corrected four existing broken links.
 
 - [x] Document blueprint object types, BPO/BPC distinctions, acquisition paths, and their industry roles.
 - [x] Document ME and TE research steps, effects, job-level formulas, and material-rounding limitations.
@@ -77,17 +78,17 @@ status: draft
 - [x] Establish consistent replacement-cost, opportunity-cost, historical-cost, and EIV accounting conventions.
 - [x] Document manufacturing profitability framework, batch-level contribution, break-even pricing, slot-hour efficiency, and capital-return metrics.
 - [x] Implement a deterministic manufacturing profitability calculator with material valuation, partial-sale inventory accounting, full-batch projections, break-even/target-margin pricing, and input-price thresholds.
-  - [x] Confirm the calculation suite passes in [GitHub Actions run 14](https://github.com/JMorris0n/Eve-Online-Industry/actions/runs/43577417825) on commit `55121f8` (17 tests). Reconcile a worked example against actual Industry quotes, market fills, and wallet records.
+  - [x] Confirm the calculation suite passes in [GitHub Actions run 18](https://github.com/JMorris0n/Eve-Online-Industry/actions/runs/43578417413) (17 tests); the same run also passed five validation-tool tests and 571 local Markdown links. Reconcile a worked example against actual Industry quotes, market fills, and wallet records.
 - [x] Document broker fees, sales tax, relist fees, NPC versus Upwell market differences, and transaction execution behavior.
   - [ ] Validate fee calculations against wallet journal and live order quotes for NPC and Upwell markets.
-  - [x] Add a deterministic fee estimator and standard-library unit tests; included in the 17-test successful [GitHub Actions run 14](https://github.com/JMorris0n/Eve-Online-Industry/actions/runs/43577417825).
+  - [x] Add a deterministic fee estimator and standard-library unit tests; included in the 17-calculation-test successful [GitHub Actions run 18](https://github.com/JMorris0n/Eve-Online-Industry/actions/runs/43578417413).
   - [ ] Build a representative worked manufacturing product example using current prices and a chosen market location.
 - [x] Document facility and regional location economics, including activity-specific SCI, ESI/market data, facility comparison, remote installation, and total landed cost.
   - [x] Implement the public ESI collector needed to retrieve system indices and market orders.
   - [ ] Run the collector and build a representative location comparison using live market orders, SCI, facility fees, and logistics.
 - [x] Document self-haul and courier-contract cost components, collateral exposure, route risk, Upwell Asset Safety, and structure continuity risks.
 - [x] Build a configurable self-haul versus courier cost model, including expected cargo/ship loss, collateral coverage, pilot time, and capital exposure.
-  - [x] Run the calculator unit tests successfully in the 17-test [GitHub Actions run 14](https://github.com/JMorris0n/Eve-Online-Industry/actions/runs/43577417825); validate assumptions against a real route/contract scenario.
+  - [x] Run the calculator unit tests successfully in the 17-calculation-test [GitHub Actions run 18](https://github.com/JMorris0n/Eve-Online-Industry/actions/runs/43578417413); validate assumptions against a real route/contract scenario.
 - [x] Document working capital, inventory valuation, capital turnover, asset concentration, and capital allocation.
 - [x] Document expected-value invention economics, including batch success variance, cost per successful BPC, and cost per Tech II manufacturing run.
 - [x] Document incremental ME/TE research ROI, break-even production volume, and Science slot-hour opportunity cost.
