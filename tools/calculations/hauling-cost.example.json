@@ -1,0 +1,26 @@
+{
+  "cargo": {
+    "value_isk": "1000000000",
+    "volume_m3": "20000",
+    "annual_capital_rate": "0.10"
+  },
+  "self_haul": {
+    "capacity_m3": "50000",
+    "pilot_hours_per_trip": "1.5",
+    "time_value_isk_per_hour": "5000000",
+    "direct_cost_isk_per_trip": "500000",
+    "loss_probability_per_trip": "0.015",
+    "cargo_loss_severity": "1.0",
+    "ship_replacement_cost_isk": "150000000",
+    "insurance_payout_isk": "40000000",
+    "transit_hours_per_trip": "1.5"
+  },
+  "courier": {
+    "capacity_m3": "50000",
+    "reward_isk_per_contract": "12000000",
+    "creation_fee_isk_per_contract": "100000",
+    "collateral_isk_per_contract": "800000000",
+    "failure_probability_per_contract": "0.01",
+    "delivery_exposure_hours": "48"
+  }
+}
