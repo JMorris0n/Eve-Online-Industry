@@ -83,6 +83,9 @@ For each source, record its stable ID, publisher, title, canonical URL, source t
 | ccp-research-scc-relief | CCP, [Exploration and Industry Balance Rework](https://www.eveonline.com/news/view/exploration-and-industry-balance-rework) | Published 2025-07-18 | Reduced ME/TE research SCC surcharge from 4% to 2%, described as temporary |
 | ccp-exordium-fees | CCP, [Patch Notes - Version 23.02](https://www.eveonline.com/news/view/patch-notes-version-23-02) | Published 2026 | Exordium region-specific industry fee surcharge |
 
+| ccp-upwell-structures | CCP Support, [Upwell Structures](https://support.eveonline.com/hc/en-us/articles/213021829-Upwell-Structures) | Updated 2024-07-15 | Upwell structure categories, sizes, and intended industrial roles |
+| ccp-upwell-quick-facts | CCP Support, [Upwell Structures - Quick Facts](https://support.eveonline.com/hc/en-us/articles/209985225-Upwell-Structures-Quick-Facts) | Updated 2022-05-10 | Structure component and final structure Manufacturing availability; service-offline job behavior |
+
 ## Source limitations
 
 CCP Support's blueprint, skill, and structure support pages have displayed update dates from 2022-2024. The 2025 SCC relief announcement explicitly calls its ME/TE research change temporary; keep it provisional until current in-game quotes or a later CCP statement establish its status. The Exordium change is a regional exception and the patch note does not provide a complete global fee model. The ESI overview is a live developer reference and may change as the API is versioned. Continue to check current patch notes and in-game UI before revising fee constants.
