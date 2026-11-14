@@ -6,9 +6,21 @@ A VS Code-first, Git-managed research repository for EVE Online industry. The ca
 
 1. Read [`LLM-START-HERE.md`](LLM-START-HERE.md) before asking an LLM to work on this project.
 2. Open this folder in VS Code.
-3. Review [the project charter](knowledge/00-governance/project-charter.md) and [research standards](knowledge/00-governance/research-standards.md).
+3. Review the [project charter](knowledge/00-governance/project-charter.md) and [research standards](knowledge/00-governance/research-standards.md).
 4. Review the [research backlog](knowledge/10-research-management/research-backlog.md) and [claims requiring verification](knowledge/10-research-management/claims-requiring-verification.md).
 5. Use Git branches or diffs for proposed changes. Do not let an LLM silently replace canonical knowledge.
+
+## Coordinating LLM work
+
+Use [the LLM collaboration protocol](knowledge/00-governance/llm-collaboration.md) as the operating procedure.
+
+- **One bounded task:** define the research question, scope, risk, files, and acceptance criteria.
+- **Portable context:** build a self-contained packet from [the handoff template](exports/templates/LLM-HANDOFF-TEMPLATE.md) with a baseline commit SHA.
+- **Specialist roles:** use the [provider-neutral role prompts](exports/templates/LLM-ROLE-PROMPTS.md) for coordination, research, independent review, and synthesis.
+- **Independent challenge:** for patch-sensitive claims, formulas, code, and costly decisions, have another session independently check the evidence and reasoning.
+- **Controlled integration:** reconcile conflicts, make the smallest coherent changes, run applicable checks, and return a [change proposal](exports/templates/change-proposal.md) for human acceptance.
+
+Task packets belong in the ignored `exports/generated/` staging directory. Durable facts and accepted changes belong in `knowledge/`. Model agreement is not verification.
 
 ## Repository layout
 
