@@ -77,6 +77,22 @@ status: draft
 - **Evidence needed:** Install matched one-run and multi-run jobs for a representative module and ship BPC, recording the Industry UI input quantities before installation and actual inputs consumed after delivery.
 - **Status:** Open. CCP confirms that the inputs are consumed regardless of success and that one input BPC run is consumed per invention run, but the cited support text does not explicitly state all multi-run optional-item quantity rules.
 
+### Q-009: How do copy time modifiers and BPO concurrency work in the live Industry system?
+
+- **Question:** Does the base Copy activity time equal 80% of the BPO's base Manufacturing run time for every blueprint, and how do Science, Advanced Industry, Engineering Complex role bonuses, Copy-specific rigs, and simultaneous copy jobs interact?
+- **Affected concepts:** [Blueprint Copying](../02-production-systems/blueprint-copying.md), [Skills and Job Capacity](../01-foundations/skills-and-job-capacity.md), [Facilities and Rigs](../01-foundations/facilities-and-rigs.md).
+- **Why it matters:** Copy-job duration determines how quickly BPC inventory can be replenished and consumes Science job slots. BPO concurrency affects how much copy throughput one original can supply.
+- **Evidence needed:** Matched Industry UI Copy quotes for a representative short-run and long-run blueprint, with and without applicable copy skills and facility bonuses. Attempt overlapping copy jobs from one BPO and compare personal and corporation blueprint behavior.
+- **Status:** Open. EVE University documents an 80%-of-base-Manufacturing-time model, Science and Advanced Industry reductions, and single active Manufacturing job per BPO; this corpus has not independently reproduced copy time or copy-job concurrency.
+
+### Q-010: Are copying input materials and fees fully explained by the separate copy-count and licensed-run fields?
+
+- **Question:** For BPOs with exceptional Copy inputs, are material quantities solely a function of Job Runs, and does the live Copy installation fee scale with both Job Runs and Runs per Copy as suggested by secondary references?
+- **Affected concepts:** [Blueprint Copying](../02-production-systems/blueprint-copying.md), [Installation Cost Computation](../09-computations/installation-costs.md).
+- **Why it matters:** A copy plan can produce the same total licensed-run capacity with different physical copy counts. Material and fee scaling can therefore change the optimal BPC configuration.
+- **Evidence needed:** Install matched copy quotes with equal (C 	imes R) but different values of (C) and (R), recording material inputs, SCI, facility tax, SCC, and fee. Include at least one blueprint with non-zero copy inputs.
+- **Status:** Open. CCP explicitly states exceptional copy input materials scale with Job Runs and not Runs per Copy; the activity-specific fee calculation still requires comparison with current in-game quotes.
+
 ## Entry format
 
 - **Question:** precise, answerable wording.
