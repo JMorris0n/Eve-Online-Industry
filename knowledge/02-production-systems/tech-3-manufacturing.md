@@ -25,6 +25,9 @@ sources:
   - id: ccp-reactions
     resource: https://support.eveonline.com/hc/en-us/articles/115005405785-Reactions
     title: Reactions | EVE Online Support (updated 2024-08-29)
+  - id: ccp-decryptors
+    resource: https://support.eveonline.com/hc/en-us/articles/203270631-Decryptors
+    title: Decryptors | EVE Online Support (updated 2024-08-29)
   - id: eveuni-tech3
     resource: https://wiki.eveuniversity.org/Tech_3_Production
     title: Tech 3 Production | EVE University Wiki (last modified 2024-09-22)
@@ -55,7 +58,7 @@ Tech III production is a linked industrial chain that converts wormhole resource
 3. **Reverse engineering:** Ancient Relics and datacores are consumed in a Science job to attempt to produce a limited-run Tech III BPC.
 4. **Final manufacturing:** A Tech III BPC and the required Hybrid Tech Components are used to manufacture the hull or subsystem.
 
-These stages are separate jobs, often performed at different facilities and in different locations. Treat the chain as a supply network, not as one manufacturing activity. [^eveuni-tech3] [^ccp-ancient-relics] [^ccp-reactions]
+These stages are separate jobs, often performed at different facilities and in different locations. Treat the chain as a supply network, not as one manufacturing activity. [^eveuni-tech3] [^ccp-ancient-relics] [^ccp-reactions] [^eve-academy-tech3]
 
 ## Product architecture
 
@@ -231,7 +234,9 @@ CCP's support pages are primary evidence for relic mapping, licensed runs, publi
 [^ccp-invention]: CCP Support, Invention (updated 2024-08-29).
 [^ccp-datacores]: CCP Support, Datacores (updated 2024-08-29).
 [^ccp-reactions]: CCP Support, Reactions (updated 2024-08-29).
+[^ccp-decryptors]: CCP Support, Decryptors (updated 2024-08-29).
 [^eveuni-tech3]: EVE University Wiki, Tech 3 Production (last modified 2024-09-22).
+[^eve-academy-tech3]: CCP / EVE Online, EVE Academy: Tech 3 Production (accessed 2026-11-14).
 [^eveuni-science-skills]: EVE University Wiki, Skills:Science (accessed 2026-11-14).
 [^everef-small-wrecked-hull]: EVE Ref, Small Wrecked Hull Section (SDE-derived item attributes; accessed 2026-11-14).
 [^everef-small-malfunctioning-hull]: EVE Ref, Small Malfunctioning Hull Section (SDE-derived item attributes; accessed 2026-11-14).
