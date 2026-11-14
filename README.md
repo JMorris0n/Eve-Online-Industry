@@ -12,7 +12,7 @@ A VS Code-first, Git-managed research repository for EVE Online industry. The ca
 
 ## Coordinating LLM work
 
-Use [the LLM collaboration protocol](knowledge/00-governance/llm-collaboration.md) as the operating procedure.
+Use [the LLM collaboration protocol](knowledge/00-governance/llm-collaboration.md) as the operating procedure and follow the [VS Code workflow quick start](exports/WORKFLOW-QUICKSTART.md) for the practical task sequence.
 
 - **One bounded task:** define the research question, scope, risk, files, and acceptance criteria.
 - **Portable context:** build a self-contained packet from [the handoff template](exports/templates/LLM-HANDOFF-TEMPLATE.md) with a baseline commit SHA.
