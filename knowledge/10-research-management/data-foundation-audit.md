@@ -68,6 +68,7 @@ Initial code review:
 - Saves order-book and market-history observations separately.
 - Does not collect private structure markets, character skills, assets, blueprints, or industry jobs. This is expected for the public-data-first phase.
 - Added `tools/esi/summarize_market_data.py` to combine paginated order books, distinguish asks from bids, calculate visible-book VWAP/depth for requested quantities, summarize backward-looking daily history, and retain source hashes.
+- Added network-free unit tests for collector URL construction, HTTP-date parsing, Retry-After parsing, and X-Pages pagination.
 - The summarizer labels regional depth as potentially inaccessible and does not treat snapshot fillability as guaranteed execution. Fixture tests are in place; live ESI validation remains pending.
 
 ## Important compatibility-date note
