@@ -41,7 +41,9 @@ status: draft
   - [ ] Verify copy time and skill/facility modifiers against live Industry quotes.
   - [ ] Verify concurrent copy-job restrictions from one BPO.
 - [ ] Validate the complete Tech II invention-to-manufacturing chain.
-- [ ] Tech II component manufacturing and dependencies.
+- [x] Document the Tech II component supply chain, composite reaction stages, Advanced Component manufacturing, final Tech II input categories, R.A.M. material behavior, and vertical-integration decisions.
+  - [ ] Build and independently verify a type-level Advanced Component recipe/skill matrix from current SDE and Industry UI data.
+  - [ ] Validate representative Advanced Component and final Tech II production quotes.
 - [ ] Reactions and reaction facility constraints.
   - [x] Document reaction reactor families and the Refinery/security requirement.
 - [ ] Tech III reverse engineering and manufacturing.
