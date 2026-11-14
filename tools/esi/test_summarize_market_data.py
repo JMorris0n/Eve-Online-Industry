@@ -36,8 +36,8 @@ class MarketSummaryTests(unittest.TestCase):
         self.assertEqual(result["best_ask"], 10)
         self.assertEqual(result["best_bid"], 9)
         self.assertEqual(result["spread_isk"], 1)
-        self.assertEqual(result["sell_depth"][0]["vwap"], 10)
-        self.assertEqual(result["buy_depth"][0]["vwap"], 9)
+        self.assertEqual(result["buy_from_asks"][0]["vwap"], 10)
+        self.assertEqual(result["sell_into_bids"][0]["vwap"], 9)
 
     def test_history_uses_volume_weighted_price(self):
         rows = [
