@@ -2,7 +2,8 @@
 
 ## 2026-11-14
 
-- Added a standard-library Markdown link checker, five unit tests, and a one-command local validation runner. GitHub Actions now executes the same `py -3 tools/validation/run_all.py` workflow for relevant code and documentation changes. The first scan found and corrected four broken root-relative links in the blueprint concept. [GitHub Actions run 24](https://github.com/JMorris0n/Eve-Online-Industry/actions/runs/43578623979) passed 17 calculation tests, 5 validation tests, and 572 local links across 93 Markdown files.
+- Published a VS Code/PowerShell LLM Workflow Quick Start covering baseline capture, task packet creation, branch workflow, model-role routing, validation, and handoff closeout. Updated all onboarding and calculator documentation to use the single local validation command.
+- Added a standard-library Markdown link checker, five unit tests, and a one-command local validation runner. GitHub Actions now executes the same `py -3 tools/validation/run_all.py` command for relevant code and documentation changes. The first scan found and corrected four broken root-relative links in the blueprint concept. [GitHub Actions run 31](https://github.com/JMorris0n/Eve-Online-Industry/actions/runs/43578869255) passed 17 calculation tests, 5 validation tests, and 579 local links across 94 Markdown files.
 
 ## 2026-11-14
 
