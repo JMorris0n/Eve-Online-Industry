@@ -91,7 +91,8 @@ status: draft
   - [ ] Independently test representative tool outputs against live Industry quotes and current SDE/ESI inputs.
 - [x] Document ESI and SDE data acquisition, compatibility dates, OAuth scopes, caching, rate limits, pagination, and industrial endpoints.
   - [ ] Implement a read-only ESI collector with provenance, compatibility-date pinning, cache handling, and rate-limit compliance.
-- [ ] Operational playbooks derived from verified concepts.
+- [x] Draft operational playbooks for product evaluation, T1/T2 production, PI, reactions, and market delivery from the documented concepts.
+- [ ] Verify playbooks against live in-game workflows and promote them only when their underlying mechanics are independently reviewed.
 
 ## Acceptance criteria for a research task
 
