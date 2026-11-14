@@ -22,6 +22,9 @@ sources:
   - id: ccp-te-research
     resource: https://support.eveonline.com/hc/en-us/articles/203210512-Time-Efficiency-Research
     title: Time Efficiency Research | EVE Online Support (updated 2024-07-15)
+  - id: ccp-viridian-fees
+    resource: https://www.eveonline.com/news/view/viridian-expansion-notes
+    title: Viridian Expansion Notes | EVE Online (2023-06-09)
   - id: eveuni-manufacturing
     resource: https://wiki.eveuniversity.org/Manufacturing
     title: Manufacturing | EVE University Wiki
