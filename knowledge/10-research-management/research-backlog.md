@@ -7,7 +7,7 @@ tags:
   - backlog
 generated:
   by: openai/gpt-6
-  at: 2026-11-14T06:04:20Z
+  at: 2026-11-14T06:12:17Z
 status: draft
 ---
 
@@ -17,7 +17,9 @@ status: draft
 - [x] Document ME and TE research steps, effects, job-level formulas, and material-rounding limitations.
 - [ ] Independently test ME material rounding against representative in-game manufacturing jobs.
 - [ ] Independently test BPC copying behavior, including copy-job quantity versus runs per copy.
-- [ ] Document industry skills, job limits, and character capacity.
+- [x] Document Manufacturing, Science, and Reaction job pools, slot formulas, support skills, and remote-management skills.
+- [ ] Independently verify maximum job counts and remote-start ranges in game for each job type.
+- [ ] Verify Alpha and Omega job capacity using actual character skill states.
 - [ ] Document facility, rig, system, and service modifiers.
 - [ ] Document installation fee calculation from current mechanics.
 - [ ] Set up the source catalog and verification log.
