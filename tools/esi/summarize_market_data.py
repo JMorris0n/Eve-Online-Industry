@@ -99,7 +99,7 @@ def summarize_book(orders: list[dict[str, Any]], quantities: list[int]) -> dict[
         else None
     )
     return {
-        "order_count": len(orders),
+        "order_count": ask_count + bid_count,
         "buy_order_count": bid_count,
         "sell_order_count": ask_count,
         "buy_volume": sum(bids.values()),
