@@ -59,3 +59,5 @@
 - Researched and replaced the Production Scheduling placeholder with a resource-constrained scheduling framework for Manufacturing, Science, and Reaction pools, including dependencies, blueprint/material/facility constraints, critical path, batch release, and replanning.
 
 - Researched and replaced the Character Specialization placeholder with role profiles for Manufacturing, Science/Invention, Reactions, Market/Trade, and PI, plus a marginal skill-value framework and multi-character role allocation principles.
+
+- Researched and replaced the Industrial Scaling placeholder with a framework for character/facility/region expansion, vertical integration, sustainable output constraints, economies/diseconomies, incremental capital return, and asset concentration controls.
