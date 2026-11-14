@@ -83,7 +83,9 @@ status: draft
 
 ## P4: Market intelligence, tools, and playbooks
 
-- [ ] Market data quality and liquidity analysis.
+- [x] Document market order mechanics, immediate matching, regional scope, ESI market/history endpoints, and cache rules.
+- [ ] Document demand, liquidity, and market-depth analysis.
+- [ ] Document price-history analysis and valuation methods.
 - [ ] Regional arbitrage model.
 - [ ] Third-party tool evaluation.
 - [ ] ESI and data acquisition notes.
