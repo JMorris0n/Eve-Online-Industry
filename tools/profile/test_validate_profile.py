@@ -29,8 +29,12 @@ class OperatingProfileTests(unittest.TestCase):
         self.assertTrue(any("unique" in error for error in validate_profile_data(self.profile)))
 
     def test_rejects_skill_level_outside_range(self):
-        self.profile["characters"][0]["skills"]["Industry"] = 6
+        self.profile["characters"][0]["skills"]["16622"] = 6
         self.assertTrue(any("from 0 to 5" in error for error in validate_profile_data(self.profile)))
+
+    def test_rejects_non_numeric_skill_key(self):
+        self.profile["characters"][0]["skills"]["Industry"] = 1
+        self.assertTrue(any("numeric skill type ID" in error for error in validate_profile_data(self.profile)))
 
     def test_unknown_values_may_remain_null(self):
         self.assertEqual(validate_profile_data(self.profile), [])
