@@ -71,7 +71,7 @@ Use actual output history to calibrate the plan. A resource scan is not a guaran
 5. Record transfer tax, hauling cost, and inventory movement.
 6. Replenish imported inputs for factory planets.
 
-The Command Center rocket is a small export-only fallback, not a substitute for routine Launchpad transfer. Alpha clones cannot import or export PI materials.
+The Command Center rocket is a small export-only fallback, not a substitute for routine Launchpad transfer. Alpha clones can import materials into colonies but cannot export colony goods. An Alpha-only character therefore cannot complete a sale-oriented PI export workflow; use an Omega character for the export leg.
 
 ## Daily/periodic maintenance
 
