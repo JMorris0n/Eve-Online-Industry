@@ -92,7 +92,8 @@ The repository code review is not equivalent to local execution. The following r
 
 1. Add focused SDE inspection for the actual blueprint/industry recipe files after the current archive is downloaded.
 2. Run the existing public ESI collector with a deliberately small type/region sample and retain its manifest locally.
-3. Add schema-aware parsing only after the current archive records have been inspected. Avoid coding against remembered pre-2025 SDE layouts.
-4. Add tests around any parsing and normalization code before it feeds profitability calculations.
+3. Reconcile the current-format parser against the actual downloaded archive, especially record counts, blueprint IDs, material/product joins, skill requirements, and reaction activities.
+4. Add any schema corrections discovered during that reconciliation, then keep parser fixtures aligned with real source records.
+5. Do not feed normalized recipes into profitability calculations until material modifiers, facility bonuses, job quotes, and output quantities are implemented and separately tested.
 
 No current market price or profitability conclusion is asserted by this audit.
