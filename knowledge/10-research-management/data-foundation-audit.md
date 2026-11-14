@@ -52,7 +52,7 @@ Initial code review:
 - Inspector currently prints archive layout and a sample JSONL record.
 - Added `tools/sde/parse_industry_recipes.py`, which reads current-format `blueprints.jsonl` and `types.jsonl`, joins English type names plus published/group/market-group/tech-level/volume metadata, and emits normalized manufacturing/reaction recipe JSONL.
 - The parser has representative fixture tests and explicitly preserves base quantities/time without applying ME, facility bonuses, system indices, job fees, or market prices.
-- Actual ingestion of the current CCP archive remains unverified until the user can run the downloader and inspector locally.
+- Actual ingestion against CCP build 3698585 is verified locally: the archive was downloaded, integrity-checked, extracted, and parsed into 5,022 normalized manufacturing/reaction records. The parser output-quality review is recorded below.
 
 ### Public ESI collector and market summarizer
 
@@ -73,32 +73,21 @@ Initial code review:
 
 ## Important compatibility-date note
 
-CCP's ESI documentation says the API compatibility date represents the date the application implementation was reviewed. ESI changes its API date at **11:00 UTC**; using the current calendar date before that transition can be invalid. Therefore, the example command's `2026-11-14` value is a proposed pin, not evidence that this project has tested that compatibility contract. Select and record a date only after checking the API Explorer and successfully running the collector against it.
+The collector was tested with requested compatibility date **2026-11-13** against `GET /industry/systems/` and `GET /markets/prices/`. Both returned HTTP 200 and reported matched compatibility date **2020-01-01**. Record both the requested and matched dates. An earlier matched date is not by itself a failed request; compatibility behavior remains route-specific.
 
 Source: [CCP ESI versioning documentation](https://developers.eveonline.com/docs/services/esi/overview/)
 
-## Execution evidence still needed
+## Remaining validation
 
-The repository code review is not equivalent to local execution. The following remain open:
+- [ ] Run a bounded public ESI collection for one test region and a small set of type IDs.
+- [ ] Reconcile regional order-book pagination, market-history records, cache headers, timestamps, and the market summarizer against saved live responses.
+- [ ] Resolve or explicitly classify the 21 type metadata join gaps identified in the normalized SDE output. Do not infer item names or marketability from missing metadata.
+- [ ] Define a refresh cadence from observed ESI cache behavior before scheduling repeated pulls.
+- [ ] Keep public regional market coverage separate from authorized Upwell structure-market access and personal character/account data.
 
-- [ ] Download the current SDE JSONL archive locally and confirm the build number, SHA-256, and ZIP test.
-- [ ] Inspect the archive's actual file paths and sample records for types, blueprints, industry activities, and reaction data.
-- [ ] Confirm the current SDE schema supports the recipe/material/product joins required for manufacturing and reactions.
-- [x] Add a deterministic summarizer for paginated public order books and daily history, with source hashes and snapshot caveats.
-- [ ] Run a deliberately small public ESI collection against a selected test region and a handful of item type IDs.
-- [ ] Confirm response headers, page counts, market-history records, and cache behavior from the saved raw outputs.
-- [ ] Record an explicit list of unavailable/private data, especially alliance Upwell structure market visibility.
-
-## Next technical steps
-
-1. Add focused SDE inspection for the actual blueprint/industry recipe files after the current archive is downloaded.
-2. Run the existing public ESI collector with a deliberately small type/region sample and retain its manifest locally.
-3. Reconcile the current-format parser against the actual downloaded archive, especially record counts, blueprint IDs, material/product joins, skill requirements, and reaction activities.
-4. Add any schema corrections discovered during that reconciliation, then keep parser fixtures aligned with real source records.
-5. Do not feed normalized recipes into profitability calculations until material modifiers, facility bonuses, job quotes, and output quantities are implemented and separately tested.
+The SDE acquisition and recipe-normalization stages are locally validated. M1 remains in progress pending regional ESI validation and the remaining data-coverage questions.
 
 No current market price or profitability conclusion is asserted by this audit.
-
 
 ## Local execution results supplied on 2026-11-14
 
@@ -110,8 +99,8 @@ No current market price or profitability conclusion is asserted by this audit.
 - [x] Archive SHA-256: `afda59ef777c8e89ef7c6864dd5e103e4b75455ab158f370b780c8f6e0826649`.
 - [x] ZIP integrity test passed.
 - [x] Archive inspection found 102 entries, including `blueprints.jsonl` (3,459,370 bytes), `types.jsonl` (155,972,886 bytes), and `planetSchematics.jsonl` (31,548 bytes).
-- [ ] Archive has not yet been extracted; the recipe parser has not yet been run against the actual archive.
-- [ ] The inspector's first sample was `accountingEntryTypes.jsonl`, not a blueprint or type record. Actual blueprint/type schema and joins therefore remain to be reconciled.
+- [x] Archive extracted to the local build directory.
+- [x] Parser executed against the extracted archive and successfully normalized manufacturing and reaction records. The inspector's first generic sample was `accountingEntryTypes.jsonl`; the subsequent full parser run reconciled the recipe arrays and joins against the actual blueprint/type tables, with 21 missing type metadata references retained as explicit null metadata rather than guessed.
 
 ### Public ESI smoke test
 
@@ -129,7 +118,7 @@ No current market price or profitability conclusion is asserted by this audit.
 
 ### Audit interpretation
 
-The SDE download/integrity stage and the two global public ESI endpoint smoke tests are successful. M1 is not complete until the extracted current-build recipe parser and a small regional market-data collection have been validated. M2's local file/validator workflow is successful, but the actual operating profile remains unknown.
+The SDE download, integrity, extraction, and current-build manufacturing/reaction parser stages are successful. The two global public ESI endpoint smoke tests are also successful. M1 remains open until a bounded regional market-data collection and its pagination/history outputs are validated. M2's local file/validator workflow is successful, but the actual operating profile remains unknown.
 
 
 ## SDE parser finding from first actual archive run
@@ -143,4 +132,32 @@ The parser has been updated to:
 - Keep reaction materials/products/skills required.
 - Make the profile feasibility report return `unknown` when normalized recipe arrays are incomplete or the recipe predates completeness metadata.
 
-Re-run the parser against the existing extracted build 3698585. No new download or extraction is required. Record the output counts and any remaining parse errors before treating the parser as reconciled with the live SDE.
+This parser correction was applied and then executed successfully against the already extracted build 3698585. The actual output counts and data-quality findings are recorded in the section below. No new download or extraction was required.
+
+
+## Normalized recipe output quality review (2026-11-14)
+
+The user ran the corrected parser against SDE build **3698585** and supplied the generated `industry-recipes.jsonl` for inspection.
+
+### Parser execution
+
+- [x] **5,022** normalized recipes written from **5,045** activity records examined.
+- [x] **4,902** manufacturing recipes and **120** reaction recipes.
+- [x] **23** activities skipped because no usable product array was available.
+- [x] **17** recipes have omitted material arrays and are marked `incomplete`; none is incorrectly represented as a complete zero-input recipe.
+- [x] **137** recipes have omitted required-skill arrays. The source-state metadata is retained so the feasibility evaluator can leave these results `unknown`.
+- [x] **5,005** output records have `recipe_data_status=complete`; **17** are `incomplete`.
+- [x] All **5,022** blueprint/activity keys are unique. No duplicate activity keys, missing blueprint names, or empty material arrays marked complete were found.
+
+### Data-quality flags for downstream work
+
+- **Unresolved type metadata:** one material type ID (**3924**) and 20 product type IDs (**37236, 37237, 37238, 37239, 37240, 37241, 37242, 37243, 37244, 37245, 37247, 37262, 37263, 37264, 37265, 37266, 37267, 37278, 37279, 37286**) have no matching usable name record in `types.jsonl`. Related metadata, including published/group fields, is null. Preserve these as unresolved references; do not invent names or treat them as ordinary market candidates. The missing type ID 3924 has also been reported in earlier SDE community discussion: [EVE Forums, “Missing typeid 3924 from static data export”](https://forums.eveonline.com/t/missing-typeid-3924-from-static-data-export/458479).
+- **Publication flags:** 811 blueprint type records are unpublished; 580 product records are unpublished; 20 product records have unknown publication status because their type metadata join is missing. These flags should be explicit candidate-screen inputs, not silently ignored.
+- **Zero base time:** one record, blueprint type **34256** (`Vargur Krusual Edition Blueprint`), has `base_time_seconds_per_run=0` and unpublished blueprint/product types. This is a source value, not a parser error. It must be treated as an exceptional recipe and reviewed before any time-based ranking or division.
+- **Skill level zero:** the parser preserves level 0 values. These are valid source integers under the current parser contract and must not be raised to level 1 or discarded.
+
+### Interpretation
+
+The normalized output is structurally usable as a static recipe reference. It is **not** a fully market-resolved candidate universe. The 17 incomplete material recipes must not be costed; the 137 omitted-skill recipes must remain feasibility-unknown; unresolved product types must not enter ordinary market ranking without a separate resolution step; unpublished records and the zero-time recipe need explicit handling. No profitability conclusions have been drawn from this file.
+
+Current schema reference: [CCP SDE schema for blueprints](https://sde.riftforeve.online/schema/blueprints/). The schema allows omitted Manufacturing arrays while requiring the Reaction arrays; it also defines activity time as a non-negative integer.
