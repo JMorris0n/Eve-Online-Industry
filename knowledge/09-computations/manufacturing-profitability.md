@@ -40,6 +40,7 @@ This computation converts a defined production batch, timestamped price inputs, 
 | runs per job | Selected licensed manufacturing runs |
 | output per run | Units produced per run |
 | delivered output | Actual output units after job delivery |
+| active operator hours | Optional total hands-on operator time attributable to the plan; excludes unattended production and passive waiting |
 
 ### Material valuation
 
@@ -144,11 +145,16 @@ ROI on capital (%) = Net contribution / Capital deployed × 100
 ISK per manufacturing slot-hour
   = Net contribution / Total manufacturing slot-hours
 
+ISK per active operator-hour
+  = Net contribution / Hands-on operator hours attributable to the plan
+
 ISK per wall-clock hour
   = Net contribution / Elapsed critical-path hours
 ```
 
-Total manufacturing slot-hours are the sum of job durations across all jobs. Elapsed critical-path hours are the wall-clock time from the start of the plan until the final required job is complete. These are not interchangeable when jobs run in parallel.
+Total manufacturing slot-hours are the sum of job durations across all jobs. Active operator-hours are hands-on time attributable to evaluating, sourcing, staging, installing, hauling, maintaining orders, and reconciling the production plan. Exclude unattended job duration and passive inventory waiting. Do not multiply one operator's time because multiple alt characters are active simultaneously. Shared portfolio work should be allocated consistently across the batches it supports. Elapsed critical-path hours are the wall-clock time from the start of the plan until the final required job is complete. These measures answer different questions and are not interchangeable.
+
+The implementation accepts optional `production.active_operator_hours`. It returns `isk_per_active_operator_hour` only when a positive value is supplied. Missing or zero time produces a null metric, never an inferred zero-efficiency result.
 
 ## Break-even price
 
