@@ -94,3 +94,7 @@
 
 - Replaced the Industry Overview placeholder with a taxonomy of industrial activities, job pools, resource sources, product families, and economic constraints.
 - Replaced the Advanced Manufacturing placeholder with a sourced map of Tech II/III, capital ship, Upwell structure, booster, and faction/storyline production chains and their facility/service dependencies.
+
+- Added a structured verification-protocol suite covering ME rounding, BPC copying, job slots/remote range, facility/rig modifiers, installation fees, invention, reactions, Alpha PI permissions, ESI collector, and SDE acquisition.
+- Updated the verification queue to distinguish source-documented claims from claims that still require independent in-game or local execution checks. Reclassified the ME/TE research SCC surcharge question as source-resolved with live quote confirmation still open.
+- Added Q-015 for local SDE/ESI tool execution and sample-schema review; generic research can continue while that input is pending.
