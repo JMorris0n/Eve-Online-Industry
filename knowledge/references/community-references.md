@@ -82,6 +82,17 @@ Do not use this catalog as evidence for a game mechanic. Individual concept file
 | everef-small-malfunctioning-hull | [Small Malfunctioning Hull Section](https://everef.net/types/34414) | Accessed 2026-11-14 | SDE-derived relic invention output probabilities, input datacores, and skill requirements; per-output probabilities need interpretation. |
 | eve-academy-tech3 | [Tech 3 Production](https://www.eveonline.com/eve-academy/careers/industrialist/tech-3-production) | Accessed 2026-11-14 | Official high-level overview of Tech III production using Sleeper technology and wormhole materials. |
 
+## Planetary Industry references
+
+| Source ID | Reference | Last modified / accessed | Use and limitations |
+|---|---|---|---|
+| eveuni-planetary-industry | [Planetary Industry](https://wiki.eveuniversity.org/Planetary_Industry) | Accessed 2026-11-14 | General PI mechanics, but the page explicitly warns that it needs updating for Equinox changes. Use cautiously. |
+| eveuni-planetary-buildings | [Planetary Buildings](https://wiki.eveuniversity.org/Planetary_buildings) | 2022-10-23 | Colony structures, extractor heads, processor behavior, links, routes, and buffers; old page, so verify numeric values in current client/SDE. |
+| eveuni-planetary-commodities | [Planetary Commodities](https://wiki.eveuniversity.org/Planetary_Commodities) | 2025-08-20 | P0-P4 mappings and recipe/batch reference; requires current SDE reconciliation. |
+| eveuni-planet-management | [Skills:Planet Management](https://wiki.eveuniversity.org/Command_Center_Upgrades) | Accessed 2026-11-14 | Planetary skill effects and scan range. |
+| eveuni-customs-office | [Player Owned Customs Office](https://wiki.eveuniversity.org/Player_Owned_Customs_Office) | Accessed 2026-11-14 | Customs-office logistics and owner-managed access/tax behavior; cross-check with CCP for official mechanics. |
+| eveuni-setup | [Setting up a planetary colony](https://wiki.eveuniversity.org/Setting_up_a_planetary_colony) | Accessed 2026-11-14 | Colony deployment, command center, ECU, extractor heads, and routing walkthrough. |
+
 ## Source limitations
 
 EVE University is a community educational resource. EVE Ref is a structured SDE-derived reference. The EVE Reactions Calculator explains its own algorithm. These sources help identify item attributes and model mechanics, but the current in-game Industry UI is authoritative for an actual job quote and a real facility's configured services, rigs, and taxes.
