@@ -158,7 +158,7 @@ A rig is not a generic percentage bonus to all industry. A ship manufacturing ri
 
 - A rig must match the structure's size and rig category.
 - A structure has only three rig slots, so fitting a rig is an opportunity cost against other rig effects.
-- The same rig group cannot be duplicated by fitting both a Tech I and Tech II version of the same rig type.
+- Two rigs that affect the same attribute cannot be equipped together, including Tech I and Tech II variants of the same rig effect.
 - Rigs improve selected activity parameters; they do not add job slots. Job-slot limits are character-level and documented in [Skills and Job Capacity](skills-and-job-capacity.md). [^ccp-upwell-quickfacts] [^eveuni-upwell-fitting]
 
 ### Security-space effects
