@@ -105,13 +105,18 @@ def calculate(config: dict[str, Any]) -> dict[str, Any]:
     if sale_value < ZERO:
         raise ValueError("sale_value_isk must be >= 0")
 
-    create_broker_fee = order_value * broker_rate
+    create_non_immediate = order.get("create_non_immediate_order", True)
+    reprice_existing = order.get("reprice_existing_order", False)
+    if not isinstance(create_non_immediate, bool) or not isinstance(reprice_existing, bool):
+        raise ValueError("create_non_immediate_order and reprice_existing_order must be booleans")
+    create_broker_fee = order_value * broker_rate if create_non_immediate else ZERO
     relist_discount = Decimal("0.50") + Decimal("0.06") * Decimal(
         advanced_broker_relations
     )
     relist_fee = (
         max(ZERO, broker_rate * (order_value - previous_order_value))
         + (ONE - relist_discount) * broker_rate * order_value
+        if reprice_existing else ZERO
     )
     sales_tax = sale_value * sales_tax_rate
 
