@@ -67,7 +67,9 @@ status: draft
   - [ ] Build a representative worked manufacturing product example using current prices and a chosen market location.
 - [x] Document facility and regional location economics, including activity-specific SCI, ESI/market data, facility comparison, remote installation, and total landed cost.
   - [ ] Build a current ESI collector and representative location comparison using live market orders, SCI, facility fees, and logistics.
-- [ ] Logistics, capital, and inventory risk.
+- [x] Document self-haul and courier-contract cost components, collateral exposure, route risk, Upwell Asset Safety, and structure continuity risks.
+- [ ] Build a configurable hauling cost and route-risk model, including expected loss and capital/time costs.
+- [ ] Document working capital, inventory concentration, and capital turnover.
 
 ## P3: Optimization
 
