@@ -16,13 +16,13 @@ sources:
     title: Best Practices for ESI
   - id: ccp-esi-versioning-blog
     resource: https://developers.eveonline.com/blog/changing-versions-v42-was-getting-out-of-hand
-    title: Changing versions: /v42/ was getting out of hand (published 2025-07-10)
+    title: "Changing versions: /v42/ was getting out of hand (published 2025-07-10)"
   - id: ccp-esi-rate-limit-blog
     resource: https://developers.eveonline.com/blog/hold-your-horses-introducing-rate-limiting-to-esi
-    title: Hold your horses: introducing rate limiting to ESI (published 2025-10-07)
+    title: "Hold your horses: introducing rate limiting to ESI (published 2025-10-07)"
   - id: ccp-esi-openapi-blog
     resource: https://developers.eveonline.com/blog/changing-specs-from-swagger-to-openapi
-    title: Changing specs: from Swagger to OpenAPI (published 2025-07-22)
+    title: "Changing specs: from Swagger to OpenAPI (published 2025-07-22)"
   - id: ccp-esi-api-explorer
     resource: https://esi.evetech.net/ui/?version=latest
     title: ESI API Explorer
@@ -37,7 +37,7 @@ sources:
     title: Static Data Export Documentation
   - id: ccp-sde-rework
     resource: https://developers.eveonline.com/blog/reworking-the-sde-a-fresh-start-for-static-data
-    title: Reworking the SDE: a fresh start for static data (published 2025-09-22)
+    title: "Reworking the SDE: a fresh start for static data (published 2025-09-22)"
 generated:
   by: openai/gpt-6
   at: 2026-11-14T09:20:00Z
