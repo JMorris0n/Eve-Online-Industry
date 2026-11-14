@@ -87,7 +87,8 @@ status: draft
 - [x] Document demand, liquidity, and market-depth analysis, including zero-trade-day handling, transaction counts, VWAP execution, spreads, and liquidation horizons.
 - [x] Document price-history analysis, executable order-book valuation, adjusted-price/EIV distinctions, volatility, and price provenance.
 - [x] Document regional arbitrage using source/destination VWAP, fees, hauling, collateral, risk, and capital holding time.
-- [ ] Third-party tool evaluation.
+- [x] Survey current third-party manufacturing, reaction, PI, market, local asset, and AI/MCP tools; record data and privacy caveats.
+  - [ ] Independently test representative tool outputs against live Industry quotes and current SDE/ESI inputs.
 - [x] Document ESI and SDE data acquisition, compatibility dates, OAuth scopes, caching, rate limits, pagination, and industrial endpoints.
   - [ ] Implement a read-only ESI collector with provenance, compatibility-date pinning, cache handling, and rate-limit compliance.
 - [ ] Operational playbooks derived from verified concepts.
