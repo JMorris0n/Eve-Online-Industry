@@ -10,6 +10,8 @@
     "type": "npc_station"
   },
   "order": {
+    "create_non_immediate_order": true,
+    "reprice_existing_order": true,
     "order_value_isk": "100000000",
     "previous_order_value_isk": "95000000",
     "sale_value_isk": "120000000"
