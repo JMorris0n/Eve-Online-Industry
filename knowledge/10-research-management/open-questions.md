@@ -61,6 +61,22 @@ status: draft
 - **Evidence needed:** Controlled in-game test attempting overlapping Manufacturing jobs from one BPO, then testing multiple BPCs copied from the same BPO. Record whether each blueprint is personal or corporation-owned and its location.
 - **Status:** Open. The current one-job-per-BPO statement is supported by EVE University, but it has not been independently tested in this corpus.
 
+### Q-007: How does the Industry UI round or cap invention success probability?
+
+- **Question:** Does the live Industry UI round the skill-adjusted invention probability at any intermediate stage, and how does it display or handle a calculated chance at or above 100%?
+- **Affected concepts:** [Tech II Invention](../02-production-systems/tech-2-invention.md).
+- **Why it matters:** The expected attempt count and expected invention cost depend on the probability actually used by the game, not just a displayed approximation.
+- **Evidence needed:** Compare calculated probabilities with UI previews for multiple base-chance item classes and skill/decryptor combinations, including a combination whose raw formula is close to or above 100%.
+- **Status:** Open. The current formula and base chances are documented by CCP's historic Phoebe notes and EVE University's current invention reference; exact current display precision/capping is not specified in those sources.
+
+### Q-008: How do datacore and decryptor quantities scale in multi-run invention jobs?
+
+- **Question:** For an invention job with multiple runs, how many datacores and decryptors are consumed per installed run, and are there item-specific exceptions?
+- **Affected concepts:** [Tech II Invention](../02-production-systems/tech-2-invention.md), [Installation Cost Computation](../09-computations/installation-costs.md).
+- **Why it matters:** Per-attempt input quantities directly determine expected cost per successful Tech II BPC. A mistaken assumption about decryptor or datacore consumption would materially distort decryptor selection and profitability.
+- **Evidence needed:** Install matched one-run and multi-run jobs for a representative module and ship BPC, recording the Industry UI input quantities before installation and actual inputs consumed after delivery.
+- **Status:** Open. CCP confirms that the inputs are consumed regardless of success and that one input BPC run is consumed per invention run, but the cited support text does not explicitly state all multi-run optional-item quantity rules.
+
 ## Entry format
 
 - **Question:** precise, answerable wording.
