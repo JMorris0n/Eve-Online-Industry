@@ -181,10 +181,6 @@ def calculate(config: dict[str, Any]) -> dict[str, Any]:
         target_qty = material_quantities[target_material]
         if target_qty <= ZERO:
             raise ValueError("Target material quantity must be > 0")
-        other_cost = batch_cost - sum(
-            (line_cost for line, line_cost in zip(materials, [d["economic_cost_isk"] for d in material_detail])),
-            ZERO,
-        )
         target_line_cost = sum(
             (nonnegative(line["quantity"], "quantity") * nonnegative(line["unit_value_isk"], "unit_value_isk")
              for line in materials if str(line.get("name", "")) == target_material),
