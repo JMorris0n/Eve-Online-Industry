@@ -11,12 +11,18 @@ generated:
 status: draft
 ---
 
+## Active operating priority (2026-11-14)
+
+The clarified primary objective is practical manufacturing opportunity discovery and evaluation: maximize realistic, risk-adjusted ISK per active operator-hour while favoring predictable turnover and semi-passive management. Null-sec alliance doctrine demand is a primary candidate source. The baseline operation should buy materials and intermediate components when that is simpler or more profitable; self-mining and deep vertical integration are de-emphasized. Gas and exploration rewards are opportunistic inputs, not required dependencies. Public SDE/ESI data comes first; private character/asset/blueprint data remains local, with optional SSO deferred.
+
+Use the [Operational Manufacturing Decision-Support Roadmap](operational-roadmap.md) to order new work. The broad mechanics and research backlog remain supporting references, but unfinished encyclopedia coverage should not automatically outrank work that makes product evaluation, market selection, and production decisions usable.
+
 ## P0: Establish trustworthy foundations
 
 - [x] Maintain source catalogs, claim-level citations, open questions, chronological research log, and repeatable verification protocols.
 - [x] Establish a portable LLM coordination workflow with bounded task packets, role prompts, independent review, validation gates, human-controlled integration, and a VS Code/PowerShell quick start.
 - [x] Add GitHub-native issue intake for research/improvements and verification/defects, plus a pull request review checklist. Wire these templates into the repository navigation and CI path filters.
-- [x] Add a standard-library Markdown link checker, validation tests, and a one-command local runner; CI run 31 passed 17 calculation tests, 5 validation-tool tests, and 579 local links across 94 Markdown files after correcting four existing broken links.
+- [x] Add a standard-library Markdown link checker, validation tests, and a one-command local runner; CI run 39 passed 17 calculation tests, 5 validation-tool tests, and 588 local links across 97 Markdown files after correcting four existing broken links.
 
 - [x] Document blueprint object types, BPO/BPC distinctions, acquisition paths, and their industry roles.
 - [x] Document ME and TE research steps, effects, job-level formulas, and material-rounding limitations.
