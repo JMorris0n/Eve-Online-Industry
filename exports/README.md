@@ -1,5 +1,7 @@
 # LLM Exports and Handoffs
 
+Start with the [Workflow Quick Start](WORKFLOW-QUICKSTART.md) for the VS Code and PowerShell sequence.
+
 This directory contains task-specific context packages derived from the canonical `knowledge/` bundle. It is the transport layer between separate LLM sessions and providers, not a second source of truth.
 
 ## Quick workflow
