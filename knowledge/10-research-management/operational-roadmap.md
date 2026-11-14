@@ -1,0 +1,309 @@
+---
+type: Process
+title: Operational Manufacturing Decision-Support Roadmap
+description: Proposed milestones for turning the industrial knowledge base into a practical null-sec manufacturing opportunity and decision-support system.
+tags:
+  - roadmap
+  - product-selection
+  - manufacturing
+  - operations
+generated:
+  by: openai/gpt-6
+  at: 2026-11-14T10:10:00Z
+status: draft
+---
+
+## Status and purpose
+
+**Roadmap state:** Proposed, pending maintainer approval.
+
+This roadmap translates the user's clarified objective into a sequence of measurable milestones. It should guide new development and reprioritize the existing research backlog. It does not declare any proposed milestone complete unless its acceptance criteria have actually been met.
+
+The purpose is not to maximize theoretical industrial complexity. It is to identify and execute manufacturing opportunities that deliver attractive, realistic ISK returns for a manageable amount of player attention and capital.
+
+## North-star objective
+
+Answer this operational question:
+
+> Given my characters, skills, blueprints, available facilities, market access, and working capital, what should I manufacture right now to maximize realistic profit?
+
+A second use case is to evaluate a chosen item, including a Tech II product:
+
+> What inputs should I acquire, what jobs should I install, where should I produce, how much capital is required, and can I realistically sell the output at an attractive return?
+
+The system should produce recommendations with the evidence, inputs, assumptions, and constraints visible. It should be allowed to say that no current opportunity meets the user's criteria.
+
+## Operating principles
+
+1. **Optimize for player attention, not theoretical maximum margin.** The primary efficiency measure is risk-adjusted net contribution per active operator-hour. Count time spent evaluating, sourcing, staging, installing, adjusting orders, moving goods, and reconciling results. Do not count unattended job duration as active labor.
+2. **Prefer predictable turnover.** Consider liquidity, realistic order-book depth, capital-days, expected liquidation time, and downside scenarios. A high-margin item with a long or uncertain sale horizon may rank below a simpler, faster-turning item.
+3. **Start shallow, not vertically integrated.** Assume inputs and intermediate components can be bought. Manufacture upstream inputs only when the incremental return justifies the additional jobs, skills, capital, and attention.
+4. **Treat alliance doctrine demand as a useful candidate signal, not guaranteed sales.** Evaluate doctrine relevance alongside actual regional history, order-book depth, local competition, staging-market access, and logistics.
+5. **Make market-order management part of the operating model.** Recommendations should account for sales fees, relist costs, competing orders, fill horizon, and the amount of periodic attention required.
+6. **Support a three-character industrial profile.** Character skills, available job slots, role specialization, blueprints, and facility access should constrain what the system calls feasible.
+7. **Public data first; private account integration later.** Validate public SDE and ESI inputs before considering optional local EVE SSO integration.
+8. **Use exploration and gas opportunities as optional supply inputs.** Gas harvesting in an accessible wormhole and materials from relic/data-site activity may be evaluated when convenient. Do not make mining or self-sourcing a prerequisite for the baseline industrial operation.
+9. **Separate recommendation confidence from calculation precision.** Deterministic arithmetic does not make uncertain prices, recipe assumptions, facility quotes, or market demand certain.
+10. **Keep private operating data local.** Character skills, assets, blueprints, balances, order exports, and credentials must not be committed to the repository.
+
+## Evaluation model
+
+### Primary measure
+
+**Risk-adjusted net contribution per active operator-hour**
+
+\[
+\frac{\text{Expected net contribution after variable costs and risk adjustment}}
+{\text{Active operator-hours}}
+\]
+
+The exact risk adjustment and labor measurement method will be finalized during the first live pilot. Until then, show the unadjusted contribution and the underlying risks separately rather than inventing a risk premium.
+
+### Secondary measures
+
+| Measure | Why it matters |
+|---|---|
+| Net contribution per batch | Absolute ISK value generated |
+| Active operator-hours | Setup and periodic management burden |
+| ISK per Manufacturing / Science / Reaction slot-hour | Opportunity cost of character job capacity |
+| Peak working capital | Maximum cash committed before proceeds return |
+| Capital-days / contribution per capital-day | Return relative to how long capital is tied up |
+| Expected liquidation days | How long it may take to turn output back into cash |
+| Market depth and planned share of volume | Whether the intended quantity is realistically saleable |
+| Material procurement depth | Whether required inputs can be obtained at modeled prices |
+| Number of jobs and dependencies | Operational complexity and risk of interruption |
+| Low/base/high scenario results | Sensitivity to prices, fees, volume, and time |
+
+Elapsed job time, active player time, character slot-hours, and cash-conversion time are different quantities. Do not collapse them into one generic "ISK per hour" number.
+
+## Scope priorities
+
+### Primary scope
+
+- Tech I and Tech II manufacturing opportunities that fit the user's character skills, capital, market access, and preferred attention level.
+- Buying materials and components when that is simpler or more profitable than producing them internally.
+- Product candidates associated with alliance fleet doctrines and the markets where those doctrines are supported.
+- Public regional market data, historical demand, order-book depth, procurement cost, market fees, installation costs, and logistics.
+- Feasible batch sizing, production plans, shopping lists, expected return, and periodic order-maintenance recommendations.
+- A local tool that eventually answers the north-star question with ranked, explainable recommendations.
+
+### Opportunistic or secondary scope
+
+- Tech III, reactions, invention, copying, and advanced components where a candidate product warrants the analysis.
+- Gas harvesting when an accessible wormhole opportunity exists.
+- Relic/data-site rewards as opportunistic material or blueprint sourcing.
+- Market trading and order maintenance where the time and fee model supports it.
+
+### Explicitly de-emphasized
+
+- Self-mining as a core material supply strategy.
+- Building every possible upstream chain.
+- Maximizing vertical integration for a small percentage gain without accounting for added attention and complexity.
+- Completing every encyclopedia topic before testing a practical product-evaluation workflow.
+- Building a full graphical application before the underlying data and recommendation logic produce useful results.
+
+## Milestones
+
+All milestones below are proposed. Only M0 is agreed at the strategic-direction level. The remaining milestones require acceptance and completion evidence.
+
+### M0. Confirm the operating objective
+
+**Status:** Agreed at the strategic level.
+
+**Purpose:** Establish the success criteria that govern future decisions.
+
+**Acceptance criteria:**
+- [x] Primary objective is practical manufacturing opportunity selection and realistic profit.
+- [x] Prioritize ISK return relative to active setup and maintenance time.
+- [x] Prefer predictable turnover and semi-passive operation.
+- [x] De-emphasize self-mining and unnecessary vertical integration.
+- [x] Treat doctrine-related null-sec demand as a primary opportunity source.
+- [x] Public data first, with local optional SSO later.
+- [ ] Confirm detailed operating thresholds during profile setup and the first pilot.
+
+### M1. Validate the public data foundation
+
+**Status:** Not started. Acquisition scripts already exist.
+
+**Purpose:** Establish a reproducible source of current static recipes and public market observations.
+
+**Work:**
+- Run the current CCP SDE downloader and record build number, manifest, hash, and relevant schema samples.
+- Run the public ESI collector for a small, selected set of regions and product type IDs.
+- Validate market orders, market history, system cost indices, adjusted prices, cache behavior, pagination, timestamps, and response provenance.
+- Identify the limits of public data for alliance staging markets and Upwell structure markets.
+- Define refresh cadence based on ESI cache behavior rather than unnecessary polling.
+
+**Acceptance criteria:**
+- [ ] A current SDE build is downloaded, integrity-checked, and recorded.
+- [ ] Current type, blueprint, and manufacturing/reaction recipe records are inspected and their schema documented.
+- [ ] A small public ESI collection completes with a manifest and reproducible output.
+- [ ] Sample market history and order-book outputs are reconciled with their endpoint definitions.
+- [ ] Missing or private market data is explicitly identified rather than imputed.
+
+### M2. Define the local operating profile
+
+**Status:** Not started.
+
+**Purpose:** Make product feasibility depend on the actual operation rather than generic character assumptions.
+
+**Work:**
+- Define a local, editable profile for the three industrial characters, their skills, job pools, specializations, and available slots.
+- Capture relevant blueprint/BPC availability and any limits on location or licensed runs.
+- Capture accessible facilities, service availability, rig assumptions, taxes, and production systems.
+- Define an operating capital budget, liquidity reserve, and acceptable turnover horizon.
+- Record how much active attention the user is willing to spend on setup and periodic maintenance.
+- Keep actual character, asset, and financial details in ignored local files, never in tracked public repository files.
+
+**Acceptance criteria:**
+- [ ] A documented local profile schema exists with a safe example configuration.
+- [ ] The schema represents all three characters and separates known values from unknown values.
+- [ ] A feasibility check can distinguish eligible, ineligible, and unknown requirements.
+- [ ] No private profile, balance, asset export, or credential is committed to Git.
+
+### M3. Establish doctrine-linked demand and market context
+
+**Status:** Deferred until the target alliance, doctrine set, and staging environment are known. A generic importer can be developed earlier.
+
+**Purpose:** Identify products with plausible demand in the intended null-sec operating environment.
+
+**Work:**
+- Import doctrine fittings or other user-supplied doctrine item lists.
+- Normalize item type IDs, variants, quantities, and fitted modules.
+- Map doctrine-related products to manufacturing blueprints and material requirements.
+- Identify staging market, relevant source markets, public/private market data availability, and logistics constraints.
+- Compare doctrine relevance with historical volume, transaction frequency, live order-book depth, competition, and current stock/prices.
+- Separate direct doctrine items from related consumables and intermediate materials.
+
+**Acceptance criteria:**
+- [ ] A doctrine import format is demonstrated using a sample fitting.
+- [ ] Imported items map correctly to SDE type IDs.
+- [ ] Each candidate's doctrine relationship is visible and traceable.
+- [ ] Demand estimates are labeled as estimates unless backed by actual sales/stock data.
+- [ ] Staging market data and inaccessible/private markets are clearly distinguished.
+
+### M4. Build a practical single-product evaluator
+
+**Status:** Not started. This is the first major end-to-end economic capability.
+
+**Purpose:** Evaluate one real candidate without requiring the entire product scanner or a vertically integrated chain.
+
+**Work:**
+- Start from a selected product and a realistic batch size.
+- Retrieve or load recipe and blueprint requirements from validated SDE data.
+- Price materials at realistic procurement quantities, not just the cheapest displayed order.
+- Compare buying intermediate components against manufacturing them.
+- Include blueprint/BPC cost, installation quote, market fees, hauling/handling, expected sales execution, inventory holding, and unsold output.
+- Use actual Industry quote inputs when system/structure variables are not available through public data.
+- Reconcile the existing manufacturing, fee, and hauling calculators into one evaluation result.
+- Show missing data and verification confidence prominently.
+
+**Acceptance criteria:**
+- [ ] A complete material bill and batch plan can be generated for one product.
+- [ ] Input costs use quantity-aware procurement prices or clearly labeled manual inputs.
+- [ ] Installation and market fees are accounted for without double-counting.
+- [ ] Immediate liquidation and sell-order strategies are compared where relevant.
+- [ ] Buying versus producing intermediate components is evaluated.
+- [ ] Output includes expected net contribution, active setup burden, slot-hours, capital, and liquidation horizon.
+- [ ] A worked example is reconciled against actual Industry UI quotes and market observations.
+
+### M5. Build the candidate scanner and opportunity ranker
+
+**Status:** Not started. Depends on M1, M2, and the usable evaluator from M4.
+
+**Purpose:** Answer "what should I manufacture now?" rather than requiring the user to nominate an item.
+
+**Work:**
+- Generate a candidate universe from blueprint/recipe data and doctrine-linked item lists.
+- Apply hard feasibility filters using skills, jobs, blueprints, facilities, capital, input availability, and output market access.
+- Eliminate candidates with insufficient data or clearly inadequate liquidity.
+- Evaluate candidates using the same single-product economics as M4.
+- Rank by risk-adjusted contribution per active operator-hour, then show supporting capital, liquidity, slot, and complexity measures.
+- Explain why candidates were accepted, rejected, or left unranked.
+
+**Acceptance criteria:**
+- [ ] The scanner produces an explainable candidate shortlist from a defined region/doctrine set.
+- [ ] Infeasible candidates are filtered with a specific reason.
+- [ ] Rankings use consistent price, fee, and time assumptions.
+- [ ] Low/base/high cases and data timestamps accompany recommendations.
+- [ ] The system can recommend no production when no candidate meets the configured thresholds.
+
+### M6. Complete a limited production pilot
+
+**Status:** Not started. Depends on a target operating environment and a candidate that passes M4/M5.
+
+**Purpose:** Test whether the decision model produces a useful real-world result before expanding the tool.
+
+**Work:**
+- Select one or a small number of manageable candidates.
+- Buy inputs and intermediates rather than building unnecessary upstream chains.
+- Capture actual sourcing time, setup time, job count, installation quote, actual job duration, market fees, order adjustments, hauling, and sale proceeds.
+- Compare actual outcomes with forecast contribution, attention time, and liquidation horizon.
+- Revise the model where observed differences are material.
+
+**Acceptance criteria:**
+- [ ] At least one production batch is completed and delivered.
+- [ ] Actual material use and job quotes are recorded.
+- [ ] Actual operator time and market-management effort are estimated.
+- [ ] Realized contribution and cash-conversion time are reconciled.
+- [ ] The product and process are retained, revised, or rejected based on measured results.
+
+### M7. Deliver the local decision-support tool
+
+**Status:** Not started. Build incrementally after M4 and M5 prove useful.
+
+**Purpose:** Make the workflow repeatable and convenient.
+
+**Suggested progression:**
+1. Local Python command that generates a ranked Markdown/CSV/JSON report.
+2. Saved local profiles and timestamped market snapshots.
+3. Product comparison, batch calculator, and shopping/job plan output.
+4. Local dashboard only when it materially improves the experience.
+5. Periodic refresh and market-order review recommendations.
+
+**Acceptance criteria:**
+- [ ] One local command produces a dated opportunity report.
+- [ ] Every recommendation can be traced to input data and calculation assumptions.
+- [ ] Profiles and snapshots can be refreshed without editing canonical mechanics documents.
+- [ ] The report includes recommended actions and specific reasons not to act.
+- [ ] The tool remains useful without an LLM; the LLM explains and helps investigate results rather than replacing deterministic calculations.
+
+### M8. Add optional local EVE SSO integration
+
+**Status:** Deferred by design.
+
+**Purpose:** Reduce manual data entry when public data and the local tool are already useful.
+
+**Potential data:**
+- Character skills and job capacity.
+- Personal assets, blueprints, and industry jobs.
+- Personal market orders where supported.
+- Authorized structure markets and other data justified by explicit need.
+
+**Acceptance criteria:**
+- [ ] Exact required endpoints and minimum OAuth scopes are documented.
+- [ ] Tokens are stored locally using an appropriate secure mechanism.
+- [ ] No secret or private account data enters Git or exported LLM packets by default.
+- [ ] Public-data functionality remains available when SSO is disconnected.
+- [ ] Each new private-data integration demonstrates a material improvement to recommendation quality or convenience.
+
+## Deferred decisions and dependencies
+
+These should be resolved only when the relevant milestone needs them:
+
+- Target alliance, doctrine fittings, staging system, and local market arrangement.
+- Whether doctrine demand should prioritize alliance buyback/market activity, local sell orders, fleet replacement, or broader regional demand.
+- Character skill distribution and actual blueprint/BPC availability.
+- Facility access and current structure tax/rig details.
+- Acceptable liquidation horizon, risk tolerance, and active weekly attention budget.
+- Whether the first product focus should be modules, ammunition, drones, ships, rigs, or a broader doctrine-derived list.
+- Which private ESI scopes, if any, materially improve the eventual tool.
+
+## Roadmap governance
+
+- Keep this roadmap as the strategic sequence; use the research backlog for detailed tasks.
+- Change milestone status only when its acceptance criteria have evidence.
+- Mark milestones as **proposed**, **not started**, **in progress**, **blocked**, or **completed**. A blocked milestone must identify the dependency.
+- Record material changes in the knowledge log.
+- Do not expand into a new vertical chain or application feature until the previous milestone demonstrates value or the user explicitly changes priorities.
+- Revisit priorities when an alliance, doctrine set, operating region, or actual production pilot changes the opportunity landscape.
