@@ -211,3 +211,63 @@ The uploaded console output shows the local collector requested `https://esi.eve
 ### M1 status
 
 SDE download, extraction, recipe normalization, and the bounded public regional ESI collection have all completed locally. M1 remains **in progress** until the location-aware summarizer is run against the saved raw regional orders, the local collector/summarizer copies are synchronized, and remaining order-range/minimum-volume and private-market access limits are documented. No manufacturing profitability conclusion is made from this small mineral sample.
+
+
+## Location-aware market execution review (2026-11-14)
+
+The uploaded market-summary-v2.json was generated from the saved regional collection 20261114T185315Z and parsed for review.
+
+### Summary-file integrity and coverage
+
+- [x] Schema version 2 parsed successfully.
+- [x] Collection metadata matched region 10000002, type IDs 34, 35, 36, compatibility date 2026-11-13, and retrieval time 2026-11-14T18:53:25Z.
+- [x] The file contains 516 unique regional order records: 158 Tritanium, 186 Pyerite, and 172 Mexallon.
+- [x] Every order record had a location_id; no duplicate order IDs were removed.
+- [x] Location books reconcile to regional counts: 28 Tritanium locations, 27 Pyerite locations, and 17 Mexallon locations, 72 total.
+- [x] Each type contains 409 days of history, spanning 2025-10-01 through 2026-11-13.
+
+### Location concentration and quote reconciliation
+
+The most active observed location was 60003760, system ID 30000142:
+
+| Type | Orders at location / regional orders | Share of regional orders | Local best bid | Local best ask |
+|---|---:|---:|---:|---:|
+| 34 Tritanium | 91 / 158 | 57.6% | 4.15 | 4.35 |
+| 35 Pyerite | 124 / 186 | 66.7% | 16.27 | 16.86 |
+| 36 Mexallon | 117 / 172 | 68.0% | 53.06 | 55.87 |
+
+The v2 summary marked all 100-, 1,000-, and 10,000-unit bid and ask sweeps at this location as fully fillable. This was a preliminary depth observation: v2 grouped bids by posted location and did not model remote buy-order ranges or minimum volume.
+
+Regional Pyerite and Mexallon composites were crossed (16.30 bid / 15.91 ask; 53.06 bid / 51.05 ask), while the books grouped at location 60003760 were not crossed. Regional composite quotes remain discovery-only.
+
+### Market execution model correction
+
+The v2 location view omitted two order-level constraints:
+
+1. ESI buy-order range determines where a seller's order may match. A buy order can be filled from systems beyond its posted location when its station, solar-system, numeric jump, or region range covers the target.
+2. ESI min_volume is the minimum quantity accepted in a matching sell order. It applies to the original requested sell-order quantity, not the residual amount after higher-priced bids have matched. When min_volume is omitted from ESI, the default is one unit.
+
+The summarizer was upgraded to schema version 3:
+
+- location_books now evaluates a target market location, including local asks and bids whose configured range covers that target.
+- posted_location_books retains the original grouping by posted location for audit/provenance.
+- Numeric jump ranges are resolved from SDE mapSolarSystems.jsonl and mapStargates.jsonl through --sde-dir. The jump graph preserves directed gate connections from the SDE; distances are constrained to the target market region.
+- Without the SDE map, remote numeric ranges are marked unknown and excluded from target-location bid sweeps.
+- Target-location sell-into-bids sweeps enforce each bid's min_volume against the original requested sell-order quantity. An omitted min_volume defaults to one; explicit malformed values are flagged and excluded.
+- Same-price bid ordering uses issued and order_id as a deterministic proxy. Exact same-price priority is not claimed as verified.
+- User access, structure authorization, fees, order expiry, snapshot drift, and live in-game execution remain outside the quote.
+
+Sources:
+- [CCP Buy and Sell Orders](https://support.eveonline.com/hc/en-us/articles/203218932-Buy-and-Sell-Orders): range eligibility and order-matching process.
+- [ESI market order fields](https://docs.rs/eve-esi-client/latest/eve_esi_client/types/struct.CharactersCharacterIdOrdersGetItem.html): range, min_volume, location_id, and system_id.
+- [Current SDE mapStargates schema](https://sde.riftforeve.online/schema/mapStargates/): gate records map source solar systems to destination solar systems.
+- [Current SDE mapSolarSystems schema](https://sde.riftforeve.online/schema/mapSolarSystems/): solar-system records provide regionID.
+
+### Remaining local validation
+
+- [x] Uploaded v2 summary structure, counts, and concentration reviewed.
+- [x] Summarizer tests added for SDE graph construction, range resolution, and minimum-volume handling.
+- [ ] Run the updated summarizer against the existing local raw collection with SDE build 3698585.
+- [ ] Review schema v3 target-location output for The Forge minerals before treating location-level execution modeling as locally validated.
+
+M1 remains in progress until schema v3 passes CI and is executed against the saved raw ESI orders.

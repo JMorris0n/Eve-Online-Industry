@@ -123,7 +123,7 @@ The roadmap is accepted as the working plan. Milestones M1 and M2 are now in pro
 
 ### M1. Validate the public data foundation
 
-**Status:** In progress. SDE build 3698585 download, integrity, extraction, and manufacturing/reaction parsing have passed local validation. A bounded public ESI collection for The Forge minerals also passed request/pagination smoke tests. Location-aware market reconciliation and full quote constraints remain open.
+**Status:** In progress. SDE build 3698585 download, integrity, extraction, and manufacturing/reaction parsing have passed local validation. The Forge regional ESI collection and v2 summary have been reviewed. Schema v3 now models target-location buy-order ranges and minimum sell-order quantities; local execution against the saved raw orders remains open.
 
 **Purpose:** Establish a reproducible source of current static recipes and public market observations.
 
@@ -131,6 +131,7 @@ The roadmap is accepted as the working plan. Milestones M1 and M2 are now in pro
 - Run the current CCP SDE downloader and record build number, manifest, hash, and relevant schema samples.
 - Run the public ESI collector for a small, selected set of regions and product type IDs.
 - Validate market orders, market history, system cost indices, adjusted prices, cache behavior, pagination, timestamps, and response provenance.
+- Evaluate buy orders at each target location using station, solar-system, numeric jump, or region range; enforce each order's minimum accepted sell-order quantity and resolve numeric distances with the SDE stargate graph.
 - Identify the limits of public data for alliance staging markets and Upwell structure markets.
 - Define refresh cadence based on ESI cache behavior rather than unnecessary polling.
 

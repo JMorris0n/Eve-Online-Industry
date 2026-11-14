@@ -7,7 +7,18 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from summarize_market_data import SUMMARY_SCHEMA_VERSION, summarize_book, summarize_directory, summarize_history, sweep
+from summarize_market_data import (
+    SUMMARY_SCHEMA_VERSION,
+    classify_buy_order_range,
+    load_sde_market_map,
+    shortest_jump_distances,
+    summarize_book,
+    summarize_directory,
+    summarize_history,
+    summarize_target_location_book,
+    sweep,
+    sweep_buy_orders,
+)
 
 
 class MarketSummaryTests(unittest.TestCase):
@@ -89,6 +100,7 @@ class MarketSummaryTests(unittest.TestCase):
         self.assertEqual(result[0]["duplicate_order_ids_removed"], 0)
         self.assertEqual(result[0]["history"]["total_volume"], 2)
         self.assertEqual(result[0]["location_count"], 2)
+        self.assertEqual(len(result[0]["posted_location_books"]), 2)
         self.assertEqual(result[0]["orders_without_location_id"], 0)
         location_ids = [item["location_id"] for item in result[0]["location_books"]]
         self.assertEqual(location_ids, [6001, 6002])
@@ -163,11 +175,162 @@ class MarketSummaryTests(unittest.TestCase):
         self.assertEqual(result[0]["location_count"], 0)
 
     def test_report_schema_version_is_current(self):
-        self.assertEqual(SUMMARY_SCHEMA_VERSION, 2)
+        self.assertEqual(SUMMARY_SCHEMA_VERSION, 3)
 
     def test_rejects_invalid_buy_order_flag(self):
         with self.assertRaisesRegex(ValueError, "must be boolean"):
             summarize_book([{"price": 1, "volume_remain": 1, "is_buy_order": "false"}], [1])
+
+
+    def test_load_sde_market_map_and_calculates_directed_region_jump_distances(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            systems = [
+                {"_key": 3001, "regionID": 100},
+                {"_key": 3002, "regionID": 100},
+                {"_key": 3003, "regionID": 100},
+                {"_key": 4001, "regionID": 200},
+            ]
+            gates = [
+                {"_key": 5001, "solarSystemID": 3001, "destination": {"solarSystemID": 3002}},
+                {"_key": 5002, "solarSystemID": 3002, "destination": {"solarSystemID": 3003}},
+                {"_key": 5003, "solarSystemID": 3003, "destination": {"solarSystemID": 4001}},
+            ]
+            (root / "mapSolarSystems.jsonl").write_text(
+                "\n".join(json.dumps(item) for item in systems) + "\n", encoding="utf-8"
+            )
+            (root / "mapStargates.jsonl").write_text(
+                "\n".join(json.dumps(item) for item in gates) + "\n", encoding="utf-8"
+            )
+            market_map = load_sde_market_map(root)
+        distances = shortest_jump_distances(
+            3001, market_map["adjacency"], market_map["system_regions"], 100
+        )
+        self.assertEqual(distances[3001], 0)
+        self.assertEqual(distances[3002], 1)
+        self.assertEqual(distances[3003], 2)
+        self.assertNotIn(4001, distances)
+
+    def test_classifies_station_system_region_and_numeric_ranges(self):
+        system_regions = {3001: 100, 3002: 100, 3003: 100}
+        adjacency = {3001: {3002}, 3002: {3003}, 3003: set()}
+        distances = shortest_jump_distances(3001, adjacency, system_regions, 100)
+
+        def classify(order):
+            return classify_buy_order_range(
+                order, target_location_id=6001, target_system_id=3001,
+                target_region_id=100, system_regions=system_regions,
+                jump_distances=distances,
+            )
+
+        self.assertEqual(classify({"location_id": 6001, "system_id": 3001, "range": "station"})[0], "eligible")
+        self.assertEqual(classify({"location_id": 6002, "system_id": 3001, "range": "station"})[0], "excluded")
+        self.assertEqual(classify({"location_id": 6002, "system_id": 3001, "range": "solarsystem"})[0], "eligible")
+        self.assertEqual(classify({"location_id": 6002, "system_id": 3002, "range": "solarsystem"})[0], "excluded")
+        self.assertEqual(classify({"location_id": 6002, "system_id": 3002, "range": "1"})[0], "eligible")
+        self.assertEqual(classify({"location_id": 6003, "system_id": 3003, "range": "1"})[0], "excluded")
+        self.assertEqual(classify({"location_id": 6003, "system_id": 3003, "range": "2"})[0], "eligible")
+        self.assertEqual(classify({"location_id": 6003, "system_id": 3003, "range": "region"})[0], "eligible")
+
+    def test_remote_numeric_range_is_unknown_without_sde_graph(self):
+        status, reason, distance = classify_buy_order_range(
+            {"location_id": 6002, "system_id": 3002, "range": "5"},
+            target_location_id=6001, target_system_id=3001, target_region_id=100,
+            system_regions=None, jump_distances=None,
+        )
+        self.assertEqual(status, "unknown")
+        self.assertEqual(reason, "numeric_range_requires_sde_map")
+        self.assertIsNone(distance)
+
+    def test_buy_order_sweep_applies_minimum_to_original_sell_quantity(self):
+        orders = [
+            {"price": 12, "volume_remain": 50, "min_volume": 100, "issued": "2026-11-01T00:00:00Z", "order_id": 1},
+            {"price": 11, "volume_remain": 700, "min_volume": 600, "issued": "2026-11-01T00:00:00Z", "order_id": 2},
+            {"price": 10, "volume_remain": 500, "min_volume": 400, "issued": "2026-11-01T00:00:00Z", "order_id": 3},
+            {"price": 9, "volume_remain": 200, "issued": "2026-11-01T00:00:00Z", "order_id": 4},
+        ]
+        result = sweep_buy_orders(orders, 1000)
+        self.assertEqual(result["filled_quantity"], 1000)
+        self.assertEqual(result["unfilled_quantity"], 0)
+        self.assertEqual(result["gross_value_isk"], 10800)
+        self.assertEqual(result["orders_skipped_because_requested_quantity_below_min_volume"], 0)
+        self.assertTrue(result["minimum_volume_enforced"])
+        self.assertTrue(result["fully_fillable_in_snapshot"])
+
+    def test_buy_order_sweep_skips_order_when_requested_batch_is_too_small(self):
+        orders = [
+            {"price": 12, "volume_remain": 500, "min_volume": 600, "order_id": 1},
+            {"price": 10, "volume_remain": 500, "min_volume": 1, "order_id": 2},
+        ]
+        result = sweep_buy_orders(orders, 100)
+        self.assertEqual(result["filled_quantity"], 100)
+        self.assertEqual(result["unfilled_quantity"], 0)
+        self.assertEqual(result["vwap"], 10)
+        self.assertEqual(result["orders_skipped_because_requested_quantity_below_min_volume"], 1)
+
+    def test_missing_min_volume_uses_one_unit_default(self):
+        result = sweep_buy_orders([{"price": 10, "volume_remain": 50, "order_id": 1}], 10)
+        self.assertEqual(result["filled_quantity"], 10)
+        self.assertEqual(result["orders_skipped_with_invalid_min_volume"], 0)
+
+    def test_target_location_book_uses_eligible_remote_bids_and_local_asks(self):
+        market_map = {
+            "adjacency": {3001: {3002}, 3002: {3003}, 3003: set()},
+            "system_regions": {3001: 100, 3002: 100, 3003: 100},
+        }
+        orders = [
+            {"order_id": 1, "price": 10, "volume_remain": 1000,
+             "is_buy_order": False, "location_id": 6001, "system_id": 3001},
+            {"order_id": 2, "price": 12, "volume_remain": 500, "min_volume": 100,
+             "is_buy_order": True, "range": "1", "location_id": 6002, "system_id": 3002},
+            {"order_id": 3, "price": 15, "volume_remain": 500, "min_volume": 1,
+             "is_buy_order": True, "range": "1", "location_id": 6003, "system_id": 3003},
+        ]
+        result = summarize_target_location_book(
+            orders, [100], target_location_id=6001, target_system_id=3001,
+            region_id=100, sde_market_map=market_map,
+        )
+        self.assertEqual(result["market_scope"], "target_location")
+        self.assertEqual(result["best_bid"], 12)
+        self.assertEqual(result["best_ask"], 10)
+        self.assertTrue(result["is_crossed"])
+        self.assertEqual(result["range_resolution"]["eligible_remote_buy_orders"], 1)
+        self.assertEqual(result["range_resolution"]["excluded_out_of_range_buy_orders"], 1)
+        self.assertEqual(result["sell_into_bids"][0]["vwap"], 12)
+        self.assertEqual(result["buy_from_asks"][0]["vwap"], 10)
+
+    def test_directory_builds_target_books_with_sde_ranges(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            sde = root / "sde"
+            sde.mkdir()
+            (sde / "mapSolarSystems.jsonl").write_text(
+                "\n".join(json.dumps(item) for item in [
+                    {"_key": 3001, "regionID": 100},
+                    {"_key": 3002, "regionID": 100},
+                    {"_key": 3003, "regionID": 100},
+                ]) + "\n", encoding="utf-8"
+            )
+            (sde / "mapStargates.jsonl").write_text(
+                "\n".join(json.dumps(item) for item in [
+                    {"_key": 5001, "solarSystemID": 3001, "destination": {"solarSystemID": 3002}},
+                    {"_key": 5002, "solarSystemID": 3002, "destination": {"solarSystemID": 3003}},
+                ]) + "\n", encoding="utf-8"
+            )
+            orders = [
+                {"order_id": 1, "type_id": 200, "price": 10, "volume_remain": 1000,
+                 "is_buy_order": False, "location_id": 6001, "system_id": 3001},
+                {"order_id": 2, "type_id": 200, "price": 12, "volume_remain": 500, "min_volume": 100,
+                 "is_buy_order": True, "range": "1", "location_id": 6002, "system_id": 3002},
+                {"order_id": 3, "type_id": 200, "price": 15, "volume_remain": 500, "min_volume": 1,
+                 "is_buy_order": True, "range": "1", "location_id": 6003, "system_id": 3003},
+            ]
+            (root / "market-orders-region-100-type-200-page-1.json").write_text(json.dumps(orders), encoding="utf-8")
+            result = summarize_directory(root, [100], sde_dir=sde)
+        target = next(item for item in result[0]["location_books"] if item["location_id"] == 6001)
+        self.assertEqual(target["order_book"]["best_bid"], 12)
+        self.assertEqual(target["order_book"]["best_ask"], 10)
+        self.assertEqual(target["order_book"]["range_resolution"]["eligible_remote_buy_orders"], 1)
 
 
 if __name__ == "__main__":

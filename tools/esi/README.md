@@ -65,23 +65,25 @@ The persistent HTTP cache is stored under `data/cache/esi/`. These folders are e
 
 ## Summarize collected order books and history
 
-After a collection completes, pass its timestamped output folder to the summarizer:
+After a collection completes, summarize the timestamped output folder. Supply the extracted SDE directory to resolve numeric buy-order jump ranges:
 
-```powershell
-py -3 tools/esi/summarize_market_data.py \
-    --input-dir data/raw/esi/RUN_TIMESTAMP \
-    --quantities 1,10,100 \
-    --output data/derived/market-summary.json
-```
+~~~powershell
+py -3 tools/esi/summarize_market_data.py --input-dir data/raw/esi/RUN_TIMESTAMP --sde-dir data/raw/sde/BUILD/extracted --quantities 100,1000,10000 --output data/derived/market-summary.json
+~~~
 
-The report groups all order-book pages by region and type, deduplicates repeated order IDs, and summarizes two distinct views:
+The --sde-dir argument is optional. Without it, station, same-system, and region ranges can be resolved, but remote numeric jump ranges are marked unknown and excluded from target-location bid sweeps.
 
-- `order_book` is a region-wide composite for discovery. Its best bid and best ask can come from different stations or structures. The report explicitly flags a crossed composite with `is_crossed=true`; a negative spread is **not** evidence of executable arbitrage.
-- `location_books` groups the same orders by their posted `location_id`, with system IDs where supplied. This is a more useful starting point for comparing local markets, but still is not a guaranteed executable quote.
+The version 3 report separates three perspectives:
 
-Each view separates sell orders (asks) from buy orders (bids) and sweeps the visible volume for the requested batch sizes. The execution fields are deliberately named `buy_from_asks` and `sell_into_bids`. They describe the sides of the book from the operator's perspective.
+- order_book is a region-wide composite for discovery. Its best bid and best ask can come from different stations or structures. A crossed composite is not evidence of executable arbitrage.
+- posted_location_books groups all orders by the location where each order was posted. This is a provenance/debugging view, not the market book available at that location.
+- location_books evaluates a target location. Sell orders are included only when posted at that exact station or structure. Buy orders are included when their range setting covers the target system. Numeric jump ranges use mapSolarSystems.jsonl and mapStargates.jsonl from the supplied SDE, with the jump search constrained to the selected region.
 
-The location view is intentionally conservative and incomplete: it groups buy orders by where they were posted, but does not expand a buy order's system/region range to every location it may cover. The sweep also does not yet enforce each order's `min_volume`, operator access, market fees, broker charges, order expiry, or snapshot changes. Treat both regional and location views as screening signals, not firm quotes. A final evaluator must model the actual production and sale location, buy-order range, access, and minimum fill constraints.
+For target-location books, sell_into_bids checks each buy order's min_volume against the full requested sell-order quantity. If min_volume is omitted from the ESI response, it defaults to one unit. The minimum is not compared against the residual quantity after higher-priced bids have matched.
+
+Each target book reports range-resolution counts: eligible remote bids, excluded out-of-range bids, unresolved ranges, and eligible bids with invalid minimum-volume data. Equal-price bids use issue time and order ID as a deterministic ordering proxy; exact same-price in-game priority is not asserted as verified.
+
+This remains a screening estimate, not a guaranteed execution quote. User access to a station/structure, fees, order expiry, snapshot drift, and exact in-game matching behavior still need consideration. Material procurement uses sell orders at the target location only. Liquidation uses eligible buy orders whose range reaches that target and enforces each order's minimum acceptable sell-order size.
 
 The report retains SHA-256 hashes for raw source files and includes source timestamps/cache metadata when present. It does not apply market fees, manufacturing costs, installation costs, hauling, or a demand forecast.
 
