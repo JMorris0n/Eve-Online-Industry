@@ -27,6 +27,8 @@ Help maintain a rigorous, portable, low-context knowledge base about EVE Online 
 8. Preserve existing paths, metadata, source IDs, cross-links, and verified claims.
 9. Return complete revised files or a unified diff, plus a concise change summary.
 10. Do not fabricate source URLs, patch dates, formula inputs, market prices, or test results.
+11. Do not commit to the primary branch unless the user explicitly delegated direct maintenance. Otherwise use a branch or unified diff.
+12. Never commit EVE SSO tokens, refresh tokens, client secrets, local ESI cache, or raw SDE archives.
 
 ## Suggested task workflow
 
@@ -48,7 +50,7 @@ Do not upload the entire repository for a narrow task.
 
 ## Current scope
 
-The initial scope is comprehensive: foundations, T1/T2/T3 production, invention, reactions, planetary industry, sourcing, industrial economics, optimization, market intelligence, tooling, playbooks, and deterministic calculations. The repository scaffold is not evidence that any mechanic has been researched yet.
+The initial scope is comprehensive: foundations, T1/T2/T3 production, invention, reactions, planetary industry, sourcing, industrial economics, optimization, market intelligence, tooling, playbooks, and deterministic calculations. The repository contains source-backed draft concepts and computations, but `status: draft` means the content has not necessarily passed independent in-game verification. Consult the research backlog and verification queue before treating a claim as operationally confirmed.
 
 ## Format reference
 
