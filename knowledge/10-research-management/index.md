@@ -1,5 +1,6 @@
 # 10 Research Management
 
+- [Data Foundation Audit](data-foundation-audit.md): current SDE/ESI source contract, tooling review, and remaining execution evidence.
 - [Operational Manufacturing Decision-Support Roadmap](operational-roadmap.md): proposed milestones for product discovery, practical evaluation, opportunity ranking, pilot production, and the local decision-support tool.
 - [Open Questions](open-questions.md)
 - [Claims Requiring Verification](claims-requiring-verification.md)
