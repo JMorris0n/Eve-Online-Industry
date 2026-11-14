@@ -124,7 +124,7 @@ The exact endpoint parameters and authorization scopes should be taken from the 
 
 ### ESI caching and request behavior
 
-ESI returns cache metadata such as Expires, Last-Modified, and ETag where supported. The Expires header indicates when updated data should become available. Do not poll a resource more frequently than its cache policy permits. ESI's developer documentation warns that ignoring cache behavior can waste resources and may be treated as circumventing ESI caching. [^ccp-esi-best-practices]
+ESI returns cache metadata such as Expires, Last-Modified, and ETag where supported. The Expires header indicates when updated data should become available. Do not poll a resource more frequently than its cache policy permits. ESI also uses compatibility-date versioning, recommends a pinned X-Compatibility-Date header, and now applies route-dependent rate limits. Respect cache headers, Retry-After, and error-limit responses. See [ESI and Market Data](../07-tools-and-data/esi-and-market-data.md) for the current integration contract. [^ccp-esi-best-practices]
 
 For an automated market collector:
 1. Store the response timestamp and cache headers.
