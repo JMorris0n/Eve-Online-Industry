@@ -53,6 +53,12 @@ Use integer ISK values. Keep working capital, liquidity reserve, and maximum cap
 
 These are planning limits, not a request to disclose balances in the public repository. Enter only the amount you intend to allocate to this operation.
 
+## Authentication is not required for manual profile setup
+
+The current profile validator and readiness report do not connect to EVE, inspect the launcher session, or perform EVE SSO. The local profile is populated manually. A successful validation only confirms the file structure and data types; it does not import or verify character/account data.
+
+The current SDE and public regional market-data steps also do not require character authorization. Character-specific and corporation/structure data may require authenticated ESI routes and route-specific OAuth scopes. Optional local SSO is a later roadmap milestone, not a prerequisite for using this template. Do not enter EVE credentials, access tokens, or refresh tokens in the profile.
+
 ## Validate the private profile
 
 After entering values, run:

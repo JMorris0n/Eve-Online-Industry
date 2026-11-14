@@ -302,3 +302,31 @@ Unpublished, unresolved, incomplete, and zero-time records should be excluded or
 ### Q016 disposition
 
 **Q-016 is resolved for the current normalized SDE build.** The local audit has been executed and reviewed. Its identified exceptions are now explicit downstream filters and known limitations; they are not reasons to treat the entire normalized recipe dataset as unusable. The required-skill publication-field omission is recorded as a representation limitation for a later parser enhancement, not as a failed recipe audit.
+
+
+## Local operating-profile readiness review (2026-11-14)
+
+The user ran `tools/profile/readiness_report.py` against the private local profile and uploaded the privacy-safe `profile-readiness.json` report. The report is valid (`profile_schema_valid: true`) with **zero validation errors**, but it confirms that the local profile is still effectively the blank example template.
+
+### Reported state
+
+- All three character slots are `unknown`; each has zero recorded skills and unknown Manufacturing, Science, and Reaction free-job capacity.
+- Blueprint inventory is unknown, with zero records.
+- Facility inventory is unknown, with zero records and zero verified facilities.
+- Market access has not been entered; there are no procurement or sales locations in the profile.
+- Working capital, liquidity reserve, and maximum capital at risk are unknown.
+- Weekly active hours, maximum setup time per batch, liquidation target, and risk tolerance are unknown.
+- Logistics method and practical limits are unknown/not entered.
+- The report confirms that it contains no character labels, skill IDs/levels, blueprint IDs, market location IDs/names, or ISK amounts.
+
+**Interpretation:** This is evidence that the profile used to generate the report has not yet been populated. It is not evidence that the characters have no relevant skills, that no blueprints are owned, or that no facilities/markets are accessible. Unknown fields must remain unknown and must not be interpreted as zero or unavailable.
+
+### Authentication status and project boundary
+
+No EVE SSO authorization has been requested or used in the workflow completed to date. The SDE download and public ESI market-data collection use public resources. The local profile is a manually populated, local-only input; it is not automatically populated from the EVE launcher session.
+
+Private character/account information is intentionally deferred to **M8 (optional local EVE SSO integration)**. Until that milestone is explicitly selected and implemented, there should be no EVE login prompt, OAuth token, refresh token, client secret, or authenticated ESI request. The manual profile workflow remains usable without SSO.
+
+### M2 disposition
+
+M2 remains **in progress**. The schema, validator, feasibility screen, and safe readiness report work, but the operating profile has not yet been populated or verified. A useful first product evaluation needs only the relevant subset of the profile, but the necessary character eligibility, blueprint, facility, procurement/sales access, working-capital, and attention assumptions must be entered or explicitly left unknown.
