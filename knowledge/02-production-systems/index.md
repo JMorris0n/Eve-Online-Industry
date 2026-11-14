@@ -5,6 +5,6 @@
 - [Tech II Invention](tech-2-invention.md): required inputs and skills, success formula, decryptors, output BPCs, and expected-cost model.
 - [Tech II Components](tech-2-components.md): moon-material reaction chain, Advanced Component manufacturing, final Tech II material categories, and sourcing strategy.
 - [Reactions](reactions.md): reactor families, restrictions, composite moon-material recipes, hybrid and biochemical chains, and reaction economics.
-- [Tech III Manufacturing](tech-3-manufacturing.md)
+- [Tech III Manufacturing](tech-3-manufacturing.md): four-stage T3 chain, relic reverse engineering, hybrid components, and final hull/subsystem production.
 - [Planetary Industry](planetary-industry.md)
 - [Advanced Manufacturing](advanced-manufacturing.md)
