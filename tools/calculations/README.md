@@ -25,9 +25,9 @@ The calculator assumes equal cargo value per trip/contract. Split a shipment int
 
 Run the calculator unit tests from the repository root:
 
-\`\`\`powershell
+```powershell
 py -3 -m unittest discover -s tools/calculations -p "test_*.py"
-\`\`\`
+```
 
 ## Manufacturing profitability
 
