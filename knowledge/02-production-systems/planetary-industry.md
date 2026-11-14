@@ -10,6 +10,12 @@ sources:
   - id: ccp-planetary-interaction
     resource: https://support.eveonline.com/hc/en-us/articles/203269871-Planetary-Interaction
     title: Planetary Interaction | EVE Online Support (updated 2024-03-01)
+  - id: ccp-alpha-omega
+    resource: https://support.eveonline.com/hc/en-us/articles/213020969-Alpha-and-Omega-Clone
+    title: Alpha and Omega Clone | EVE Online Support (updated 2026-02-04)
+  - id: ccp-alpha-quick-facts
+    resource: https://support.eveonline.com/hc/en-us/articles/213811425-Alpha-Clones-and-Omega-Clone-lapsing-Quick-Facts
+    title: Alpha Clones and Omega Clone lapsing - Quick Facts | EVE Online Support (updated 2024-07-15)
   - id: ccp-skyhook
     resource: https://support.eveonline.com/hc/en-us/articles/14339732733724-Orbital-Skyhook
     title: Orbital Skyhook | EVE Online Support (updated 2024-06-11)
@@ -153,7 +159,9 @@ Import and export fees are an important part of multi-planet production economic
 
 ### Alpha clone restriction
 
-CCP states that Alpha clones can perform actions on a planetary colony but cannot export anything to or import anything from the colony. This is a decisive limitation for any PI operation intended to move products into or out of the planet. [^ccp-planetary-interaction]
+CCP's current Alpha and Omega clone-state article states that Alpha clones can perform Planetary Industry actions but cannot export from their colonies. CCP's Alpha quick-facts article clarifies that Alpha clones can import materials into colonies but cannot export assets from them. The older Planetary Interaction support article uses broader wording that can be read as restricting both directions; for current clone-state behavior, use the newer clone-state article and quick facts. [^ccp-alpha-omega] [^ccp-alpha-quick-facts] [^ccp-planetary-interaction]
+
+Operational implication: an Alpha character can import inputs and manage colony activity, but cannot complete the export leg needed to retrieve and sell the colony's output. A sale-oriented PI workflow therefore requires an Omega character to export goods.
 
 ## Planetary Industry after Equinox
 
@@ -204,6 +212,8 @@ Before activating or modifying a colony:
 - Determine whether any Equinox-era changes affect planet eligibility, extraction output, or colony restrictions.
 
 [^ccp-planetary-interaction]: CCP Support, Planetary Interaction (updated 2024-03-01).
+[^ccp-alpha-omega]: CCP Support, Alpha and Omega Clone (updated 2026-02-04).
+[^ccp-alpha-quick-facts]: CCP Support, Alpha Clones and Omega Clone lapsing - Quick Facts (updated 2024-07-15).
 [^ccp-skyhook]: CCP Support, Orbital Skyhook (updated 2024-06-11).
 [^ccp-equinox]: EVE Online, Equinox Expansion Notes.
 [^eve-dev-sde]: EVE Developer Documentation, Static Data Export.
