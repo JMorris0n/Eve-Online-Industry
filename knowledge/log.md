@@ -46,3 +46,6 @@
 - Researched and replaced the Market Location Economics placeholder with a source-backed framework for activity-specific SCI, facility selection, ESI market data, remote installation, logistics, and total landed cost. A live location comparison remains open until current market and facility data are selected.
 
 - Researched and replaced the Logistics and Risk placeholder with self-haul economics, courier-contract collateral/failure behavior, route exposure, Upwell Asset Safety exceptions, and risk-adjusted logistics cost formulas. Live route-specific risk and hauling-cost calibration remain open.
+
+- Researched and replaced the Capital and Asset Management placeholder with working-capital, inventory, capital-turnover, asset-concentration, and capital-allocation guidance.
+- Replaced the Capital Turnover Computation placeholder with dated cash-flow, peak working capital, capital-days, inventory-turnover, collateral, and cash-conversion formulas. Live production-cycle validation remains open.
