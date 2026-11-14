@@ -12,7 +12,7 @@ from typing import Any
 VALID_STATES = {"unknown", "partial", "verified"}
 TOP_LEVEL = {
     "profile_version", "profile_name", "last_reviewed", "characters",
-    "capital", "operations", "facilities", "blueprints", "notes",
+    "capital", "operations", "facilities", "blueprints", "blueprints_state", "facilities_state", "notes",
 }
 
 
@@ -59,13 +59,15 @@ def validate_profile_data(data: Any) -> list[str]:
             errors.append(f"{prefix}.state must be unknown, partial, or verified")
         if not isinstance(character.get("label"), str) or not character.get("label", "").strip():
             errors.append(f"{prefix}.label must be a non-empty string")
+        if character.get("skills_state") not in VALID_STATES:
+            errors.append(f"{prefix}.skills_state must be unknown, partial, or verified")
         skills = character.get("skills")
         if not isinstance(skills, dict):
             errors.append(f"{prefix}.skills must be an object")
         else:
             for skill, level in skills.items():
-                if not isinstance(skill, str) or not skill.strip():
-                    errors.append(f"{prefix}.skills contains an empty skill name")
+                if not isinstance(skill, str) or not skill.isdigit() or int(skill) <= 0:
+                    errors.append(f"{prefix}.skills key {skill!r} must be a positive numeric skill type ID")
                 if isinstance(level, bool) or not isinstance(level, int) or not 0 <= level <= 5:
                     errors.append(f"{prefix}.skills[{skill!r}] must be an integer from 0 to 5")
         capacity = character.get("job_capacity")
@@ -116,6 +118,10 @@ def validate_profile_data(data: Any) -> list[str]:
                 errors.append(f"operations.{field} must be a non-negative integer or null")
         if operations.get("risk_tolerance") not in {"unknown", "low", "moderate", "high"}:
             errors.append("operations.risk_tolerance is invalid")
+
+    for state_field in ("facilities_state", "blueprints_state"):
+        if data.get(state_field) not in VALID_STATES:
+            errors.append(f"{state_field} must be unknown, partial, or verified")
 
     for collection in ("facilities", "blueprints", "notes"):
         if not isinstance(data.get(collection), list):
