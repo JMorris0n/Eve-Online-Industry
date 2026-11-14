@@ -7,14 +7,16 @@ tags:
   - backlog
 generated:
   by: process:starter-scaffold
-  at: 2026-11-14T05:30:25Z
+  at: 2026-11-14T06:04:20Z
 status: draft
 ---
 
 ## P0: Establish trustworthy foundations
 
-- [ ] Confirm blueprint terminology and the distinction between BPOs and BPCs.
-- [ ] Document ME and TE research mechanics and rounding.
+- [x] Document blueprint object types, BPO/BPC distinctions, acquisition paths, and their industry roles.
+- [x] Document ME and TE research steps, effects, job-level formulas, and material-rounding limitations.
+- [ ] Independently test ME material rounding against representative in-game manufacturing jobs.
+- [ ] Independently test BPC copying behavior, including copy-job quantity versus runs per copy.
 - [ ] Document industry skills, job limits, and character capacity.
 - [ ] Document facility, rig, system, and service modifiers.
 - [ ] Document installation fee calculation from current mechanics.
@@ -56,3 +58,5 @@ status: draft
 ## Acceptance criteria for a research task
 
 A task is complete only when its key claims have sources, calculations are reproducible, known conflicts are recorded, dependencies are linked, and the proposed edits have passed critical review.
+
+A checked research item means the topic has been documented to the stated scope. It does not automatically mean the concept has received independent in-game verification. The concept's OKF lifecycle status and any `verified` events must reflect the actual review performed.
