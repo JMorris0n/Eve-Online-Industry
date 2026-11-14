@@ -31,6 +31,12 @@ This playbook operationalizes [Product Selection](../06-market-intelligence/prod
 
 If character or facility information is unavailable, use clearly labeled assumptions and do not describe the result as an executable plan.
 
+## Evaluation implementation
+
+The first local evaluator is quote-first. The normalized SDE recipe identifies the blueprint, outputs, unmodified base inputs, required skills, and SDE run limit. The actual in-game Industry quote supplies the material quantities after blueprint/facility effects, job durations, output quantity, and installation fee. The evaluator displays the difference from SDE base quantities but does not attempt to reproduce unverified ME/TE/rig rounding.
+
+See [Quote-first product evaluator](../../tools/calculations/README.md) for its JSON input contract and command. Use explicit source basis for each sale strategy: actual fills, schema-v4 target-location order-book estimate, or manual scenario. Keep immediate liquidation and sell-order assumptions separate.
+
 ## Procedure
 
 ### 1. Establish feasibility
@@ -48,7 +54,7 @@ Reject or defer candidates that fail a hard constraint.
 - Select a realistic run count.
 - Respect BPC licensed runs and job limits.
 - Calculate output units, not just blueprint runs.
-- Use the exact material quote or a validated calculation.
+- Use the exact in-game Industry material quote for this first evaluator. SDE base quantities are a reconciliation reference only; do not substitute an unverified formula for the displayed job bill.
 - Separate jobs where blueprint/BPC or material constraints require it.
 - Record the number of slot-hours consumed in each job pool.
 
@@ -125,3 +131,8 @@ Do not commit capital when:
 ## Follow-up
 
 After delivery and sale, replace estimates with actual material use, job duration, fee, hauling cost, sale proceeds, and holding time. Feed the differences back into the model.
+
+
+## First evaluator boundary
+
+The quote-first evaluator is an economic integration layer, not an automatic feasibility or opportunity scanner. It requires a selected manufacturing recipe, verified accessible facility and blueprint, a complete in-game job bill, and market price/fee assumptions. Missing or uncertain character/facility/market access must remain a human review item. Reaction, invention, copying, and component dependencies remain buy-versus-make/upstream cost inputs until a specific candidate justifies expanding the model.

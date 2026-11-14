@@ -1,0 +1,125 @@
+{
+  "recipe_file": "tools/calculations/fixtures/synthetic-manufacturing-recipe.jsonl",
+  "sde_build": "synthetic fixture, not an SDE build",
+  "candidate": {
+    "activity": "manufacturing",
+    "product_type_id": 900002,
+    "blueprint_type_id": 900001,
+    "runs": 10
+  },
+  "blueprint": {
+    "kind": "BPO",
+    "quantity": 1,
+    "material_efficiency": 10,
+    "time_efficiency": 20,
+    "licensed_runs": null
+  },
+  "industry_quote": {
+    "source": "synthetic_fixture",
+    "quoted_at": "2026-11-14T20:00:00Z",
+    "character_slot": 1,
+    "facility_label": "Synthetic sample facility",
+    "system_id": 900010,
+    "jobs": [
+      {
+        "runs": 10,
+        "duration_seconds": 3600
+      }
+    ],
+    "elapsed_critical_path_hours": "1",
+    "output_units": 10,
+    "installation_fee_isk": "500",
+    "materials_complete": true,
+    "materials": [
+      {
+        "type_id": 900003,
+        "quantity": "20",
+        "unit_value_isk": "10",
+        "valuation_basis": "illustrative replacement cost",
+        "source_timestamp": "2026-11-14T20:00:00Z",
+        "location": "Synthetic source market"
+      },
+      {
+        "type_id": 900004,
+        "quantity": "30",
+        "unit_value_isk": "20",
+        "valuation_basis": "illustrative replacement cost",
+        "source_timestamp": "2026-11-14T20:00:00Z",
+        "location": "Synthetic source market"
+      }
+    ]
+  },
+  "operating": {
+    "capital_deployed_isk": "1500",
+    "active_operator_hours": "0.5",
+    "active_time_basis": "estimated"
+  },
+  "other_batch_costs": {
+    "allocated_upstream_costs_isk": "0",
+    "logistics_and_handling_isk": "100",
+    "other_variable_costs_isk": "0"
+  },
+  "sale_scenarios": [
+    {
+      "name": "Immediate liquidation example",
+      "evidence_basis": "synthetic_fixture",
+      "source_timestamp": "2026-11-14T20:00:00Z",
+      "source_location": "Synthetic destination market",
+      "risk_notes": [
+        "Synthetic example only. No real market evidence."
+      ],
+      "sale": {
+        "sales_tax_rate": "0.05",
+        "broker_fees_isk": "0",
+        "relist_fees_isk": "0",
+        "other_sale_costs_isk": "0",
+        "fills": [
+          {
+            "quantity": "10",
+            "unit_price_isk": "200"
+          }
+        ]
+      },
+      "full_batch_projection": {
+        "unit_sale_price_isk": "200",
+        "sales_tax_rate": "0.05",
+        "broker_fees_isk": "0",
+        "relist_fees_isk": "0",
+        "other_sale_costs_isk": "0",
+        "target_net_margin_rate": "0.10"
+      }
+    },
+    {
+      "name": "Sell-order example",
+      "evidence_basis": "synthetic_fixture",
+      "source_timestamp": "2026-11-14T20:00:00Z",
+      "source_location": "Synthetic destination market",
+      "risk_notes": [
+        "Sell-through is assumed, not guaranteed."
+      ],
+      "sale": {
+        "sales_tax_rate": "0.05",
+        "broker_fees_isk": "100",
+        "relist_fees_isk": "20",
+        "other_sale_costs_isk": "0",
+        "fills": [
+          {
+            "quantity": "6",
+            "unit_price_isk": "220"
+          }
+        ]
+      },
+      "full_batch_projection": {
+        "unit_sale_price_isk": "220",
+        "sales_tax_rate": "0.05",
+        "broker_fees_isk": "100",
+        "relist_fees_isk": "20",
+        "other_sale_costs_isk": "0",
+        "target_net_margin_rate": "0.10"
+      }
+    }
+  ],
+  "notes": [
+    "Synthetic fixture demonstration only. Do not use any values as live EVE prices, fees, quotes, or production advice."
+  ]
+}

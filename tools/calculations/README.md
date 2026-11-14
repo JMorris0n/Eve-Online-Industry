@@ -80,3 +80,31 @@ The Upwell owner rate and order values must be taken from the live order quote. 
 - Preserve the input file alongside the output used for a decision.
 - Record the date, route, ship/fit, cargo, and source of risk estimates.
 - Do not commit private character data, tokens, or raw ESI/SDE snapshots.
+
+
+## Quote-first single-product evaluation (M4)
+
+Run the synthetic demonstration from the repository root:
+
+```powershell
+py -3 tools/calculations/product_evaluation.py `
+    --config tools/calculations/product-evaluation.example.json `
+    --output data/derived/product-evaluation-example.json
+```
+
+The example is synthetic and must not be treated as an EVE price, fee, quote, or recommendation. Replace its recipe, product, quote, sourcing values, and sale assumptions for a real evaluation.
+
+For a real candidate, copy the example JSON to an ignored local file and set:
+
+- The exact manufacturing blueprint type ID, output product type ID, run count, and local normalized SDE recipe JSONL path.
+- Blueprint type (BPO/BPC), copy count, ME/TE, and licensed runs where relevant.
+- Every quoted job's run count and duration, the critical-path duration, output quantity, installation fee, and complete material bill from the in-game Industry window.
+- Each input's replacement/opportunity unit value, valuation basis, timestamp, and procurement location.
+- Capital deployed and total attributable active operator-hours. Label the latter `measured` or `estimated`; leave it unknown when it cannot be responsibly estimated.
+- One or more sale strategies. Use the v4 target-location order-book estimate for immediate liquidation or a clearly labeled sell-order scenario. Supply tax, broker/relist fees, modeled fills, source timestamp/location, and risk notes.
+
+The tool verifies the selected SDE recipe, publication/completeness state, output yield, job-run coverage, and per-job SDE run limit. It reports the raw SDE base-material quantities alongside the actual Industry-quoted bill. It **does not** derive modified material quantities or job fees from an unverified ME/facility formula. The Industry quote is the costing authority for this first iteration.
+
+Each sale strategy reuses the existing deterministic manufacturing profitability calculator. The report separates observed/estimated fills from a full-batch projection, keeps unsold inventory cost basis visible, reports slot-hours and contribution per active operator-hour when supplied, and does not apply a risk premium. Prices and fill assumptions are inputs, not predictions or guaranteed liquidity.
+
+Run its tests with the standard calculation test command above.

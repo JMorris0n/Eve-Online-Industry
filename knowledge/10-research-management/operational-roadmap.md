@@ -190,7 +190,7 @@ The roadmap is accepted as the working plan. Milestones M1 and M2 are now in pro
 
 ### M4. Build a practical single-product evaluator
 
-**Status:** Not started. This is the first major end-to-end economic capability.
+**Status:** In progress. A quote-first evaluator is being introduced to connect the normalized SDE recipe, actual Industry job quote, explicit material valuation, and separate sale strategies. It deliberately relies on actual job quote quantities instead of an unverified ME/facility rounding implementation.
 
 **Purpose:** Evaluate one real candidate without requiring the entire product scanner or a vertically integrated chain.
 
@@ -201,15 +201,17 @@ The roadmap is accepted as the working plan. Milestones M1 and M2 are now in pro
 - Compare buying intermediate components against manufacturing them.
 - Include blueprint/BPC cost, installation quote, market fees, hauling/handling, expected sales execution, inventory holding, and unsold output.
 - Use actual Industry quote inputs when system/structure variables are not available through public data.
-- Reconcile the existing manufacturing, fee, and hauling calculators into one evaluation result.
+- Reconcile the existing manufacturing profitability calculator with quoted installation fees, material sourcing costs, and separate sale scenarios. The first version accepts fee amounts as explicit quote/calculator inputs rather than inferring them.
+- Keep self-haul/courier cost as an explicit cost input until a candidate-specific route can be modeled safely.
 - Capture attributable active operator-hours as a measured value or clearly labeled estimate. Exclude unattended production and passive inventory wait; do not inflate hours for simultaneous alt-character actions by one operator.
 - Report net contribution per active operator-hour when the input is known. Keep unadjusted contribution and explicit risks separate until pilot observations support a defensible risk adjustment.
 - Show missing data and verification confidence prominently.
 
 **Acceptance criteria:**
-- [ ] A complete material bill and batch plan can be generated for one product.
+- [x] The first quote-first evaluator validates an SDE manufacturing recipe against an actual quoted output and complete quoted material bill; SDE base quantities remain visible for reconciliation.
+- [ ] A complete material bill and batch plan is demonstrated for one real product using the user's local SDE and Industry quote.
 - [ ] Input costs use quantity-aware procurement prices or clearly labeled manual inputs.
-- [ ] Installation and market fees are accounted for without double-counting.
+- [ ] Installation and market fees are accounted for without double-counting using actual quote/calculator inputs.
 - [ ] Immediate liquidation and sell-order strategies are compared where relevant.
 - [ ] Buying versus producing intermediate components is evaluated.
 - [ ] Output includes expected net contribution, active operator-hours (measured or estimated), net contribution per active operator-hour when known, slot-hours, capital, and liquidation horizon.
