@@ -47,6 +47,8 @@ For each source, record its stable ID, publisher, title, canonical URL, source t
 | ccp-esi-overview | CCP Developer Documentation, [ESI Overview](https://developers.eveonline.com/docs/services/esi/overview/) | Accessed 2026-11-14 | Official REST API status, endpoint discovery, versioning and compatibility dates |
 | ccp-market-price-data | CCP, [ESI API Explorer](https://esi.evetech.net/ui/?version=latest) | Accessed 2026-11-14 | API route reference, including public market-price and industry-system data |
 
+| ccp-ancient-relics | CCP Support, [Ancient Relics](https://support.eveonline.com/hc/en-us/articles/203210662-Ancient-Relics) | Updated 2024-08-29 | Relic families, T3 output mapping, licensed runs, and published base success chances |
+
 ## Source limitations
 
 CCP Support's blueprint, skill, and structure support pages have displayed update dates from 2022-2024. The 2025 SCC relief announcement explicitly calls its ME/TE research change temporary; keep it provisional until current in-game quotes or a later CCP statement establish its status. The Exordium change is a regional exception and the patch note does not provide a complete global fee model. The ESI overview is a live developer reference and may change as the API is versioned. Continue to check current patch notes and in-game UI before revising fee constants.
