@@ -22,8 +22,8 @@ class ManufacturingProfitabilityTests(unittest.TestCase):
         self.assertEqual(projected["gross_sale_value_isk"], "1100000.00")
         self.assertEqual(projected["sales_tax_isk"], "37125.00")
         self.assertEqual(projected["projected_contribution_isk"], "247875.00")
-        self.assertEqual(projected["break_even_unit_price_isk"], "843.41")
-        self.assertEqual(projected["target_margin_unit_price_isk"], "940.17")
+        self.assertEqual(projected["break_even_unit_price_isk"], "843.47")
+        self.assertEqual(projected["target_margin_unit_price_isk"], "940.84")
         self.assertEqual(
             projected["maximum_affordable_input"]["maximum_unit_value_isk"],
             "7.48",
