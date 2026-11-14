@@ -66,6 +66,9 @@ For each source, record its stable ID, publisher, title, canonical URL, source t
 | ccp-asset-safety | CCP Support, [Asset Safety](https://support.eveonline.com/hc/en-us/articles/208289365-Asset-Safety) | Updated 2026-03-02 | Standard Upwell asset safety, Abandoned-state exception, wormhole/Pochven ejection, and recovery timing |
 | ccp-upwell-quick-facts | CCP Support, [Upwell Structures Quick Facts](https://support.eveonline.com/hc/en-us/articles/209985225-Upwell-Structures-Quick-Facts) | Accessed 2026-11-14 | Known-space and wormhole asset disposition on structure destruction |
 
+| ccp-esi-best-practices | CCP Developer Documentation, [Best Practices for ESI](https://developers.eveonline.com/docs/services/esi/best-practices/) | Accessed 2026-11-14 | ESI cache headers, ETags, pagination consistency, and rate-limit compliance |
+| ccp-esi-api-explorer | CCP, [ESI API Explorer](https://esi.evetech.net/ui/?version=latest) | Accessed 2026-11-14 | Current endpoint paths, parameters, and authorization scopes for market data |
+
 ## Source limitations
 
 CCP Support's blueprint, skill, and structure support pages have displayed update dates from 2022-2024. The 2025 SCC relief announcement explicitly calls its ME/TE research change temporary; keep it provisional until current in-game quotes or a later CCP statement establish its status. The Exordium change is a regional exception and the patch note does not provide a complete global fee model. The ESI overview is a live developer reference and may change as the API is versioned. Continue to check current patch notes and in-game UI before revising fee constants.
