@@ -53,7 +53,7 @@ Prefer one question, one formula, one dataset, or one cohesive documentation cha
 
 ### 2. Build a portable context packet
 
-Start with [LLM-START-HERE.md](../../../LLM-START-HERE.md), then include only the relevant project rules, concept pages, dependencies, source references, and data excerpts.
+Start with [LLM-START-HERE.md](../../LLM-START-HERE.md), then include only the relevant project rules, concept pages, dependencies, source references, and data excerpts.
 
 Every handoff must identify:
 
