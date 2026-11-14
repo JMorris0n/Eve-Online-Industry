@@ -65,3 +65,5 @@
 - Researched and replaced the Market Mechanics placeholder with CCP order-matching rules, buy/sell order location/range behavior, regional market history, adjusted-price distinctions, ESI endpoints, and cache-handling requirements.
 
 - Researched and replaced the Demand and Liquidity placeholder with historical volume/transaction analysis, order-book depth, VWAP execution, spread, liquidation horizon, volatility, and market absorption metrics. Clarified that ESI order_count represents completed transactions rather than currently open orders.
+
+- Researched and replaced the Price Analysis placeholder with executable price definitions, historical trend measures, volume-weighted execution valuation, volatility, outlier handling, adjusted-price/EIV separation, and data-provenance rules.
