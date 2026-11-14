@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: LLM workflow quick start
+    url: https://github.com/JMorris0n/Eve-Online-Industry/blob/main/exports/WORKFLOW-QUICKSTART.md
+    about: Use the VS Code and PowerShell workflow to create a task packet and route it between LLM sessions.
+  - name: Research backlog and open questions
+    url: https://github.com/JMorris0n/Eve-Online-Industry/tree/main/knowledge/10-research-management
+    about: Check whether the research question or verification task is already recorded.
