@@ -14,7 +14,8 @@
         "reaction": null
       },
       "specializations": [],
-      "notes": []
+      "notes": [],
+      "skills_state": "unknown"
     },
     {
       "slot": 2,
@@ -27,7 +28,8 @@
         "reaction": null
       },
       "specializations": [],
-      "notes": []
+      "notes": [],
+      "skills_state": "unknown"
     },
     {
       "slot": 3,
@@ -40,7 +42,8 @@
         "reaction": null
       },
       "specializations": [],
-      "notes": []
+      "notes": [],
+      "skills_state": "unknown"
     }
   ],
   "capital": {
@@ -63,5 +66,7 @@
   "notes": [
     "Template only. Replace placeholders in a local ignored copy.",
     "Do not add character IDs, access tokens, wallet exports, or private account data to the public repository."
-  ]
+  ],
+  "blueprints_state": "unknown",
+  "facilities_state": "unknown"
 }
