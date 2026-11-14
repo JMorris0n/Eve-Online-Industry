@@ -58,6 +58,20 @@ Run the same suite locally from the repository root:
 py -3 -m unittest discover -s tools/calculations -p "test_*.py" -v
 ```
 
+## Market fees and sales tax
+
+Run from the repository root:
+
+```powershell
+py -3 tools/calculations/market_fees.py --config tools/calculations/market-fees.example.json
+```
+
+The calculator estimates Accounting-adjusted sales tax, NPC station broker fees from Broker Relations and unmodified standings, Upwell structure broker fees from the supplied owner rate plus the SCC component, and order relist fees from the supplied order values and Advanced Broker Relations level.
+
+For immediate matching, set the order-creation fee input to zero in downstream batch accounting: an immediate fill does not incur the non-immediate order creation fee, but seller sales tax still applies. The order_value_isk input is a scenario input for a non-immediate order.
+
+The Upwell owner rate and order values must be taken from the live order quote. Use wallet records to reconcile actual fees. The sample is illustrative, not a current structure quote.
+
 ## General rules
 
 - Keep money inputs as decimal strings in JSON to avoid binary floating-point error.
