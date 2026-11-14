@@ -69,6 +69,13 @@ For each source, record its stable ID, publisher, title, canonical URL, source t
 | ccp-esi-best-practices | CCP Developer Documentation, [Best Practices for ESI](https://developers.eveonline.com/docs/services/esi/best-practices/) | Accessed 2026-11-14 | ESI cache headers, ETags, pagination consistency, and rate-limit compliance |
 | ccp-esi-api-explorer | CCP, [ESI API Explorer](https://esi.evetech.net/ui/?version=latest) | Accessed 2026-11-14 | Current endpoint paths, parameters, and authorization scopes for market data |
 
+| ccp-esi-versioning-blog | CCP Developer Blog, [Changing versions: /v42/ was getting out of hand](https://developers.eveonline.com/blog/changing-versions-v42-was-getting-out-of-hand) | Published 2025-07-10 | ESI compatibility-date versioning and migration from per-route URL versions |
+| ccp-esi-rate-limit-blog | CCP Developer Blog, [Hold your horses: introducing rate limiting to ESI](https://developers.eveonline.com/blog/hold-your-horses-introducing-rate-limiting-to-esi) | Published 2025-10-07 | ESI floating-window rate limiting rollout |
+| ccp-esi-openapi-blog | CCP Developer Blog, [Changing specs: from Swagger to OpenAPI](https://developers.eveonline.com/blog/changing-specs-from-swagger-to-openapi) | Published 2025-07-22 | OpenAPI 3.0/3.1 transition and read-only Swagger specification |
+| ccp-esi-cursor-pagination | CCP Developer Documentation, [Cursor-Based Pagination](https://developers.eveonline.com/docs/services/esi/pagination/cursor-based/) | Accessed 2026-11-14 | before/after cursor behavior, ordering, duplicate handling |
+| ccp-esi-xpages-pagination | CCP Developer Documentation, [X-Pages Pagination](https://developers.eveonline.com/docs/services/esi/pagination/x-pages/) | Accessed 2026-11-14 | page/X-Pages behavior and cache-expiry duplication risk |
+| ccp-sde-docs | CCP Developer Documentation, [Static Data Export](https://developers.eveonline.com/docs/services/static-data/) | Accessed 2026-11-14 | Current SDE distribution formats and schema documentation |
+
 ## Source limitations
 
 CCP Support's blueprint, skill, and structure support pages have displayed update dates from 2022-2024. The 2025 SCC relief announcement explicitly calls its ME/TE research change temporary; keep it provisional until current in-game quotes or a later CCP statement establish its status. The Exordium change is a regional exception and the patch note does not provide a complete global fee model. The ESI overview is a live developer reference and may change as the API is versioned. Continue to check current patch notes and in-game UI before revising fee constants.
