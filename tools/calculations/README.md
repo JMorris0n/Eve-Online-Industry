@@ -132,3 +132,27 @@ py -3 tools/calculations/market_summary_quotes.py `
 ```
 
 The output includes the ESI order-book observation time, cache expiry, source-file hash, filled/unfilled quantity, VWAP, and caveats. An expired ESI cache window means the snapshot should be refreshed before relying on it for a current decision.
+
+
+### Connecting a schema-v4 market summary
+
+The quote-first evaluator can source individual material values and immediate-liquidation fills from a local schema-v4 market summary. Add a top-level section:
+
+```json
+{
+  "market_summary": {
+    "file": "data/derived/market-summary-v4.json",
+    "region_id": 10000002,
+    "location_id": 60003760,
+    "max_snapshot_age_minutes": 5
+  }
+}
+```
+
+For a material line in `industry_quote.materials`, replace manual `unit_value_isk` and `valuation_basis` with `valuation_source: "market_summary_v4"`. The material's `type_id` and exact integer `quantity` select the local-ask procurement sweep. The evaluator rejects a partial procurement quote rather than undercosting required inputs.
+
+For an immediate-liquidation scenario, set `evidence_basis: "v4_order_book_estimate"`, set `sale.fills` to an empty array, and add `market_summary_quote: {}`. The evaluator requests an exact bid sweep for the product type and quoted output quantity. Partial fills are modeled as sold units; the remaining output stays in unsold inventory. Sales tax and broker/relist fee amounts remain explicit scenario inputs.
+
+A quote can override the default `region_id` and `location_id` using fields inside its `market_quote` (material line) or `market_summary_quote` (sale scenario) object. Procurement and liquidation can therefore use different locations in the same summary file.
+
+Only exact quantities present in the summary are used. Include planned material quantities and output units in the summarizer's `--quantities` list when generating a snapshot. The evaluator never extrapolates VWAP. The report records the market-order source timestamp, source hash, and ESI cache expiry; it warns when the snapshot exceeds `max_snapshot_age_minutes` (default 5) or its cache window has passed. These are freshness warnings, not proof of market access or actual fills.

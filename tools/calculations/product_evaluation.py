@@ -13,11 +13,14 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from datetime import datetime, timezone
+from email.utils import parsedate_to_datetime
 from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from typing import Any
 
 from manufacturing_profitability import calculate as calculate_profitability
+from market_summary_quotes import get_market_quote, load_market_summary
 
 ZERO = Decimal("0")
 ONE = Decimal("1")
@@ -59,6 +62,138 @@ def _positive_int(value: Any, label: str) -> int:
     if isinstance(value, bool) or not isinstance(value, int) or value <= 0:
         raise ValueError(f"{label} must be a positive integer")
     return value
+
+
+def _parse_utc(value: Any, label: str) -> datetime:
+    if not isinstance(value, str) or not value.strip():
+        raise ValueError(f"{label} must be a non-empty ISO-8601 timestamp")
+    try:
+        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError as exc:
+        raise ValueError(f"{label} must be an ISO-8601 timestamp") from exc
+    if parsed.tzinfo is None:
+        raise ValueError(f"{label} must include a timezone")
+    return parsed.astimezone(timezone.utc)
+
+
+def _load_market_context(config: dict[str, Any]) -> dict[str, Any] | None:
+    raw = config.get("market_summary")
+    if raw is None:
+        return None
+    if not isinstance(raw, dict):
+        raise ValueError("market_summary must be an object")
+    file_path = Path(_required(raw, "file", "market_summary.file"))
+    summary = load_market_summary(file_path)
+    region_id = raw.get("region_id")
+    location_id = raw.get("location_id")
+    if region_id is not None:
+        region_id = _positive_int(region_id, "market_summary.region_id")
+    if location_id is not None:
+        location_id = _positive_int(location_id, "market_summary.location_id")
+    evaluated_at = (
+        _parse_utc(raw["evaluation_time_utc"], "market_summary.evaluation_time_utc")
+        if raw.get("evaluation_time_utc")
+        else datetime.now(timezone.utc)
+    )
+    max_age = _nonnegative(
+        raw.get("max_snapshot_age_minutes", 5),
+        "market_summary.max_snapshot_age_minutes",
+    )
+    return {
+        "file": file_path,
+        "data": summary,
+        "region_id": region_id,
+        "location_id": location_id,
+        "evaluation_time": evaluated_at,
+        "max_snapshot_age_minutes": max_age,
+    }
+
+
+def _get_v4_quote(
+    context: dict[str, Any] | None,
+    quote_spec: Any,
+    *,
+    type_id: int,
+    quantity: int,
+    purpose: str,
+    label: str,
+    warnings: list[str],
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    if context is None:
+        raise ValueError(f"{label}: add a top-level market_summary section to use a schema-v4 quote")
+    if quote_spec is None:
+        quote_spec = {}
+    if not isinstance(quote_spec, dict):
+        raise ValueError(f"{label}.market_quote must be an object")
+    region_id = _positive_int(
+        quote_spec.get("region_id", context.get("region_id")),
+        f"{label}.market_quote.region_id",
+    )
+    location_id = _positive_int(
+        quote_spec.get("location_id", context.get("location_id")),
+        f"{label}.market_quote.location_id",
+    )
+    quote = get_market_quote(
+        context["data"],
+        region_id=region_id,
+        type_id=type_id,
+        location_id=location_id,
+        quantity=quantity,
+        purpose=purpose,
+    )
+    warnings.extend(f"{label}: {warning}" for warning in quote.get("warnings", []))
+
+    retrieved_at = quote.get("source_timestamp")
+    age_minutes = None
+    if retrieved_at:
+        captured_at = _parse_utc(retrieved_at, f"{label}.market_quote.source_timestamp")
+        age_minutes = Decimal(str(
+            (context["evaluation_time"] - captured_at).total_seconds() / 60
+        ))
+        if age_minutes < ZERO:
+            warnings.append(f"{label}: ESI order-book timestamp is later than evaluation time.")
+        elif age_minutes > context["max_snapshot_age_minutes"]:
+            warnings.append(
+                f"{label}: ESI order-book snapshot is {age_minutes:.1f} minutes old, "
+                f"older than the configured {context['max_snapshot_age_minutes']} minute limit."
+            )
+    else:
+        warnings.append(f"{label}: ESI order-book source timestamp is missing.")
+
+    cache_expiry = quote.get("order_book_source", {}).get("expires")
+    cache_expired = False
+    if isinstance(cache_expiry, str) and cache_expiry.strip():
+        try:
+            expiry = parsedate_to_datetime(cache_expiry)
+            if expiry.tzinfo is None:
+                expiry = expiry.replace(tzinfo=timezone.utc)
+            cache_expired = expiry.astimezone(timezone.utc) <= context["evaluation_time"]
+        except (TypeError, ValueError, OverflowError):
+            warnings.append(f"{label}: ESI cache-expiry value could not be parsed.")
+    if cache_expired:
+        warnings.append(
+            f"{label}: ESI cache window had expired by evaluation time; refresh the snapshot before relying on it."
+        )
+
+    audit = {
+        "purpose": purpose,
+        "type_id": type_id,
+        "quantity": quantity,
+        "region_id": region_id,
+        "location_id": location_id,
+        "status": quote["status"],
+        "filled_quantity": quote["filled_quantity"],
+        "unfilled_quantity": quote["unfilled_quantity"],
+        "gross_value_isk": quote["gross_value_isk"],
+        "vwap_isk": quote["vwap_isk"],
+        "source_timestamp": retrieved_at,
+        "age_minutes_at_evaluation": str(age_minutes) if age_minutes is not None else None,
+        "cache_expiry": cache_expiry,
+        "cache_expired_at_evaluation": cache_expired,
+        "order_book_source": quote.get("order_book_source"),
+        "warnings": quote.get("warnings", []),
+    }
+    return quote, audit
 
 
 def _load_recipe(
@@ -164,6 +299,8 @@ def evaluate(config: dict[str, Any]) -> dict[str, Any]:
         blueprint_type_id=blueprint_type_id,
         product_type_id=product_type_id,
     )
+    market_context = _load_market_context(config)
+    market_quote_records: list[dict[str, Any]] = []
 
     blueprint = _required(config, "blueprint")
     blueprint_kind = _required(blueprint, "kind")
@@ -273,11 +410,48 @@ def evaluate(config: dict[str, Any]) -> dict[str, Any]:
             _required(line, "quantity", f"industry_quote.materials[{index}].quantity"),
             f"industry_quote.materials[{index}].quantity",
         )
-        unit_value = _nonnegative(
-            _required(line, "unit_value_isk", f"industry_quote.materials[{index}].unit_value_isk"),
-            f"industry_quote.materials[{index}].unit_value_isk",
-        )
-        basis = _required(line, "valuation_basis", f"industry_quote.materials[{index}].valuation_basis")
+        valuation_source = line.get("valuation_source", "manual")
+        if valuation_source == "market_summary_v4":
+            if "unit_value_isk" in line:
+                raise ValueError(
+                    f"industry_quote.materials[{index}]: omit unit_value_isk when valuation_source is market_summary_v4"
+                )
+            if quantity != quantity.to_integral_value():
+                raise ValueError(
+                    f"industry_quote.materials[{index}]: market-summary procurement quantity must be a whole number"
+                )
+            quote, audit = _get_v4_quote(
+                market_context,
+                line.get("market_quote"),
+                type_id=type_id,
+                quantity=int(quantity),
+                purpose="procurement",
+                label=f"Material type {type_id}",
+                warnings=warnings,
+            )
+            if quote["status"] != "full":
+                raise ValueError(
+                    f"Material type {type_id}: procurement quote is not fully fillable "
+                    f"({quote['filled_quantity']} filled, {quote['unfilled_quantity']} unfilled). "
+                    "Do not cost the batch from an incomplete material quote."
+                )
+            unit_value = Decimal(str(quote["gross_value_isk"])) / quantity
+            basis = line.get("valuation_basis", "schema-v4 target-location ask VWAP estimate")
+            source_timestamp = quote.get("source_timestamp")
+            location_text = line.get("location") or f"region {audit['region_id']}, location {audit['location_id']}"
+            market_quote_records.append(audit)
+        elif valuation_source == "manual":
+            unit_value = _nonnegative(
+                _required(line, "unit_value_isk", f"industry_quote.materials[{index}].unit_value_isk"),
+                f"industry_quote.materials[{index}].unit_value_isk",
+            )
+            basis = _required(line, "valuation_basis", f"industry_quote.materials[{index}].valuation_basis")
+            source_timestamp = line.get("source_timestamp")
+            location_text = line.get("location")
+        else:
+            raise ValueError(
+                f"industry_quote.materials[{index}].valuation_source must be manual or market_summary_v4"
+            )
         if not isinstance(basis, str) or not basis.strip():
             raise ValueError(f"industry_quote.materials[{index}].valuation_basis must be a non-empty string")
         name = line.get("name") or recipe_material_names.get(type_id) or f"type_id_{type_id}"
@@ -287,8 +461,8 @@ def evaluate(config: dict[str, Any]) -> dict[str, Any]:
             "quantity": str(quantity),
             "unit_value_isk": str(unit_value),
             "valuation_basis": basis,
-            "source_timestamp": line.get("source_timestamp"),
-            "location": line.get("location"),
+            "source_timestamp": source_timestamp,
+            "location": location_text,
         })
 
     expected_base_quantities: dict[int, Decimal] = {
@@ -385,7 +559,48 @@ def evaluate(config: dict[str, Any]) -> dict[str, Any]:
             "actual_fills", "v4_order_book_estimate", "manual_scenario", "synthetic_fixture"
         }:
             raise ValueError(f"sale_scenarios[{index}].evidence_basis is invalid")
-        sale = _required(scenario, "sale", f"sale_scenarios[{index}].sale")
+        sale_input = _required(scenario, "sale", f"sale_scenarios[{index}].sale")
+        if not isinstance(sale_input, dict):
+            raise ValueError(f"sale_scenarios[{index}].sale must be an object")
+        sale = dict(sale_input)
+        scenario_timestamp = scenario.get("source_timestamp")
+        scenario_location = scenario.get("source_location")
+        scenario_market_audit = None
+        if "market_summary_quote" in scenario:
+            if evidence_basis != "v4_order_book_estimate":
+                raise ValueError(
+                    f"sale_scenarios[{index}]: market_summary_quote requires evidence_basis=v4_order_book_estimate"
+                )
+            if sale.get("fills") not in (None, []):
+                raise ValueError(
+                    f"sale_scenarios[{index}]: set sale.fills to an empty array when using market_summary_quote"
+                )
+            market_quote, scenario_market_audit = _get_v4_quote(
+                market_context,
+                scenario.get("market_summary_quote"),
+                type_id=product_type_id,
+                quantity=quoted_output_units,
+                purpose="liquidation",
+                label=f"Sale scenario {name}",
+                warnings=warnings,
+            )
+            sale["fills"] = []
+            if market_quote["filled_quantity"] > 0:
+                filled_units = market_quote["filled_quantity"]
+                realized_unit_price = (
+                    Decimal(str(market_quote["gross_value_isk"])) / Decimal(filled_units)
+                )
+                sale["fills"] = [{
+                    "quantity": str(filled_units),
+                    "unit_price_isk": str(realized_unit_price),
+                }]
+            scenario_timestamp = market_quote.get("source_timestamp")
+            scenario_location = (
+                f"region {scenario_market_audit['region_id']}, location {scenario_market_audit['location_id']}"
+            )
+            market_quote_records.append(scenario_market_audit)
+        elif not isinstance(sale.get("fills"), list):
+            raise ValueError(f"sale_scenarios[{index}].sale.fills must be a list")
         projection = _required(
             scenario, "full_batch_projection", f"sale_scenarios[{index}].full_batch_projection"
         )
@@ -400,9 +615,10 @@ def evaluate(config: dict[str, Any]) -> dict[str, Any]:
         evaluated_scenarios.append({
             "name": name,
             "evidence_basis": evidence_basis,
-            "source_timestamp": scenario.get("source_timestamp"),
-            "source_location": scenario.get("source_location"),
+            "source_timestamp": scenario_timestamp,
+            "source_location": scenario_location,
             "risk_notes": scenario.get("risk_notes", []),
+            "market_quote": scenario_market_audit,
             "calculation": result,
         })
 
@@ -421,6 +637,21 @@ def evaluate(config: dict[str, Any]) -> dict[str, Any]:
     warnings.append(
         "No risk premium is applied. Review the supplied risk notes and scenarios separately."
     )
+
+    market_summary_report = None
+    if market_quote_records and market_context is not None:
+        market_summary_report = {
+            "file": str(market_context["file"]),
+            "schema_version": market_context["data"].get("schema_version"),
+            "collection_retrieved_at": market_context["data"].get("collection", {}).get("retrieved_at"),
+            "evaluation_time_utc": market_context["evaluation_time"].isoformat().replace("+00:00", "Z"),
+            "max_snapshot_age_minutes": str(market_context["max_snapshot_age_minutes"]),
+            "quotes": market_quote_records,
+        }
+        warnings.append(
+            "Schema-v4 order-book prices are point-in-time estimates, not actual fills or guaranteed liquidity. "
+            "Refresh stale/expired snapshots before relying on a current execution estimate."
+        )
 
     return {
         "schema_version": 1,
@@ -476,6 +707,7 @@ def evaluate(config: dict[str, Any]) -> dict[str, Any]:
             "active_time_basis": active_time_basis,
         },
         "sale_scenarios": evaluated_scenarios,
+        "market_summary": market_summary_report,
         "warnings": warnings,
         "decision": {
             "initial_efficiency_metric": "unadjusted_net_contribution_per_active_operator_hour",
