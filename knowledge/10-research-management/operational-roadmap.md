@@ -211,9 +211,9 @@ The roadmap is accepted as the working plan. Milestones M1 and M2 are now in pro
 - [x] The first quote-first evaluator validates an SDE manufacturing recipe against an actual quoted output and complete quoted material bill; SDE base quantities remain visible for reconciliation.
 - [x] The evaluator can source exact-quantity v4 procurement and liquidation estimates, preserve partial liquidation as unsold inventory, and record quote-source freshness/provenance. Manual cost inputs remain supported.
 - [ ] A complete material bill and batch plan is demonstrated for one real product using the user's local SDE and Industry quote.
-- [ ] Input costs use quantity-aware procurement prices or clearly labeled manual inputs.
-- [ ] Installation and market fees are accounted for without double-counting using actual quote/calculator inputs.
-- [ ] Immediate liquidation and sell-order strategies are compared where relevant.
+- [x] Input costs use quantity-aware procurement prices from exact-quantity v4 local-ask sweeps or clearly labeled manual inputs. Partial procurement sweeps are rejected.
+- [x] Installation and market fees have separate explicit inputs in the batch-cost and sale-scenario calculations, avoiding implicit estimates or double counting. Real quote reconciliation remains part of the worked-product gate.
+- [x] The evaluator supports immediate liquidation from v4 bid sweeps and a separate sell-order scenario with explicit prices and fee assumptions. A real-product comparison remains open.
 - [ ] Buying versus producing intermediate components is evaluated.
 - [ ] Output includes expected net contribution, active operator-hours (measured or estimated), net contribution per active operator-hour when known, slot-hours, capital, and liquidation horizon.
 - [ ] Missing active-time data remains explicitly unknown rather than being replaced with elapsed job duration.
