@@ -123,7 +123,7 @@ The roadmap is accepted as the working plan. Milestones M1 and M2 are now in pro
 
 ### M1. Validate the public data foundation
 
-**Status:** In progress. Existing acquisition scripts are under review; local execution and live-data validation remain pending.
+**Status:** In progress. SDE build 3698585 download, integrity, extraction, and manufacturing/reaction recipe parsing have passed local validation. The two global ESI smoke tests passed; the bounded regional market collection and live order/history reconciliation remain pending.
 
 **Purpose:** Establish a reproducible source of current static recipes and public market observations.
 
@@ -135,11 +135,11 @@ The roadmap is accepted as the working plan. Milestones M1 and M2 are now in pro
 - Define refresh cadence based on ESI cache behavior rather than unnecessary polling.
 
 **Acceptance criteria:**
-- [ ] A current SDE build is downloaded, integrity-checked, and recorded.
-- [ ] Current type, blueprint, and manufacturing/reaction recipe records are inspected and their schema documented.
-- [ ] A small public ESI collection completes with a manifest and reproducible output.
+- [x] A current SDE build is downloaded, integrity-checked, and recorded.
+- [x] Current type, blueprint, and manufacturing/reaction recipe records are parsed from the live archive; optional fields and unresolved type metadata are documented.
+- [ ] A small public ESI collection completes with a manifest and reproducible regional output.
 - [ ] Sample market history and order-book outputs are reconciled with their endpoint definitions.
-- [ ] Missing or private market data is explicitly identified rather than imputed.
+- [x] Missing or private market data is explicitly identified rather than imputed, including the access limitations of regional structure orders and private Upwell structure markets.
 
 ### M2. Define the local operating profile
 
