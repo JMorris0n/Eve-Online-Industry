@@ -1,13 +1,23 @@
-name: Python calculation tests
+name: Repository validation
 
 on:
   push:
     paths:
       - "tools/calculations/**"
+      - "tools/validation/**"
+      - "knowledge/**"
+      - "exports/**"
+      - "README.md"
+      - "LLM-START-HERE.md"
       - ".github/workflows/python-tests.yml"
   pull_request:
     paths:
       - "tools/calculations/**"
+      - "tools/validation/**"
+      - "knowledge/**"
+      - "exports/**"
+      - "README.md"
+      - "LLM-START-HERE.md"
       - ".github/workflows/python-tests.yml"
   workflow_dispatch:
 
@@ -15,7 +25,7 @@ permissions:
   contents: read
 
 jobs:
-  calculations:
+  validation:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -26,3 +36,7 @@ jobs:
           python-version: "3.12"
       - name: Run calculation tests
         run: python -m unittest discover -s tools/calculations -p "test_*.py" -v
+      - name: Run validation-tool tests
+        run: python -m unittest discover -s tools/validation -p "test_*.py" -v
+      - name: Check local Markdown links
+        run: python tools/validation/check_markdown_links.py
