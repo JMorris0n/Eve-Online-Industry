@@ -33,8 +33,10 @@ status: draft
 - [x] Document Tech I manufacturing workflow, BPO/BPC use, run/output distinction, job-level material rounding, provisional time/material models, and delivery.
   - [ ] Independently test combined ME/TE, character, structure, and rig modifiers against Industry quotes.
   - [ ] Verify maximum job duration/run limits and BPO/BPC concurrent-use behavior.
-- [ ] Tech II blueprint copying and invention.
-- [ ] Decryptor effects and invention output rules.
+- [x] Document Tech II invention inputs, skill-adjusted probability formula, category base chances, decryptor modifiers, output BPC characteristics, and expected-cost model.
+  - [ ] Verify invention chance precision/cap and multi-run datacore/decryptor consumption against the Industry UI.
+  - [ ] Verify output BPC runs/ME/TE for each decryptor and representative item families.
+- [ ] Complete standalone blueprint-copying mechanics and Tech II invention-to-manufacturing chain validation.
 - [ ] Tech II component manufacturing and dependencies.
 - [ ] Reactions and reaction facility constraints.
   - [x] Document reaction reactor families and the Refinery/security requirement.
