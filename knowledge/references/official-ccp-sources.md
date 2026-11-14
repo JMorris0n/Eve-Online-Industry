@@ -79,6 +79,10 @@ For each source, record its stable ID, publisher, title, canonical URL, source t
 | ccp-alpha-omega | CCP Support, [Alpha and Omega Clone](https://support.eveonline.com/hc/en-us/articles/213020969-Alpha-and-Omega-Clone) | Updated 2026-02-04 | Current Alpha/Omega feature restrictions, including PI export restriction |
 | ccp-alpha-quick-facts | CCP Support, [Alpha Clones and Omega Clone lapsing - Quick Facts](https://support.eveonline.com/hc/en-us/articles/213811425-Alpha-Clones-and-Omega-Clone-lapsing-Quick-Facts) | Updated 2024-07-15 | Alpha PI import capability and export restriction; industry/market clone-state limits |
 
+| ccp-scc-baseline | CCP, [Patch Notes - Version 21.06](https://www.eveonline.com/news/view/patch-notes-version-21-06) | Published 2024-02-01 | Increased baseline SCC industry surcharge from 1.5% to 4% |
+| ccp-research-scc-relief | CCP, [Exploration and Industry Balance Rework](https://www.eveonline.com/news/view/exploration-and-industry-balance-rework) | Published 2025-07-18 | Reduced ME/TE research SCC surcharge from 4% to 2%, described as temporary |
+| ccp-exordium-fees | CCP, [Patch Notes - Version 23.02](https://www.eveonline.com/news/view/patch-notes-version-23-02) | Published 2026 | Exordium region-specific industry fee surcharge |
+
 ## Source limitations
 
 CCP Support's blueprint, skill, and structure support pages have displayed update dates from 2022-2024. The 2025 SCC relief announcement explicitly calls its ME/TE research change temporary; keep it provisional until current in-game quotes or a later CCP statement establish its status. The Exordium change is a regional exception and the patch note does not provide a complete global fee model. The ESI overview is a live developer reference and may change as the API is versioned. Continue to check current patch notes and in-game UI before revising fee constants.
