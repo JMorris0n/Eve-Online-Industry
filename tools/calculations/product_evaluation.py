@@ -420,7 +420,7 @@ def evaluate(config: dict[str, Any]) -> dict[str, Any]:
                 raise ValueError(
                     f"industry_quote.materials[{index}]: market-summary procurement quantity must be a whole number"
                 )
-            quote, audit = _get_v4_quote(
+            material_market_quote, audit = _get_v4_quote(
                 market_context,
                 line.get("market_quote"),
                 type_id=type_id,
@@ -429,15 +429,15 @@ def evaluate(config: dict[str, Any]) -> dict[str, Any]:
                 label=f"Material type {type_id}",
                 warnings=warnings,
             )
-            if quote["status"] != "full":
+            if material_market_quote["status"] != "full":
                 raise ValueError(
                     f"Material type {type_id}: procurement quote is not fully fillable "
-                    f"({quote['filled_quantity']} filled, {quote['unfilled_quantity']} unfilled). "
+                    f"({material_market_quote['filled_quantity']} filled, {material_market_quote['unfilled_quantity']} unfilled). "
                     "Do not cost the batch from an incomplete material quote."
                 )
-            unit_value = Decimal(str(quote["gross_value_isk"])) / quantity
+            unit_value = Decimal(str(material_market_quote["gross_value_isk"])) / quantity
             basis = line.get("valuation_basis", "schema-v4 target-location ask VWAP estimate")
-            source_timestamp = quote.get("source_timestamp")
+            source_timestamp = material_market_quote.get("source_timestamp")
             location_text = line.get("location") or f"region {audit['region_id']}, location {audit['location_id']}"
             market_quote_records.append(audit)
         elif valuation_source == "manual":

@@ -212,6 +212,7 @@ class ProductEvaluationTests(unittest.TestCase):
         ask = summary["summaries"][0]["location_books"][0]["order_book"]["buy_from_asks"][0]
         ask["filled_quantity"] = 10
         ask["unfilled_quantity"] = 10
+        ask["gross_value_isk"] = 100
         ask["fully_fillable_in_snapshot"] = False
         config["market_summary"] = {
             "file": None,
