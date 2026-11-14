@@ -75,6 +75,8 @@ status: draft
 
 - [x] Establish consistent replacement-cost, opportunity-cost, historical-cost, and EIV accounting conventions.
 - [x] Document manufacturing profitability framework, batch-level contribution, break-even pricing, slot-hour efficiency, and capital-return metrics.
+- [x] Implement a deterministic manufacturing profitability calculator with material valuation, partial-sale inventory accounting, full-batch projections, break-even/target-margin pricing, and input-price thresholds.
+  - [ ] Confirm GitHub Actions test results and reconcile a worked example against actual Industry quotes, market fills, and wallet records.
 - [x] Document broker fees, sales tax, relist fees, NPC versus Upwell market differences, and transaction execution behavior.
   - [ ] Validate fee calculations against wallet journal and live order quotes for NPC and Upwell markets.
   - [x] Add a deterministic fee estimator and standard-library unit tests; automated test result remains unconfirmed.
