@@ -77,6 +77,7 @@ status: draft
 - [x] Document manufacturing profitability framework, batch-level contribution, break-even pricing, slot-hour efficiency, and capital-return metrics.
 - [x] Document broker fees, sales tax, relist fees, NPC versus Upwell market differences, and transaction execution behavior.
   - [ ] Validate fee calculations against wallet journal and live order quotes for NPC and Upwell markets.
+  - [x] Add a deterministic fee estimator and standard-library unit tests; automated test result remains unconfirmed.
   - [ ] Build a representative worked manufacturing product example using current prices and a chosen market location.
 - [x] Document facility and regional location economics, including activity-specific SCI, ESI/market data, facility comparison, remote installation, and total landed cost.
   - [x] Implement the public ESI collector needed to retrieve system indices and market orders.
