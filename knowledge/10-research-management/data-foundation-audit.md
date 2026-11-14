@@ -79,13 +79,13 @@ Source: [CCP ESI versioning documentation](https://developers.eveonline.com/docs
 
 ## Remaining validation
 
-- [ ] Run a bounded public ESI collection for one test region and a small set of type IDs.
-- [ ] Reconcile regional order-book pagination, market-history records, cache headers, timestamps, and the market summarizer against saved live responses.
-- [ ] Inspect the normalized recipe JSONL for record-level join gaps, duplicate blueprint/activity keys, publication flags, and exceptional recipe values. The console summary alone does not establish these details.
-- [ ] Define a refresh cadence from observed ESI cache behavior before scheduling repeated pulls.
-- [ ] Keep public regional market coverage separate from authorized Upwell structure-market access and personal character/account data.
+- [x] Run a bounded public ESI collection for The Forge (region 10000002) and type IDs 34, 35, and 36.
+- [x] Reconcile the saved collection's order counts, daily history coverage, location grouping, cache/timestamp provenance, and v2/v3 summary structure. Schema-v4 bid-side execution still requires its own local rerun and review.
+- [ ] Run the local normalized-recipe audit command and review its record-level quality report.
+- [ ] Define a refresh cadence from observed ESI cache behavior before scheduling repeated pulls; this can wait until the first real evaluation is established.
+- [x] Keep public regional market coverage separate from authorized Upwell structure-market access and personal character/account data.
 
-The SDE acquisition, extraction, and parser execution are locally validated at the command/output-count level. M1 remains in progress pending local execution and review of the schema-v4 market summary, plus any record-level SDE checks required by the first evaluator.
+The SDE acquisition, extraction, and parser execution are locally validated at the command/output-count level. M1 remains in progress pending the local schema-v4 market summary rerun/review and the normalized-recipe audit report.
 
 No current market price or profitability conclusion is asserted by this audit.
 

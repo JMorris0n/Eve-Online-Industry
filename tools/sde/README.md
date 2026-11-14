@@ -95,3 +95,16 @@ Downloaded data belongs under `data/raw/sde/` and is intentionally excluded from
 - Do not assume old CSV conversions or pre-September-2025 parsers match the current schema.
 
 Official documentation: https://developers.eveonline.com/docs/services/static-data/
+
+
+## Audit normalized recipe quality
+
+After the parser has written `data/derived/industry-recipes.jsonl`, run:
+
+```powershell
+py -3 tools/sde/audit_industry_recipes.py `
+    --input "data/derived/industry-recipes.jsonl" `
+    --output "data/derived/industry-recipes-audit.json"
+```
+
+This local-only audit checks activity counts, complete/incomplete source-field states, duplicate blueprint/activity keys, joined type-name/publication metadata, duplicate item IDs, invalid records, and exceptional zero-time or unpublished records. It reports a small sample of unresolved type IDs rather than printing the recipe file. The JSONL and audit output stay in Git-ignored `data/derived/`. The report is a data-quality check, not proof that any product is marketable or profitable.
