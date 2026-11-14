@@ -13,6 +13,8 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from validate_profile import validate_profile_data
+
 
 def _blueprint_status(profile: dict[str, Any], blueprint_type_id: int) -> tuple[str, str]:
     records = profile.get("blueprints", [])
@@ -156,6 +158,9 @@ def main() -> int:
     args = parser.parse_args()
     try:
         profile = json.loads(args.profile.read_text(encoding="utf-8"))
+        profile_errors = validate_profile_data(profile)
+        if profile_errors:
+            raise ValueError("invalid profile: " + "; ".join(profile_errors))
         results = []
         with args.recipes.open("r", encoding="utf-8-sig") as stream:
             for line_number, line in enumerate(stream, start=1):
