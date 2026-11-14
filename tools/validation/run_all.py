@@ -25,6 +25,13 @@ CHECKS = [
         ],
     ),
     (
+        "Operating-profile unit tests",
+        [
+            sys.executable, "-m", "unittest", "discover",
+            "-s", "tools/profile", "-p", "test_*.py", "-v",
+        ],
+    ),
+    (
         "Local Markdown links",
         [sys.executable, "tools/validation/check_markdown_links.py"],
     ),
