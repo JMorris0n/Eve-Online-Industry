@@ -22,7 +22,7 @@ The reference scope remains broad: industry foundations, blueprints and research
 ## Principles
 
 - Mechanics are separated from economic models and strategic recommendations.
-- Rank opportunities by realistic, risk-adjusted ISK contribution per active operator-hour, while displaying capital, liquidity, slot usage, and operational complexity separately.
+- Initially rank opportunities by unadjusted net ISK contribution per active operator-hour. Display risk indicators and low/base/high scenarios separately; do not apply a risk adjustment until pilot data supports a defensible calibration. Display capital, liquidity, slot usage, and operational complexity alongside the ranking.
 - Prefer buying inputs and intermediate components over vertical integration unless the incremental return justifies the additional jobs and attention.
 - Favor predictable turnover and semi-passive operation over theoretical maximum margin.
 - Claims are traceable to specific sources or explicitly marked as hypotheses.

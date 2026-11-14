@@ -33,13 +33,19 @@ An empty skill map means "not recorded", not "untrained". Skill keys are SDE ski
 
 Exactly three character slots are represented. Use labels such as "Manufacturing", "Science", or "Market" if role labels help, but do not assume a character's specialization until its trained skills and available slots have been checked.
 
-Skill levels are integers from 0 to 5, keyed by SDE type ID. The profile records the skills needed by candidate products; it is not necessary to export every skill at the outset. Record \`skills_state\` as \`partial\` while building the relevant skill list and \`verified\` only when the skill inventory is complete enough for absence to mean level zero. Job capacities are separate fields for Manufacturing, Science, and Reaction.
+Skill levels are integers from 0 to 5, keyed by SDE type ID. The profile records the skills needed by candidate products; it is not necessary to export every skill at the outset. Record \`skills_state\` as \`partial\` while building the relevant skill list and \`verified\` only when the skill inventory is complete enough for absence to mean level zero. The `job_capacity` values are the number of currently free jobs available in Manufacturing, Science, and Reaction, not a theoretical skill-derived maximum. Update them when jobs are installed or completed; use null when the current free count is unknown.
 
 ## Blueprints and facilities
 
 Blueprint records use SDE type IDs, distinguish BPO from BPC, and include ME, TE, licensed runs, quantity, and a local location label where known. For a BPO, quantity is the number of owned copies; for a BPC, quantity is the number of copies with the same recorded properties. Keep distinct ME/TE/run variants as separate records.
 
 Facility records describe only facilities you can actually access. Record available services, relevant rigs, system ID, and tax rate only when known. Structure names and access details remain local.
+
+## Market access and logistics
+
+The optional `market_access` section records locations where the operation can actually procure inputs or sell finished output. For each location, record its region ID, solar-system ID, location ID, whether it is an NPC station or Upwell structure, and the roles it supports (`procurement`, `sales`, or both). Mark the section `verified` only when the list is complete for the markets you intend to use. A public regional ESI order does not prove access to an Upwell structure.
+
+The optional `logistics` section records the preferred method (`self_haul`, `courier`, `either`, or `none`), practical route-jump and cargo-volume limits, and the maximum active hauling time you are willing to spend per batch. Unknown values should remain null. These constraints help flag plans that are technically profitable but operationally inconvenient.
 
 ## Capital and operating constraints
 
@@ -74,4 +80,4 @@ This is a hard-constraint screen only. It does not calculate blueprint ME/TE eff
 
 ## Current limitations
 
-This is the first profile contract and structural validator. A separate feasibility evaluator is being added to distinguish eligible, ineligible, and unknown character/blueprint/facility requirements. Do not use the template as a profitability recommendation by itself.
+The profile validator checks structure and field types. The feasibility evaluator distinguishes eligible, ineligible, and unknown character/blueprint/facility requirements, but remains a hard-constraint screen. Neither tool calculates live market access from permissions, procurement cost, installation quotes, logistics cost, or profitability. An eligible result is not a production recommendation.

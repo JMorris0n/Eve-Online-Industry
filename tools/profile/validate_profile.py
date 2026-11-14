@@ -13,7 +13,7 @@ VALID_STATES = {"unknown", "partial", "verified"}
 ALLOWED_TOP_LEVEL = {
     "profile_version", "profile_name", "last_reviewed", "characters",
     "capital", "operations", "facilities", "blueprints", "blueprints_state",
-    "facilities_state", "notes",
+    "facilities_state", "notes", "market_access", "logistics",
 }
 REQUIRED_TOP_LEVEL = {
     "profile_version", "profile_name", "characters", "capital", "operations",
@@ -123,6 +123,64 @@ def validate_profile_data(data: Any) -> list[str]:
                 errors.append(f"operations.{field} must be a non-negative integer or null")
         if operations.get("risk_tolerance") not in {"unknown", "low", "moderate", "high"}:
             errors.append("operations.risk_tolerance is invalid")
+
+    if "market_access" in data:
+        market_access = data["market_access"]
+        if not isinstance(market_access, dict):
+            errors.append("market_access must be an object")
+        else:
+            if market_access.get("state") not in VALID_STATES:
+                errors.append("market_access.state is invalid")
+            locations = market_access.get("locations")
+            if not isinstance(locations, list):
+                errors.append("market_access.locations must be an array")
+                locations = []
+            if "notes" in market_access and not isinstance(market_access["notes"], list):
+                errors.append("market_access.notes must be an array")
+            for index, location in enumerate(locations):
+                prefix = f"market_access.locations[{index}]"
+                if not isinstance(location, dict):
+                    errors.append(f"{prefix} must be an object")
+                    continue
+                if not isinstance(location.get("label"), str) or not location.get("label", "").strip():
+                    errors.append(f"{prefix}.label must be a non-empty string")
+                if location.get("state") not in VALID_STATES:
+                    errors.append(f"{prefix}.state is invalid")
+                if location.get("market_type") not in {"unknown", "npc_station", "upwell_structure"}:
+                    errors.append(f"{prefix}.market_type is invalid")
+                for field in ("region_id", "system_id", "location_id"):
+                    value = location.get(field)
+                    if value is not None and (
+                        isinstance(value, bool) or not isinstance(value, int) or value < 1
+                    ):
+                        errors.append(f"{prefix}.{field} must be a positive integer or null")
+                roles = location.get("roles")
+                if not isinstance(roles, list) or any(
+                    role not in {"procurement", "sales"} for role in roles
+                ):
+                    errors.append(f"{prefix}.roles must contain only procurement and/or sales")
+                if "notes" in location and not isinstance(location["notes"], list):
+                    errors.append(f"{prefix}.notes must be an array")
+
+    if "logistics" in data:
+        logistics = data["logistics"]
+        if not isinstance(logistics, dict):
+            errors.append("logistics must be an object")
+        else:
+            if logistics.get("state") not in VALID_STATES:
+                errors.append("logistics.state is invalid")
+            if logistics.get("preferred_method") not in {"unknown", "self_haul", "courier", "either", "none"}:
+                errors.append("logistics.preferred_method is invalid")
+            for field in ("max_route_jumps", "max_active_minutes_per_batch"):
+                value = logistics.get(field)
+                if value is not None and (
+                    isinstance(value, bool) or not isinstance(value, int) or value < 0
+                ):
+                    errors.append(f"logistics.{field} must be a non-negative integer or null")
+            if not _nonnegative_number(logistics.get("max_cargo_m3")):
+                errors.append("logistics.max_cargo_m3 must be non-negative or null")
+            if "notes" in logistics and not isinstance(logistics["notes"], list):
+                errors.append("logistics.notes must be an array")
 
     for state_field in ("facilities_state", "blueprints_state"):
         if data.get(state_field) not in VALID_STATES:

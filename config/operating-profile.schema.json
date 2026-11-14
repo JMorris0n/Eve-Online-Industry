@@ -68,6 +68,12 @@
     },
     "facilities_state": {
       "$ref": "#/$defs/state"
+    },
+    "market_access": {
+      "$ref": "#/$defs/marketAccess"
+    },
+    "logistics": {
+      "$ref": "#/$defs/logistics"
     }
   },
   "$defs": {
@@ -368,6 +374,148 @@
             "string",
             "null"
           ]
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "marketAccess": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state",
+        "locations"
+      ],
+      "properties": {
+        "state": {
+          "$ref": "#/$defs/state"
+        },
+        "locations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/marketLocation"
+          }
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "marketLocation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "label",
+        "state",
+        "market_type",
+        "roles"
+      ],
+      "properties": {
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "state": {
+          "$ref": "#/$defs/state"
+        },
+        "market_type": {
+          "type": "string",
+          "enum": [
+            "unknown",
+            "npc_station",
+            "upwell_structure"
+          ]
+        },
+        "region_id": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "system_id": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "location_id": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "procurement",
+              "sales"
+            ]
+          }
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "logistics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state",
+        "preferred_method",
+        "max_route_jumps",
+        "max_active_minutes_per_batch",
+        "max_cargo_m3"
+      ],
+      "properties": {
+        "state": {
+          "$ref": "#/$defs/state"
+        },
+        "preferred_method": {
+          "type": "string",
+          "enum": [
+            "unknown",
+            "self_haul",
+            "courier",
+            "either",
+            "none"
+          ]
+        },
+        "max_route_jumps": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "max_active_minutes_per_batch": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "max_cargo_m3": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
         },
         "notes": {
           "type": "array",

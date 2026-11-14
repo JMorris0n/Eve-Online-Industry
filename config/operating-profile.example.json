@@ -68,5 +68,18 @@
     "Do not add character IDs, access tokens, wallet exports, or private account data to the public repository."
   ],
   "blueprints_state": "unknown",
-  "facilities_state": "unknown"
+  "facilities_state": "unknown",
+  "market_access": {
+    "state": "unknown",
+    "locations": [],
+    "notes": []
+  },
+  "logistics": {
+    "state": "unknown",
+    "preferred_method": "unknown",
+    "max_route_jumps": null,
+    "max_active_minutes_per_batch": null,
+    "max_cargo_m3": null,
+    "notes": []
+  }
 }

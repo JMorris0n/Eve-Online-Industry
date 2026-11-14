@@ -44,6 +44,54 @@ class OperatingProfileTests(unittest.TestCase):
     def test_unknown_values_may_remain_null(self):
         self.assertEqual(validate_profile_data(self.profile), [])
 
+    def test_accepts_market_access_and_logistics(self):
+        self.profile["market_access"] = {
+            "state": "partial",
+            "locations": [{
+                "label": "Preferred market",
+                "state": "verified",
+                "market_type": "npc_station",
+                "region_id": 10000002,
+                "system_id": 30000142,
+                "location_id": 60003760,
+                "roles": ["procurement", "sales"],
+                "notes": [],
+            }],
+            "notes": [],
+        }
+        self.profile["logistics"] = {
+            "state": "partial",
+            "preferred_method": "either",
+            "max_route_jumps": 15,
+            "max_active_minutes_per_batch": 45,
+            "max_cargo_m3": 50000,
+            "notes": [],
+        }
+        self.assertEqual(validate_profile_data(self.profile), [])
+
+    def test_rejects_invalid_market_location_id(self):
+        self.profile["market_access"] = {
+            "state": "partial",
+            "locations": [{
+                "label": "Market",
+                "state": "unknown",
+                "market_type": "unknown",
+                "location_id": -1,
+                "roles": [],
+            }],
+        }
+        self.assertTrue(any("location_id" in error for error in validate_profile_data(self.profile)))
+
+    def test_rejects_invalid_logistics_method(self):
+        self.profile["logistics"] = {
+            "state": "unknown",
+            "preferred_method": "teleport",
+            "max_route_jumps": None,
+            "max_active_minutes_per_batch": None,
+            "max_cargo_m3": None,
+        }
+        self.assertTrue(any("preferred_method" in error for error in validate_profile_data(self.profile)))
+
     def test_rejects_negative_capital(self):
         self.profile["capital"]["working_capital_isk"] = -1
         self.assertTrue(any("working_capital_isk" in error for error in validate_profile_data(self.profile)))
