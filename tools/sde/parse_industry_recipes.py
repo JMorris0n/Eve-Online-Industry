@@ -38,19 +38,28 @@ def iter_jsonl(path: Path) -> Iterator[dict[str, Any]]:
             yield record
 
 
-def load_type_names(path: Path) -> dict[int, str]:
-    names: dict[int, str] = {}
+def load_type_metadata(path: Path) -> dict[int, dict[str, Any]]:
+    metadata: dict[int, dict[str, Any]] = {}
     for record in iter_jsonl(path):
         type_id = record.get("_key")
         name = record.get("name")
-        if isinstance(type_id, int) and isinstance(name, dict):
-            english = name.get("en")
-            if isinstance(english, str) and english:
-                names[type_id] = english
-    return names
+        if isinstance(type_id, bool) or not isinstance(type_id, int):
+            continue
+        english = name.get("en") if isinstance(name, dict) else None
+        metadata[type_id] = {
+            "name": english if isinstance(english, str) else None,
+            "published": record.get("published"),
+            "group_id": record.get("groupID"),
+            "market_group_id": record.get("marketGroupID"),
+            "tech_level": record.get("techLevel"),
+            "portion_size": record.get("portionSize"),
+            "volume": record.get("volume"),
+            "packaged_volume": record.get("packagedVolume"),
+        }
+    return metadata
 
 
-def _normalize_items(items: Any, names: dict[int, str], field: str) -> list[dict[str, Any]]:
+def _normalize_items(items: Any, type_metadata: dict[int, dict[str, Any]], field: str) -> list[dict[str, Any]]:
     if not isinstance(items, list):
         raise ValueError(f"activity.{field} must be an array")
     normalized = []
@@ -63,17 +72,25 @@ def _normalize_items(items: Any, names: dict[int, str], field: str) -> list[dict
             raise ValueError(f"activity.{field} contains invalid typeID: {type_id!r}")
         if isinstance(quantity, bool) or not isinstance(quantity, int) or quantity <= 0:
             raise ValueError(f"activity.{field} contains invalid quantity: {quantity!r}")
+        type_info = type_metadata.get(type_id, {})
         normalized.append({
             "type_id": type_id,
-            "name": names.get(type_id),
+            "name": type_info.get("name"),
             "quantity_per_run": quantity,
+            "published": type_info.get("published"),
+            "group_id": type_info.get("group_id"),
+            "market_group_id": type_info.get("market_group_id"),
+            "tech_level": type_info.get("tech_level"),
+            "portion_size": type_info.get("portion_size"),
+            "volume": type_info.get("volume"),
+            "packaged_volume": type_info.get("packaged_volume"),
         })
     return sorted(normalized, key=lambda entry: entry["type_id"])
 
 
 def normalize_blueprint(
     blueprint: dict[str, Any],
-    names: dict[int, str],
+    type_metadata: dict[int, dict[str, Any]],
     activity_name: str,
 ) -> dict[str, Any] | None:
     activities = blueprint.get("activities")
@@ -89,8 +106,8 @@ def normalize_blueprint(
     if isinstance(blueprint_id, bool) or not isinstance(blueprint_id, int) or blueprint_id <= 0:
         raise ValueError(f"invalid blueprintTypeID: {blueprint_id!r}")
 
-    products = _normalize_items(activity.get("products"), names, "products")
-    materials = _normalize_items(activity.get("materials"), names, "materials")
+    products = _normalize_items(activity.get("products"), type_metadata, "products")
+    materials = _normalize_items(activity.get("materials"), type_metadata, "materials")
     if not products:
         raise ValueError(f"{activity_name} activity for blueprint {blueprint_id} has no products")
     if not materials:
@@ -111,14 +128,18 @@ def normalize_blueprint(
         if (isinstance(type_id, bool) or not isinstance(type_id, int) or type_id <= 0
                 or isinstance(level, bool) or not isinstance(level, int) or not 0 <= level <= 5):
             raise ValueError(f"invalid required skill entry: {skill!r}")
-        normalized_skills.append({"type_id": type_id, "name": names.get(type_id), "level": level})
+        normalized_skills.append({"type_id": type_id, "name": type_metadata.get(type_id, {}).get("name"), "level": level})
 
+    blueprint_info = type_metadata.get(blueprint_id, {})
     return {
         "schema_version": 1,
         "source": "CCP SDE",
         "activity": activity_name,
         "blueprint_type_id": blueprint_id,
-        "blueprint_name": names.get(blueprint_id),
+        "blueprint_name": blueprint_info.get("name"),
+        "blueprint_published": blueprint_info.get("published"),
+        "blueprint_group_id": blueprint_info.get("group_id"),
+        "blueprint_market_group_id": blueprint_info.get("market_group_id"),
         "max_production_limit": blueprint.get("maxProductionLimit"),
         "base_time_seconds_per_run": time_seconds,
         "materials": materials,
@@ -137,10 +158,10 @@ def extract_recipes(
         raise FileNotFoundError(f"Missing SDE file: {blueprint_path}")
     if not types_path.is_file():
         raise FileNotFoundError(f"Missing SDE file: {types_path}")
-    names = load_type_names(types_path)
+    type_metadata = load_type_metadata(types_path)
     for blueprint in iter_jsonl(blueprint_path):
         for activity_name in activity_names:
-            recipe = normalize_blueprint(blueprint, names, activity_name)
+            recipe = normalize_blueprint(blueprint, type_metadata, activity_name)
             if recipe is not None:
                 yield recipe
 
