@@ -67,3 +67,5 @@
 - Researched and replaced the Demand and Liquidity placeholder with historical volume/transaction analysis, order-book depth, VWAP execution, spread, liquidation horizon, volatility, and market absorption metrics. Clarified that ESI order_count represents completed transactions rather than currently open orders.
 
 - Researched and replaced the Price Analysis placeholder with executable price definitions, historical trend measures, volume-weighted execution valuation, volatility, outlier handling, adjusted-price/EIV separation, and data-provenance rules.
+
+- Researched and replaced the Regional Arbitrage placeholder with a quantity-aware model for source procurement, destination liquidation, market fees, hauling, risk-adjusted loss, capital time, and false-arbitrage screening.
