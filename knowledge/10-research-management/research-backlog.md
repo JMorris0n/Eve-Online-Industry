@@ -69,7 +69,9 @@ status: draft
   - [ ] Build a current ESI collector and representative location comparison using live market orders, SCI, facility fees, and logistics.
 - [x] Document self-haul and courier-contract cost components, collateral exposure, route risk, Upwell Asset Safety, and structure continuity risks.
 - [ ] Build a configurable hauling cost and route-risk model, including expected loss and capital/time costs.
-- [ ] Document working capital, inventory concentration, and capital turnover.
+- [x] Document working capital, inventory valuation, capital turnover, asset concentration, and capital allocation.
+- [x] Define a deterministic capital-turnover computation using dated cash flows, capital-days, and cash conversion time.
+  - [ ] Validate the model with a real production batch and wallet/asset records.
 
 ## P3: Optimization
 
