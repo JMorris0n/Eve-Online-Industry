@@ -69,3 +69,5 @@
 - Researched and replaced the Price Analysis placeholder with executable price definitions, historical trend measures, volume-weighted execution valuation, volatility, outlier handling, adjusted-price/EIV separation, and data-provenance rules.
 
 - Researched and replaced the Regional Arbitrage placeholder with a quantity-aware model for source procurement, destination liquidation, market fees, hauling, risk-adjusted loss, capital time, and false-arbitrage screening.
+
+- Researched and replaced the Product Selection placeholder with a multi-criteria framework for feasibility, contribution, slot/capital efficiency, liquidity, make-versus-buy, portfolio risk, and Pareto screening. Live product ranking remains open until a market region, character skills, and operating constraints are selected.
