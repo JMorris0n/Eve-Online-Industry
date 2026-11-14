@@ -8,4 +8,6 @@
 - Created a comprehensive topic map and initial research backlog.
 - Researched and replaced the Blueprints and Research placeholder with a source-backed draft covering BPOs, BPCs, ME/TE research, material rounding, and copying behavior.
 - Added CCP source URLs, source update dates, and a current 2026 LP-store BPC example to the official source catalog.
-- Marked the initial blueprint terminology and ME/TE documentation tasks complete; in-game verification and downstream cost models remain open.
+- Researched and replaced the Skills and Job Capacity placeholder with a source-backed draft covering Manufacturing, Science, and Reaction pools, slot formulas, prerequisites, remote operation, and Alpha limits.
+- Added CCP and EVE University source entries for skill and job-capacity research.
+- Marked the corresponding documentation backlog items complete; independent in-game verification remains open.
