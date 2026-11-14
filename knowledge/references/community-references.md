@@ -122,6 +122,20 @@ Do not use this catalog as evidence for a game mechanic. Individual concept file
 | eve-cyno-market-history | [EVE-CYNO Market History](https://data.eve-cyno.dev/docs/tools/get_market_history) | Accessed 2026-11-14 | ESI market-history field semantics and omitted zero-trade days; third-party documentation of ESI-derived data. |
 | everef-market-history | [EVE Ref Market History](https://docs.everef.net/datasets/market-history.html) | Accessed 2026-11-14 | Market-history archive behavior, including late-discovered records and mutable historical archives. |
 
+## Third-party industrial tools
+
+| Source ID | Tool/reference | Last checked | Scope and caveats |
+|---|---|---|---|
+| eveuni-third-party-tools | [EVE University Third-Party Tools](https://wiki.eveuniversity.org/Third-party_tools) | 2026-11-14 | Community-maintained directory; verify tool status and links independently. |
+| eve-retroindustry | [EVE Retroindustry](https://everetroindustry.github.io/) | Release v0.11.47, 2026-11-12 | Local open-source industry manager; project advertises no cloud and MIT license. Windows binaries are unsigned; verify checksums/source before SSO. |
+| eve-cookbook | [EVE Cookbook](https://evecookbook.com/) | v1.4.9, 2026-10-01 | Manufacturing/reaction/Science calculator and MCP integration; Jita market pricing refreshed about hourly per site FAQ. |
+| eve-omnitool | [EVE Omnitool](https://eve-omnitool.com/) | 2026-11-14 | Web market and industry tool; figures are snapshots, not a live feed. Review terms/SSO scopes. |
+| evecalc | [EVE Online Industry Calc](https://evecalc.uk/) | 2026-11-14 | Multi-blueprint manufacturing, stock-aware build planning, and ESI-linked assets/skills; actively developed. |
+| eve-industry-calculator | [EVE Online Industry Calculator](https://www.eveonline-industry.com/) | 2026-11-14 | Blueprint and PI calculators with cached market prices and optional premium asset sync. |
+| eve-nexus-pi | [EvE Nexus PI Planner](https://www.evenexus.app/pi/planner) | 2026-11-14 | PI chain/factory planner; defaults P0 to free extraction and excludes extraction effort/hauling from its own profit estimate. |
+| eve-pi-tool | [EvePiTool](https://evepitool.com/) | 2026-11-14 | PI resource and chain planner; validate data timestamps and assumptions. |
+| eve-industry-forum-tools | [EVE Omnitool developer thread](https://forums.eveonline.com/t/tool-eve-omnitool-com-free-market-industry-live-intel-tool-for-eve/519645) | 2026-10-25 | Developer announcement for current calculator and market features. |
+
 ## Source limitations
 
 EVE University is a community educational resource. EVE Ref is a structured SDE-derived reference. The EVE Reactions Calculator explains its own algorithm. These sources help identify item attributes and model mechanics, but the current in-game Industry UI is authoritative for an actual job quote and a real facility's configured services, rigs, and taxes.
