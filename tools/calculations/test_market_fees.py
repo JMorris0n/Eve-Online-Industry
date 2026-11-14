@@ -37,6 +37,15 @@ class MarketFeeTests(unittest.TestCase):
         self.assertEqual(result["rates"]["broker_fee_rate"], "0.025")
         self.assertEqual(result["fees"]["order_creation_broker_fee_isk"], "2500000.00")
 
+    def test_immediate_fill_has_no_order_creation_or_relist_fee(self):
+        config = copy.deepcopy(self.config)
+        config["order"]["create_non_immediate_order"] = False
+        config["order"]["reprice_existing_order"] = False
+        result = calculate(config)
+        self.assertEqual(result["fees"]["order_creation_broker_fee_isk"], "0.00")
+        self.assertEqual(result["fees"]["relist_fee_isk"], "0.00")
+        self.assertEqual(result["fees"]["sales_tax_on_sale_value_isk"], "4050000.00")
+
     def test_invalid_skill_level_is_rejected(self):
         config = copy.deepcopy(self.config)
         config["character"]["accounting_level"] = 6
