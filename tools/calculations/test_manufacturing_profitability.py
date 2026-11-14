@@ -38,7 +38,9 @@ class ManufacturingProfitabilityTests(unittest.TestCase):
         self.assertEqual(projected["isk_per_active_operator_hour"], "123937.50")
 
     def test_active_operator_hour_metric_is_unknown_when_time_is_missing_or_zero(self):
-        missing = calculate(self.config)
+        missing_config = copy.deepcopy(self.config)
+        missing_config["production"].pop("active_operator_hours", None)
+        missing = calculate(missing_config)
         self.assertIsNone(missing["full_batch_projection"]["isk_per_active_operator_hour"])
 
         config = copy.deepcopy(self.config)
