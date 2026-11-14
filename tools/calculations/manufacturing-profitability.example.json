@@ -3,7 +3,8 @@
     "delivered_output_units": "1000",
     "capital_deployed_isk": "150000",
     "manufacturing_slot_hours": "12",
-    "elapsed_critical_path_hours": "12"
+    "elapsed_critical_path_hours": "12",
+    "active_operator_hours": "2.0"
   },
   "materials": [
     {
