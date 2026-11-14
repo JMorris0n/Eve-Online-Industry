@@ -79,7 +79,7 @@ status: draft
 - [x] Document Science job-slot allocation, research/copying output rates, expected invention BPC throughput, and Science-to-Manufacturing bottlenecks.
 - [x] Document multi-pool production scheduling, precedence dependencies, slot/resource constraints, critical path, batch sizing, and replanning triggers.
 - [x] Document industrial role profiles, job-slot/time/invention/remote/market/PI skill categories, and marginal skill-value planning.
-- [ ] Multi-character and multi-facility scaling.
+- [x] Document industrial scaling across characters, facilities, regions, and vertical integration, including bottlenecks and incremental expansion tests.
 
 ## P4: Market intelligence, tools, and playbooks
 
