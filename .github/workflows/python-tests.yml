@@ -10,6 +10,8 @@ on:
       - "README.md"
       - "LLM-START-HERE.md"
       - ".github/workflows/python-tests.yml"
+      - ".github/ISSUE_TEMPLATE/**"
+      - ".github/PULL_REQUEST_TEMPLATE.md"
   pull_request:
     paths:
       - "tools/calculations/**"
@@ -19,6 +21,8 @@ on:
       - "README.md"
       - "LLM-START-HERE.md"
       - ".github/workflows/python-tests.yml"
+      - ".github/ISSUE_TEMPLATE/**"
+      - ".github/PULL_REQUEST_TEMPLATE.md"
   workflow_dispatch:
 
 permissions:
