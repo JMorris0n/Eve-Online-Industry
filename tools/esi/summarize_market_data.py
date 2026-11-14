@@ -178,7 +178,7 @@ def load_sde_market_map(sde_dir: Path) -> dict[str, Any]:
             raise ValueError(f"{systems_path} contains a record without valid _key/regionID")
         system_regions[system_id] = region_id
 
-    adjacency: dict[int, set[int]] = defaultdict(set)
+    reverse_adjacency: dict[int, set[int]] = defaultdict(set)
     for record in _read_jsonl_records(gates_path):
         source_system = record.get("solarSystemID")
         destination = record.get("destination")
@@ -189,22 +189,22 @@ def load_sde_market_map(sde_dir: Path) -> dict[str, Any]:
         ):
             raise ValueError(f"{gates_path} contains a record without valid solar-system endpoints")
         if source_system in system_regions and destination_system in system_regions:
-            adjacency[source_system].add(destination_system)
+            reverse_adjacency[destination_system].add(source_system)
 
-    if not system_regions or not adjacency:
+    if not system_regions or not reverse_adjacency:
         raise ValueError("SDE map files did not produce a usable solar-system jump graph")
-    return {"system_regions": system_regions, "adjacency": dict(adjacency)}
+    return {"system_regions": system_regions, "reverse_adjacency": dict(reverse_adjacency)}
 
 
 def shortest_jump_distances(
     start_system_id: int,
-    adjacency: dict[int, set[int]],
+    reverse_adjacency: dict[int, set[int]],
     system_regions: dict[int, int],
     region_id: int,
     *,
     max_jumps: int = 40,
 ) -> dict[int, int]:
-    """Return directed shortest stargate distances, constrained to one region."""
+    """Return source-to-target distances via the reversed SDE gate graph."""
     if system_regions.get(start_system_id) != region_id:
         return {}
     distances = {start_system_id: 0}
@@ -214,8 +214,8 @@ def shortest_jump_distances(
         current_distance = distances[current]
         if current_distance >= max_jumps:
             continue
-        for neighbor in adjacency.get(current, set()):
-            if system_regions.get(neighbor) != region_id or neighbor in distances:
+        for neighbor in reverse_adjacency.get(current, set()):
+            if neighbor not in system_regions or neighbor in distances:
                 continue
             distances[neighbor] = current_distance + 1
             queue.append(neighbor)
@@ -370,11 +370,11 @@ def summarize_target_location_book(
 ) -> dict[str, Any]:
     """Build the market book available at one target station or structure."""
     system_regions = sde_market_map["system_regions"] if sde_market_map else None
-    adjacency = sde_market_map["adjacency"] if sde_market_map else None
+    reverse_adjacency = sde_market_map["reverse_adjacency"] if sde_market_map else None
     jump_distances = None
-    if adjacency is not None and system_regions is not None and target_system_id is not None:
+    if reverse_adjacency is not None and system_regions is not None and target_system_id is not None:
         jump_distances = shortest_jump_distances(
-            target_system_id, adjacency, system_regions, region_id, max_jumps=40
+            target_system_id, reverse_adjacency, system_regions, region_id, max_jumps=40
         )
 
     eligible_bids: list[dict[str, Any]] = []
@@ -428,7 +428,7 @@ def summarize_target_location_book(
         1 for order in eligible_bids if order.get("location_id") != target_location_id
     )
     range_note = (
-        "Numeric jump ranges are evaluated with the SDE stargate graph within the selected region."
+        "Numeric jump ranges use the SDE stargate graph; the buy-order and target systems must be in the selected market region, but the route may pass through other regions."
         if sde_market_map
         else "Remote numeric jump ranges are unknown without --sde-dir and excluded from target-location bid sweeps."
     )

@@ -77,7 +77,7 @@ The version 3 report separates three perspectives:
 
 - order_book is a region-wide composite for discovery. Its best bid and best ask can come from different stations or structures. A crossed composite is not evidence of executable arbitrage.
 - posted_location_books groups all orders by the location where each order was posted. This is a provenance/debugging view, not the market book available at that location.
-- location_books evaluates a target location. Sell orders are included only when posted at that exact station or structure. Buy orders are included when their range setting covers the target system. Numeric jump ranges use mapSolarSystems.jsonl and mapStargates.jsonl from the supplied SDE, with the jump search constrained to the selected region.
+- location_books evaluates a target location. Sell orders are included only when posted at that exact station or structure. Buy orders are included when their range setting covers the target system. Numeric jump ranges use mapSolarSystems.jsonl and mapStargates.jsonl from the supplied SDE, with both the buy-order system and target system in the selected market region. A shortest route may pass through other regions.
 
 For target-location books, sell_into_bids checks each buy order's min_volume against the full requested sell-order quantity. If min_volume is omitted from the ESI response, it defaults to one unit. The minimum is not compared against the residual quantity after higher-priced bids have matched.
 

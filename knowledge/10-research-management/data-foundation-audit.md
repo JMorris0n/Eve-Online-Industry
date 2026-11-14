@@ -251,7 +251,7 @@ The summarizer was upgraded to schema version 3:
 
 - location_books now evaluates a target market location, including local asks and bids whose configured range covers that target.
 - posted_location_books retains the original grouping by posted location for audit/provenance.
-- Numeric jump ranges are resolved from SDE mapSolarSystems.jsonl and mapStargates.jsonl through --sde-dir. The jump graph preserves directed gate connections from the SDE; distances are constrained to the target market region.
+- Numeric jump ranges are resolved from SDE mapSolarSystems.jsonl and mapStargates.jsonl through --sde-dir. The jump graph preserves directed gate connections from the SDE and computes source-to-target distance with a reverse-graph BFS. The buy-order system and target system must belong to the queried market region, but a shortest route may pass through other regions.
 - Without the SDE map, remote numeric ranges are marked unknown and excluded from target-location bid sweeps.
 - Target-location sell-into-bids sweeps enforce each bid's min_volume against the original requested sell-order quantity. An omitted min_volume defaults to one; explicit malformed values are flagged and excluded.
 - Same-price bid ordering uses issued and order_id as a deterministic proxy. Exact same-price priority is not claimed as verified.

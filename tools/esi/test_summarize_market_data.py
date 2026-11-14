@@ -182,19 +182,21 @@ class MarketSummaryTests(unittest.TestCase):
             summarize_book([{"price": 1, "volume_remain": 1, "is_buy_order": "false"}], [1])
 
 
-    def test_load_sde_market_map_and_calculates_directed_region_jump_distances(self):
+    def test_load_sde_market_map_and_calculates_source_to_target_jump_distances(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
             systems = [
                 {"_key": 3001, "regionID": 100},
                 {"_key": 3002, "regionID": 100},
                 {"_key": 3003, "regionID": 100},
+                {"_key": 3004, "regionID": 100},
                 {"_key": 4001, "regionID": 200},
             ]
             gates = [
-                {"_key": 5001, "solarSystemID": 3001, "destination": {"solarSystemID": 3002}},
-                {"_key": 5002, "solarSystemID": 3002, "destination": {"solarSystemID": 3003}},
-                {"_key": 5003, "solarSystemID": 3003, "destination": {"solarSystemID": 4001}},
+                {"_key": 5001, "solarSystemID": 3002, "destination": {"solarSystemID": 3001}},
+                {"_key": 5002, "solarSystemID": 3003, "destination": {"solarSystemID": 3002}},
+                {"_key": 5003, "solarSystemID": 4001, "destination": {"solarSystemID": 3001}},
+                {"_key": 5004, "solarSystemID": 3004, "destination": {"solarSystemID": 4001}},
             ]
             (root / "mapSolarSystems.jsonl").write_text(
                 "\n".join(json.dumps(item) for item in systems) + "\n", encoding="utf-8"
@@ -204,17 +206,18 @@ class MarketSummaryTests(unittest.TestCase):
             )
             market_map = load_sde_market_map(root)
         distances = shortest_jump_distances(
-            3001, market_map["adjacency"], market_map["system_regions"], 100
+            3001, market_map["reverse_adjacency"], market_map["system_regions"], 100
         )
         self.assertEqual(distances[3001], 0)
         self.assertEqual(distances[3002], 1)
         self.assertEqual(distances[3003], 2)
-        self.assertNotIn(4001, distances)
+        self.assertEqual(distances[4001], 1)
+        self.assertEqual(distances[3004], 2)
 
     def test_classifies_station_system_region_and_numeric_ranges(self):
         system_regions = {3001: 100, 3002: 100, 3003: 100}
-        adjacency = {3001: {3002}, 3002: {3003}, 3003: set()}
-        distances = shortest_jump_distances(3001, adjacency, system_regions, 100)
+        reverse_adjacency = {3001: {3002}, 3002: {3003}, 3003: set()}
+        distances = shortest_jump_distances(3001, reverse_adjacency, system_regions, 100)
 
         def classify(order):
             return classify_buy_order_range(
@@ -275,7 +278,7 @@ class MarketSummaryTests(unittest.TestCase):
 
     def test_target_location_book_uses_eligible_remote_bids_and_local_asks(self):
         market_map = {
-            "adjacency": {3001: {3002}, 3002: {3003}, 3003: set()},
+            "reverse_adjacency": {3001: {3002}, 3002: {3003}, 3003: set()},
             "system_regions": {3001: 100, 3002: 100, 3003: 100},
         }
         orders = [
@@ -313,8 +316,8 @@ class MarketSummaryTests(unittest.TestCase):
             )
             (sde / "mapStargates.jsonl").write_text(
                 "\n".join(json.dumps(item) for item in [
-                    {"_key": 5001, "solarSystemID": 3001, "destination": {"solarSystemID": 3002}},
-                    {"_key": 5002, "solarSystemID": 3002, "destination": {"solarSystemID": 3003}},
+                    {"_key": 5001, "solarSystemID": 3002, "destination": {"solarSystemID": 3001}},
+                    {"_key": 5002, "solarSystemID": 3003, "destination": {"solarSystemID": 3002}},
                 ]) + "\n", encoding="utf-8"
             )
             orders = [
