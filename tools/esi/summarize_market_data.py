@@ -169,7 +169,17 @@ def summarize_directory(input_dir: Path, quantities: list[int]) -> list[dict[str
     histories: dict[tuple[int, int], list[dict[str, Any]]] = {}
     source_hashes: dict[str, str] = {}
 
-    for path in sorted(input_dir.glob("*.json")):
+    def source_sort_key(path: Path) -> tuple[Any, ...]:
+        order_match = ORDER_PATTERN.fullmatch(path.name)
+        if order_match:
+            return (0, int(order_match.group("region")), int(order_match.group("type")),
+                    int(order_match.group("page")), path.name)
+        history_match = HISTORY_PATTERN.fullmatch(path.name)
+        if history_match:
+            return (1, int(history_match.group("region")), int(history_match.group("type")), 0, path.name)
+        return (2, path.name)
+
+    for path in sorted(input_dir.glob("*.json"), key=source_sort_key):
         match = ORDER_PATTERN.fullmatch(path.name)
         if match:
             key = (int(match.group("region")), int(match.group("type")))
