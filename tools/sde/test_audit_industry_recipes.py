@@ -87,6 +87,37 @@ class RecipeAuditTests(unittest.TestCase):
         self.assertEqual(report["exceptional_records"]["unpublished_blueprint_record_count"], 2)
         self.assertEqual(report["structural_quality"]["record_validation_issue_count"], 0)
 
+
+    def test_reports_unique_unpublished_skill_ids_separately_from_reference_count(self):
+        with tempfile.TemporaryDirectory() as temp:
+            source = Path(temp) / "skill-publication.jsonl"
+            first = recipe(100)
+            second = recipe(101)
+            third = recipe(102)
+            fourth = recipe(103)
+            for item in (first, second):
+                item["required_skills"][0]["published"] = False
+            third["required_skills"][0] = {
+                "type_id": 401, "name": "Second unpublished skill",
+                "level": 2, "published": False,
+            }
+            fourth["required_skills"][0] = {
+                "type_id": 402, "name": "Unknown skill",
+                "level": 3, "published": None,
+            }
+            self.write_records(source, [first, second, third, fourth])
+            report = audit_recipes(source, max_samples=5)
+
+        skill_meta = report["type_metadata"]["categories"]["skill"]
+        self.assertEqual(skill_meta["references"], 4)
+        self.assertEqual(skill_meta["unpublished"], 3)
+        self.assertEqual(skill_meta["unknown_publication"], 1)
+        self.assertEqual(report["type_metadata"]["unique_unpublished_skill_type_id_count"], 2)
+        self.assertEqual(report["type_metadata"]["unpublished_skill_type_id_samples"], [400, 401])
+        self.assertEqual(report["type_metadata"]["unique_unknown_skill_publication_type_id_count"], 1)
+        self.assertEqual(report["type_metadata"]["unknown_skill_publication_type_id_samples"], [402])
+        self.assertEqual(report["audit_version"], 2)
+
     def test_report_counts_exceptions_beyond_sample_limit(self):
         with tempfile.TemporaryDirectory() as temp:
             source = Path(temp) / "many-recipes.jsonl"

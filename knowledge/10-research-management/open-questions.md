@@ -164,3 +164,12 @@ status: draft
 - **Evidence needed:** Parser regression tests for a known publication flag and a missing metadata join, followed by regeneration of the local recipe JSONL and audit report from the current extracted SDE build.
 - **Resolution:** The parser now carries the joined `published` flag into required-skill entries and preserves null when metadata is missing. Regression tests pass. The user regenerated the normalized output from SDE build 3698585 and uploaded a refreshed audit report: all 9,360 required-skill references have resolved names and known publication state (9,225 published references, 135 unpublished references, zero unknown). The 135 count is by reference, not distinct skill type; publication status alone does not establish trainability or character eligibility.
 - **Status:** Resolved for SDE build 3698585. Unpublished skill references remain explicitly visible for downstream review.
+
+
+### Q-018: Which distinct skill type IDs account for unpublished required-skill references?
+
+- **Question:** Do the 135 unpublished required-skill references in the SDE build 3698585 report represent repeated uses of a small set of skill types or a broad set of distinct skills?
+- **Affected concepts:** [Data Quality and Reconciliation](../07-tools-and-data/data-quality.md), [SDE recipe parser](../../tools/sde/README.md), [Product Selection](../06-market-intelligence/product-selection.md).
+- **Why it matters:** Reference counts alone cannot establish how many distinct skill types require downstream review. Candidate feasibility should not infer trainability or character eligibility solely from the SDE publication flag.
+- **Evidence needed:** Run audit version 2, which reports unique unpublished and unknown-publication skill type IDs separately from raw reference counts, then review the compact ID samples against the local SDE.
+- **Status:** Implemented; awaiting one local audit-only refresh. No parser or SDE re-download is required.

@@ -57,6 +57,8 @@ def audit_recipes(input_path: Path, max_samples: int = 25) -> dict[str, Any]:
     unpublished_blueprint_keys: list[dict[str, Any]] = []
     unpublished_product_ids: set[int] = set()
     unknown_product_publication_ids: set[int] = set()
+    unpublished_skill_type_ids: set[int] = set()
+    unknown_skill_publication_type_ids: set[int] = set()
     record_count = 0
     zero_time_recipe_count = 0
     unpublished_blueprint_record_count = 0
@@ -74,8 +76,12 @@ def audit_recipes(input_path: Path, max_samples: int = 25) -> dict[str, Any]:
             unresolved_ids.add(type_id)
         if item.get("published") is False:
             counts["unpublished"] += 1
+            if category == "skill":
+                unpublished_skill_type_ids.add(type_id)
         elif item.get("published") is not True:
             counts["unknown_publication"] += 1
+            if category == "skill":
+                unknown_skill_publication_type_ids.add(type_id)
 
     with input_path.open("rb") as raw:
         source_bytes = raw.read()
@@ -188,7 +194,7 @@ def audit_recipes(input_path: Path, max_samples: int = 25) -> dict[str, Any]:
                         unknown_product_publication_ids.add(type_id)
 
     return {
-        "audit_version": 1,
+        "audit_version": 2,
         "source_file": input_path.name,
         "source_sha256": source_hash,
         "record_count": record_count,
@@ -216,6 +222,10 @@ def audit_recipes(input_path: Path, max_samples: int = 25) -> dict[str, Any]:
             "unpublished_product_type_id_samples": sorted(unpublished_product_ids)[:max_samples],
             "unknown_product_publication_type_id_count": len(unknown_product_publication_ids),
             "unknown_product_publication_type_id_samples": sorted(unknown_product_publication_ids)[:max_samples],
+            "unique_unpublished_skill_type_id_count": len(unpublished_skill_type_ids),
+            "unpublished_skill_type_id_samples": sorted(unpublished_skill_type_ids)[:max_samples],
+            "unique_unknown_skill_publication_type_id_count": len(unknown_skill_publication_type_ids),
+            "unknown_skill_publication_type_id_samples": sorted(unknown_skill_publication_type_ids)[:max_samples],
         },
         "exceptional_records": {
             "zero_base_time_recipe_count": zero_time_recipe_count,
