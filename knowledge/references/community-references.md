@@ -115,6 +115,13 @@ Do not use this catalog as evidence for a game mechanic. Individual concept file
 |---|---|---|---|
 | eveuni-hauling | [Hauling](https://wiki.eveuniversity.org/Hauling) | Accessed 2026-11-14 | Hauling ship categories, route considerations, courier usage, and risk factors. Avoid treating rule-of-thumb cargo thresholds as universal loss probabilities. |
 
+## Market data and liquidity references
+
+| Source ID | Reference | Last modified / accessed | Use and limitations |
+|---|---|---|---|
+| eve-cyno-market-history | [EVE-CYNO Market History](https://data.eve-cyno.dev/docs/tools/get_market_history) | Accessed 2026-11-14 | ESI market-history field semantics and omitted zero-trade days; third-party documentation of ESI-derived data. |
+| everef-market-history | [EVE Ref Market History](https://docs.everef.net/datasets/market-history.html) | Accessed 2026-11-14 | Market-history archive behavior, including late-discovered records and mutable historical archives. |
+
 ## Source limitations
 
 EVE University is a community educational resource. EVE Ref is a structured SDE-derived reference. The EVE Reactions Calculator explains its own algorithm. These sources help identify item attributes and model mechanics, but the current in-game Industry UI is authoritative for an actual job quote and a real facility's configured services, rigs, and taxes.
