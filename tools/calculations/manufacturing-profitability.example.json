@@ -1,0 +1,51 @@
+{
+  "production": {
+    "delivered_output_units": "1000",
+    "capital_deployed_isk": "150000",
+    "manufacturing_slot_hours": "12",
+    "elapsed_critical_path_hours": "12"
+  },
+  "materials": [
+    {
+      "name": "Tritanium",
+      "quantity": "100000",
+      "unit_value_isk": "5",
+      "valuation_basis": "replacement cost",
+      "source_timestamp": "2026-11-14T00:00:00Z",
+      "location": "Example market"
+    },
+    {
+      "name": "Pyerite",
+      "quantity": "25000",
+      "unit_value_isk": "10",
+      "valuation_basis": "replacement cost",
+      "source_timestamp": "2026-11-14T00:00:00Z",
+      "location": "Example market"
+    }
+  ],
+  "other_batch_costs": {
+    "installation_fees_isk": "50000",
+    "allocated_upstream_costs_isk": "0",
+    "logistics_and_handling_isk": "10000",
+    "other_variable_costs_isk": "0"
+  },
+  "sale": {
+    "sales_tax_rate": "0.03375",
+    "broker_fees_isk": "0",
+    "relist_fees_isk": "0",
+    "other_sale_costs_isk": "0",
+    "fills": [
+      {"quantity": "400", "unit_price_isk": "1100"},
+      {"quantity": "300", "unit_price_isk": "1080"}
+    ]
+  },
+  "full_batch_projection": {
+    "unit_sale_price_isk": "1100",
+    "sales_tax_rate": "0.03375",
+    "broker_fees_isk": "5000",
+    "relist_fees_isk": "0",
+    "other_sale_costs_isk": "0",
+    "target_net_margin_rate": "0.10",
+    "target_material_for_max_price": "Tritanium"
+  }
+}
