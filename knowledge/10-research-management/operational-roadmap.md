@@ -145,12 +145,13 @@ The roadmap is accepted as the working plan. Milestones M1 and M2 are now in pro
 
 ### M2. Define the local operating profile
 
-**Status:** In progress. The local profile schema, safe example, structural validator, feasibility screen, and automated tests are in place. The uploaded readiness report is schema-valid with zero errors but confirms that all three character records, blueprint/facility inventories, market access, capital, operations, and logistics remain unknown or unentered. No EVE SSO has been used; the current workflow is manual and public-data-only. The normalized SDE skill metadata correction has also been validated against a regenerated local report: all 9,360 skill references have known publication status (135 unpublished references remain flagged for downstream review).
+**Status:** In progress. The local profile schema, safe example, structural validator, feasibility screen, and automated tests are in place. The uploaded readiness report is schema-valid with zero errors but confirms that all three character records, blueprint/facility inventories, market access, capital, operations, and logistics remain unknown or unentered. No EVE SSO has been used; the current workflow is manual and public-data-only. The normalized SDE skill metadata correction has been validated against a regenerated local report: all 9,360 skill references have known publication status. Audit version 2 identifies 24 distinct unpublished skill type IDs across 135 references and zero unknown-publication skill IDs. A local skill-reference generator is now implemented; its run against the local recipe JSONL remains pending.
 
 **Purpose:** Make product feasibility depend on the actual operation rather than generic character assumptions.
 
 **Work:**
 - Define a local, editable profile for the three industrial characters, their skills, job pools, specializations, and available slots.
+- Generate a local skill-requirements reference from complete, published SDE recipes; rank skills by candidate recipe coverage while preserving unpublished and incomplete exceptions.
 - Capture relevant blueprint/BPC availability and any limits on location or licensed runs.
 - Capture accessible facilities, service availability, rig assumptions, taxes, and production systems.
 - Capture market-access locations for procurement and sales, distinguishing NPC stations from Upwell structures.
@@ -164,6 +165,8 @@ The roadmap is accepted as the working plan. Milestones M1 and M2 are now in pro
 - [x] The schema represents all three characters and separates known values from unknown values.
 - [x] A feasibility check distinguishes eligible, ineligible, and unknown character, blueprint, and facility requirements. It is a hard-constraint screen, not a job quote or profitability result.
 - [x] The profile contract can represent market-access locations and logistics constraints without exposing them in the public repository.
+- [x] A local skill-reference generator ranks published, known skill requirements across complete, resolved SDE recipes and preserves exclusion reasons.
+- [ ] Run and review the skill reference against the local normalized recipe file, then enter verified skill levels for the three characters.
 - [ ] The three character records, blueprint inventory, facilities, market access, capital, and attention/logistics limits are populated and reviewed locally.
 - [x] No private profile, balance, asset export, or credential is committed to Git.
 

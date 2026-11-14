@@ -108,3 +108,22 @@ py -3 tools/sde/audit_industry_recipes.py `
 ```
 
 This local-only audit checks activity counts, complete/incomplete source-field states, duplicate blueprint/activity keys, joined type-name/publication metadata, duplicate item IDs, invalid records, and exceptional zero-time or unpublished records. Audit version 2 also reports distinct unpublished and unknown-publication skill type IDs separately from reference counts, with small ID samples. It does not print the recipe file. The JSONL and audit output stay in Git-ignored `data/derived/`. The report is a data-quality check, not proof that any product is marketable or profitable.
+
+## Build the local skill-requirements reference
+
+After the corrected recipe parser has produced data/derived/industry-recipes.jsonl, build a local reference of skills required by complete, published recipes:
+
+```powershell
+py -3 tools/sde/build_skill_requirements.py `
+    --input "data/derived/industry-recipes.jsonl" `
+    --output "data/derived/skill-requirements.json" `
+    --activity all
+```
+
+Use --activity manufacturing to limit the reference to manufacturing, or --activity reaction for reactions. The default includes both and reports them separately.
+
+The tool ranks required skills by how many recipes pass its static-data filters. The profile-capture list includes only skills with a known name and published status that are required by at least one eligible recipe. Each entry reports recipe coverage, activity coverage, and the required-level distribution. The full observed-skill section retains unpublished or otherwise excluded skill references for review rather than silently discarding them.
+
+A recipe enters the skill-reference candidate set only when its material/product data is explicitly complete, its blueprint is published and named, its base time is positive, its material names resolve, at least one named published product output exists, and its skill array plus each required skill's name, level, and publication status are known and published. Omitted/null skill arrays are not treated as an empty list.
+
+This is a **skill-inventory planning reference**, not a marketability, character-feasibility, blueprint-ownership, facility-access, or profitability result. Published output types and complete SDE recipes still need to be checked against actual market access, demand, available blueprints, facilities, and the user's three-character profile. The generated JSON stays under Git-ignored data/derived/; do not commit private profile data or upload the raw recipe JSONL.

@@ -360,3 +360,22 @@ The 135 is a reference count, not a distinct type-ID count. The compact audit cu
 The remaining product/material/blueprint metadata exceptions are unchanged from the earlier audit: 21 unresolved type IDs (20 product, one material), 580 unpublished product type IDs, 54 unpublished material references, 811 unpublished blueprint records, and one zero-time recipe (blueprint type 34256). The 17 incomplete material recipes remain ineligible for costing as zero-input recipes.
 
 **Q-017 is resolved for SDE build 3698585.** Parser regression tests and a regenerated report demonstrate that required-skill publication metadata is now preserved and all skill references have known publication status in this normalized output. The unpublished-reference cases remain flagged for downstream handling; this resolution does not claim that those skills are trainable or untrainable.
+
+## Audit version 2 review and skill-reference preparation (2026-11-14)
+
+The newest local audit was uploaded to Dropbox root path /industry-recipes-audit.json, modified **2026-11-14T22:41:30Z**. This report is audit version 2. The older copies moved into Eve-Online-Industry-Stale-Files were not used.
+
+The version 2 results confirm:
+- **9,360** required-skill references, all with resolved names and known publication status.
+- **9,225** published skill references and **135** unpublished references.
+- **24 distinct unpublished skill type IDs** account for the 135 unpublished references.
+- **Zero** distinct skill IDs have unknown publication status.
+- **5,022** unique blueprint/activity keys and zero duplicate keys or record-validation issues.
+
+The unpublished type IDs remain exceptions for review. A publication flag is not evidence that a skill can or cannot be trained, nor does it reveal whether an existing character has a historical skill level.
+
+### Next local reference
+
+A local tool, tools/sde/build_skill_requirements.py, now derives a skill-coverage reference from the normalized recipe JSONL. It retains all observed skill types, ranks requirements by the number of statically eligible recipes, and preserves exclusion reasons for incomplete recipes, unpublished blueprints/skills, unresolved metadata, and unknown skill arrays. The reference intentionally stays in Git-ignored data/derived/. Its local execution and report review are still pending.
+
+This tool is a profile-preparation step only. It does not establish actual character skills, blueprint ownership, facility access, marketability, or profitability.

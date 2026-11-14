@@ -171,5 +171,14 @@ status: draft
 - **Question:** Do the 135 unpublished required-skill references in the SDE build 3698585 report represent repeated uses of a small set of skill types or a broad set of distinct skills?
 - **Affected concepts:** [Data Quality and Reconciliation](../07-tools-and-data/data-quality.md), [SDE recipe parser](../../tools/sde/README.md), [Product Selection](../06-market-intelligence/product-selection.md).
 - **Why it matters:** Reference counts alone cannot establish how many distinct skill types require downstream review. Candidate feasibility should not infer trainability or character eligibility solely from the SDE publication flag.
-- **Evidence needed:** Run audit version 2, which reports unique unpublished and unknown-publication skill type IDs separately from raw reference counts, then review the compact ID samples against the local SDE.
-- **Status:** Implemented; awaiting one local audit-only refresh. No parser or SDE re-download is required.
+- **Evidence:** The audit version 2 report uploaded to Dropbox root path /industry-recipes-audit.json (modified **2026-11-14T22:41:30Z**) reports **24 distinct unpublished skill type IDs** across **135 references**, with **zero unknown-publication skill IDs**.
+- **Resolution:** The unpublished references are concentrated in 24 distinct type IDs. The IDs remain visible in the audit and will be preserved in the local skill-reference output for exception review. Publication status alone does not establish trainability, historical character ownership, or eligibility.
+- **Status:** Resolved for SDE build 3698585.
+
+### Q-019: What recipe-derived skill set should be used to populate the three-character profile?
+
+- **Question:** Can the normalized SDE data produce a compact, trustworthy list of skills required by complete, published manufacturing and reaction recipes, ranked by the number of eligible recipes that require them?
+- **Affected concepts:** [Local SDE tools](../../tools/sde/README.md), [Local operating profile](../../tools/profile/README.md), [Product Selection](../06-market-intelligence/product-selection.md).
+- **Why it matters:** The profile should capture relevant skill levels without requiring an exhaustive manual inventory of every skill in EVE. Incomplete recipes, unpublished blueprints/outputs/skills, and unknown skill arrays must not be treated as verified zero-skill requirements.
+- **Evidence needed:** Run tools/sde/build_skill_requirements.py against the user's local normalized recipe JSONL. Review the eligible recipe count, profile-capture skill list, publication exceptions, and exclusion reasons. Keep the generated reference and private profile local.
+- **Status:** Tool and regression tests implemented; awaiting a local run and review.

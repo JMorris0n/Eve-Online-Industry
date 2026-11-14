@@ -35,6 +35,24 @@ Exactly three character slots are represented. Use labels such as "Manufacturing
 
 Skill levels are integers from 0 to 5, keyed by SDE type ID. The profile records the skills needed by candidate products; it is not necessary to export every skill at the outset. Record \`skills_state\` as \`partial\` while building the relevant skill list and \`verified\` only when the skill inventory is complete enough for absence to mean level zero. The `job_capacity` values are the number of currently free jobs available in Manufacturing, Science, and Reaction, not a theoretical skill-derived maximum. Update them when jobs are installed or completed; use null when the current free count is unknown.
 
+
+## Build the skill reference before entering character skills
+
+The recipe-derived skill reference narrows the manual character review to skills actually required by complete, published manufacturing and reaction recipes. From the repository root, run:
+
+```powershell
+py -3 tools/sde/build_skill_requirements.py `
+    --input "data/derived/industry-recipes.jsonl" `
+    --output "data/derived/skill-requirements.json" `
+    --activity all
+```
+
+Open data/derived/skill-requirements.json locally. Start with profile_capture_skills, sorted by the number of candidate recipes that require each skill. The per-skill record shows the maximum required level and level distribution. all_observed_skill_types and unpublished_skill_exceptions preserve skill IDs that appeared in source recipes but did not qualify for the published candidate set.
+
+For each character, enter the level you verify in-game using the skill's decimal type ID as the profile key, for example 16622: 4. Do not infer a character's level from another character. Keep skills_state as partial while the relevant list is being checked. Set it to verified only when that character's skill inventory has been reviewed completely enough that an omitted skill really means level zero.
+
+The generated reference contains only public SDE recipe requirements. It does not reveal your characters' actual skills, and it does not require EVE SSO. A skill being listed does not establish that a specific character has it or that a recipe is currently profitable.
+
 ## Blueprints and facilities
 
 Blueprint records use SDE type IDs, distinguish BPO from BPC, and include ME, TE, licensed runs, quantity, and a local location label where known. For a BPO, quantity is the number of owned copies; for a BPC, quantity is the number of copies with the same recorded properties. Keep distinct ME/TE/run variants as separate records.
