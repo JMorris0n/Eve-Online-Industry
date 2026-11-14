@@ -29,6 +29,29 @@ class ManufacturingProfitabilityTests(unittest.TestCase):
             "7.48",
         )
 
+    def test_active_operator_hour_efficiency_uses_hands_on_time(self):
+        config = copy.deepcopy(self.config)
+        config["production"]["active_operator_hours"] = "2.0"
+        result = calculate(config)
+        projected = result["full_batch_projection"]
+        self.assertEqual(projected["active_operator_hours"], "2")
+        self.assertEqual(projected["isk_per_active_operator_hour"], "123937.50")
+
+    def test_active_operator_hour_metric_is_unknown_when_time_is_missing_or_zero(self):
+        missing = calculate(self.config)
+        self.assertIsNone(missing["full_batch_projection"]["isk_per_active_operator_hour"])
+
+        config = copy.deepcopy(self.config)
+        config["production"]["active_operator_hours"] = "0"
+        zero = calculate(config)
+        self.assertIsNone(zero["full_batch_projection"]["isk_per_active_operator_hour"])
+
+    def test_negative_active_operator_time_is_rejected(self):
+        config = copy.deepcopy(self.config)
+        config["production"]["active_operator_hours"] = "-0.5"
+        with self.assertRaises(ValueError):
+            calculate(config)
+
     def test_decimal_output_uses_plain_notation(self):
         from decimal import Decimal
 
