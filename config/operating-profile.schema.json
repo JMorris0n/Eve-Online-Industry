@@ -12,7 +12,9 @@
     "capital",
     "operations",
     "facilities",
-    "blueprints"
+    "blueprints",
+    "blueprints_state",
+    "facilities_state"
   ],
   "properties": {
     "profile_version": {
@@ -60,6 +62,12 @@
       "items": {
         "type": "string"
       }
+    },
+    "blueprints_state": {
+      "$ref": "#/$defs/state"
+    },
+    "facilities_state": {
+      "$ref": "#/$defs/state"
     }
   },
   "$defs": {
@@ -79,7 +87,8 @@
         "label",
         "state",
         "skills",
-        "job_capacity"
+        "job_capacity",
+        "skills_state"
       ],
       "properties": {
         "slot": {
@@ -96,7 +105,10 @@
         },
         "skills": {
           "type": "object",
-          "description": "Skill name to trained level (0-5). Empty means not yet recorded.",
+          "description": "Skill type ID (as a decimal string) to trained level (0-5). A missing skill is level zero only when skills_state is verified.",
+          "propertyNames": {
+            "pattern": "^[1-9][0-9]*$"
+          },
           "additionalProperties": {
             "type": "integer",
             "minimum": 0,
@@ -146,6 +158,9 @@
           "items": {
             "type": "string"
           }
+        },
+        "skills_state": {
+          "$ref": "#/$defs/state"
         }
       }
     },
