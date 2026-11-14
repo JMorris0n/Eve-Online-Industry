@@ -2,6 +2,8 @@
 
 ## First five minutes
 
+Use the [LLM Workflow Quick Start](exports/WORKFLOW-QUICKSTART.md) for the practical VS Code and PowerShell steps.
+
 1. Read this file completely.
 2. Read [the LLM Collaboration Protocol](knowledge/00-governance/llm-collaboration.md) and [Research and Verification Standards](knowledge/00-governance/research-standards.md).
 3. Read [the knowledge index](knowledge/index.md) and the relevant topic index.
