@@ -28,4 +28,6 @@
 - Researched and replaced the Tech II Components placeholder with a source-backed draft covering raw moon materials, intermediate/composite reactions, Advanced Component manufacturing, Tech II final input categories, skill dependencies, R.A.M. material behavior, and vertical-integration decisions.
 - Added CCP's historical R.A.M./R.Db conversion reference and documented the limits of historical damage-per-run mechanic claims.
 - Added an open question for a type-level, versioned Tech II component/recipe/skill dataset and independent quote validation.
+- Researched and replaced the Reactions placeholder with a source-backed draft covering reactor families, Refinery/security constraints, reaction job lifecycle, moon-material intermediate/composite reaction tables, special reaction exceptions, Hybrid and Biochemical/Molecular-Forged families, and reaction economics.
+- Linked the reaction and Tech II component concepts, added the EVE Omnitool reaction calculator to the community reference catalog, and recorded open questions for SDE/in-game recipe validation and a complete Molecular-Forged formula catalog.
 - Documentation milestones do not constitute independent in-game verification; all three new concepts remain draft.
