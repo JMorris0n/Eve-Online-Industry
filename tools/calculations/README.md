@@ -108,3 +108,27 @@ The tool verifies the selected SDE recipe, publication/completeness state, outpu
 Each sale strategy reuses the existing deterministic manufacturing profitability calculator. The report separates observed/estimated fills from a full-batch projection, keeps unsold inventory cost basis visible, reports slot-hours and contribution per active operator-hour when supplied, and does not apply a risk premium. Prices and fill assumptions are inputs, not predictions or guaranteed liquidity.
 
 Run its tests with the standard calculation test command above.
+
+
+## Exact-quantity schema-v4 market quotes
+
+The offline `market_summary_quotes.py` adapter extracts quotes from a local schema-v4 market summary. It supports two purposes:
+
+- `procurement`: uses local asks from `buy_from_asks`.
+- `liquidation`: uses range-eligible bids from `sell_into_bids` and requires the v4 per-fill minimum-volume rule.
+
+The requested quantity must exist exactly in the summary. The adapter does not substitute another sweep size, extrapolate VWAP, apply fees, or prove market access.
+
+Run an individual quote from the repository root:
+
+```powershell
+py -3 tools/calculations/market_summary_quotes.py `
+    --summary data/derived/market-summary-v4.json `
+    --region-id 10000002 `
+    --type-id 34 `
+    --location-id 60003760 `
+    --quantity 1000 `
+    --purpose liquidation
+```
+
+The output includes the ESI order-book observation time, cache expiry, source-file hash, filled/unfilled quantity, VWAP, and caveats. An expired ESI cache window means the snapshot should be refreshed before relying on it for a current decision.
