@@ -55,6 +55,8 @@ For the next research level, record:
 | ME_0 / TE_0 | Current BPO research levels | Blueprint |
 | ME_1 / TE_1 | Proposed next research level | Research plan |
 | C_R | Research installation fee | Live Industry quote |
+| C_RM | Any consumed research inputs/materials | Live Industry quote and current replacement prices |
+| C_A | BPO acquisition cost, only if purchased specifically for this investment | Acquisition price or opportunity cost |
 | T_R | Research job duration | Live Industry quote |
 | V_S | Opportunity value per Science slot-hour | Best alternative Science activity |
 | V_B | Cost of BPO downtime or exclusive asset lock, if applicable | Production schedule |
@@ -111,10 +113,10 @@ Science slot opportunity cost
   = T_R in hours × V_S
 
 Total research investment
-  = C_R + (T_R × V_S) + V_B
+  = C_R + C_RM + C_A + (T_R × V_S) + V_B
 ```
 
-V_B should be zero unless the BPO is genuinely prevented from generating value elsewhere during the research job. Do not double-count a BPO constraint already reflected in the production schedule.
+V_B should be zero unless the BPO is genuinely prevented from generating value elsewhere during the research job. C_A is zero when the BPO is already owned and its acquisition cost is sunk for this decision. Include it when comparing the full purchase-and-research investment. Do not double-count a BPO constraint already reflected in the production schedule.
 
 Research job duration increases with research level. Use the actual quote for the next level rather than assuming a constant duration per level. [^ccp-me-research] [^ccp-te-research]
 
@@ -186,7 +188,9 @@ State the discount rate and production schedule explicitly. Do not compare an un
 The following values are illustrative assumptions. They are not current prices or a live job quote.
 
 Assume:
-- Research investment, including the Science slot opportunity cost: 24,000,000 ISK.
+- Research installation fee and any research inputs: 18,000,000 ISK.
+- Science slot opportunity cost: 6,000,000 ISK.
+- Total research investment: 24,000,000 ISK.
 - Current ME material cost for a representative job: 100,000,000 ISK.
 - Proposed ME level reduces the actual rounded job material cost to 98,800,000 ISK.
 - Expected future production volume: 30 equivalent jobs.
