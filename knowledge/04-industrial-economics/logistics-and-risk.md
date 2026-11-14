@@ -17,15 +17,9 @@ sources:
   - id: ccp-upwell-quick-facts
     resource: https://support.eveonline.com/hc/en-us/articles/209985225-Upwell-Structures-Quick-Facts
     title: Upwell Structures Quick Facts | EVE Online Support
-  - id: ccp-structure-deployment
-    resource: https://support.eveonline.com/hc/en-us/articles/208289335-Upwell-Structure-Deployment-and-Unanchoring
-    title: Upwell Structure Deployment and Unanchoring | EVE Online Support
   - id: eveuni-hauling
     resource: https://wiki.eveuniversity.org/Hauling
     title: Hauling | EVE University Wiki
-  - id: eveuni-asset-safety
-    resource: https://wiki.eveuniversity.org/Asset_safety
-    title: Asset Safety | EVE University Wiki
 generated:
   by: openai/gpt-6
   at: 2026-11-14T07:10:00Z
@@ -207,6 +201,4 @@ Open work:
 [^ccp-courier-contracts]: CCP Support, Courier Contracts (updated 2021-08-23).
 [^ccp-asset-safety]: CCP Support, Asset Safety (updated 2026-03-02).
 [^ccp-upwell-quick-facts]: CCP Support, Upwell Structures Quick Facts (accessed 2026-11-14).
-[^ccp-structure-deployment]: CCP Support, Upwell Structure Deployment and Unanchoring (accessed 2026-11-14).
 [^eveuni-hauling]: EVE University Wiki, Hauling (accessed 2026-11-14).
-[^eveuni-asset-safety]: EVE University Wiki, Asset Safety (accessed 2026-11-14).
