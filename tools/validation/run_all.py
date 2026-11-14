@@ -39,6 +39,13 @@ CHECKS = [
         ],
     ),
     (
+        "ESI market summary unit tests",
+        [
+            sys.executable, "-m", "unittest", "discover",
+            "-s", "tools/esi", "-p", "test_*.py", "-v",
+        ],
+    ),
+    (
         "Local Markdown links",
         [sys.executable, "tools/validation/check_markdown_links.py"],
     ),
