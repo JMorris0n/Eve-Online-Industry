@@ -61,7 +61,13 @@ def fmt(value: Decimal) -> str:
 
 
 def fmt_decimal(value: Decimal) -> str:
-    return str(value.normalize()) if value else "0"
+    """Format a Decimal without scientific notation or insignificant zeros."""
+    if not value:
+        return "0"
+    rendered = format(value, "f")
+    if "." in rendered:
+        rendered = rendered.rstrip("0").rstrip(".")
+    return rendered
 
 
 def calculate(config: dict[str, Any]) -> dict[str, Any]:
