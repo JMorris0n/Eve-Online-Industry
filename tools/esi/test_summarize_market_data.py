@@ -139,7 +139,7 @@ class MarketSummaryTests(unittest.TestCase):
         ]
         result = summarize_book(orders, [1])
         self.assertTrue(result["is_crossed"])
-        self.assertEqual(result["spread_isk"], 2)
+        self.assertEqual(result["spread_isk"], -2)
         self.assertIn("not proof of arbitrage", result["caveat"])
 
     def test_directory_counts_orders_with_missing_location_id(self):
