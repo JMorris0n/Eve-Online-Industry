@@ -5,4 +5,4 @@
 - [Reaction Throughput](reaction-throughput.md): reaction slot-hour budgets, formula output/input rates, reactor compatibility, rig effects, and chain bottlenecks.
 - [Production Scheduling](production-scheduling.md): multi-pool job calendars, precedence constraints, blueprint/material resources, critical path, and batch release.
 - [Character Specialization](character-specialization.md): manufacturing/science/reaction/trade/PI role profiles and marginal skill-value planning.
-- [Industrial Scaling](industrial-scaling.md)
+- [Industrial Scaling](industrial-scaling.md): character/facility/region expansion, vertical integration, marginal returns, and risk controls.
