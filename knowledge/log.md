@@ -31,3 +31,6 @@
 - Researched and replaced the Reactions placeholder with a source-backed draft covering reactor families, Refinery/security constraints, reaction job lifecycle, moon-material intermediate/composite reaction tables, special reaction exceptions, Hybrid and Biochemical/Molecular-Forged families, and reaction economics.
 - Linked the reaction and Tech II component concepts, added the EVE Omnitool reaction calculator to the community reference catalog, and recorded open questions for SDE/in-game recipe validation and a complete Molecular-Forged formula catalog.
 - Documentation milestones do not constitute independent in-game verification; all three new concepts remain draft.
+- Refreshed Facilities and Rigs against current SDE-derived structure and rig attributes, added manufacturing versus reaction security multipliers, and corrected rig uniqueness to same rig type including T1/T2 variants.
+- Researched and replaced the Tech III Manufacturing placeholder with a source-backed four-stage production chain, relic/output mapping, sourcing, skill dependencies, and expected-attempt framework.
+- Recorded a material conflict: CCP's Ancient Relics article lists 40%/35%/25% base success chances, while EVE University and sampled SDE relic outputs show different percentages. No formula was inferred; live Industry-window verification remains open.
