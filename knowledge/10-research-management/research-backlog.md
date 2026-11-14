@@ -75,7 +75,8 @@ status: draft
 
 ## P3: Optimization
 
-- [ ] Manufacturing and science throughput.
+- [x] Document Manufacturing throughput, job-slot utilization, output rates, blueprint/BPC constraints, batch sizing, and bottleneck analysis.
+- [ ] Science and invention throughput.
 - [ ] Production scheduling.
 - [ ] Character specialization and marginal skill value.
 - [ ] Multi-character and multi-facility scaling.
