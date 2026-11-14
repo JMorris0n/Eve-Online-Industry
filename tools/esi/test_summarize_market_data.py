@@ -102,6 +102,17 @@ class MarketSummaryTests(unittest.TestCase):
         self.assertEqual(result[0]["duplicate_order_ids_removed"], 1)
         self.assertEqual(result[0]["order_book"]["order_count"], 1)
 
+    def test_order_pages_are_sorted_numerically_before_duplicate_resolution(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            page_two = {"order_id": 9, "type_id": 200, "price": 5, "volume_remain": 2, "is_buy_order": False}
+            page_ten = {"order_id": 9, "type_id": 200, "price": 5, "volume_remain": 7, "is_buy_order": False}
+            (root / "market-orders-region-100-type-200-page-2.json").write_text(json.dumps([page_two]), encoding="utf-8")
+            (root / "market-orders-region-100-type-200-page-10.json").write_text(json.dumps([page_ten]), encoding="utf-8")
+            result = summarize_directory(root, [1])
+        self.assertEqual(result[0]["duplicate_order_ids_removed"], 1)
+        self.assertEqual(result[0]["order_book"]["sell_volume"], 7)
+
     def test_rejects_order_type_mismatch(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
