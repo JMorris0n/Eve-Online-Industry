@@ -2,6 +2,10 @@
 
 ## 2026-11-14
 
+- Added a deterministic market fee estimator for Accounting sales tax, NPC broker fees, Upwell structure owner fees, and relist fees, with a JSON example and unit tests. Live order quotes and wallet records remain authoritative.
+- Added a deterministic manufacturing-profitability calculator with JSON inputs, partial-sale inventory accounting, full-batch projections, break-even and target-margin pricing, slot-hour/elapsed-hour metrics, and maximum affordable input-price analysis. Added example scenarios, unit tests, and a GitHub Actions test workflow. The illustrative scenario is not live market data; the CI result still needs confirmation.
+- Added a deterministic hauling-cost computation and standard-library Python calculator with a JSON scenario template and unit tests. It compares self-haul and courier costs from the cargo owner's perspective, including expected cargo/ship loss, collateral coverage, pilot time, and capital exposure. Real route probabilities remain user-supplied scenario inputs.
+
 - Initialized the EVE Online industrial knowledge repository scaffold.
 - Established OKF v0.2 as the target format.
 - Added governance, source-quality, LLM-collaboration, concept, and handoff templates.
@@ -101,8 +105,5 @@
 
 - Replaced Minerals and Ore, Moon Materials, Gas and Fullerites, Sleeper Salvage, and Procurement and Reprocessing placeholders with source-backed concepts. Avoided stale ore-location/yield tables, recorded current moon extraction and gas-family mechanics, separated Sleeper blue loot from Ancient Salvage, and documented reprocessing formulas with explicit warnings where the community reference is flagged for update.
 
-- Added a deterministic hauling-cost computation and standard-library Python calculator with a JSON scenario template and unit tests. It compares self-haul and courier costs from the cargo owner's perspective, including expected cargo/ship loss, collateral coverage, pilot time, and capital exposure. Real route probabilities remain user-supplied scenario inputs.
 
-- Added a deterministic manufacturing-profitability calculator with JSON inputs, partial-sale inventory accounting, full-batch projections, break-even and target-margin pricing, slot-hour/elapsed-hour metrics, and maximum affordable input-price analysis. Added example scenarios, unit tests, and a GitHub Actions test workflow. The illustrative scenario is not live market data; the CI result still needs confirmation.
 
-- Added a deterministic market fee estimator for Accounting sales tax, NPC broker fees, Upwell structure owner fees, and relist fees, with a JSON example and unit tests. Live order quotes and wallet records remain authoritative.
