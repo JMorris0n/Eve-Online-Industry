@@ -1,0 +1,14 @@
+# Generated LLM exports. Keep templates and hand-authored permanent files.
+exports/generated/
+
+# Temporary research artifacts
+*.tmp
+*.bak
+*.log~
+
+# Operating-system files
+.DS_Store
+Thumbs.db
+
+# VS Code workspace settings are local by default
+.vscode/
