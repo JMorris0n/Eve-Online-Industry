@@ -139,7 +139,7 @@ A facility's advertised activity capability is not enough. Check that the correc
 
 ## Structure rigs
 
-Upwell structures have three rig slots in the SDE-derived structure data tables. Rigs are size-specific: medium structures use medium rigs, large structures use large rigs, and XL structures use XL rigs. The listed Engineering Complexes and Refineries each have 400 calibration points and three rig slots. [^everef-engineering-complexes] [^everef-refineries]
+The Engineering Complex and Refinery hulls listed in the SDE-derived structure tables each have three rig slots and 400 calibration points. Rigs are size-specific: medium structures use medium rigs, large structures use large rigs, and XL structures use XL rigs. [^everef-engineering-complexes] [^everef-refineries]
 
 Rigs are specialized by activity and item group. EVE University's fitting reference distinguishes, among others: [^eveuni-upwell-fitting]
 
