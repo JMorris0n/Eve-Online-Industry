@@ -59,6 +59,9 @@ For each source, record its stable ID, publisher, title, canonical URL, source t
 | ccp-broker-fees | CCP Support, [Broker Fee and Sales Tax](https://support.eveonline.com/hc/en-us/articles/203218962-Broker-Fee-and-Sales-Tax) | Updated 2026-03-02 | NPC broker-fee formula, Broker Relations/standing effects, Upwell NPC fee share, and sales-tax baseline |
 | ccp-buy-sell-orders | CCP Support, [Buy and Sell Orders](https://support.eveonline.com/hc/en-us/articles/203218932-Buy-and-Sell-Orders) | Updated 2020-03-10 | Market order matching, immediate execution behavior, and relist-fee formula |
 
+| ccp-broker-fees | CCP Support, [Broker Fee and Sales Tax](https://support.eveonline.com/hc/en-us/articles/203218962-Broker-Fee-and-Sales-Tax) | Updated 2026-03-02 | NPC broker-fee formula, Broker Relations/standing effects, Upwell NPC fee share, and sales-tax baseline |
+| ccp-buy-sell-orders | CCP Support, [Buy and Sell Orders](https://support.eveonline.com/hc/en-us/articles/203218932-Buy-and-Sell-Orders) | Updated 2020-03-10 | Market order matching, immediate execution behavior, and relist-fee formula |
+
 ## Source limitations
 
 CCP Support's blueprint, skill, and structure support pages have displayed update dates from 2022-2024. The 2025 SCC relief announcement explicitly calls its ME/TE research change temporary; keep it provisional until current in-game quotes or a later CCP statement establish its status. The Exordium change is a regional exception and the patch note does not provide a complete global fee model. The ESI overview is a live developer reference and may change as the API is versioned. Continue to check current patch notes and in-game UI before revising fee constants.
