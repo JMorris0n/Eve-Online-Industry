@@ -6,8 +6,8 @@ tags:
   - governance
   - scope
 generated:
-  by: process:starter-scaffold
-  at: 2026-11-14T05:30:25Z
+  by: openai/gpt-6
+  at: 2026-11-14T11:15:00Z
 status: draft
 ---
 
@@ -33,7 +33,11 @@ The initial scope is comprehensive: industry foundations, blueprints and researc
 - A custom database or knowledge-management application.
 - Automatic production of final guides before source claims are verified.
 - Automatic ingestion of personal assets or market snapshots into evergreen concepts.
-- Autonomous commits to the primary branch.
+- Autonomous commits to the primary branch without explicit user delegation. By default, use a branch or patch and wait for review.
+
+## Current operating mode
+
+The repository now contains source-backed draft concepts, derived computations, operational playbooks, verification protocols, and local SDE/ESI tooling. Most concepts remain `draft` until independent in-game or data-pipeline verification is recorded. The owner has explicitly delegated continued repository maintenance in the current workstream; direct commits are limited to that scope and are recorded in `knowledge/log.md`.
 
 ## Success criteria
 
