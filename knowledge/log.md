@@ -61,3 +61,5 @@
 - Researched and replaced the Character Specialization placeholder with role profiles for Manufacturing, Science/Invention, Reactions, Market/Trade, and PI, plus a marginal skill-value framework and multi-character role allocation principles.
 
 - Researched and replaced the Industrial Scaling placeholder with a framework for character/facility/region expansion, vertical integration, sustainable output constraints, economies/diseconomies, incremental capital return, and asset concentration controls.
+
+- Researched and replaced the Market Mechanics placeholder with CCP order-matching rules, buy/sell order location/range behavior, regional market history, adjusted-price distinctions, ESI endpoints, and cache-handling requirements.
