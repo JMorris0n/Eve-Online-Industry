@@ -214,7 +214,7 @@ Expected cost per successful output BPC
   = Cost per attempt / p
 ```
 
-Here (p) is the success probability expressed as a decimal between 0 and 1. This expected-value equation assumes repeated attempts have independent outcomes and the same probability and cost. Use the live Industry UI chance and the applicable job quote when populating it.
+Here (p) is the success probability expressed as a decimal between 0 and 1. This expected-value equation assumes repeated attempts have independent outcomes and the same probability and cost. The per-attempt allocation must use the actual number of datacores and decryptors consumed by the selected multi-run job; do not assume the optional-item quantity scales one-for-one with invention runs until confirmed in the live Industry UI. Use the live chance and job quote when populating the model.
 
 If the successful output BPC has (R_{out}) licensed manufacturing runs:
 
