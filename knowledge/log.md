@@ -10,4 +10,8 @@
 - Added CCP source URLs, source update dates, and a current 2026 LP-store BPC example to the official source catalog.
 - Researched and replaced the Skills and Job Capacity placeholder with a source-backed draft covering Manufacturing, Science, and Reaction pools, slot formulas, prerequisites, remote operation, and Alpha limits.
 - Added CCP and EVE University source entries for skill and job-capacity research.
-- Marked the corresponding documentation backlog items complete; independent in-game verification remains open.
+- Researched Facilities and Rigs, documenting Upwell families, engineering/refinery roles, industrial service modules, job interruption risks, rig specificity, and reaction rig distinctions.
+- Replaced Installation Cost Computation with the CCP fee formula, EIV basis, tax components, structure SCI bonuses, ESI inputs, and activity-specific exceptions.
+- Added Industrial Cost Accounting conventions to distinguish EIV from acquisition, replacement, and opportunity cost.
+- Added unresolved questions for temporary ME/TE SCC relief, non-manufacturing EIV/value bases, and live verification of rig stacking and location-specific modifiers.
+- Documentation milestones do not constitute independent in-game verification; all three new concepts remain draft.
