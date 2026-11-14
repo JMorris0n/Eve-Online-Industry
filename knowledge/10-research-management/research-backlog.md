@@ -86,7 +86,7 @@ status: draft
 - [x] Document market order mechanics, immediate matching, regional scope, ESI market/history endpoints, and cache rules.
 - [x] Document demand, liquidity, and market-depth analysis, including zero-trade-day handling, transaction counts, VWAP execution, spreads, and liquidation horizons.
 - [x] Document price-history analysis, executable order-book valuation, adjusted-price/EIV distinctions, volatility, and price provenance.
-- [ ] Regional arbitrage model.
+- [x] Document regional arbitrage using source/destination VWAP, fees, hauling, collateral, risk, and capital holding time.
 - [ ] Third-party tool evaluation.
 - [ ] ESI and data acquisition notes.
 - [ ] Operational playbooks derived from verified concepts.
