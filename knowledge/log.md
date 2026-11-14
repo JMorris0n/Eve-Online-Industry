@@ -38,3 +38,7 @@
 - Researched and replaced the Planetary Industry placeholder with a source-backed colony, extraction, processor, skill, routing, export, tax, Skyhook, and Alpha-restriction concept.
 - Replaced the Planetary Commodities placeholder with P0-P4 tiers, P0-to-P1 mapping, P1-to-P4 recipe reference tables, and standard schematic batch structures. These remain draft pending reconciliation against the post-2025 CCP SDE.
 - Added CCP Planetary Interaction, Orbital Skyhook, Equinox, and current SDE documentation to the source catalog. Recorded the EVE University PI overview's explicit Equinox-update warning and the 2025 SDE schema break.
+
+- Researched and replaced the Market Fees and Taxation placeholder using CCP's March 2026 fee article and official order-matching/relist documentation. Documented NPC station, Upwell structure, Accounting, Broker Relations, and relist mechanics.
+- Researched and replaced the Manufacturing Profitability placeholder with batch-level economic cost, net proceeds, contribution, margin, ROI, slot-hour, break-even, and sensitivity frameworks.
+- Replaced the Manufacturing Profitability Computation placeholder with deterministic input schemas and equations. Updated navigation and backlog; live fee/market validation and a worked current-price example remain open.
