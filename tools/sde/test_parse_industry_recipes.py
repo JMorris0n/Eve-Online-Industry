@@ -11,10 +11,14 @@ from parse_industry_recipes import extract_recipes, iter_jsonl, normalize_bluepr
 
 
 NAMES = {
-    100: "Example Blueprint",
-    200: "Example Product",
-    300: "Example Material",
-    400: "Industry",
+    100: {"name": "Example Blueprint", "published": True, "group_id": 9, "market_group_id": 10,
+          "tech_level": 1, "portion_size": 1, "volume": 1.0, "packaged_volume": 1.0},
+    200: {"name": "Example Product", "published": True, "group_id": 11, "market_group_id": 12,
+          "tech_level": 2, "portion_size": 1, "volume": 2.0, "packaged_volume": 1.0},
+    300: {"name": "Example Material", "published": True, "group_id": 13, "market_group_id": 14,
+          "tech_level": 1, "portion_size": 1, "volume": 0.1, "packaged_volume": 0.1},
+    400: {"name": "Industry", "published": True, "group_id": 15, "market_group_id": None,
+          "tech_level": 1, "portion_size": 1, "volume": 0.01, "packaged_volume": 0.01},
 }
 
 
@@ -41,6 +45,9 @@ class RecipeParserTests(unittest.TestCase):
         self.assertEqual(result["blueprint_name"], "Example Blueprint")
         self.assertEqual(result["materials"][0]["name"], "Example Material")
         self.assertEqual(result["materials"][0]["quantity_per_run"], 4)
+        self.assertEqual(result["products"][0]["market_group_id"], 12)
+        self.assertEqual(result["products"][0]["tech_level"], 2)
+        self.assertTrue(result["products"][0]["published"])
         self.assertEqual(result["products"][0]["quantity_per_run"], 2)
         self.assertEqual(result["base_time_seconds_per_run"], 120)
         self.assertEqual(result["required_skills"][0]["level"], 1)
@@ -85,7 +92,7 @@ class RecipeParserTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
             (root / "types.jsonl").write_text(
-                "\n".join(json.dumps({"_key": key, "name": {"en": name}})
+                "\n".join(json.dumps({"_key": key, "name": {"en": name["name"]}, "published": name["published"], "groupID": name["group_id"], "marketGroupID": name["market_group_id"], "techLevel": name["tech_level"], "portionSize": name["portion_size"], "volume": name["volume"], "packagedVolume": name["packaged_volume"]})
                            for key, name in NAMES.items()) + "\n",
                 encoding="utf-8",
             )
