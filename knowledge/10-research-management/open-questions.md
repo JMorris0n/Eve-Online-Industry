@@ -93,6 +93,14 @@ status: draft
 - **Evidence needed:** Install matched copy quotes with equal (C 	imes R) but different values of (C) and (R), recording material inputs, SCI, facility tax, SCC, and fee. Include at least one blueprint with non-zero copy inputs.
 - **Status:** Open. CCP explicitly states exceptional copy input materials scale with Job Runs and not Runs per Copy; the activity-specific fee calculation still requires comparison with current in-game quotes.
 
+### Q-011: What is the current complete type-level Tech II component and construction recipe matrix?
+
+- **Question:** For every current Advanced Component and representative Tech II product group, what are the exact input type IDs, quantities per run, output quantity, required skills/levels, blueprint ME/TE behavior, and applicable facility/rig rules in the current SDE and Industry UI?
+- **Affected concepts:** [Tech II Components](../02-production-systems/tech-2-components.md), [Reactions](../02-production-systems/reactions.md), [Moon Materials](../03-materials-and-sourcing/moon-materials.md), [Tech II Invention](../02-production-systems/tech-2-invention.md).
+- **Why it matters:** A generic supply-chain diagram is not sufficient for a deterministic production planner. Recipe-level data controls material sourcing, job planning, costs, skill requirements, and the expansion of a complete Tech II production tree.
+- **Evidence needed:** Current versioned SDE recipe/BOM data plus matched in-game Industry quotes for representative components and final Tech II items. Record type IDs, SDE build identifier, retrieval timestamp, skill state, blueprint state, facility, and displayed inputs.
+- **Status:** Open. The concept documents the supply-chain structure, but a comprehensive type-level recipe and skill catalog has not been built.
+
 ## Entry format
 
 - **Question:** precise, answerable wording.
