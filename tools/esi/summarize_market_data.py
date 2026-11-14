@@ -345,7 +345,7 @@ def main() -> int:
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(
             json.dumps({
-                "schema_version": 1,
+                "schema_version": 2,
                 "source": "public ESI regional market snapshots",
                 "input_directory": str(args.input_dir),
                 "requested_quantities": quantities,
