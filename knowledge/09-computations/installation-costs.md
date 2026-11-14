@@ -29,7 +29,7 @@ sources:
   - id: eveuni-research
     resource: https://wiki.eveuniversity.org/Research
     title: Research | EVE University Wiki (last modified 2026-03-21)
-  - id: eveuni-upwell-structures
+  - id: eveuni-structure-browser
     resource: https://wiki.eveuniversity.org/Structure_Browser
     title: Upwell structure | EVE University Wiki
   - id: eve-reactions-calculator-method
@@ -89,7 +89,7 @@ Engineering Complexes have the following innate installation-cost reductions for
 | Azbel | 0.96 | 4% |
 | Sotiyo | 0.95 | 5% |
 
-These are reductions to the SCI component only, not the total fee. Applicable cost-optimization rigs may further modify selected manufacturing, copying, ME research, TE research, or invention SCI components. Rig compatibility is activity- and item-specific. [^everef-engineering-complexes] [^eveuni-upwell-structures]
+These are reductions to the SCI component only, not the total fee. Applicable cost-optimization rigs may further modify selected manufacturing, copying, ME research, TE research, or invention SCI components. Rig compatibility is activity- and item-specific. [^everef-engineering-complexes] [^eveuni-structure-browser]
 
 Do not apply an Engineering Complex cost bonus to a Refinery or Citadel by analogy. Confirm the selected structure's actual role and the fitted rig's exact activity/type scope.
 
@@ -211,6 +211,6 @@ For verification and reproducibility, record the job's Industry UI quote at the 
 [^ccp-esi-overview]: CCP, EVE Developer Documentation, EVE Swagger Interface (ESI) Overview.
 [^eveuni-manufacturing]: EVE University Wiki, Manufacturing.
 [^eveuni-research]: EVE University Wiki, Research (last modified 2026-03-21).
-[^eveuni-upwell-structures]: EVE University Wiki, Upwell structure / Structure Browser.
+[^eveuni-structure-browser]: EVE University Wiki, Upwell structure / Structure Browser.
 [^eve-reactions-calculator-method]: EVE Reactions Calculator, methodology.
 [^everef-engineering-complexes]: EVE Ref, Engineering Complexes (SDE-derived role attributes).
