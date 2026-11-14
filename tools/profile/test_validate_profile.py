@@ -36,6 +36,11 @@ class OperatingProfileTests(unittest.TestCase):
         self.profile["characters"][0]["skills"]["Industry"] = 1
         self.assertTrue(any("numeric skill type ID" in error for error in validate_profile_data(self.profile)))
 
+    def test_optional_metadata_fields_may_be_omitted(self):
+        self.profile.pop("last_reviewed")
+        self.profile.pop("notes")
+        self.assertEqual(validate_profile_data(self.profile), [])
+
     def test_unknown_values_may_remain_null(self):
         self.assertEqual(validate_profile_data(self.profile), [])
 
