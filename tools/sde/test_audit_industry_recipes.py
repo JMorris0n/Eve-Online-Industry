@@ -90,7 +90,7 @@ class RecipeAuditTests(unittest.TestCase):
     def test_report_counts_exceptions_beyond_sample_limit(self):
         with tempfile.TemporaryDirectory() as temp:
             source = Path(temp) / "many-recipes.jsonl"
-            self.write_records(source, [recipe(), recipe(101), recipe(102, base_time=0), recipe(103, base_time=0)])
+            self.write_records(source, [recipe(), recipe(100, "reaction"), recipe(102, base_time=0), recipe(103, base_time=0)])
             report = audit_recipes(source, max_samples=1)
         self.assertEqual(report["exceptional_records"]["zero_base_time_recipe_count"], 2)
         self.assertEqual(len(report["exceptional_records"]["zero_base_time_recipe_samples"]), 1)
