@@ -18,7 +18,7 @@ sources:
     title: Skills:Science | EVE University Wiki
   - id: eveuni-resource-skills
     resource: https://wiki.eveuniversity.org/Skills:Resource_Processing
-    title: Skills: Resource Processing | EVE University Wiki
+    title: "Skills: Resource Processing | EVE University Wiki"
   - id: eveuni-trade-skills
     resource: https://wiki.eveuniversity.org/Skills:Trade
     title: Skills:Trade | EVE University Wiki
