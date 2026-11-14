@@ -27,7 +27,7 @@ sources:
     title: EVE Developer Documentation | Static Data Export
   - id: eve-dev-sde-rework
     resource: https://developers.eveonline.com/blog/reworking-the-sde-a-fresh-start-for-static-data
-    title: Reworking the SDE: a fresh start for static data (published 2025-09-22)
+    title: "Reworking the SDE: a fresh start for static data (published 2025-09-22)"
   - id: eveuni-planetary-industry
     resource: https://wiki.eveuniversity.org/Planetary_Industry
     title: Planetary Industry | EVE University Wiki (page flagged for Equinox update)
