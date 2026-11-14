@@ -27,7 +27,7 @@ status: draft
 - [x] Record CCP's 2025-07-18 reduction of the ME/TE research SCC surcharge from 4% to 2%, explicitly described as temporary; no later CCP reversal found as of 2026-11-14.
 - [ ] Confirm the current 2% ME/TE research surcharge against a live Industry quote; keep it configurable until then.
 - [ ] Validate current EIV/process-value bases and fee calculations for Science, Copying, Invention, and Reactions.
-- [ ] Set up repeatable live-data capture for ESI industry systems and adjusted prices.
+- [x] Implemented a read-only ESI collector for industry system indices, adjusted prices, and selected market orders/history; local validation remains open.
 
 ## P1: Complete production systems
 
@@ -67,10 +67,13 @@ status: draft
   - [ ] Validate fee calculations against wallet journal and live order quotes for NPC and Upwell markets.
   - [ ] Build a representative worked manufacturing product example using current prices and a chosen market location.
 - [x] Document facility and regional location economics, including activity-specific SCI, ESI/market data, facility comparison, remote installation, and total landed cost.
-  - [ ] Build a current ESI collector and representative location comparison using live market orders, SCI, facility fees, and logistics.
+  - [x] Implement the public ESI collector needed to retrieve system indices and market orders.
+  - [ ] Run the collector and build a representative location comparison using live market orders, SCI, facility fees, and logistics.
 - [x] Document self-haul and courier-contract cost components, collateral exposure, route risk, Upwell Asset Safety, and structure continuity risks.
 - [ ] Build a configurable hauling cost and route-risk model, including expected loss and capital/time costs.
 - [x] Document working capital, inventory valuation, capital turnover, asset concentration, and capital allocation.
+- [x] Document expected-value invention economics, including batch success variance, cost per successful BPC, and cost per Tech II manufacturing run.
+- [x] Document incremental ME/TE research ROI, break-even production volume, and Science slot-hour opportunity cost.
 - [x] Define a deterministic capital-turnover computation using dated cash flows, capital-days, and cash conversion time.
   - [ ] Validate the model with a real production batch and wallet/asset records.
 
