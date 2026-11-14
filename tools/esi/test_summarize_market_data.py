@@ -88,7 +88,8 @@ class MarketSummaryTests(unittest.TestCase):
         self.assertEqual(result[0]["raw_order_record_count"], 2)
         self.assertEqual(result[0]["duplicate_order_ids_removed"], 0)
         self.assertEqual(result[0]["history"]["total_volume"], 2)
-        self.assertEqual(result[0]["source_files"][0]["retrieved_at"], "2026-11-14T10:00:01Z")
+        page_one_source = next(item for item in result[0]["source_files"] if item["filename"].endswith("page-1.json"))
+        self.assertEqual(page_one_source["retrieved_at"], "2026-11-14T10:00:01Z")
 
     def test_directory_deduplicates_order_ids_across_pages(self):
         with tempfile.TemporaryDirectory() as temp:
