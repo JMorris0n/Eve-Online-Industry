@@ -161,3 +161,53 @@ The user ran the corrected parser against SDE build **3698585** and supplied the
 The normalized output is structurally usable as a static recipe reference. It is **not** a fully market-resolved candidate universe. The 17 incomplete material recipes must not be costed; the 137 omitted-skill recipes must remain feasibility-unknown; unresolved product types must not enter ordinary market ranking without a separate resolution step; unpublished records and the zero-time recipe need explicit handling. No profitability conclusions have been drawn from this file.
 
 Current schema reference: [CCP SDE schema for blueprints](https://sde.riftforeve.online/schema/blueprints/). The schema allows omitted Manufacturing arrays while requiring the Reaction arrays; it also defines activity time as a non-negative integer.
+
+
+## Bounded regional ESI collection results (2026-11-14)
+
+The user completed a first public regional market collection for The Forge (region **10000002**) and type IDs **34 (Tritanium)**, **35 (Pyerite)**, and **36 (Mexallon)**. The saved collection folder was `20261114T185315Z`; the summary was produced with requested sweep sizes **100, 1,000, and 10,000 units**.
+
+### Collection and response validation
+
+- [x] The collection manifest records requested compatibility date **2026-11-13**, retrieval time **2026-11-14T18:53:25Z**, region, type IDs, endpoint URLs, response timestamps, ETags, cache expiry, hashes, and request headers.
+- [x] `GET /industry/systems/` returned HTTP **200**.
+- [x] `GET /markets/prices/` returned HTTP **304**, and the client reused its previously cached response and SHA-256.
+- [x] All three regional order-book requests returned HTTP **200**, each with `X-Pages: 1`.
+- [x] All three regional history requests returned HTTP **200**.
+- [x] All sampled responses reported matched compatibility date **2020-01-01** even though the requested pin was **2026-11-13**. Preserve requested and matched dates separately; this was not a request failure.
+- [x] The saved summary contains **516** order records across the three types, with no duplicate order IDs removed.
+- [x] The summary contains **409** daily history rows per type, spanning **2025-10-01** through **2026-11-13**.
+
+### Initial market observations
+
+| Type ID | Order records | Buy orders | Sell orders | Best regional bid | Best regional ask | 409-day average daily volume | Median daily volume | Volume-weighted average daily price |
+|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 34 Tritanium | 158 | 100 | 58 | 4.15 ISK | 4.35 ISK | 5,903,288,265 | 5,548,382,356 | 4.0124 ISK |
+| 35 Pyerite | 186 | 64 | 122 | 16.30 ISK | 15.91 ISK | 2,710,920,993 | 2,645,231,654 | 20.7091 ISK |
+| 36 Mexallon | 172 | 101 | 71 | 53.06 ISK | 51.05 ISK | 693,147,995 | 655,029,922 | 57.0858 ISK |
+
+The 100-, 1,000-, and 10,000-unit aggregate sweeps were fully covered in each region-wide snapshot. These are not executable liquidity guarantees because the reported regional book combines orders from multiple locations and the current sweep does not enforce order minimum fill quantities or access restrictions.
+
+### Important reconciliation finding: crossed regional composites
+
+The region-wide best bid exceeded the best ask for:
+- Pyerite: **16.30 bid vs 15.91 ask**, a displayed composite spread of **-0.39 ISK**.
+- Mexallon: **53.06 bid vs 51.05 ask**, a displayed composite spread of **-2.01 ISK**.
+
+This is not proof of arbitrage. ESI regional market orders include a `location_id`; a region-wide maximum bid and minimum ask can originate at different stations or structures. These orders may not be mutually executable. The earlier summary did not group by location, so its regional spread and depth values are discovery-only.
+
+The summarizer has therefore been extended to emit:
+- A clearly labeled `regional_composite` book, with an explicit crossed-book flag and a warning not to interpret cross-location spreads as arbitrage.
+- `location_books` grouped by posted `location_id`, including system IDs where the response supplies them.
+- Counts for orders missing a location ID.
+- Summary schema version 2.
+
+The location-level view remains a screening aid, not a firm quote. It groups buy orders by the location where they were posted but does not yet expand buy-order ranges into other eligible systems, enforce `min_volume`, confirm structure access, or calculate transaction fees. These are explicit follow-on requirements for the production evaluator.
+
+### Local script synchronization note
+
+The uploaded console output shows the local collector requested `https://esi.evetech.net/latest/...` URLs. The current repository collector uses the unversioned base URL `https://esi.evetech.net` with the same explicit `X-Compatibility-Date` header. The successful local run is retained as valid execution evidence for the responses it received, but the user's local collector script is behind the current repository version and should be refreshed before the next collection. The already saved raw regional JSON files can be summarized again without repeating ESI requests.
+
+### M1 status
+
+SDE download, extraction, recipe normalization, and the bounded public regional ESI collection have all completed locally. M1 remains **in progress** until the location-aware summarizer is run against the saved raw regional orders, the local collector/summarizer copies are synchronized, and remaining order-range/minimum-volume and private-market access limits are documented. No manufacturing profitability conclusion is made from this small mineral sample.
