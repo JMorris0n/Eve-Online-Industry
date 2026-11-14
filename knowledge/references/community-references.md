@@ -7,7 +7,7 @@ tags:
   - community
 generated:
   by: openai/gpt-6
-  at: 2026-11-14T06:12:17Z
+  at: 2026-11-14T06:25:24Z
 status: draft
 ---
 
@@ -31,13 +31,26 @@ Do not use this catalog as evidence for a game mechanic. Individual concept file
 
 | Source ID | Reference | Last modified | Use in this knowledge base |
 |---|---|---|---|
-| `eveuni-production` | [Manufacturing](https://wiki.eveuniversity.org/Production) | 2025-09-09 | Manufacturing slot counts, Mass Production and Advanced Mass Production, Supply Chain Management range |
-| `eveuni-research` | [Research](https://wiki.eveuniversity.org/Research) | 2026-03-21 | Science slot counts, research/copying skill effects, Scientific Networking, BPO usage constraints |
-| `eveuni-reactions` | [Reactions](https://wiki.eveuniversity.org/Reactions) | 2025-06-22 | Reaction slot counts, reaction duration skill, remote reaction management |
-| `eveuni-production-skills` | [Skills:Production](https://wiki.eveuniversity.org/Skills:Production) | 2025-09-09 | Manufacturing skill prerequisites, effects, and Alpha training limits |
-| `eveuni-science-skills` | [Skills:Science](https://wiki.eveuniversity.org/Skills:Science) | 2024-06-28 | Science support skills, prerequisites, and Alpha training limits |
-| `eveuni-resource-skills` | [Skills:Resource Processing](https://wiki.eveuniversity.org/Skills:Resource_Processing) | 2026-01-27 | Reactions, Mass Reactions, Advanced Mass Reactions, Remote Reactions prerequisites and Alpha limits |
+| eveuni-production | [Manufacturing](https://wiki.eveuniversity.org/Production) | 2025-09-09 | Manufacturing slot counts, Mass Production and Advanced Mass Production, Supply Chain Management range |
+| eveuni-research | [Research](https://wiki.eveuniversity.org/Research) | 2026-03-21 | Science slot counts, research/copying skill effects, Scientific Networking, BPO usage constraints |
+| eveuni-reactions | [Reactions](https://wiki.eveuniversity.org/Reactions) | 2025-06-22 | Reaction slot counts, reaction duration skill, remote reaction management |
+| eveuni-production-skills | [Skills:Production](https://wiki.eveuniversity.org/Skills:Production) | 2025-09-09 | Manufacturing skill prerequisites, effects, and Alpha training limits |
+| eveuni-science-skills | [Skills:Science](https://wiki.eveuniversity.org/Skills:Science) | 2024-06-28 | Science support skills, prerequisites, and Alpha training limits |
+| eveuni-resource-skills | [Skills: Resource Processing](https://wiki.eveuniversity.org/Skills:Resource_Processing) | 2026-01-27 | Reaction skills and remote reaction prerequisites and Alpha limits |
+| eveuni-structure-browser | [Upwell structure / Structure Browser](https://wiki.eveuniversity.org/Structure_Browser) | Accessed 2026-11-14 | Engineering Complex and Refinery role bonuses, structure roles and hull limitations |
+| eveuni-upwell-fitting | [Fitting upwell structures](https://wiki.eveuniversity.org/Fitting_upwell_structures) | 2025-07-19 | Service-module compatibility, industrial service types, activity-specific rig families |
+| eveuni-manufacturing | [Manufacturing](https://wiki.eveuniversity.org/Manufacturing) | Accessed 2026-11-14 | Manufacturing EIV definition, installation fee components, and warning about stale SCI derivation |
+| eveuni-reactions-facilities | [Reactions](https://wiki.eveuniversity.org/Reactions) | Accessed 2026-11-14 | Reactor types and reaction facility constraints |
+
+## SDE-derived and calculator references
+
+| Source ID | Reference | Accessed | Use and limitations |
+|---|---|---|---|
+| everef-engineering-complexes | [Engineering Complexes](https://everef.net/structures/engineering-complexes) | 2026-11-14 | EVE Ref presents SDE-derived role bonuses, rig sizes, slots and calibration. Structured secondary reference, not CCP policy documentation. |
+| everef-refineries | [Refineries](https://everef.net/structures/refineries) | 2026-11-14 | EVE Ref presents Athanor/Tatara attributes including reaction-time multiplier and rig slots. |
+| everef-engineering-rigs | [Engineering Rigs](https://everef.net/structures/engineering-rigs) | 2026-11-14 | SDE-derived rig effects; exact type scopes should be checked against current in-game attributes. |
+| eve-reactions-calculator-method | [EVE Reactions Calculator methodology](https://reactions.coalition.space/about) | 2026-11-14 | Documents reaction rig, time, material, EIV and fee calculations; calculator-specific methodology, not official game policy. |
 
 ## Source limitations
 
-EVE University is a community educational resource, not the game operator. Its pages provide detailed skill descriptions and structured prerequisites that CCP's support pages do not enumerate. Page update dates vary. Confirm character-specific skill eligibility and job capacity in the in-game skill browser and Industry interface before making a high-cost plan.
+EVE University is a community educational resource. EVE Ref is a structured SDE-derived reference. The EVE Reactions Calculator explains its own algorithm. These sources help identify item attributes and model mechanics, but the current in-game Industry UI is authoritative for an actual job quote and a real facility's configured services, rigs, and taxes.
