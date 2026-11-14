@@ -35,7 +35,7 @@ def validate_profile_data(data: Any) -> list[str]:
     extra = data.keys() - TOP_LEVEL
     if extra:
         errors.append("unknown top-level fields: " + ", ".join(sorted(extra)))
-    if data.get("profile_version") != 1:
+    if isinstance(data.get("profile_version"), bool) or data.get("profile_version") != 1:
         errors.append("profile_version must be 1")
     if not isinstance(data.get("profile_name"), str) or not data.get("profile_name", "").strip():
         errors.append("profile_name must be a non-empty string")
@@ -51,7 +51,7 @@ def validate_profile_data(data: Any) -> list[str]:
             errors.append(f"{prefix} must be an object")
             continue
         slot = character.get("slot")
-        if isinstance(slot, bool) or slot not in (1, 2, 3):
+        if isinstance(slot, bool) or not isinstance(slot, int) or slot not in (1, 2, 3):
             errors.append(f"{prefix}.slot must be 1, 2, or 3")
         else:
             slots.append(slot)
@@ -103,6 +103,9 @@ def validate_profile_data(data: Any) -> list[str]:
     else:
         if operations.get("state") not in VALID_STATES:
             errors.append("operations.state is invalid")
+        for field in ("active_hours_per_week", "max_setup_minutes_per_batch", "target_liquidation_days"):
+            if field not in operations:
+                errors.append(f"operations.{field} is required")
         if not _nonnegative_number(operations.get("active_hours_per_week")):
             errors.append("operations.active_hours_per_week must be non-negative or null")
         for field in ("max_setup_minutes_per_batch", "target_liquidation_days"):
