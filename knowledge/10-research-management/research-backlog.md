@@ -84,7 +84,7 @@ status: draft
 ## P4: Market intelligence, tools, and playbooks
 
 - [x] Document market order mechanics, immediate matching, regional scope, ESI market/history endpoints, and cache rules.
-- [ ] Document demand, liquidity, and market-depth analysis.
+- [x] Document demand, liquidity, and market-depth analysis, including zero-trade-day handling, transaction counts, VWAP execution, spreads, and liquidation horizons.
 - [ ] Document price-history analysis and valuation methods.
 - [ ] Regional arbitrage model.
 - [ ] Third-party tool evaluation.
