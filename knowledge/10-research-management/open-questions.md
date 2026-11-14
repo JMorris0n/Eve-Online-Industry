@@ -125,3 +125,12 @@ status: draft
 - **Evidence needed:** source, test, or calculation.
 - **Status:** open, researching, blocked, resolved.
 - **Resolution:** final answer and evidence, once resolved.
+
+ 
+### Q-014: What operating environment should the first live product-evaluation example use?
+
+- **Question:** Which character(s), skill state, production location/facility, market region, and approximate working-capital range should be used for the first live product-ranking and worked manufacturing example?
+- **Affected concepts:** [Product Selection](../06-market-intelligence/product-selection.md), [Manufacturing Profitability](../04-industrial-economics/manufacturing-profitability.md), [Market Location Economics](../04-industrial-economics/market-location-economics.md), [Character Specialization](../05-optimization/character-specialization.md).
+- **Why it matters:** A meaningful live example needs actual job eligibility, BPO/BPC availability, facility quotes, regional order-book depth, logistics assumptions, and capital constraints. A generic Jita/Omega assumption could produce a misleading recommendation.
+- **Evidence needed:** User-selected character(s) or skill export, intended production/market region, accessible facility/structure, and a working-capital range. Do not request or store EVE SSO tokens in the knowledge repository.
+- **Status:** Open, awaiting user input. Continue with generic mechanics, data tooling, and verification work until the operating environment is selected.
