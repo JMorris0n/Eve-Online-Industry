@@ -6,3 +6,4 @@
 - [Research Investment ROI](research-investment-roi.md): incremental ME/TE savings, Science slot opportunity cost, break-even jobs, and lifetime value.
 - [Capital Turnover Computation](capital-turnover.md): peak working capital, capital-days, inventory turnover, and cash conversion time.
 - [Hauling Cost and Route Risk](hauling-cost.md): compare self-haul and courier expected costs, cargo/ship loss, time, capital exposure, and collateral.
+- [Market Fees and Taxation](../04-industrial-economics/market-fees-and-taxation.md): mechanic reference with a deterministic fee estimator in `tools/calculations/`.
