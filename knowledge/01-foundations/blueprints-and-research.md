@@ -26,7 +26,7 @@ sources:
     resource: https://www.eveonline.com/news/view/fractured-skies-expansion-notes
     title: Fractured Skies Expansion Notes | EVE Online (2026-11-06)
 generated:
-  by: process:starter-scaffold
+  by: openai/gpt-6
   at: 2026-11-14T06:04:20Z
 status: draft
 ---
