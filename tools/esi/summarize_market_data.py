@@ -162,7 +162,27 @@ def load_json(path: Path) -> Any:
         raise ValueError(f"cannot read {path}: {exc}") from exc
 
 
+def load_manifest_metadata(input_dir: Path) -> tuple[dict[str, Any] | None, dict[str, dict[str, Any]]]:
+    path = input_dir / "manifest.json"
+    if not path.is_file():
+        return None, {}
+    manifest = load_json(path)
+    if not isinstance(manifest, dict):
+        raise ValueError(f"{path} must contain a JSON object")
+    sources: dict[str, dict[str, Any]] = {}
+    for output in manifest.get("outputs", []):
+        if not isinstance(output, dict) or not isinstance(output.get("file"), str):
+            continue
+        filename = Path(output["file"]).name
+        sources[filename] = {
+            field: output.get(field)
+            for field in ("url", "status", "retrieved_at", "from_cache", "expires", "etag", "sha256")
+        }
+    return manifest, sources
+
+
 def summarize_directory(input_dir: Path, quantities: list[int]) -> list[dict[str, Any]]:
+    manifest, source_metadata = load_manifest_metadata(input_dir)
     orders: dict[tuple[int, int], dict[int, dict[str, Any]]] = defaultdict(dict)
     raw_order_counts: dict[tuple[int, int], int] = defaultdict(int)
     duplicate_counts: dict[tuple[int, int], int] = defaultdict(int)
@@ -227,7 +247,11 @@ def summarize_directory(input_dir: Path, quantities: list[int]) -> list[dict[str
             "history": summarize_history(histories[(region_id, type_id)])
             if (region_id, type_id) in histories else None,
             "source_files": [
-                {"filename": name, "sha256": source_hashes[name]}
+                {
+                    "filename": name,
+                    "sha256": source_hashes[name],
+                    **source_metadata.get(name, {}),
+                }
                 for name in sorted(source_hashes)
                 if f"region-{region_id}-type-{type_id}-" in name
                 or name == f"market-history-region-{region_id}-type-{type_id}.json"
