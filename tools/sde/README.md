@@ -72,7 +72,7 @@ py -3 tools/sde/parse_industry_recipes.py \
     --output data/derived/industry-recipes.jsonl
 ```
 
-Replace `BUILD` with the downloaded build number. The parser reads the current `blueprints.jsonl` and `types.jsonl` tables, joins English type names and useful type metadata (published status, group/market group, tech level, portion size, and volume), and emits one record per manufacturing or reaction activity. Materials and products retain their type metadata; required-skill entries retain the joined name, required level, and publication status when present in the SDE. A missing metadata join remains unknown rather than being inferred as unpublished.
+Replace `BUILD` with the downloaded build number. The parser reads the current `blueprints.jsonl` and `types.jsonl` tables, joins English type names and useful type metadata (published status, group/market group, tech level, portion size, and volume), and emits one record per manufacturing or reaction activity. Materials and products retain their type metadata; required-skill entries retain the joined name, required level, and publication status when present in the SDE. A missing metadata join remains unknown rather than being inferred as unpublished. Manufacturing skill requirements in the SDE may explicitly be level 0. Preserve this as a valid zero-level requirement, not missing data or a training target.
 
 The output is a normalized recipe reference, **not** a final job quote. It does not apply blueprint ME, structure/facility bonuses, system cost indices, job installation fees, character skill effects, or market prices. Do not use it directly as a profitability result.
 
