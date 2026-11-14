@@ -88,7 +88,8 @@ status: draft
 - [x] Document price-history analysis, executable order-book valuation, adjusted-price/EIV distinctions, volatility, and price provenance.
 - [x] Document regional arbitrage using source/destination VWAP, fees, hauling, collateral, risk, and capital holding time.
 - [ ] Third-party tool evaluation.
-- [ ] ESI and data acquisition notes.
+- [x] Document ESI and SDE data acquisition, compatibility dates, OAuth scopes, caching, rate limits, pagination, and industrial endpoints.
+  - [ ] Implement a read-only ESI collector with provenance, compatibility-date pinning, cache handling, and rate-limit compliance.
 - [ ] Operational playbooks derived from verified concepts.
 
 ## Acceptance criteria for a research task
