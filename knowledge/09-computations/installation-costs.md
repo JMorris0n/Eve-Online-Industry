@@ -103,7 +103,7 @@ CCP's 2024-02-01 patch notes increased the baseline SCC surcharge from 1.5% to 4
 
 There is a specific documented exception for blueprint Material Efficiency and Time Efficiency research: CCP's 2025-07-18 industry balance post reduced the SCC component for those two research activities to 2% (half the 4% baseline). CCP explicitly described the reduction as temporary. No official removal date is stated in that post. [^ccp-research-scc-relief]
 
-As of this research pass (2026-11-14), the 2% value is the latest explicit CCP statement found for ME and TE research, but it should be treated as provisional until confirmed by the live Industry quote or a newer CCP announcement. Do not extend the 2% exception to copying, invention, or other job types without direct evidence.
+As of this research pass (2026-11-14), the 2% value is the latest explicit CCP statement found for ME and TE research. CCP described the reduction as temporary, and no later official reversal was found in the current-source search. Treat 2% as the latest published value, but keep it configurable and confirm it against a live Industry quote. Do not extend the 2% exception to copying, invention, or other job types without direct evidence.
 
 ### Alpha-clone tax
 
