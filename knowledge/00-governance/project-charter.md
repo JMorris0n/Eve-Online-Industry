@@ -13,20 +13,29 @@ status: draft
 
 ## Mission
 
-Maintain a durable, accurate, source-traceable knowledge base that explains EVE Online industry mechanics and supports repeatable economic and operational decisions.
+Maintain a durable, accurate, source-traceable EVE industry knowledge base that helps the user identify, evaluate, and execute profitable manufacturing opportunities with predictable turnover and manageable player attention.
 
 ## Scope
 
-The initial scope is comprehensive: industry foundations, blueprints and research, manufacturing, invention, reactions, Tech III production, planetary industry, materials sourcing, industrial economics, optimization, market intelligence, tools, playbooks, and deterministic calculations.
+The reference scope remains broad: industry foundations, blueprints and research, manufacturing, invention, reactions, Tech III production, planetary industry, materials sourcing, industrial economics, optimization, market intelligence, tools, playbooks, and deterministic calculations. Development priority is narrower and operational: product discovery and manufacturing decision support, initially emphasizing simple Tech I/Tech II opportunities that can serve null-sec alliance doctrine demand.
 
 ## Principles
 
 - Mechanics are separated from economic models and strategic recommendations.
+- Rank opportunities by realistic, risk-adjusted ISK contribution per active operator-hour, while displaying capital, liquidity, slot usage, and operational complexity separately.
+- Prefer buying inputs and intermediate components over vertical integration unless the incremental return justifies the additional jobs and attention.
+- Favor predictable turnover and semi-passive operation over theoretical maximum margin.
 - Claims are traceable to specific sources or explicitly marked as hypotheses.
 - Live market data and personal assets are kept separate from evergreen mechanics.
 - LLMs may research and propose edits; human review controls integration.
 - One canonical concept per file, with derived handoffs and guides kept separate.
 - Prefer simple Markdown and Git over custom infrastructure until a demonstrated need exists.
+
+## Primary use case
+
+The primary user question is: given the user's characters, skills, blueprints, accessible facilities, market access, and working capital, what should be manufactured now to maximize realistic profit? A related use case is a complete evaluation of a selected product, including procurement, jobs, location, capital requirement, and a realistic sales strategy.
+
+The initial operating profile is multi-character and intended for null-sec alliance markets. Doctrine-related demand is a candidate signal, not a substitute for measured market liquidity. Public SDE/ESI data comes first; optional local EVE SSO integration is deferred until it demonstrably improves decisions.
 
 ## Out of scope for the initial build
 
