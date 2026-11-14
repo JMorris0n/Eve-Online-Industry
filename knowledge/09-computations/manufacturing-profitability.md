@@ -101,14 +101,22 @@ Gross sale value
 Net sale proceeds
   = G - T - B - R - O
 
-Net contribution
-  = Net sale proceeds - Economic batch cost
+Expected batch contribution
+  = Expected net proceeds if all planned output sells
+    - Economic batch cost
 
-Unit contribution
-  = Net contribution / delivered output units
+Realized contribution
+  = Net proceeds from units actually sold
+    - Economic cost allocated to those sold units
+
+Expected unit contribution
+  = Expected batch contribution / delivered output units
+
+Realized unit contribution
+  = Realized contribution / units sold
 ```
 
-If not all delivered units have sold, calculate realized contribution on sold units and retain unsold inventory as inventory. Do not treat unsold output as cash revenue.
+If not all delivered units have sold, report expected batch contribution separately from realized contribution. Allocate the economic batch cost to the units sold using the declared inventory-costing method; retain the remaining cost basis as unsold inventory. Do not treat unsold output as cash revenue.
 
 ## Fee calculation inputs
 
@@ -156,6 +164,15 @@ f = sales tax rate + broker fee rate + other proportional fee rates
 ```
 
 This simplification is valid only when all included rates apply to the same gross sale-value base. Relist fees, minimum fees, mixed order fills, or fees on different bases must be calculated separately and included as fixed/explicit costs.
+
+For a target net margin m, defined as net contribution divided by gross sale value, with proportional sale fees f on the same base:
+
+```text
+Target sale price per unit
+  = Economic batch cost / (Q × (1 - f - m))
+```
+
+This formula is valid only if 1 - f - m is positive and all modeled costs are included in the economic batch cost.
 
 ## Maximum affordable input price
 
