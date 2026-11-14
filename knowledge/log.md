@@ -2,6 +2,11 @@
 
 ## 2026-11-14
 
+- Reworked the LLM collaboration protocol into an operational workflow with bounded tasks, portable context packets, coordinator/researcher/reviewer/implementer roles, blind-first independent review, synthesis, validation gates, and human-controlled integration. Updated onboarding and added provider-neutral role prompts plus task, research, review, and change-proposal templates.
+- Fixed the manufacturing profitability calculator's decimal quantity formatting, which caused the CI suite to fail when whole-number quantities were rendered in scientific notation. Added regression tests for whole numbers, large values, fractional values, and zero. GitHub Actions run 14 passed all 17 calculation tests.
+
+## 2026-11-14
+
 - Added a deterministic market fee estimator for Accounting sales tax, NPC broker fees, Upwell structure owner fees, and relist fees, with a JSON example and unit tests. Live order quotes and wallet records remain authoritative.
 - Added a deterministic manufacturing-profitability calculator with JSON inputs, partial-sale inventory accounting, full-batch projections, break-even and target-margin pricing, slot-hour/elapsed-hour metrics, and maximum affordable input-price analysis. Added example scenarios, unit tests, and a GitHub Actions test workflow. The illustrative scenario is not live market data; the CI result still needs confirmation.
 - Added a deterministic hauling-cost computation and standard-library Python calculator with a JSON scenario template and unit tests. It compares self-haul and courier costs from the cargo owner's perspective, including expected cargo/ship loss, collateral coverage, pilot time, and capital exposure. Real route probabilities remain user-supplied scenario inputs.
