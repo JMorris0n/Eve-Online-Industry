@@ -105,7 +105,7 @@ Regional market history provides daily statistics for an item, including:
 - Daily traded volume.
 - Order count.
 
-Historical statistics describe completed market activity, not current executable liquidity. A daily average may be distorted by a small number of trades, while a high or low may represent only a small fraction of daily volume. The history should be interpreted alongside current order depth and the item's market context. [^ccp-esi-api-explorer] [^eveuni-market]
+Historical statistics describe completed market activity, not current executable liquidity. The volume field is the number of units traded; order_count is the number of completed market transactions/orders, not the number of active open orders. Average transaction size can be approximated as volume divided by order_count when order_count is nonzero. A daily average may be distorted by a small number of trades, while a high or low may represent only a small fraction of daily volume. Interpret history alongside current order depth and market context. [^ccp-esi-api-explorer] [^eveuni-market]
 
 Do not treat order count as the number of units traded. ESI's daily history fields distinguish traded volume from order count.
 
