@@ -103,7 +103,7 @@ Use the live quote or a validated time model with the same character, facility, 
 The direct research investment is:
 
 ```text
-Direct research investment = C_R
+Direct research investment = C_R + C_RM + C_A
 ```
 
 For an economic model that includes scarce capacity:
