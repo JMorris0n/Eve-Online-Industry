@@ -42,6 +42,13 @@ Do not use this catalog as evidence for a game mechanic. Individual concept file
 | eveuni-manufacturing | [Manufacturing](https://wiki.eveuniversity.org/Manufacturing) | Accessed 2026-11-14 | Manufacturing EIV definition, installation fee components, and warning about stale SCI derivation |
 | eveuni-reactions-facilities | [Reactions](https://wiki.eveuniversity.org/Reactions) | Accessed 2026-11-14 | Reactor types and reaction facility constraints |
 
+## Manufacturing formula and calculator references
+
+| Source ID | Reference | Published / accessed | Use and limitations |
+|---|---|---|---|
+| eve-industry-formula-c4813 | [EVE Online Industry Formula](https://www.c4813.space/eve-online-industry-formula/) | 2025-07-25 | Community spreadsheet formulas for material/time multipliers, rounding, job cost, and job duration limits. The author describes the collection as incomplete; validate formulas in game. |
+| eve-omnitool-manufacturing | [EVE Omnitool Industry Cost Calculator](https://eve-omnitool.com/industry/manufacturing/cost) | Accessed 2026-11-14 | Current community calculator description of per-job material rounding, minimum one unit per run, BPC batch fragmentation, rig multipliers, and job costing. Calculator methodology is not CCP specification. |
+
 ## SDE-derived and calculator references
 
 | Source ID | Reference | Accessed | Use and limitations |
