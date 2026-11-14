@@ -26,6 +26,10 @@ Maintain a rigorous, portable, low-context knowledge base about EVE Online indus
 
 Never maintain the same mechanic as competing copies. A handoff package is context for a task, not a second canonical knowledge base.
 
+## GitHub task intake
+
+Use the repository's structured [research/improvement issue template](.github/ISSUE_TEMPLATE/01-research-or-improvement.md) or [verification/defect template](.github/ISSUE_TEMPLATE/02-verification-or-defect.md) to capture new work. Proposed changes should use the [pull request checklist](.github/PULL_REQUEST_TEMPLATE.md). The issue is the task tracker; the portable handoff packet is the model's working context.
+
 ## Standard task workflow
 
 1. **Frame:** define one research question or bounded deliverable, scope, acceptance criteria, risk, dependencies, and files likely to change.
