@@ -190,16 +190,16 @@ The roadmap is accepted as the working plan. Milestones M1 and M2 are now in pro
 
 ### M4. Build a practical single-product evaluator
 
-**Status:** In progress. A quote-first evaluator is being introduced to connect the normalized SDE recipe, actual Industry job quote, explicit material valuation, and separate sale strategies. It deliberately relies on actual job quote quantities instead of an unverified ME/facility rounding implementation.
+**Status:** In progress. The quote-first evaluator now validates normalized SDE recipes against actual Industry job quotes and can optionally source exact-quantity material procurement and liquidation estimates from a schema-v4 ESI summary. It records source timestamps/hashes and warns on stale or expired snapshots. It still relies on actual in-game job quantities and fees rather than an unverified ME/facility rounding implementation.
 
 **Purpose:** Evaluate one real candidate without requiring the entire product scanner or a vertically integrated chain.
 
 **Work:**
 - Start from a selected product and a realistic batch size.
 - Retrieve or load recipe and blueprint requirements from validated SDE data.
-- Price materials at realistic procurement quantities, not just the cheapest displayed order.
+- Price materials at realistic procurement quantities, not just the cheapest displayed order. The evaluator can extract an exact-quantity local-ask VWAP from a schema-v4 summary or accept a clearly labeled manual replacement-cost input. It rejects partial procurement quotes and does not extrapolate to unsummarized quantities.
 - Compare buying intermediate components against manufacturing them.
-- Include blueprint/BPC cost, installation quote, market fees, hauling/handling, expected sales execution, inventory holding, and unsold output.
+- Include blueprint/BPC cost, installation quote, market fees, hauling/handling, expected sales execution, inventory holding, and unsold output. The v4 adapter can source a range-eligible bid sweep for the exact output quantity; partial fills are modeled as sold units and the remainder stays in inventory.
 - Use actual Industry quote inputs when system/structure variables are not available through public data.
 - Reconcile the existing manufacturing profitability calculator with quoted installation fees, material sourcing costs, and separate sale scenarios. The first version accepts fee amounts as explicit quote/calculator inputs rather than inferring them.
 - Keep self-haul/courier cost as an explicit cost input until a candidate-specific route can be modeled safely.
@@ -209,6 +209,7 @@ The roadmap is accepted as the working plan. Milestones M1 and M2 are now in pro
 
 **Acceptance criteria:**
 - [x] The first quote-first evaluator validates an SDE manufacturing recipe against an actual quoted output and complete quoted material bill; SDE base quantities remain visible for reconciliation.
+- [x] The evaluator can source exact-quantity v4 procurement and liquidation estimates, preserve partial liquidation as unsold inventory, and record quote-source freshness/provenance. Manual cost inputs remain supported.
 - [ ] A complete material bill and batch plan is demonstrated for one real product using the user's local SDE and Industry quote.
 - [ ] Input costs use quantity-aware procurement prices or clearly labeled manual inputs.
 - [ ] Installation and market fees are accounted for without double-counting using actual quote/calculator inputs.
