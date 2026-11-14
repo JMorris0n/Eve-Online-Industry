@@ -31,6 +31,7 @@ Task packets belong in the ignored `exports/generated/` staging directory. Durab
 - `exports/`: task-specific LLM packages and reusable handoff templates.
 - `tools/`: local data-acquisition, inspection, deterministic calculation, and repository validation scripts.
 - `tools/sde/`: standard-library Python tools for downloading and inspecting CCP's Static Data Export.
+- `tools/profile/` and `config/`: private operating-profile instructions, JSON Schema, and a safe example. Copy the example into the ignored `local/` directory before entering personal data.
 - `LLM-START-HERE.md`: compact onboarding context for new model sessions.
 
 ## Local SDE workflow
