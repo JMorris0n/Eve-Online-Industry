@@ -121,11 +121,13 @@ CCP charges sales tax to the seller when an item sells. Broker fees apply when n
 | Net margin | Net contribution ÷ gross sale value | Profit as a share of gross sales |
 | ROI on capital | Net contribution ÷ capital deployed | Return on the working capital committed |
 | ISK per manufacturing slot-hour | Net contribution ÷ total manufacturing slot-hours consumed | Efficiency of scarce character job capacity |
+| ISK per active operator-hour | Net contribution ÷ hands-on operator hours attributable to the plan | Efficiency of the user's limited attention and operational labor |
 | ISK per wall-clock hour | Net contribution ÷ elapsed critical-path time | Rate of value creation over real elapsed time |
 
 These metrics answer different questions. A high-margin product can have poor slot-hour efficiency if it ties up jobs for a long time. A low-margin product can still be attractive if it has high throughput, low capital requirements, and reliable liquidity.
 
 For concurrent jobs, total slot-hours and elapsed critical-path time are not the same. If three jobs each run for ten hours in parallel, the plan consumes 30 manufacturing slot-hours but may have a ten-hour elapsed production time.
+Active operator-hours are different again: count attributable hands-on work such as evaluation, sourcing, staging, installing jobs, hauling, maintaining orders, and reconciling sales. Do not count unattended job time or passive inventory waiting, and do not count one operator's simultaneous alt-character activity multiple times. The product scanner should rank raw net contribution per active operator-hour when that input is known, while retaining slot-hour, capital, liquidity, and elapsed-time measures as separate constraints. If active time is unknown, leave the KPI unknown rather than substituting elapsed time.
 
 ## Break-even price
 
