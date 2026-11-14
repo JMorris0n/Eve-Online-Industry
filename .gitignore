@@ -16,7 +16,9 @@ Thumbs.db
 # Local source data and generated datasets. Do not commit CCP SDE archives.
 data/raw/
 data/processed/
+data/derived/
 data/cache/
+tools/esi/config.json
 
 # Private local operation data. Never commit character, asset, blueprint,
 # balance, order, or facility-access exports to the public repository.

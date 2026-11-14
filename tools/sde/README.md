@@ -23,11 +23,23 @@ The script:
 4. Calculates SHA-256 and checks ZIP integrity.
 5. Saves a `manifest.json` with build, URL, timestamp, hash, and HTTP metadata.
 
-To extract the archive:
+To extract during download:
 
 ```powershell
 py -3 tools/sde/fetch_sde.py --variant jsonl --extract
 ```
+
+To extract an archive that is already downloaded, without downloading it again:
+
+```powershell
+$archive = Get-ChildItem data/raw/sde/*/*.zip |
+    Sort-Object LastWriteTime -Descending |
+    Select-Object -First 1
+$extracted = Join-Path $archive.DirectoryName "extracted"
+Expand-Archive -LiteralPath $archive.FullName -DestinationPath $extracted
+```
+
+The local `data/derived/` directory is Git-ignored because normalized recipe and analysis outputs are generated from the local SDE. Preserve small, hand-reviewed reference tables separately only when they are intentionally part of the knowledge base.
 
 To use YAML instead:
 
