@@ -77,3 +77,6 @@
 - Researched and replaced the Data Quality and Reconciliation placeholder with claim classes, evidence hierarchy, source/ESI/SDE provenance, freshness, normalization, validation dimensions, conflict resolution, and verification-state controls.
 
 - Researched and replaced the Third-Party Industry Tools placeholder with a current tool survey covering EVE Retroindustry, EVE Cookbook/MCP, EVE Omnitool, EVECalc, EVE Online Industry Calculator, and PI planners. Recorded data freshness, feature scope, privacy, SSO, and verification caveats.
+
+- Added draft operational playbooks for product evaluation, Tech I/II production, PI, reactions, and market delivery; indexed them and retained draft status pending live workflow validation.
+- Added Q-014 to record the operating-environment inputs needed for a real product-ranking example. Continued work can proceed on generic mechanics and data tooling without blocking on those details.
