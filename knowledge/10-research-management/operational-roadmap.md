@@ -196,6 +196,8 @@ The roadmap is accepted as the working plan. Milestones M1 and M2 are now in pro
 - Include blueprint/BPC cost, installation quote, market fees, hauling/handling, expected sales execution, inventory holding, and unsold output.
 - Use actual Industry quote inputs when system/structure variables are not available through public data.
 - Reconcile the existing manufacturing, fee, and hauling calculators into one evaluation result.
+- Capture attributable active operator-hours as a measured value or clearly labeled estimate. Exclude unattended production and passive inventory wait; do not inflate hours for simultaneous alt-character actions by one operator.
+- Report net contribution per active operator-hour when the input is known. Keep unadjusted contribution and explicit risks separate until pilot observations support a defensible risk adjustment.
 - Show missing data and verification confidence prominently.
 
 **Acceptance criteria:**
@@ -204,7 +206,8 @@ The roadmap is accepted as the working plan. Milestones M1 and M2 are now in pro
 - [ ] Installation and market fees are accounted for without double-counting.
 - [ ] Immediate liquidation and sell-order strategies are compared where relevant.
 - [ ] Buying versus producing intermediate components is evaluated.
-- [ ] Output includes expected net contribution, active setup burden, slot-hours, capital, and liquidation horizon.
+- [ ] Output includes expected net contribution, active operator-hours (measured or estimated), net contribution per active operator-hour when known, slot-hours, capital, and liquidation horizon.
+- [ ] Missing active-time data remains explicitly unknown rather than being replaced with elapsed job duration.
 - [ ] A worked example is reconciled against actual Industry UI quotes and market observations.
 
 ### M5. Build the candidate scanner and opportunity ranker

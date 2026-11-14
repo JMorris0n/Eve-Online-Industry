@@ -27,6 +27,7 @@ This playbook operationalizes [Product Selection](../06-market-intelligence/prod
 - Output sale region/location.
 - Candidate batch size.
 - Available working capital and logistics method.
+- Expected active operator time for setup and periodic maintenance, recorded as an estimate until measured.
 
 If character or facility information is unavailable, use clearly labeled assumptions and do not describe the result as an executable plan.
 
@@ -80,6 +81,9 @@ Use quantity-aware VWAP. Keep any unfilled remainder as inventory rather than as
 - Estimate liquidation days.
 - Calculate peak working capital and capital-days.
 - Calculate contribution per Manufacturing slot-hour.
+- Estimate attributable hands-on operator time for evaluation, sourcing, staging, installation, hauling, order maintenance, and reconciliation.
+- Calculate net contribution per active operator-hour when the time estimate is positive. Exclude unattended job duration and passive inventory waiting; do not multiply one person's simultaneous alt-character tasks into multiple operator-hours.
+- Keep the raw contribution and explicit risk drivers visible. Until a defensible risk adjustment is calibrated from pilot results, do not invent a risk premium or present an unsupported risk-adjusted number.
 - Identify the current bottleneck and expected bottleneck after expansion.
 
 ### 7. Stress-test
@@ -106,7 +110,7 @@ These are project workflow labels, not game mechanics.
 
 ## Required evaluation record
 
-Record product/type ID, blueprint/formula ID, candidate runs, output, material bill, job quote, facility assumptions, source/destination market snapshots, fees, logistics, contribution, margin, slot-hours, capital-days, liquidation horizon, scenarios, and unresolved questions.
+Record product/type ID, blueprint/formula ID, candidate runs, output, material bill, job quote, facility assumptions, source/destination market snapshots, fees, logistics, net contribution, margin, attributable active operator-hours, contribution per active operator-hour, slot-hours, capital-days, liquidation horizon, scenario results, confidence/provenance, and unresolved questions. Mark operator time as measured or estimated; leave the active-hour KPI unknown if time cannot be responsibly estimated.
 
 ## Stop conditions
 

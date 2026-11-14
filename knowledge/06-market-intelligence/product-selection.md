@@ -53,6 +53,7 @@ A product that fails a hard feasibility constraint should not be ranked as if it
 | Dimension | Metric | Why it matters |
 |---|---|---|
 | Profitability | Net contribution and net margin | Measures economic value created |
+| Active-attention efficiency | Net contribution per active operator-hour | Values the user's limited hands-on time and operational attention |
 | Manufacturing efficiency | ISK per Manufacturing slot-hour | Values scarce character capacity |
 | Science/reaction dependency | Expected BPC or reaction output per slot-hour | Identifies upstream bottlenecks |
 | Capital intensity | Peak working capital and capital-days | Measures cash and inventory commitment |
@@ -144,6 +145,7 @@ A product should not be selected solely because its base-case calculation is pos
 A single weighted score can hide important trade-offs. A better first pass is to identify the Pareto-efficient set across:
 
 - Net contribution per batch.
+- Net contribution per active operator-hour, with time quality labeled as measured or estimated.
 - ISK per constrained slot-hour.
 - Contribution per capital-day.
 - Conservative liquidation horizon.
@@ -198,7 +200,7 @@ For each shortlisted product, preserve:
 - Material inputs and timestamped prices.
 - Installation, market, and logistics costs.
 - Sale strategy and executable order-book depth.
-- Net contribution, margin, ROI, slot-hour efficiency, and capital-days.
+- Net contribution, margin, ROI, active operator-hours, net contribution per active operator-hour, slot-hour efficiency, and capital-days.
 - Conservative daily volume and estimated liquidation days.
 - Low/base/high scenario results.
 - Unresolved assumptions and source provenance.
@@ -224,7 +226,7 @@ This document defines the product-selection framework. It does not rank current 
 
 Open work:
 - Build a product candidate scanner using SDE type/blueprint data and ESI market data.
-- Add a normalized product metric table for contribution, slot-hours, capital-days, liquidity, and risk.
+- Add a normalized product metric table for contribution, active operator-hours, contribution per active operator-hour, slot-hours, capital-days, liquidity, and explicit risk indicators.
 - Add configurable constraints for character skills, facilities, and capital.
 - Run a real candidate ranking after the operating region, character skills, and available capital are supplied or connected.
 
