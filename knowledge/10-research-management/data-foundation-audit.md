@@ -50,7 +50,7 @@ Initial code review:
 - Records resolved archive URL, build number, retrieval time, SHA-256, HTTP metadata, and ZIP integrity.
 - Includes path traversal protection during extraction.
 - Inspector currently prints archive layout and a sample JSONL record.
-- Added `tools/sde/parse_industry_recipes.py`, which reads current-format `blueprints.jsonl` and `types.jsonl`, joins English type names, and emits normalized manufacturing/reaction recipe JSONL.
+- Added `tools/sde/parse_industry_recipes.py`, which reads current-format `blueprints.jsonl` and `types.jsonl`, joins English type names plus published/group/market-group/tech-level/volume metadata, and emits normalized manufacturing/reaction recipe JSONL.
 - The parser has representative fixture tests and explicitly preserves base quantities/time without applying ME, facility bonuses, system indices, job fees, or market prices.
 - Actual ingestion of the current CCP archive remains unverified until the user can run the downloader and inspector locally.
 
@@ -67,7 +67,7 @@ Initial code review:
 - Implements X-Pages pagination, conditional requests, HTTP 429 Retry-After handling, and a stop on HTTP 420.
 - Saves order-book and market-history observations separately.
 - Does not collect private structure markets, character skills, assets, blueprints, or industry jobs. This is expected for the public-data-first phase.
-- Added `tools/esi/summarize_market_data.py` to combine paginated order books, distinguish asks from bids, calculate visible-book VWAP/depth for requested quantities, summarize backward-looking daily history, and retain source hashes.
+- Added `tools/esi/summarize_market_data.py` to combine paginated order books, deduplicate repeated order IDs across numerically ordered pages, distinguish asks from bids, calculate visible-book VWAP/depth for requested quantities, summarize backward-looking daily history, and retain source hashes plus manifest timestamps/cache metadata.
 - Added network-free unit tests for collector URL construction, HTTP-date parsing, Retry-After parsing, and X-Pages pagination.
 - The summarizer labels regional depth as potentially inaccessible and does not treat snapshot fillability as guaranteed execution. Fixture tests are in place; live ESI validation remains pending.
 
