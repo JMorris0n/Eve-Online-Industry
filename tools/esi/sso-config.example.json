@@ -1,0 +1,5 @@
+{
+  "client_id": "YOUR_EVE_SSO_CLIENT_ID",
+  "redirect_uri": "http://127.0.0.1:8765/callback/",
+  "user_agent": "EveOnlineIndustryLocal/0.1 (https://github.com/JMorris0n/Eve-Online-Industry)"
+}

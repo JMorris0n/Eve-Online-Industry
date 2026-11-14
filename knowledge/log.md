@@ -169,3 +169,11 @@
 - Confirmed the data boundary: ESI is character-oriented with no account-level endpoints, so each of the three characters requires separate authorization. Keep refresh tokens in the Windows credential store and private API snapshots under ignored `data/private/`/`local/` paths.
 - Recorded a material facility-access limitation: no unified ESI route enumerates every Upwell structure a character can access. Use public facilities plus targeted character structure search/resolution and retain partial/unknown coverage.
 - Deferred alliance-specific doctrine, buyback, shared corporation resources, staging market, and courier details until an alliance is selected. Keep three candidate strategy tracks: alliance-local manufacture, value-added export to higher-paying markets, and other high net-contribution-per-active-operator-hour opportunities.
+
+## 2026-11-14 - Local SSO importer implementation
+
+- Implemented a read-only native OAuth Authorization Code with PKCE client in `tools/esi/sso_local.py`. It discovers SSO metadata, validates signed JWT access tokens, checks audience/issuer/expiry and character subject, and validates the seven requested read/search scopes.
+- Refresh tokens are stored using the OS keyring package with no plaintext fallback. The local client config is excluded from Git; raw character snapshots and registry data remain under ignored `data/private/esi/`.
+- Added paginated pulls for personal blueprints, assets, and active industry jobs, plus skills, skill queue, and the public industry facility directory. Snapshots include per-page response headers, ESI compatibility date, granted scopes, retrieval timestamp, record counts, and SHA-256 hashes.
+- Added `tools/esi/requirements-sso.txt`, a safe config example, and regression tests for PKCE, scope construction, and loopback redirect validation.
+- Live SSO authorization and character imports remain unverified until the user registers a local EVE SSO app and authorizes each character.

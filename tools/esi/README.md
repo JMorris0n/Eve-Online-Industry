@@ -124,3 +124,71 @@ ESI has no account-level endpoints. Each industrial character must be separately
 **Facility limitation:** ESI does not provide one endpoint that enumerates every Upwell structure a character can access. The public `/industry/facilities/` directory, targeted authenticated character structure searches, known structure resolution, and observed asset/job locations provide partial evidence. Do not mark the entire facility inventory verified from these sources alone.
 
 All authenticated responses, character identity data, and refresh tokens must remain local. The `.gitignore` excludes `data/private/` and `local/`; refresh tokens will use the operating system credential store. Never upload raw authenticated snapshots or a populated local profile to Dropbox.
+
+## Local EVE SSO authorization and private character snapshots
+
+The initial private-data integration is read-only and character-scoped. It uses Authorization Code with PKCE and requests only the seven scopes below. ESI has no account-level endpoint, so authorize each of the three industrial characters separately.
+
+### Install local authentication dependencies
+
+```powershell
+py -3 -m pip install -r tools/esi/requirements-sso.txt
+```
+
+### Register a local EVE SSO application
+
+In the EVE Developer Portal, create an application with **Authentication & API Access**. Add only these scopes:
+
+```text
+esi-skills.read_skills.v1
+esi-skills.read_skillqueue.v1
+esi-characters.read_blueprints.v1
+esi-assets.read_assets.v1
+esi-industry.read_character_jobs.v1
+esi-search.search_structures.v1
+esi-universe.read_structures.v1
+```
+
+Register this exact callback URL:
+
+```text
+http://127.0.0.1:8765/callback/
+```
+
+This is a native-app PKCE loopback callback. The listener binds only to 127.0.0.1 and closes after the authorization response.
+
+Copy `tools/esi/sso-config.example.json` to `tools/esi/sso-config.json` and replace the client ID. The local config file is Git-ignored. This native PKCE flow does not send a client secret; do not put a client secret or token in this file or in chat.
+
+### Authorize all three characters
+
+From the repository root, run this once per character. Each browser authorization lets you select the character and consent to the requested permissions:
+
+```powershell
+py -3 tools/esi/sso_local.py authorize
+py -3 tools/esi/sso_local.py authorize
+py -3 tools/esi/sso_local.py authorize
+```
+
+List authorized characters whose refresh tokens are stored locally:
+
+```powershell
+py -3 tools/esi/sso_local.py list
+```
+
+Refresh and import each authorized character's skills, skill queue, blueprints, personal assets, active industry jobs, and the public industry-facility directory:
+
+```powershell
+py -3 tools/esi/sso_local.py sync --compatibility-date YYYY-MM-DD
+```
+
+Replace `YYYY-MM-DD` with a compatibility date reviewed in the current ESI API Explorer. Snapshots are written under `data/private/esi/snapshots/`. The program stores refresh tokens in the operating-system keyring and never writes tokens into snapshot files.
+
+Remove one character's local refresh token and registry record with:
+
+```powershell
+py -3 tools/esi/sso_local.py forget --character-id CHARACTER_ID
+```
+
+This removes the local credential only. To revoke the EVE SSO grant, use the EVE Developer Portal's Authorized Applications page.
+
+**Important:** The code and regression tests can validate the local protocol helpers, but live SSO authorization has not yet been tested against your characters. Never upload `sso-config.json`, tokens, the populated operating profile, or anything under `data/private/` to Dropbox or GitHub.

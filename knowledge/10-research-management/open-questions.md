@@ -196,7 +196,7 @@ status: draft
 ### Q-021: Which alliance/corporation resources can be imported after joining?
 
 - **Question:** Which doctrine, buyback, shared-resource, structure-access, and courier records are available through ESI for the eventual alliance/corporation, and which must be imported from alliance documents or user-supplied data?
-- **Affected concepts:** [Local EVE SSO and null-sec operating-data plan](esi-authenticated-data-plan.md), [Product Selection](../06-market-intelligence/product-selection.md), [Logistics](../04-industrial-economics/logistics.md).
+- **Affected concepts:** [Local EVE SSO and null-sec operating-data plan](esi-authenticated-data-plan.md), [Product Selection](../06-market-intelligence/product-selection.md), [Logistics and Risk](../04-industrial-economics/logistics-and-risk.md).
 - **Why it matters:** Alliance-local production and higher-value export economics depend on actual buyback prices/terms, doctrine demand, staging access, market rules, and courier costs. Character SSO alone must not be assumed to expose those programs.
 - **Evidence needed:** After alliance selection, inspect actual corp roles, structures, buyback program, doctrine fitting source, market access, and courier contract rules. Compare current ESI corporation scopes/routes with the data the user is authorized to access.
 - **Status:** Deferred until alliance membership and operating rules are known.

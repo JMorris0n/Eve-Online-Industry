@@ -40,3 +40,6 @@ __pycache__/
 .env
 .env.*
 !.env.example
+
+# Private local EVE SSO client configuration; refresh tokens are held in the OS keyring
+tools/esi/sso-config.json
