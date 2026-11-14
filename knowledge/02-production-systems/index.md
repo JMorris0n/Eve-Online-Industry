@@ -1,5 +1,6 @@
 # 02 Production Systems
 
+- [Blueprint Copying](blueprint-copying.md): copy-job parameters, BPC inheritance, licensed-run limits, copy time, and distribution strategy.
 - [Tech I Manufacturing](tech-1-manufacturing.md): job lifecycle, output runs, material/time modifiers, batch rounding, and production planning.
 - [Tech II Invention](tech-2-invention.md): required inputs and skills, success formula, decryptors, output BPCs, and expected-cost model.
 - [Tech II Components](tech-2-components.md)
