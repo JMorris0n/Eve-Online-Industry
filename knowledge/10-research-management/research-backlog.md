@@ -44,8 +44,10 @@ status: draft
 - [x] Document the Tech II component supply chain, composite reaction stages, Advanced Component manufacturing, final Tech II input categories, R.A.M. material behavior, and vertical-integration decisions.
   - [ ] Build and independently verify a type-level Advanced Component recipe/skill matrix from current SDE and Industry UI data.
   - [ ] Validate representative Advanced Component and final Tech II production quotes.
-- [ ] Reactions and reaction facility constraints.
-  - [x] Document reaction reactor families and the Refinery/security requirement.
+- [x] Document reaction reactor families, Refinery/security constraints, reaction skill/job pool dependencies, and the common Tech II composite reaction chain.
+  - [ ] Verify intermediate/composite recipe input-output quantities against current SDE and in-game Reaction Formulas.
+  - [ ] Verify reactor-family availability and reaction-rig effects for representative facilities.
+  - [ ] Capture current fuel-block requirements and run/output rounding for all reaction families.
 - [ ] Tech III reverse engineering and manufacturing.
 - [ ] Planetary industry extraction, routing, schematics, and taxes.
 
