@@ -1,0 +1,17 @@
+{
+  "character": {
+    "accounting_level": 5,
+    "broker_relations_level": 5,
+    "advanced_broker_relations_level": 5,
+    "unmodified_faction_standing": "8.5",
+    "unmodified_corporation_standing": "9.5"
+  },
+  "market": {
+    "type": "npc_station"
+  },
+  "order": {
+    "order_value_isk": "100000000",
+    "previous_order_value_isk": "95000000",
+    "sale_value_isk": "120000000"
+  }
+}
