@@ -52,7 +52,7 @@ Job output units = job runs × blueprint output quantity per run
 Batch output units = sum of output units from all jobs
 ```
 
-Use the actual delivered output quantity. If only part of the batch is sold, separate realized profit on sold units from the value of unsold inventory.
+Use the actual delivered output quantity. If only part of the batch is sold, calculate realized contribution on sold units using an allocated cost basis, and retain the remaining units as inventory rather than treating them as cash revenue. For planning, calculate expected batch contribution assuming the intended quantity is eventually sold.
 
 ## Economic batch cost
 
