@@ -76,6 +76,9 @@ For each source, record its stable ID, publisher, title, canonical URL, source t
 | ccp-esi-xpages-pagination | CCP Developer Documentation, [X-Pages Pagination](https://developers.eveonline.com/docs/services/esi/pagination/x-pages/) | Accessed 2026-11-14 | page/X-Pages behavior and cache-expiry duplication risk |
 | ccp-sde-docs | CCP Developer Documentation, [Static Data Export](https://developers.eveonline.com/docs/services/static-data/) | Accessed 2026-11-14 | Current SDE distribution formats and schema documentation |
 
+| ccp-alpha-omega | CCP Support, [Alpha and Omega Clone](https://support.eveonline.com/hc/en-us/articles/213020969-Alpha-and-Omega-Clone) | Updated 2026-02-04 | Current Alpha/Omega feature restrictions, including PI export restriction |
+| ccp-alpha-quick-facts | CCP Support, [Alpha Clones and Omega Clone lapsing - Quick Facts](https://support.eveonline.com/hc/en-us/articles/213811425-Alpha-Clones-and-Omega-Clone-lapsing-Quick-Facts) | Updated 2024-07-15 | Alpha PI import capability and export restriction; industry/market clone-state limits |
+
 ## Source limitations
 
 CCP Support's blueprint, skill, and structure support pages have displayed update dates from 2022-2024. The 2025 SCC relief announcement explicitly calls its ME/TE research change temporary; keep it provisional until current in-game quotes or a later CCP statement establish its status. The Exordium change is a regional exception and the patch note does not provide a complete global fee model. The ESI overview is a live developer reference and may change as the API is versioned. Continue to check current patch notes and in-game UI before revising fee constants.
