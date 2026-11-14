@@ -190,6 +190,8 @@ Do not overwrite raw source data with normalized or calculated values. Derived d
 
 ## Recommended initial integration
 
+The local SDE acquisition helper is documented in [tools/sde/README.md](../../tools/sde/README.md). It downloads the current CCP archive, records its build/hash provenance, and inspects the archive layout before a parser is written.
+
 The first ESI integration should remain read-only and focus on:
 1. Public regional market orders and history.
 2. Adjusted prices.
