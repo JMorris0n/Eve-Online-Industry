@@ -25,9 +25,6 @@ sources:
   - id: eveuni-research
     resource: https://wiki.eveuniversity.org/Research
     title: Research | EVE University Wiki
-  - id: eveuni-reactions
-    resource: https://wiki.eveuniversity.org/Reactions
-    title: Reactions | EVE University Wiki
 generated:
   by: openai/gpt-6
   at: 2026-11-14T08:00:00Z
