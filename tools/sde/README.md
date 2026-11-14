@@ -49,6 +49,23 @@ py -3 tools/sde/inspect_sde.py data/raw/sde/BUILD/eve-online-static-data-BUILD-j
 
 Replace `BUILD` with the build number printed by the downloader. The inspector lists relevant files and prints one sample JSONL record so the current schema can be examined before writing parsers.
 
+## Normalize manufacturing and reaction recipes
+
+After extracting the SDE archive, the current-format parser can produce a normalized JSON Lines file:
+
+```powershell
+py -3 tools/sde/parse_industry_recipes.py \
+    --sde-dir data/raw/sde/BUILD/extracted \
+    --activity all \
+    --output data/derived/industry-recipes.jsonl
+```
+
+Replace `BUILD` with the downloaded build number. The parser reads the current `blueprints.jsonl` and `types.jsonl` tables, joins type names, and emits one record per manufacturing or reaction activity. It retains base materials, products, time, and required skills.
+
+The output is a normalized recipe reference, **not** a final job quote. It does not apply blueprint ME, structure/facility bonuses, system cost indices, job installation fees, character skill effects, or market prices. Do not use it directly as a profitability result.
+
+The parser supports direct SDE records and the documented generic `_key`/`_value` envelope. It is tested with representative fixtures; actual current-build ingestion remains pending until the archive is downloaded and inspected locally.
+
 ## Data placement
 
 Downloaded data belongs under `data/raw/sde/` and is intentionally excluded from Git. Do not commit the full SDE archive or extracted data into the knowledge repository. Keep only:
