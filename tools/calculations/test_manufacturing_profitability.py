@@ -5,7 +5,7 @@ import json
 import unittest
 from pathlib import Path
 
-from manufacturing_profitability import calculate
+from manufacturing_profitability import calculate, fmt_decimal
 
 
 EXAMPLE = Path(__file__).with_name("manufacturing-profitability.example.json")
@@ -28,6 +28,14 @@ class ManufacturingProfitabilityTests(unittest.TestCase):
             projected["maximum_affordable_input"]["maximum_unit_value_isk"],
             "7.48",
         )
+
+    def test_decimal_output_uses_plain_notation(self):
+        from decimal import Decimal
+
+        self.assertEqual(fmt_decimal(Decimal("700.000")), "700")
+        self.assertEqual(fmt_decimal(Decimal("1E+6")), "1000000")
+        self.assertEqual(fmt_decimal(Decimal("0.0100")), "0.01")
+        self.assertEqual(fmt_decimal(Decimal("0")), "0")
 
     def test_partial_sales_keep_unsold_inventory_cost(self):
         result = calculate(self.config)
