@@ -42,6 +42,13 @@ Do not use this catalog as evidence for a game mechanic. Individual concept file
 | eveuni-manufacturing | [Manufacturing](https://wiki.eveuniversity.org/Manufacturing) | Accessed 2026-11-14 | Manufacturing EIV definition, installation fee components, and warning about stale SCI derivation |
 | eveuni-reactions-facilities | [Reactions](https://wiki.eveuniversity.org/Reactions) | Accessed 2026-11-14 | Reactor types and reaction facility constraints |
 
+## Invention references
+
+| Source ID | Reference | Last modified / accessed | Use and limitations |
+|---|---|---|---|
+| eveuni-invention | [Invention](https://wiki.eveuniversity.org/Invention) | 2026-10-09 | Current skill-adjusted invention probability formula, category base chances, input/output BPC behavior, baseline runs/ME/TE, and decryptor planning. Community educational reference. |
+| eveuni-datacores | [Datacores](https://wiki.eveuniversity.org/Datacores) | Accessed 2026-11-14 | Datacore fields, requirements, and invention acquisition routes. |
+
 ## Manufacturing formula and calculator references
 
 | Source ID | Reference | Published / accessed | Use and limitations |
