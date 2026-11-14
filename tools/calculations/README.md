@@ -23,6 +23,12 @@ Edit a copy of the example JSON for a real route and shipment. The probabilities
 
 The calculator assumes equal cargo value per trip/contract. Split a shipment into separate scenarios if high-value cargo is concentrated in one load or if routes and risk differ.
 
+Run the calculator unit tests from the repository root:
+
+\`\`\`powershell
+py -3 -m unittest discover -s tools/calculations -p "test_*.py"
+\`\`\`
+
 ## General rules
 
 - Keep money inputs as decimal strings in JSON to avoid binary floating-point error.
