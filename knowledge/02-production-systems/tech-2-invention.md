@@ -181,12 +181,12 @@ Assume a module has a 34% base chance, the character has both required Science s
 ```text
 Skill modifier
   = 1 + (4 + 4) / 30 + 3 / 40
-  = 1.3425
+  = 1.3416667
 
 Invention chance
-  = 0.34 × 1.3425 × 1.0
-  = 0.45645
-  = 45.645%
+  = 0.34 × 1.3416667 × 1.0
+  = 0.4561667
+  = 45.6167%
 ```
 
 This is a formula example, not a live UI quote. For a real job, compare the formula's result with the chance displayed by the Industry UI. Do not add a Tech I meta-item bonus: CCP's Phoebe notes state that meta items can no longer be used for invention. [^ccp-phoebe-invention] [^ccp-invention]
