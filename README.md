@@ -12,6 +12,9 @@ A VS Code-first, Git-managed research repository for EVE Online industry. The ca
 
 ## Coordinating LLM work
 
+GitHub now provides structured [research/improvement](.github/ISSUE_TEMPLATE/01-research-or-improvement.md) and [verification/defect](.github/ISSUE_TEMPLATE/02-verification-or-defect.md) intake forms, plus a [pull request review checklist](.github/PULL_REQUEST_TEMPLATE.md). Use these to capture a durable task before creating the LLM handoff packet.
+
+
 Use [the LLM collaboration protocol](knowledge/00-governance/llm-collaboration.md) as the operating procedure and follow the [VS Code workflow quick start](exports/WORKFLOW-QUICKSTART.md) for the practical task sequence.
 
 - **One bounded task:** define the research question, scope, risk, files, and acceptance criteria.
