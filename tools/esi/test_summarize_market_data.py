@@ -55,11 +55,11 @@ class MarketSummaryTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
             (root / "market-orders-region-100-type-200-page-1.json").write_text(
-                json.dumps([{"price": 5, "volume_remain": 3, "is_buy_order": False}]),
+                json.dumps([{"order_id": 1, "type_id": 200, "price": 5, "volume_remain": 3, "is_buy_order": False}]),
                 encoding="utf-8",
             )
             (root / "market-orders-region-100-type-200-page-2.json").write_text(
-                json.dumps([{"price": 4, "volume_remain": 2, "is_buy_order": True}]),
+                json.dumps([{"order_id": 2, "type_id": 200, "price": 4, "volume_remain": 2, "is_buy_order": True}]),
                 encoding="utf-8",
             )
             (root / "market-history-region-100-type-200.json").write_text(
@@ -69,7 +69,28 @@ class MarketSummaryTests(unittest.TestCase):
             result = summarize_directory(root, [1])
         self.assertEqual(len(result), 1)
         self.assertEqual(result[0]["order_book"]["order_count"], 2)
+        self.assertEqual(result[0]["raw_order_record_count"], 2)
+        self.assertEqual(result[0]["duplicate_order_ids_removed"], 0)
         self.assertEqual(result[0]["history"]["total_volume"], 2)
+
+    def test_directory_deduplicates_order_ids_across_pages(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            repeated = {"order_id": 7, "type_id": 200, "price": 5, "volume_remain": 3, "is_buy_order": False}
+            (root / "market-orders-region-100-type-200-page-1.json").write_text(json.dumps([repeated]), encoding="utf-8")
+            (root / "market-orders-region-100-type-200-page-2.json").write_text(json.dumps([repeated]), encoding="utf-8")
+            result = summarize_directory(root, [1])
+        self.assertEqual(result[0]["raw_order_record_count"], 2)
+        self.assertEqual(result[0]["duplicate_order_ids_removed"], 1)
+        self.assertEqual(result[0]["order_book"]["order_count"], 1)
+
+    def test_rejects_order_type_mismatch(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            order = {"order_id": 7, "type_id": 999, "price": 5, "volume_remain": 3, "is_buy_order": False}
+            (root / "market-orders-region-100-type-200-page-1.json").write_text(json.dumps([order]), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "unexpected type_id"):
+                summarize_directory(root, [1])
 
     def test_rejects_invalid_buy_order_flag(self):
         with self.assertRaisesRegex(ValueError, "must be boolean"):
