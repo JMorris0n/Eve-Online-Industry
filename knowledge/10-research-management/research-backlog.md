@@ -65,7 +65,8 @@ status: draft
 - [x] Document broker fees, sales tax, relist fees, NPC versus Upwell market differences, and transaction execution behavior.
   - [ ] Validate fee calculations against wallet journal and live order quotes for NPC and Upwell markets.
   - [ ] Build a representative worked manufacturing product example using current prices and a chosen market location.
-- [ ] Facility and regional location economics.
+- [x] Document facility and regional location economics, including activity-specific SCI, ESI/market data, facility comparison, remote installation, and total landed cost.
+  - [ ] Build a current ESI collector and representative location comparison using live market orders, SCI, facility fees, and logistics.
 - [ ] Logistics, capital, and inventory risk.
 
 ## P3: Optimization
