@@ -62,6 +62,22 @@ class MarketSummaryTests(unittest.TestCase):
                 json.dumps([{"order_id": 2, "type_id": 200, "price": 4, "volume_remain": 2, "is_buy_order": True}]),
                 encoding="utf-8",
             )
+            (root / "manifest.json").write_text(json.dumps({
+                "retrieved_at": "2026-11-14T10:00:00Z",
+                "compatibility_date": "2026-11-13",
+                "regions": [100],
+                "type_ids": [200],
+                "outputs": [{
+                    "file": str(root / "market-orders-region-100-type-200-page-1.json"),
+                    "url": "https://esi.example/orders",
+                    "status": 200,
+                    "retrieved_at": "2026-11-14T10:00:01Z",
+                    "from_cache": False,
+                    "expires": "Fri, 14 Nov 2026 10:05:00 GMT",
+                    "etag": "test-etag",
+                    "sha256": "manifest-hash"
+                }]
+            }), encoding="utf-8")
             (root / "market-history-region-100-type-200.json").write_text(
                 json.dumps([{"date": "2026-11-01", "volume": 2, "order_count": 1, "average": 4, "highest": 4, "lowest": 4}]),
                 encoding="utf-8",
@@ -72,6 +88,7 @@ class MarketSummaryTests(unittest.TestCase):
         self.assertEqual(result[0]["raw_order_record_count"], 2)
         self.assertEqual(result[0]["duplicate_order_ids_removed"], 0)
         self.assertEqual(result[0]["history"]["total_volume"], 2)
+        self.assertEqual(result[0]["source_files"][0]["retrieved_at"], "2026-11-14T10:00:01Z")
 
     def test_directory_deduplicates_order_ids_across_pages(self):
         with tempfile.TemporaryDirectory() as temp:
