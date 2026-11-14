@@ -96,6 +96,13 @@ class MarketSummaryTests(unittest.TestCase):
             [item["order_book"]["order_count"] for item in result[0]["location_books"]],
             [1, 1],
         )
+        self.assertEqual(
+            [item["system_ids"] for item in result[0]["location_books"]],
+            [[3001], [3002]],
+        )
+        self.assertTrue(
+            all(not item["order_book"]["is_crossed"] for item in result[0]["location_books"])
+        )
         self.assertFalse(result[0]["order_book"]["is_crossed"])
         self.assertEqual(result[0]["order_book"]["market_scope"], "regional_composite")
         page_one_source = next(item for item in result[0]["source_files"] if item["filename"].endswith("page-1.json"))
