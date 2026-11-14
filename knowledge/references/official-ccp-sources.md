@@ -7,7 +7,7 @@ tags:
   - ccp
 generated:
   by: openai/gpt-6
-  at: 2026-11-14T06:12:17Z
+  at: 2026-11-14T06:25:24Z
 status: draft
 ---
 
@@ -15,22 +15,32 @@ status: draft
 
 Add sources only after confirming that the URL resolves and the source is relevant. Prefer direct source URLs over search result URLs.
 
-For each source, record its stable ID, publisher, title, canonical URL, source type, publication or update date when available, access date, and scope/limitations. Source IDs are stable keys used by concept-level OKF `sources` frontmatter and matching Markdown footnotes.
+For each source, record its stable ID, publisher, title, canonical URL, source type, publication or update date when available, access date, and scope/limitations. Source IDs are stable keys used by concept-level OKF sources frontmatter and matching Markdown footnotes.
 
 ## Sources used by researched concepts
 
 | Source ID | Publisher / title | Displayed date | Relevance |
 |---|---|---|---|
-| `ccp-blueprints` | CCP Support, [Blueprints](https://support.eveonline.com/hc/en-us/articles/203269951-Blueprints) | Updated 2024-08-29 | BPO/BPC, ancient relic, reaction formula distinctions and availability |
-| `ccp-me-research` | CCP Support, [Material Efficiency Research](https://support.eveonline.com/hc/en-us/articles/203210542-Material-Efficiency-Research) | Updated 2024-07-15 | ME research, job-level calculation, rounding, single-item inputs |
-| `ccp-te-research` | CCP Support, [Time Efficiency Research](https://support.eveonline.com/hc/en-us/articles/203210512-Time-Efficiency-Research) | Updated 2024-07-15 | TE research steps and job-level time calculation |
-| `ccp-copying` | CCP Support, [Copying](https://support.eveonline.com/hc/en-us/articles/203210602-Copying) | Updated 2024-07-15 | Copy inheritance, licensed runs, and copy-job parameters |
-| `ccp-activities` | CCP Support, [Activities and Job Types](https://support.eveonline.com/hc/en-us/articles/203210272-Activities-and-Job-Types) | Updated 2024-08-29 | Activity classification and job categories |
-| `ccp-fractured-skies` | EVE Online, [Fractured Skies Expansion Notes](https://www.eveonline.com/news/view/fractured-skies-expansion-notes) | Published 2026-11-06 | New Navy attack battlecruiser BPCs offered by faction LP stores |
-| `ccp-activities-jobs` | CCP Support, [Activities and Job Types](https://support.eveonline.com/hc/en-us/articles/203210272-Activities-and-Job-Types) | Updated 2024-08-29 | Manufacturing, Science, and Reaction classifications; slot and remote-management skill names |
-| `ccp-manufacturing` | CCP Support, [Manufacturing](https://support.eveonline.com/hc/en-us/articles/203210292-Manufacturing) | Updated 2024-08-29 | Facility service requirements, character distance, Supply Chain Management range, and required inputs |
-| `ccp-industrialist-academy` | CCP, [EVE Academy: Industrialist](https://www.eveonline.com/eve-academy/careers/industrialist) | Accessed 2026-11-14 | Official high-level introduction to the industrialist role and support skills |
+| ccp-blueprints | CCP Support, [Blueprints](https://support.eveonline.com/hc/en-us/articles/203269951-Blueprints) | Updated 2024-08-29 | BPO/BPC, ancient relic, reaction formula distinctions and availability |
+| ccp-me-research | CCP Support, [Material Efficiency Research](https://support.eveonline.com/hc/en-us/articles/203210542-Material-Efficiency-Research) | Updated 2024-07-15 | ME research, job-level calculation, rounding, single-item inputs |
+| ccp-te-research | CCP Support, [Time Efficiency Research](https://support.eveonline.com/hc/en-us/articles/203210512-Time-Efficiency-Research) | Updated 2024-07-15 | TE research steps and job-level time calculation |
+| ccp-copying | CCP Support, [Copying](https://support.eveonline.com/hc/en-us/articles/203210602-Copying) | Updated 2024-07-15 | Copy inheritance, licensed runs, and copy-job parameters |
+| ccp-activities | CCP Support, [Activities and Job Types](https://support.eveonline.com/hc/en-us/articles/203210272-Activities-and-Job-Types) | Updated 2024-08-29 | Activity classification and job categories |
+| ccp-fractured-skies | EVE Online, [Fractured Skies Expansion Notes](https://www.eveonline.com/news/view/fractured-skies-expansion-notes) | Published 2026-11-06 | New Navy attack battlecruiser BPCs offered by faction LP stores |
+| ccp-activities-jobs | CCP Support, [Activities and Job Types](https://support.eveonline.com/hc/en-us/articles/203210272-Activities-and-Job-Types) | Updated 2024-08-29 | Manufacturing, Science, and Reaction classifications; slot and remote-management skill names |
+| ccp-manufacturing | CCP Support, [Manufacturing](https://support.eveonline.com/hc/en-us/articles/203210292-Manufacturing) | Updated 2024-08-29 | Facility service requirements, character distance, Supply Chain Management range, and required inputs |
+| ccp-industrialist-academy | CCP, [EVE Academy: Industrialist](https://www.eveonline.com/eve-academy/careers/industrialist) | Accessed 2026-11-14 | Official high-level introduction to the industrialist role and support skills |
+| ccp-upwell-structures | CCP Support, [Upwell Structures](https://support.eveonline.com/hc/en-us/articles/213021829-Upwell-Structures) | Updated 2024-07-15 | Citadel, Engineering Complex, and Refinery families and intended roles |
+| ccp-service-modules | CCP Support, [Service Modules](https://support.eveonline.com/hc/en-us/articles/207574929-Service-Modules) | Updated 2024-08-29 | Service-module functionality, compatibility, onlining, fuel use, and structure bonuses |
+| ccp-upwell-quickfacts | CCP Support, [Upwell Structures - Quick Facts](https://support.eveonline.com/hc/en-us/articles/209985225-Upwell-Structures-Quick-Facts) | Updated 2022-05-10 | Manufacturing/research service downtime, paused/cancelled jobs, and no material refund on cancellation |
+| ccp-reactions | CCP Support, [Reactions](https://support.eveonline.com/hc/en-us/articles/115005405785-Reactions) | Updated 2024-08-29 | Refinery reactor requirements, reaction types, and 0.4 security restriction |
+| ccp-viridian-fees | CCP, [Viridian Expansion Notes](https://www.eveonline.com/news/view/viridian-expansion-notes) | Published 2023-06-09 | General installation fee formula, EIV-based tax placement, NPC/Alpha tax and owner tax cap |
+| ccp-scc-baseline | CCP, [Patch Notes - Version 21.06](https://www.eveonline.com/news/view/patch-notes-version-21-06) | 2024-02-01.1 change | SCC surcharge baseline increased from 1.5% to 4% |
+| ccp-research-scc-relief | CCP, [Exploration and Industry Balance Rework](https://www.eveonline.com/news/view/exploration-and-industry-balance-rework) | Published 2025-07-18 | Temporary SCC reduction from 4% to 2% for ME and TE blueprint research |
+| ccp-exordium-fees | CCP, [Patch Notes - Version 23.02](https://www.eveonline.com/news/view/patch-notes-version-23-02) | Exordium release note | Additional 5% increase to installation fees in Exordium for manufacturing, ME/TE research, and invention |
+| ccp-esi-overview | CCP Developer Documentation, [ESI Overview](https://developers.eveonline.com/docs/services/esi/overview/) | Accessed 2026-11-14 | Official REST API status, endpoint discovery, versioning and compatibility dates |
+| ccp-market-price-data | CCP, [ESI API Explorer](https://esi.evetech.net/ui/?version=latest) | Accessed 2026-11-14 | API route reference, including public market-price and industry-system data |
 
 ## Source limitations
 
-CCP Support's blueprint and research articles were accessible during the 2026-11-14 research pass, but their displayed update dates are from 2024. The 2026 expansion notes provide a recent item-specific acquisition example; they do not supersede the support articles' general ME/TE rules. The current EVE Academy page provides a high-level skill overview, but detailed per-level job-slot values and prerequisites are not enumerated there. Continue to check patch notes when a concept is revised.
+CCP Support's blueprint, skill, and structure support pages have displayed update dates from 2022-2024. The 2025 SCC relief announcement explicitly calls its ME/TE research change temporary; keep it provisional until current in-game quotes or a later CCP statement establish its status. The Exordium change is a regional exception and the patch note does not provide a complete global fee model. The ESI overview is a live developer reference and may change as the API is versioned. Continue to check current patch notes and in-game UI before revising fee constants.
