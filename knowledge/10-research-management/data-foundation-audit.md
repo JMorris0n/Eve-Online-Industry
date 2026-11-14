@@ -204,49 +204,65 @@ The uploaded console output shows the local collector requested `https://esi.eve
 SDE download, extraction, recipe normalization, and the bounded public regional ESI collection have all completed locally. M1 remains **in progress** until the location-aware summarizer is run against the saved raw regional orders, the local collector/summarizer copies are synchronized, and remaining order-range/minimum-volume and private-market access limits are documented. No manufacturing profitability conclusion is made from this small mineral sample.
 
 
-## Location-aware market execution review (2026-11-14)
+## Final schema-v4 market summary review (2026-11-14)
 
-The uploaded `market-summary-v2.json` and later `market-summary-v3.json` were generated from saved regional collection `20261114T185315Z`. Their structure, collection provenance, and target-location grouping were reviewed. The v3 report is superseded for bid-side execution calculations by schema v4.
+The user uploaded `market-summary-v4.json` from saved collection `data/raw/esi/20261114T185315Z`, with SDE build **3698585** supplied to the summarizer. The report was retrieved from Dropbox at **2026-11-14T21:18:56Z** and parsed as schema version **4**.
 
-### Collection and location reconciliation
+### Collection and summary integrity
 
-- [x] The source collection covers The Forge (region **10000002**) and type IDs **34 (Tritanium)**, **35 (Pyerite)**, and **36 (Mexallon)**.
-- [x] The raw collection contains **516** unique order records: 158 Tritanium, 186 Pyerite, and 172 Mexallon.
+- [x] The report identifies The Forge (region **10000002**), type IDs **34 (Tritanium)**, **35 (Pyerite)**, and **36 (Mexallon)**, and requested sweep quantities **100, 1,000, and 10,000**.
+- [x] The source collection contains **516** regional market orders: 158 Tritanium, 186 Pyerite, and 172 Mexallon.
 - [x] No duplicate order IDs were removed and no order records lacked a location ID.
-- [x] The v2 summary grouped orders into 28 Tritanium, 27 Pyerite, and 17 Mexallon location books, **72 total**.
-- [x] Each type contains **409** daily history rows spanning **2025-10-01** through **2026-11-13**.
-- [x] The v3 summary added target-location books and expanded eligible buy orders using their range settings plus the SDE stargate graph.
-- [x] Each of the 72 target books had a single system mapping in the uploaded summary.
+- [x] The report contains **72** target-location books: 28 Tritanium, 27 Pyerite, and 17 Mexallon. Location IDs are unique within each type.
+- [x] Each mineral has **409** days of history from **2025-10-01** through **2026-11-13**.
+- [x] The report identifies the SDE jump graph as loaded and schema-v4 minimum-volume semantics as `per_individual_buy_order_fill_with_final_remainder_exception`.
+- [x] All 72 target books fully cover their 100-, 1,000-, and 10,000-unit sell-into-bids sweeps. Fill quantities, fillability flags, and gross-value/VWAP arithmetic reconcile.
+- [x] No target book reports unresolved buy-order ranges or eligible bids with invalid minimum-volume data.
 
-The most active location observed in the initial v2 data was location **60003760**, system **30000142**. It accounted for 57.6% of Tritanium order records, 66.7% of Pyerite, and 68.0% of Mexallon. This is a bounded market observation, not evidence that the user has access to the location or that these minerals are suitable production candidates.
+Target-location books are intentionally not additive across locations. A remote buy order can be eligible at multiple target systems, so sums of target-book order counts are not unique regional order counts.
 
-Regional composite best bid/ask values for Pyerite and Mexallon appeared crossed in the first report, while location-specific books were not crossed. Cross-location regional composites are discovery data only and must not be interpreted as executable spreads.
+### Ask-side procurement depth
 
-### Market execution model and version history
+Across the 72 target-location books (three mineral types combined), local ask-side sweeps were fully fillable as follows:
 
-The target-location view uses local sell orders and buy orders whose configured range covers the target system. The SDE stargate graph resolves numeric jump ranges. The queried buy-order system and target system must be in the selected market region, although the shortest path may transit other regions. Remote numeric ranges remain unknown and are excluded when no SDE graph is supplied.
+| Requested quantity | Fully fillable books | Partial books | No-fill books |
+|---:|---:|---:|---:|
+| 100 units | 41 / 72 | 1 | 30 |
+| 1,000 units | 40 / 72 | 2 | 30 |
+| 10,000 units | 37 / 72 | 5 | 30 |
 
-- **Schema v2:** grouped orders by posted location. It did not yet expand remote buy-order ranges or apply buy-order minimum volume correctly.
-- **Schema v3:** added target-location books and range expansion. Its first minimum-volume implementation was later identified as too restrictive because it tested each order against the original requested sell quantity.
-- **Schema v4:** supersedes v3 for sell-into-bids estimates. It applies each buy order's `min_volume` to the individual fill. A fill below `min_volume` is permitted only when it consumes the buy order's entire remaining volume and that remaining volume is itself below `min_volume`. A below-minimum partial fill that leaves order volume remaining is rejected.
+This measures local ask depth only. It does not establish that the user can access each location or that the tested minerals are suitable industrial inputs for the eventual candidate.
 
-The secondary [EVE Market Strategies reference](https://orbitalenterprises.github.io/eve-market-strategies/index) describes minimum volume as applying to each fill and notes that the final match may be smaller when the order's remaining volume is already below the minimum. This is secondary documentation, not an official CCP statement. Exact live behavior should still be checked against an in-game quote before committing capital.
+### Location 60003760 / system 30000142
 
-Other remaining limitations include structure access, fees, order expiry, snapshot drift, and exact same-price matching priority. Equal-price bids use issue time and order ID as a deterministic ordering proxy; exact in-game priority is not claimed as verified.
+| Mineral | Eligible bids | Eligible remote bids | Out-of-range bids | Best bid | Best ask | 10,000-unit sell-into-bids VWAP |
+|---|---:|---:|---:|---:|---:|---:|
+| Tritanium | 88 | 29 | 12 | 4.15 | 4.35 | 4.15 |
+| Pyerite | 52 | 27 | 12 | 16.30 | 16.86 | 16.29 |
+| Mexallon | 97 | 37 | 4 | 53.06 | 55.87 | 53.06 |
 
-Sources:
-- [CCP Buy and Sell Orders](https://support.eveonline.com/hc/en-us/articles/203218932-Buy-and-Sell-Orders): range eligibility and order matching.
-- [ESI market order fields](https://docs.rs/eve-esi-client/latest/eve_esi_client/types/struct.CharactersCharacterIdOrdersGetItem.html): range, `min_volume`, `location_id`, and `system_id`.
-- [SDE mapStargates schema](https://sde.riftforeve.online/schema/mapStargates/): gate records map source systems to destination systems.
-- [SDE mapSolarSystems schema](https://sde.riftforeve.online/schema/mapSolarSystems/): system records provide region identifiers.
-- [EVE Market Strategies](https://orbitalenterprises.github.io/eve-market-strategies/index): secondary explanation of per-fill minimum volume and final remainder behavior.
+Pyerite's 16.29 ISK bid-side VWAP is below its 16.30 best bid because the highest-priced order is skipped by the minimum-volume rule for these requested quantities. Best bid is not necessarily the executable price for every sell size.
 
-### Remaining local validation
+### Schema-v3/schema-v4 comparison
 
-- [x] Schema-v3 location/range changes and schema-v4 per-fill minimum-volume logic are covered by tests.
-- [x] GitHub Actions run [43639123156](https://github.com/JMorris0n/Eve-Online-Industry/actions/runs/43639123156) passed 27 ESI summary tests.
-- [ ] Run the current schema-v4 summarizer against the saved raw collection with SDE build 3698585.
-- [ ] Review schema-v4 target-location bid sweeps, skipped orders, and VWAP values before using them in product liquidation estimates.
+Schema v4 applies `min_volume` to each individual match. A final below-minimum fill is allowed only when it consumes the buy order's entire remaining volume and that remainder is itself below `min_volume`. A below-minimum partial fill that leaves volume on the order is rejected.
 
-The previously uploaded `market-summary-v3.json` remains useful for source coverage and location reconciliation, but its bid-side fill quantities, VWAPs, and fillability conclusions are superseded. Do not use those v3 execution estimates for production economics.
+Comparing the uploaded v3 and v4 summaries found **no numeric change** in the **216** sampled bid-side sweeps (72 location books × three quantities). The v4 report remains canonical because its matching rule and caveat are corrected. Identical outputs on this sample do not demonstrate that v3's earlier rule was generally correct.
+
+The [EVE Market Strategies reference](https://orbitalenterprises.github.io/eve-market-strategies/index) describes minimum volume per fill and the final-remainder exception. This is secondary documentation, not an official CCP specification. In-game execution remains authoritative.
+
+### Freshness and validation limits
+
+- The three order-book source files were retrieved between **18:53:19Z and 18:53:24Z**. Their recorded ESI cache expiry times were between **18:53:55Z and 18:54:05Z**.
+- The v4 summary was uploaded at **21:18:56Z**. The underlying order snapshot was already well beyond its ESI cache window. It validates the collection/summarization pipeline but is not a current trading quote.
+- The history resources were retrieved between **18:53:20Z and 18:53:25Z** and had later cache expiry. History is backward-looking and is not a sales forecast.
+- Each of the three live market-order endpoints returned one page (`X-Pages: 1`). Live multi-page traversal was not exercised in this collection; pagination remains covered by automated tests.
+- The saved source URLs use ESI's `/latest` path. This dataset remains valid evidence of the responses collected. Synchronize the local collector to the current repository version before the next live collection.
+- The summary does not include market fees, installation costs, character/facility adjustments, hauling, or authorized Upwell structure access. A public regional snapshot does not prove access to every order location.
+
+### M1 disposition
+
+**M1 is complete for the bounded SDE/ESI sample demonstrated here.** The SDE archive was downloaded, integrity-checked, extracted, and parsed locally; parser aggregate counts and incomplete-field counts are recorded. The bounded public ESI collection and schema-v4 target-location summary were reviewed for collection provenance, order/history coverage, range resolution, per-fill minimum volume, and internal arithmetic.
+
+This is not a claim that every SDE recipe record has been audited, every market type or region has been collected, live multi-page traversal has been observed, or the uploaded order book remains current. Those are distinct tasks for candidate generation and a live product evaluation.
 

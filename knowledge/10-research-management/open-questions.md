@@ -137,10 +137,19 @@ status: draft
 - **Status:** Open, awaiting user input. Continue with generic mechanics, data tooling, and verification work until the operating environment is selected.
 
  
-### Q-015: Has the local SDE and public ESI pipeline been validated end to end?
+### Q-015: Has the bounded public SDE/ESI pipeline been run against live data?
 
-- **Question:** Have the SDE parser and public ESI market summarizer been run against saved live datasets, with output-level quality checks recorded?
+- **Question:** Has the local SDE parser and public ESI collector/summarizer completed a bounded live-data validation with provenance and output checks?
 - **Affected concepts:** [ESI and Market Data](../07-tools-and-data/esi-and-market-data.md), [Data Quality and Reconciliation](../07-tools-and-data/data-quality.md), [Local SDE tools](../../tools/sde/README.md), [Read-only ESI collector](../../tools/esi/README.md).
-- **Why it matters:** Live data can expose schema, cache, pagination, range, and execution-model assumptions that fixtures cannot.
-- **Evidence needed:** The SDE archive, integrity check, extraction, and parser command output are recorded. The bounded ESI collection and schema-v2/v3 summary structure have been reviewed. The remaining required evidence is a schema-v4 summary generated from the already saved raw ESI collection, followed by review of target-location buy-side fill results. No new SDE or ESI downloads are required.
-- **Status:** Partially complete. Awaiting the local schema-v4 summary and final M1 review.
+- **Why it matters:** Fixture tests cannot expose every live SDE/ESI schema, cache, range, or execution-model assumption.
+- **Evidence:** SDE build 3698585 was downloaded, integrity-checked, extracted, and parsed. Aggregate parser output was recorded. The Forge collection and schema-v4 summary were reviewed; 516 regional orders, 72 target-location books, 409 history days per mineral, SDE range resolution, per-fill minimum volume, and summary quantity arithmetic are recorded in the M1 audit.
+- **Limitations:** The market-order snapshot had passed its ESI cache expiry by review time. The three sampled market-order endpoints each returned one page, so live multi-page traversal was not demonstrated.
+- **Status:** Resolved for the bounded sample. Broader regions/types, live refresh, and multi-page observations are separate follow-up tasks.
+
+### Q-016: What record-level quality checks should be applied to normalized SDE recipes?
+
+- **Question:** Can the local `industry-recipes.jsonl` be summarized with record-level checks for product/material type joins, duplicate blueprint/activity keys, publication state, incomplete optional arrays, and exceptional base times?
+- **Affected concepts:** [Data Quality and Reconciliation](../07-tools-and-data/data-quality.md), [Product Selection](../06-market-intelligence/product-selection.md), [SDE recipe parser](../../tools/sde/README.md).
+- **Why it matters:** Candidate generation must not silently include unpublished outputs, unresolved type IDs, incomplete material recipes, or time values that break throughput calculations.
+- **Evidence needed:** A compact local quality-report command that reads the normalized JSONL and emits aggregate counts plus a small list of exceptional IDs. Keep the complete recipe data local; only the report or selected non-sensitive excerpts need to be shared.
+- **Status:** Open. This does not block M1's bounded acquisition/parser validation, but it must be addressed before the candidate scanner treats the full recipe universe as complete.

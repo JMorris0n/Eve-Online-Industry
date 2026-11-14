@@ -123,7 +123,7 @@ The roadmap is accepted as the working plan. Milestones M1 and M2 are now in pro
 
 ### M1. Validate the public data foundation
 
-**Status:** In progress. SDE build 3698585 download, integrity, extraction, and parser execution have passed local validation at the command/output-count level. The Forge public ESI collection and v3 target-location summary have been reviewed. Schema v4 corrects per-fill minimum-volume handling and passed CI; the local v4 summary run and review remain the final M1 gate.
+**Status:** Completed for the bounded SDE/ESI sample described in the M1 audit. SDE build 3698585 was acquired, parsed locally, and the schema-v4 The Forge market summary was generated and reviewed. The uploaded order snapshot is stale for live execution; this milestone validates the data pipeline, not a current market feed.
 
 **Purpose:** Establish a reproducible source of current static recipes and public market observations.
 
@@ -140,7 +140,7 @@ The roadmap is accepted as the working plan. Milestones M1 and M2 are now in pro
 - [x] The current SDE archive was parsed locally; the available console output records aggregate counts and optional-field omissions. Record-level joins, publication flags, and exceptional recipes still require a generated local quality report.
 - [x] A small public ESI collection completes with a manifest and reproducible regional output.
 - [x] The bounded collection manifest, order counts, daily history coverage, and location grouping have been reconciled against the uploaded summaries.
-- [ ] Schema-v4 target-location bid sweeps are executed locally and reviewed for range and per-fill minimum-volume behavior before their liquidation estimates are used.
+- [x] Schema-v4 target-location bid sweeps were generated and reviewed for range and per-fill minimum-volume behavior. The underlying order snapshot had passed its ESI cache expiry by upload time and is not a live quote.
 - [x] Missing or private market data is explicitly identified rather than imputed, including the access limitations of regional structure orders and private Upwell structure markets.
 
 ### M2. Define the local operating profile

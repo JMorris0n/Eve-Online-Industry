@@ -38,7 +38,7 @@ Use the [Operational Manufacturing Decision-Support Roadmap](operational-roadmap
 - [x] Record CCP's 2025-07-18 reduction of the ME/TE research SCC surcharge from 4% to 2%, explicitly described as temporary; no later CCP reversal found as of 2026-11-14.
 - [ ] Confirm the current 2% ME/TE research surcharge against a live Industry quote; keep it configurable until then.
 - [ ] Validate current EIV/process-value bases and fee calculations for Science, Copying, Invention, and Reactions.
-- [x] Implemented a read-only ESI collector for industry system indices, adjusted prices, and selected market orders/history; local validation remains open.
+- [x] Implemented and locally exercised a read-only ESI collector for industry system indices, adjusted prices, and a bounded regional market/order-history sample. The schema-v4 summary was reviewed; broader coverage and live multi-page observations remain unverified.
 
 ## P1: Complete production systems
 
@@ -120,9 +120,9 @@ Use the [Operational Manufacturing Decision-Support Roadmap](operational-roadmap
   - [ ] Independently test representative tool outputs against live Industry quotes and current SDE/ESI inputs.
 - [x] Document ESI and SDE data acquisition, compatibility dates, OAuth scopes, caching, rate limits, pagination, and industrial endpoints.
   - [x] Add local CCP SDE download and archive-inspection scripts using the standard library.
-- [ ] Run the SDE downloader locally, record the current build manifest, and inspect the current JSONL schema.
+- [x] Run the SDE downloader locally, record the build manifest, integrity hash, extraction, and parser execution against build 3698585. Record-level JSONL quality is tracked separately in Q-016.
 - [x] Implement a read-only public ESI collector with provenance, compatibility-date pinning, cache handling, pagination, and rate-limit compliance.
-  - [ ] Run the collector locally with a small region/type-ID set and validate response schemas, cache behavior, and output hashes.
+  - [x] Run the collector locally with a small region/type-ID set and validate response metadata, cache behavior, source hashes, history coverage, and schema-v4 target-location summaries. Live multi-page traversal remains unverified.
 - [x] Draft operational playbooks for product evaluation, T1/T2 production, PI, reactions, and market delivery from the documented concepts.
 - [ ] Verify playbooks against live in-game workflows and promote them only when their underlying mechanics are independently reviewed.
 
