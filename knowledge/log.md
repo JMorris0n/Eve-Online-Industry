@@ -87,3 +87,5 @@
 - Updated the root README to reflect the current research repository state and local SDE workflow.
 
 - Resolved the SCC surcharge research question at the documentation level: CCP's 2025-07-18 post reduced ME/TE research surcharge from 4% to 2% and described the reduction as temporary. No later official reversal was found as of 2026-11-14; live in-game quote verification remains open. Replaced the Installation Costs foundation placeholder with an overview linking to the detailed fee computation.
+
+- Added a standard-library, read-only ESI collector for public market orders/history, adjusted prices, and industry system indices. It pins an explicit compatibility date, respects cache/ETag headers, handles X-Pages, honors 429 Retry-After, stops on 420 error-limit responses, and writes timestamped raw data with hashes/provenance. Local execution and schema validation remain open.
