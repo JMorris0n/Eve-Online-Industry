@@ -138,7 +138,7 @@ If a copy job requires input materials, CCP states that those inputs vary with t
 
 ## Industry job categories
 
-CCP groups manufacturing, science, and reaction activities into distinct job types. Manufacturing includes manufacturing; science includes ME research, TE research, copying, and invention; reaction is its own job type. Manufacturing jobs do not compete with science jobs for their respective job availability. The relevant character skills determine how many jobs can be run in parallel. The exact skill limits and remote-management rules are documented separately in [Skills and Job Capacity](/01-foundations/skills-and-job-capacity.md). [^ccp-activities]
+CCP groups manufacturing, science, and reaction activities into distinct job types. Manufacturing includes manufacturing; science includes ME research, TE research, copying, and invention; reaction is its own job type. Manufacturing jobs do not compete with science jobs for their respective job availability. The relevant character skills determine how many jobs can be run in parallel. The exact skill limits and remote-management rules are documented separately in [Skills and Job Capacity](skills-and-job-capacity.md). [^ccp-activities]
 
 ## Practical implications
 
@@ -159,7 +159,7 @@ This concept intentionally does not yet calculate:
 - Whether the next ME or TE step is economically worthwhile for a particular production plan.
 - Item-specific exceptions outside the CCP pages cited here.
 
-These belong in [Skills and Job Capacity](/01-foundations/skills-and-job-capacity.md), [Facilities and Rigs](/01-foundations/facilities-and-rigs.md), [Installation Costs](/01-foundations/installation-costs.md), and the industrial economics and optimization concepts.
+These belong in [Skills and Job Capacity](skills-and-job-capacity.md), [Facilities and Rigs](facilities-and-rigs.md), [Installation Costs](installation-costs.md), and the industrial economics and optimization concepts.
 
 ## Sources and notes
 
