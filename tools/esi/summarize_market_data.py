@@ -163,7 +163,9 @@ def load_json(path: Path) -> Any:
 
 
 def summarize_directory(input_dir: Path, quantities: list[int]) -> list[dict[str, Any]]:
-    orders: dict[tuple[int, int], list[dict[str, Any]]] = defaultdict(list)
+    orders: dict[tuple[int, int], dict[int, dict[str, Any]]] = defaultdict(dict)
+    raw_order_counts: dict[tuple[int, int], int] = defaultdict(int)
+    duplicate_counts: dict[tuple[int, int], int] = defaultdict(int)
     histories: dict[tuple[int, int], list[dict[str, Any]]] = {}
     source_hashes: dict[str, str] = {}
 
@@ -174,7 +176,22 @@ def summarize_directory(input_dir: Path, quantities: list[int]) -> list[dict[str
             data = load_json(path)
             if not isinstance(data, list):
                 raise ValueError(f"{path} must contain a JSON array")
-            orders[key].extend(data)
+            for order in data:
+                if not isinstance(order, dict):
+                    raise ValueError(f"{path} contains a non-object order")
+                order_id = order.get("order_id")
+                if isinstance(order_id, bool) or not isinstance(order_id, int) or order_id <= 0:
+                    raise ValueError(f"{path} contains an order without a valid positive order_id")
+                if order.get("type_id") != key[1]:
+                    raise ValueError(
+                        f"{path} contains order {order_id} for unexpected type_id {order.get('type_id')!r}"
+                    )
+                raw_order_counts[key] += 1
+                if order_id in orders[key]:
+                    duplicate_counts[key] += 1
+                # Page files are processed in page-number order. If pagination
+                # drift repeats an order, retain the last observed copy once.
+                orders[key][order_id] = order
             source_hashes[path.name] = hashlib.sha256(path.read_bytes()).hexdigest()
             continue
         match = HISTORY_PATTERN.fullmatch(path.name)
@@ -189,10 +206,13 @@ def summarize_directory(input_dir: Path, quantities: list[int]) -> list[dict[str
     keys = sorted(set(orders) | set(histories))
     results = []
     for region_id, type_id in keys:
-        book_orders = orders.get((region_id, type_id), [])
+        key = (region_id, type_id)
+        book_orders = list(orders.get(key, {}).values())
         results.append({
             "region_id": region_id,
             "type_id": type_id,
+            "raw_order_record_count": raw_order_counts.get(key, 0),
+            "duplicate_order_ids_removed": duplicate_counts.get(key, 0),
             "order_book": summarize_book(book_orders, quantities) if book_orders else None,
             "history": summarize_history(histories[(region_id, type_id)])
             if (region_id, type_id) in histories else None,
