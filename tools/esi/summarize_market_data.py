@@ -182,7 +182,7 @@ def load_manifest_metadata(input_dir: Path) -> tuple[dict[str, Any] | None, dict
 
 
 def summarize_directory(input_dir: Path, quantities: list[int]) -> list[dict[str, Any]]:
-    manifest, source_metadata = load_manifest_metadata(input_dir)
+    _, source_metadata = load_manifest_metadata(input_dir)
     orders: dict[tuple[int, int], dict[int, dict[str, Any]]] = defaultdict(dict)
     raw_order_counts: dict[tuple[int, int], int] = defaultdict(int)
     duplicate_counts: dict[tuple[int, int], int] = defaultdict(int)
@@ -275,6 +275,13 @@ def main() -> int:
         if not args.input_dir.is_dir():
             raise ValueError(f"input directory does not exist: {args.input_dir}")
         summaries = summarize_directory(args.input_dir, quantities)
+        manifest, _ = load_manifest_metadata(args.input_dir)
+        collection_metadata = None if manifest is None else {
+            "retrieved_at": manifest.get("retrieved_at"),
+            "compatibility_date": manifest.get("compatibility_date"),
+            "regions": manifest.get("regions", []),
+            "type_ids": manifest.get("type_ids", []),
+        }
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(
             json.dumps({
@@ -282,6 +289,7 @@ def main() -> int:
                 "source": "public ESI regional market snapshots",
                 "input_directory": str(args.input_dir),
                 "requested_quantities": quantities,
+                "collection": collection_metadata,
                 "summaries": summaries,
                 "caveats": [
                     "Order book data is a point-in-time regional snapshot.",
