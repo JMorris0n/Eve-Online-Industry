@@ -149,7 +149,7 @@ The entries below were checked on 2026-11-14. Features and availability can chan
 | Research and invention | EVE Cookbook, EVE Retroindustry | Compare success chance, inputs, output BPC, and job duration |
 | Reactions | EVE Cookbook, EVE Omnitool, EVE Industry Scanner | Compare formula, fuel, job duration, rig, and installation fee |
 | PI chains | EvE Nexus, EvePiTool, EVE Industry Calculator, EVE Retroindustry | Reconcile schematic inputs/outputs with current SDE and live PI UI |
-| Market analysis | EVE Omnitool, EVE Cookbook, EVE Tycoon, ISK.GG | Check data age, location, order depth, and ESI cache |
+| Market analysis | EVE Omnitool, EVE Cookbook, EVE Industry Scanner | Check data age, location, order depth, and ESI cache |
 | Local character/asset management | EVE Retroindustry | Review source, checksums, and OAuth scopes |
 | AI-assisted industrial queries | EVE Cookbook MCP | Review MCP tools, account scopes, data retention, and calculation assumptions |
 
