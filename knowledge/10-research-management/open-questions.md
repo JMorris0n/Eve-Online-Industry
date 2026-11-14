@@ -13,13 +13,14 @@ status: draft
 
 ## Active questions
 
-### Q-001: Is the ME/TE research SCC surcharge still 2%?
+### Q-001: What is the current ME/TE research SCC surcharge?
 
-- **Question:** Does the temporary reduction of the SCC surcharge from 4% to 2% for blueprint ME and TE research remain active as of November 2026?
+- **Question:** What is the latest supported SCC surcharge value for ME and TE research, and is the temporary 2% rate still active in the live Industry UI?
 - **Affected concepts:** [Installation Cost Computation](../09-computations/installation-costs.md), [Blueprints and Research](../01-foundations/blueprints-and-research.md).
 - **Why it matters:** The surcharge directly changes the ISK cost of blueprint research and can materially alter whether a BPO research level is economically worthwhile.
-- **Evidence needed:** Current in-game Industry quotes for ME research and TE research; any later CCP patch note or announcement that extends, changes, or ends the temporary relief.
-- **Status:** Open. CCP's 2025-07-18 announcement explicitly described the 2% rate as temporary. A current rate has not been independently checked in game.
+- **Evidence needed:** CCP's 2025-07-18 announcement and current in-game ME/TE research quotes.
+- **Resolution:** CCP reduced the ME/TE research SCC surcharge from 4% to 2% on 2025-07-18 and explicitly described the reduction as temporary. No later official reversal was found in the source search through 2026-11-14. The 2% value is therefore the latest published CCP value, but it remains configurable until a live Industry quote confirms it.
+- **Status:** Source research resolved; live in-game verification remains open.
 
 ### Q-002: What are the exact current fee valuation bases for Science, Copying, Invention, and Reaction jobs?
 
@@ -134,3 +135,12 @@ status: draft
 - **Why it matters:** A meaningful live example needs actual job eligibility, BPO/BPC availability, facility quotes, regional order-book depth, logistics assumptions, and capital constraints. A generic Jita/Omega assumption could produce a misleading recommendation.
 - **Evidence needed:** User-selected character(s) or skill export, intended production/market region, accessible facility/structure, and a working-capital range. Do not request or store EVE SSO tokens in the knowledge repository.
 - **Status:** Open, awaiting user input. Continue with generic mechanics, data tooling, and verification work until the operating environment is selected.
+
+ 
+### Q-015: Can the local SDE and public ESI tools be run and validated?
+
+- **Question:** Can the SDE downloader/inspector and read-only ESI collector be run locally, with their manifests and sample output reviewed before building a deterministic parser?
+- **Affected concepts:** [ESI and Market Data](../07-tools-and-data/esi-and-market-data.md), [Data Quality and Reconciliation](../07-tools-and-data/data-quality.md), [Local SDE tools](../../tools/sde/README.md), [Read-only ESI collector](../../tools/esi/README.md).
+- **Why it matters:** The assistant environment cannot access the user's local data directory or ESI credentials. The current SDE schema and collector behavior must be inspected from an actual download before writing type/blueprint/reaction/PI parsers.
+- **Evidence needed:** Run the SDE downloader and inspector, then provide the build number, manifest, and relevant file listing/sample records. Run the ESI collector with one region and one common type ID and provide its manifest. No EVE SSO token is required for these public-data tests.
+- **Status:** Open, awaiting local execution. Continue with schema-independent documentation and code review in the meantime.
