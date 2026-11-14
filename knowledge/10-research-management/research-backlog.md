@@ -48,7 +48,11 @@ status: draft
   - [ ] Verify intermediate/composite recipe input-output quantities against current SDE and in-game Reaction Formulas.
   - [ ] Verify reactor-family availability and reaction-rig effects for representative facilities.
   - [ ] Capture current fuel-block requirements and run/output rounding for all reaction families.
-- [ ] Tech III reverse engineering and manufacturing.
+- [x] Document the four-stage Tech III production chain, relic families, output runs, sourcing, skill dependencies, and final manufacturing stages.
+  - [ ] Reconcile CCP's published relic base success chances with SDE per-output probabilities and live Industry-window results.
+  - [ ] Verify reverse-engineering skill modifiers and optional decryptor behavior.
+  - [ ] Build and validate the complete Hybrid Tech Component recipe/skill matrix.
+  - [ ] Verify R.A.M.- Starship Tech requirements and current hull/subsystem manufacturing inputs.
 - [ ] Planetary industry extraction, routing, schematics, and taxes.
 
 ## P2: Industrial economics
