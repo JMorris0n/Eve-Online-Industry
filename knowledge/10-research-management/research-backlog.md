@@ -30,7 +30,9 @@ status: draft
 
 ## P1: Complete production systems
 
-- [ ] Tech I manufacturing.
+- [x] Document Tech I manufacturing workflow, BPO/BPC use, run/output distinction, job-level material rounding, provisional time/material models, and delivery.
+  - [ ] Independently test combined ME/TE, character, structure, and rig modifiers against Industry quotes.
+  - [ ] Verify maximum job duration/run limits and BPO/BPC concurrent-use behavior.
 - [ ] Tech II blueprint copying and invention.
 - [ ] Decryptor effects and invention output rules.
 - [ ] Tech II component manufacturing and dependencies.
