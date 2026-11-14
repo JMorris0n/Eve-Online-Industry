@@ -5,6 +5,10 @@ on:
     paths:
       - "tools/calculations/**"
       - "tools/validation/**"
+      - "tools/profile/**"
+      - "tools/sde/**"
+      - "tools/esi/**"
+      - "config/**"
       - "knowledge/**"
       - "exports/**"
       - "README.md"
