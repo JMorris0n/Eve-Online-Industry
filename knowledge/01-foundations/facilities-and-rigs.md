@@ -90,7 +90,7 @@ These role bonuses do not make a facility universally superior:
 
 Athanors and Tataras can fit reaction service modules. CCP states that reactions can only be run in a Refinery with a reactor fitted and online, and that reactors can only be installed in systems with a security rating of 0.4 or lower. CCP lists three reactor families: [^ccp-reactions]
 
-- **Standup Biochemical Reactor:** biochemical reactions, including booster-related chemistry and other specified formulas.
+- **Standup Biochemical Reactor:** biochemical reactions for booster-related chemistry and specified molecular-forged industrial products, including Neurolink Enhancers, Neurolink Stabilizers, and Isotropic materials.
 - **Standup Composite Reactor:** moon-material reactions used in Tech II intermediate materials.
 - **Standup Hybrid Reactor:** fullerite-gas reactions used in Tech III materials.
 
