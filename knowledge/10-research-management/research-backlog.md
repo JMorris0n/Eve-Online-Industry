@@ -82,7 +82,8 @@ status: draft
   - [x] Implement the public ESI collector needed to retrieve system indices and market orders.
   - [ ] Run the collector and build a representative location comparison using live market orders, SCI, facility fees, and logistics.
 - [x] Document self-haul and courier-contract cost components, collateral exposure, route risk, Upwell Asset Safety, and structure continuity risks.
-- [ ] Build a configurable hauling cost and route-risk model, including expected loss and capital/time costs.
+- [x] Build a configurable self-haul versus courier cost model, including expected cargo/ship loss, collateral coverage, pilot time, and capital exposure.
+  - [ ] Run the calculator unit tests and validate assumptions against a real route/contract scenario.
 - [x] Document working capital, inventory valuation, capital turnover, asset concentration, and capital allocation.
 - [x] Document expected-value invention economics, including batch success variance, cost per successful BPC, and cost per Tech II manufacturing run.
 - [x] Document incremental ME/TE research ROI, break-even production volume, and Science slot-hour opportunity cost.
