@@ -25,7 +25,7 @@ CHECKS = [
         ],
     ),
     (
-        "Operating-profile unit tests",
+        "Operating-profile schema and feasibility unit tests",
         [
             sys.executable, "-m", "unittest", "discover",
             "-s", "tools/profile", "-p", "test_*.py", "-v",
