@@ -91,3 +91,6 @@
 - Added a standard-library, read-only ESI collector for public market orders/history, adjusted prices, and industry system indices. It pins an explicit compatibility date, respects cache/ETag headers, handles X-Pages, honors 429 Retry-After, stops on 420 error-limit responses, and writes timestamped raw data with hashes/provenance. Local execution and schema validation remain open.
 
 - Added deterministic Invention Economics and Research Investment ROI computations. The invention model uses batch-level expected outputs and binomial variance; the research model values incremental ME material savings and TE time savings against Science/Manufacturing slot-hour opportunity costs.
+
+- Replaced the Industry Overview placeholder with a taxonomy of industrial activities, job pools, resource sources, product families, and economic constraints.
+- Replaced the Advanced Manufacturing placeholder with a sourced map of Tech II/III, capital ship, Upwell structure, booster, and faction/storyline production chains and their facility/service dependencies.
