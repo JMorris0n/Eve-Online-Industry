@@ -22,7 +22,7 @@ Use the [Operational Manufacturing Decision-Support Roadmap](operational-roadmap
 - [x] Maintain source catalogs, claim-level citations, open questions, chronological research log, and repeatable verification protocols.
 - [x] Establish a portable LLM coordination workflow with bounded task packets, role prompts, independent review, validation gates, human-controlled integration, and a VS Code/PowerShell quick start.
 - [x] Add GitHub-native issue intake for research/improvements and verification/defects, plus a pull request review checklist. Wire these templates into the repository navigation and CI path filters.
-- [x] Add a standard-library Markdown link checker, validation tests, and a one-command local runner; CI run 39 passed 17 calculation tests, 5 validation-tool tests, and 588 local links across 97 Markdown files after correcting four existing broken links.
+- [x] Add a standard-library Markdown link checker, validation tests, and a one-command local runner; CI run 44 passed 17 calculation tests, 5 validation-tool tests, and 590 local links across 98 Markdown files after correcting four existing broken links and adding the operational roadmap.
 
 - [x] Document blueprint object types, BPO/BPC distinctions, acquisition paths, and their industry roles.
 - [x] Document ME and TE research steps, effects, job-level formulas, and material-rounding limitations.
