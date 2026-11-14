@@ -10,9 +10,14 @@ from pathlib import Path
 from typing import Any
 
 VALID_STATES = {"unknown", "partial", "verified"}
-TOP_LEVEL = {
+ALLOWED_TOP_LEVEL = {
     "profile_version", "profile_name", "last_reviewed", "characters",
-    "capital", "operations", "facilities", "blueprints", "blueprints_state", "facilities_state", "notes",
+    "capital", "operations", "facilities", "blueprints", "blueprints_state",
+    "facilities_state", "notes",
+}
+REQUIRED_TOP_LEVEL = {
+    "profile_version", "profile_name", "characters", "capital", "operations",
+    "facilities", "blueprints", "blueprints_state", "facilities_state",
 }
 
 
@@ -29,10 +34,10 @@ def validate_profile_data(data: Any) -> list[str]:
     if not isinstance(data, dict):
         return ["profile must be a JSON object"]
 
-    missing = TOP_LEVEL - data.keys()
+    missing = REQUIRED_TOP_LEVEL - data.keys()
     if missing:
         errors.append("missing top-level fields: " + ", ".join(sorted(missing)))
-    extra = data.keys() - TOP_LEVEL
+    extra = data.keys() - ALLOWED_TOP_LEVEL
     if extra:
         errors.append("unknown top-level fields: " + ", ".join(sorted(extra)))
     if isinstance(data.get("profile_version"), bool) or data.get("profile_version") != 1:
@@ -123,9 +128,11 @@ def validate_profile_data(data: Any) -> list[str]:
         if data.get(state_field) not in VALID_STATES:
             errors.append(f"{state_field} must be unknown, partial, or verified")
 
-    for collection in ("facilities", "blueprints", "notes"):
+    for collection in ("facilities", "blueprints"):
         if not isinstance(data.get(collection), list):
             errors.append(f"{collection} must be an array")
+    if "notes" in data and not isinstance(data["notes"], list):
+        errors.append("notes must be an array")
 
     for index, facility in enumerate(data.get("facilities", []) if isinstance(data.get("facilities"), list) else []):
         if not isinstance(facility, dict):
