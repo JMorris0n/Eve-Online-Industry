@@ -82,7 +82,7 @@ For a blueprint producing one unit per run, 50 runs produce 50 units. For a blue
 
 ### BPO and BPC behavior
 
-Both BPOs and BPCs can be used for manufacturing. An original has unlimited licensed runs; a copy has a finite run count. Manufacturing consumes licensed runs from a BPC. If a copy's final licensed run is consumed, the copy is exhausted. [^ccp-blueprints]
+Both BPOs and BPCs can be used for manufacturing. Detailed copy-job parameters, BPC inherited values, licensed-run limits, and copy-time mechanics are documented separately in [Blueprint Copying](blueprint-copying.md). An original has unlimited licensed runs; a copy has a finite run count. Manufacturing consumes licensed runs from a BPC. If a copy's final licensed run is consumed, the copy is exhausted. [^ccp-blueprints]
 
 A BPO can be used for only one active Manufacturing job at a time, according to EVE University's research guide. The BPO can be copied first, and the resulting BPCs can be assigned to separate manufacturing jobs. This allows parallel jobs using multiple copies while the original is retained as the master blueprint. Treat this as a BPO-use rule documented in the community reference and confirm it in the Industry interface for critical production plans. [^eveuni-research]
 
