@@ -25,4 +25,7 @@
 - Researched and created a dedicated Blueprint Copying concept documenting the separate Job Runs and Runs per Copy fields, BPC inheritance, licensed-run limits, exceptional input scaling, base copy-time model, related skills, and operational purposes.
 - Linked Blueprint Copying from the production systems index and Tech I Manufacturing guide. Clarified invention expected-cost allocation so multi-run datacore/decryptor quantities must come from actual job inputs.
 - Added verification questions for copy-time modifiers, same-BPO concurrency, and the copy-specific input/fee scaling model.
+- Researched and replaced the Tech II Components placeholder with a source-backed draft covering raw moon materials, intermediate/composite reactions, Advanced Component manufacturing, Tech II final input categories, skill dependencies, R.A.M. material behavior, and vertical-integration decisions.
+- Added CCP's historical R.A.M./R.Db conversion reference and documented the limits of historical damage-per-run mechanic claims.
+- Added an open question for a type-level, versioned Tech II component/recipe/skill dataset and independent quote validation.
 - Documentation milestones do not constitute independent in-game verification; all three new concepts remain draft.
