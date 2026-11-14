@@ -32,6 +32,13 @@ CHECKS = [
         ],
     ),
     (
+        "SDE recipe parser unit tests",
+        [
+            sys.executable, "-m", "unittest", "discover",
+            "-s", "tools/sde", "-p", "test_*.py", "-v",
+        ],
+    ),
+    (
         "Local Markdown links",
         [sys.executable, "tools/validation/check_markdown_links.py"],
     ),
