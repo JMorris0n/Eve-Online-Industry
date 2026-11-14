@@ -1,6 +1,6 @@
 # Local EVE SSO and null-sec operating-data plan
 
-**Status:** Approved strategic direction; technical implementation is the next development priority.  
+**Status:** Approved strategic direction. The first local, read-only PKCE importer is implemented and regression-tested; live character authorization and snapshot verification remain pending.  
 **Decision date:** 2026-11-14  
 **Purpose:** Replace manual transcription of character-specific data with narrowly scoped, read-only EVE SSO/ESI imports while keeping credentials and personal operating data on the user's machine.
 
@@ -61,7 +61,7 @@ Defer until the use case exists:
 ## Local security and data boundaries
 
 - Register one EVE SSO application using **Authentication & API Access** and the native/desktop Authorization Code with PKCE flow.
-- Use a local loopback callback URI that exactly matches the URI registered in the developer portal. The implementation will use `http://localhost:8765/callback/`.
+- Use a local loopback callback URI that exactly matches the URI registered in the developer portal. The implementation will use `http://127.0.0.1:8765/callback/`.
 - Use PKCE S256, random state, exact redirect matching, and validation of the returned EVE SSO token.
 - Do not use or store the application client secret in a native PKCE flow.
 - Store refresh tokens in the operating system credential store (Windows Credential Manager on the user's Windows machine), not in the repository, Dropbox, or exported reports.
@@ -72,8 +72,8 @@ Defer until the use case exists:
 
 ## Implementation sequence
 
-1. Build a local PKCE authorization client and OS credential-store integration.
-2. Authorize each of the three characters individually using the minimum scope set.
+1. [x] Build a local PKCE authorization client and OS credential-store integration. The helper is implemented in `tools/esi/sso_local.py`; live SSO exchange still awaits user application registration.
+2. [ ] Authorize each of the three characters individually using the minimum scope set.
 3. Import and validate skills, skill queue, blueprints, assets, and active industry jobs into timestamped local snapshots.
 4. Populate the local operating profile from those snapshots, while retaining original source responses for reproducibility.
 5. Build facility discovery using the public facilities directory plus targeted character structure searches; explicitly retain gaps in facility coverage.

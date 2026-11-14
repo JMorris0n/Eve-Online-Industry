@@ -145,7 +145,7 @@ The roadmap is accepted as the working plan. Milestones M1 and M2 are now in pro
 
 ### M2. Define the local operating profile
 
-**Status:** In progress. The profile schema, validator, readiness report, feasibility screen, and SDE skill reference are complete. The user selected a local read-only EVE SSO/ESI import as the preferred next data-acquisition path. The profile itself remains unpopulated; SSO implementation and authorization are now the immediate dependency. See [Local EVE SSO and null-sec operating-data plan](esi-authenticated-data-plan.md). The 58-skill SDE reference remains useful for explaining recipe requirements, but the project should import all trained skills for each character rather than manually transcribe this list.
+**Status:** In progress. The profile schema, validator, readiness report, feasibility screen, SDE skill reference, and first local SSO importer are implemented. The importer uses native PKCE, JWT validation, OS-backed refresh-token storage, and timestamped read-only snapshots. Live authorization for the three characters and snapshot verification remain pending. See [Local EVE SSO and null-sec operating-data plan](esi-authenticated-data-plan.md). The 58-skill SDE reference remains useful for explaining recipe requirements, but import all trained skills for each character rather than manually transcribing this list.
 
 **Purpose:** Make product feasibility depend on the actual operation rather than generic character assumptions.
 
@@ -171,8 +171,8 @@ The roadmap is accepted as the working plan. Milestones M1 and M2 are now in pro
 - [x] The profile contract can represent market-access locations and logistics constraints without exposing them in the public repository.
 - [x] A local skill-reference generator ranks published, known skill requirements across complete, resolved SDE recipes and preserves exclusion reasons.
 - [x] Run and review the skill reference against the local normalized recipe file; it identifies 58 published skills across the full manufacturing/reaction catalog.
-- [ ] A local PKCE client and OS-backed refresh-token store are implemented and tested.
-- [ ] Each of the three industrial characters is separately authorized with the minimum read-only scopes.
+- [x] A local PKCE client, JWT validation, refresh-token rotation, and OS-backed credential-store integration are implemented with regression tests.
+- [ ] Live authorization is completed separately for each of the three industrial characters using the minimum read-only scopes.
 - [ ] Full skill inventories/queues, blueprints, relevant assets, and current industry jobs are imported locally with provenance.
 - [ ] Facility access is populated from public facilities and targeted structure lookups, with incomplete coverage explicitly recorded.
 - [ ] Manual operating constraints (capital budget, attention, risk, hauling limits) and alliance-dependent market/facility information are added when known.
@@ -306,11 +306,11 @@ The roadmap is accepted as the working plan. Milestones M1 and M2 are now in pro
 
 **Acceptance criteria:**
 - [x] Required character endpoints and minimum initial OAuth scopes are documented in the local ESI integration plan.
-- [ ] Native PKCE authorization, token validation/refresh, and Windows Credential Manager storage are implemented and tested.
+- [x] Native PKCE authorization, token validation/refresh, and Windows Credential Manager-backed keyring storage are implemented and regression-tested. Live EVE SSO authorization remains pending.
 - [ ] All three character grants are authorized and imported into timestamped local snapshots.
-- [ ] Facility-access discovery limitation is represented explicitly rather than overstated.
-- [ ] No secret or private account data enters Git, Dropbox, or exported LLM packets by default.
-- [ ] Public-data functionality remains available when SSO is disconnected.
+- [x] Facility-access discovery limitation is represented explicitly rather than overstated.
+- [x] The local client config is Git-ignored, refresh tokens use the OS credential store, and private snapshots are written only to Git-ignored paths.
+- [x] Public-data functionality remains available when SSO is disconnected.
 - [ ] Any later corporation/structure-market scope is justified by a known alliance workflow.
 
 ## Deferred decisions and dependencies
