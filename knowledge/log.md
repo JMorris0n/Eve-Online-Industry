@@ -75,3 +75,5 @@
 - Researched and replaced the ESI and Market Data placeholder with current ESI versioning/compatibility dates, OpenAPI transition, SSO scopes, caching, rate limiting, pagination, industrial endpoint map, and SDE/ESI separation. Implementation remains open.
 
 - Researched and replaced the Data Quality and Reconciliation placeholder with claim classes, evidence hierarchy, source/ESI/SDE provenance, freshness, normalization, validation dimensions, conflict resolution, and verification-state controls.
+
+- Researched and replaced the Third-Party Industry Tools placeholder with a current tool survey covering EVE Retroindustry, EVE Cookbook/MCP, EVE Omnitool, EVECalc, EVE Online Industry Calculator, and PI planners. Recorded data freshness, feature scope, privacy, SSO, and verification caveats.
