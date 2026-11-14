@@ -21,7 +21,7 @@ sources:
     title: Reactions | EVE University Wiki (last modified 2025-06-22)
   - id: eveuni-resource-skills
     resource: https://wiki.eveuniversity.org/Skills:Resource_Processing
-    title: Skills: Resource Processing | EVE University Wiki
+    title: "Skills: Resource Processing | EVE University Wiki"
   - id: eve-reactions-calculator-method
     resource: https://reactions.coalition.space/about
     title: EVE Reactions Calculator methodology
