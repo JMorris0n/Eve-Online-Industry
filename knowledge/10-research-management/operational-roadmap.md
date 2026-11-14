@@ -137,7 +137,7 @@ The roadmap is accepted as the working plan. Milestones M1 and M2 are now in pro
 
 **Acceptance criteria:**
 - [x] A current SDE build is downloaded, integrity-checked, and recorded.
-- [x] The current SDE archive was parsed locally; the available console output records aggregate counts and optional-field omissions. Record-level joins, publication flags, and exceptional recipes still require a generated local quality report.
+- [x] The current SDE archive was parsed locally and its generated recipe-quality report reviewed: 5,022 records and 5,022 unique blueprint/activity keys, with zero structural issues or duplicate keys. The report identifies 17 incomplete material recipes, unpublished and unresolved type references, 54 unpublished material references, and one zero-time recipe. Candidate generation must filter or quarantine these exceptions; required-skill publication is not present in the normalized skill entries and remains an explicit metadata limitation.
 - [x] A small public ESI collection completes with a manifest and reproducible regional output.
 - [x] The bounded collection manifest, order counts, daily history coverage, and location grouping have been reconciled against the uploaded summaries.
 - [x] Schema-v4 target-location bid sweeps were generated and reviewed for range and per-fill minimum-volume behavior. The underlying order snapshot had passed its ESI cache expiry by upload time and is not a live quote.

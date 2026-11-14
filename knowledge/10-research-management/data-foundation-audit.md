@@ -266,3 +266,39 @@ The [EVE Market Strategies reference](https://orbitalenterprises.github.io/eve-m
 
 This is not a claim that every SDE recipe record has been audited, every market type or region has been collected, live multi-page traversal has been observed, or the uploaded order book remains current. Those are distinct tasks for candidate generation and a live product evaluation.
 
+
+
+## Local SDE recipe quality audit review (2026-11-14)
+
+The user ran `tools/sde/audit_industry_recipes.py` against the normalized recipes from SDE build **3698585** and uploaded the compact report `industry-recipes-audit.json` to Dropbox. The report was reviewed on **2026-11-14**. Its source JSONL SHA-256 is `00ef1d53a92f217832f490dc5563e1e364cdd1224f7469103ff7da4e92ae7c7c`.
+
+### Record and key integrity
+
+- [x] **5,022** recipe records: 4,902 manufacturing and 120 reaction activities.
+- [x] **5,022** unique blueprint/activity keys; zero duplicate keys and zero invalid keys.
+- [x] Zero record-validation issues, invalid recipe items, or duplicate item IDs within recipe lists.
+- [x] **5,005** recipes are marked complete and **17** are incomplete because their source material arrays were omitted. These 17 must not be costed as zero-input recipes.
+- [x] **137** records omit required-skill arrays. The parser preserves that source state; skill-array omission does not make the material bill incomplete, but the missing skill data remains unknown for feasibility screening.
+
+### Type metadata and exceptional records
+
+- The report contains **811** unpublished blueprint records and **580** unpublished product type IDs. These are not ordinary candidate outputs and must be filtered from the normal candidate universe.
+- There are **21** distinct unresolved type IDs: 20 product references with missing names and one material reference with a missing name. Publication state is also unknown for those records. Do not infer that they are marketable, purchasable, or valid candidate outputs.
+- The report records **54** unpublished material references. Inputs marked unpublished or unresolved require explicit treatment; do not assume they can be purchased from the ordinary market.
+- One recipe has a zero-second base time: blueprint type ID **34256**, the Vargur Krusual Edition Blueprint. EVE Ref lists a zero-second manufacturing time, one Vargur as the input, and one Vargur Krusual Edition as the output. This is retained as an exceptional SDE record, not treated as a normal throughput candidate. [EVE Ref: Vargur Krusual Edition Blueprint](https://everef.net/types/34256)
+- All **9,360** required-skill references have unknown publication status in this audit because normalized `required_skills` entries currently contain type ID, joined name, and level, but do not carry the `published` field. This is a limitation of the normalized representation, not evidence that the referenced skills are unpublished. All required-skill names did resolve.
+
+### Candidate-generation controls
+
+The candidate scanner must require, at minimum:
+1. A complete material list and a resolved name/type reference for every input.
+2. A published blueprint and a published, resolved output.
+3. A positive base manufacturing time for ordinary throughput ranking.
+4. An actual Industry quote for current material quantities, output, duration, and installation fee.
+5. Independent confirmation of market access, procurement availability, and realistic output liquidity.
+
+Unpublished, unresolved, incomplete, and zero-time records should be excluded or placed in an explicit manual-review queue. The audit validates the normalized file's structure and joined metadata; it does not independently re-parse the source SDE rows or establish marketability, feasibility, or profitability.
+
+### Q016 disposition
+
+**Q-016 is resolved for the current normalized SDE build.** The local audit has been executed and reviewed. Its identified exceptions are now explicit downstream filters and known limitations; they are not reasons to treat the entire normalized recipe dataset as unusable. The required-skill publication-field omission is recorded as a representation limitation for a later parser enhancement, not as a failed recipe audit.
