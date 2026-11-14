@@ -37,6 +37,30 @@ status: draft
 - **Evidence needed:** Matched job quotes from facilities with different hull roles/rigs, identical blueprints/formulas, identical run counts, and saved UI details or screenshots.
 - **Status:** Open. Current documentation identifies the eligible bonuses but does not yet establish a complete independently tested combined-modifier model.
 
+### Q-004: What is the exact current material/time calculation and rounding sequence for Manufacturing?
+
+- **Question:** For a Tech I manufacturing job, what exact formula and intermediate precision does the game use when applying blueprint ME/TE, character skills, Engineering Complex role bonuses, security-scaled Upwell rigs, and any other applicable modifiers?
+- **Affected concepts:** [Tech I Manufacturing](../02-production-systems/tech-1-manufacturing.md), [Blueprints and Research](../01-foundations/blueprints-and-research.md), [Facilities and Rigs](../01-foundations/facilities-and-rigs.md).
+- **Why it matters:** Material rounding and time stacking affect job inputs, throughput, and cost. Applying modifiers in the wrong order can cause a systematic error in every future production calculator.
+- **Evidence needed:** Controlled, matched Industry UI quotes using the same blueprint and run count across NPC, Engineering Complex, and rigged/unrigged Upwell facilities. Record character skills, blueprint ME/TE, item group, system security, material quantities, duration, and job fee.
+- **Status:** Open. CCP documents the ME job-level rule and individual effects; current community calculators provide candidate combined formulas, but this corpus has no independent controlled reproduction.
+
+### Q-005: What are the maximum Manufacturing job duration and run constraints?
+
+- **Question:** Does the live game enforce a 30-day maximum for Manufacturing jobs, and what exceptions or item-specific constraints apply?
+- **Affected concepts:** [Tech I Manufacturing](../02-production-systems/tech-1-manufacturing.md), [Production Scheduling](../05-optimization/production-scheduling.md).
+- **Why it matters:** A duration cap limits runs per job. This can force a production plan to split demand across multiple jobs and repeat per-job material rounding.
+- **Evidence needed:** In-game attempts with the same blueprint at run counts immediately below and above the candidate duration boundary, including items with unusually long base manufacturing times. Record the installed quote or exact UI rejection.
+- **Status:** Open. A 2025 community formula reference uses 2,592,000 seconds (30 days) when calculating maximum runs, but that alone does not establish all current game exceptions.
+
+### Q-006: Can the same BPO support more than one active Manufacturing job?
+
+- **Question:** Is the one-active-Manufacturing-job-per-BPO restriction unchanged, and how does the rule behave for personal and corporation blueprints, locations, and copied BPCs?
+- **Affected concepts:** [Tech I Manufacturing](../02-production-systems/tech-1-manufacturing.md), [Blueprints and Research](../01-foundations/blueprints-and-research.md), [Skills and Job Capacity](../01-foundations/skills-and-job-capacity.md).
+- **Why it matters:** Blueprint concurrency can limit production throughput independently of character job slots. A plan that assumes one BPO can feed several parallel Manufacturing jobs may be impossible without copies.
+- **Evidence needed:** Controlled in-game test attempting overlapping Manufacturing jobs from one BPO, then testing multiple BPCs copied from the same BPO. Record whether each blueprint is personal or corporation-owned and its location.
+- **Status:** Open. The current one-job-per-BPO statement is supported by EVE University, but it has not been independently tested in this corpus.
+
 ## Entry format
 
 - **Question:** precise, answerable wording.
