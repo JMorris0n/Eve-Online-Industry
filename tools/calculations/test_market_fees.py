@@ -37,6 +37,23 @@ class MarketFeeTests(unittest.TestCase):
         self.assertEqual(result["rates"]["broker_fee_rate"], "0.025")
         self.assertEqual(result["fees"]["order_creation_broker_fee_isk"], "2500000.00")
 
+    def test_minimum_order_creation_broker_fee_is_100_isk(self):
+        config = copy.deepcopy(self.config)
+        config["order"]["order_value_isk"] = "1000"
+        config["order"]["create_non_immediate_order"] = True
+        config["order"]["reprice_existing_order"] = False
+        result = calculate(config)
+        self.assertEqual(result["fees"]["order_creation_broker_fee_isk"], "100.00")
+
+    def test_minimum_relist_fee_is_100_isk(self):
+        config = copy.deepcopy(self.config)
+        config["order"]["order_value_isk"] = "1000"
+        config["order"]["previous_order_value_isk"] = "900"
+        config["order"]["create_non_immediate_order"] = False
+        config["order"]["reprice_existing_order"] = True
+        result = calculate(config)
+        self.assertEqual(result["fees"]["relist_fee_isk"], "100.00")
+
     def test_immediate_fill_has_no_order_creation_or_relist_fee(self):
         config = copy.deepcopy(self.config)
         config["order"]["create_non_immediate_order"] = False

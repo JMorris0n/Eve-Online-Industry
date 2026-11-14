@@ -17,6 +17,7 @@ from typing import Any
 ZERO = Decimal("0")
 ONE = Decimal("1")
 CENT = Decimal("0.01")
+MINIMUM_BROKER_FEE = Decimal("100")
 
 
 def dec(value: Any, name: str) -> Decimal:
@@ -109,14 +110,22 @@ def calculate(config: dict[str, Any]) -> dict[str, Any]:
     reprice_existing = order.get("reprice_existing_order", False)
     if not isinstance(create_non_immediate, bool) or not isinstance(reprice_existing, bool):
         raise ValueError("create_non_immediate_order and reprice_existing_order must be booleans")
-    create_broker_fee = order_value * broker_rate if create_non_immediate else ZERO
+    raw_create_fee = order_value * broker_rate if create_non_immediate else ZERO
+    create_broker_fee = (
+        max(MINIMUM_BROKER_FEE, raw_create_fee)
+        if create_non_immediate and order_value > ZERO else ZERO
+    )
     relist_discount = Decimal("0.50") + Decimal("0.06") * Decimal(
         advanced_broker_relations
     )
-    relist_fee = (
+    raw_relist_fee = (
         max(ZERO, broker_rate * (order_value - previous_order_value))
         + (ONE - relist_discount) * broker_rate * order_value
         if reprice_existing else ZERO
+    )
+    relist_fee = (
+        max(MINIMUM_BROKER_FEE, raw_relist_fee)
+        if reprice_existing and order_value > ZERO else ZERO
     )
     sales_tax = sale_value * sales_tax_rate
 
@@ -145,6 +154,11 @@ def calculate(config: dict[str, Any]) -> dict[str, Any]:
             "immediate_match_note": (
                 "The order-creation broker fee applies to a non-immediate order. "
                 "Do not apply it to an immediate fill; sales tax still applies to the seller."
+            ),
+            "minimum_fee_note": (
+                "A 100 ISK minimum is applied to non-immediate order creation and "
+                "relisting when the new order value is positive. This floor is "
+                "secondary-source-backed; confirm the live quote for small orders."
             ),
         },
         "warning": "Estimate only. Confirm the live market order quote and wallet journal; structure owner fees and game rules can change."

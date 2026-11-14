@@ -14,6 +14,12 @@ sources:
   - id: ccp-buy-sell-orders
     resource: https://support.eveonline.com/hc/en-us/articles/203218932-Buy-and-Sell-Orders
     title: Buy and Sell Orders | EVE Online Support (updated 2020-03-10)
+  - id: ccp-viridian-fees
+    resource: https://www.eveonline.com/news/view/viridian-expansion-notes
+    title: Viridian Expansion Notes | EVE Online (2023-06-09)
+  - id: eveuni-station-trading
+    resource: https://wiki.eveuniversity.org/Station_Trading
+    title: Trading | EVE University Wiki (accessed 2026-11-14)
   - id: eveuni-market
     resource: https://wiki.eveuniversity.org/Market
     title: Trading | EVE University Wiki
@@ -63,9 +69,9 @@ The broker fee is paid when the order is created. If an order is modified to a d
 
 Broker fees on Upwell structure markets differ from NPC stations:
 
-- 0.5% of the fee goes to an NPC as an ISK sink.
-- The remainder goes to the structure owner.
-- Broker Relations does not apply to Upwell structure orders. [^ccp-broker-fees]
+- A fixed 0.5 percentage-point SCC surcharge is added to the owner-set broker-fee percentage.
+- The owner-set portion is paid to the structure owner; the fixed 0.5% portion is paid to the SCC.
+- Broker Relations does not apply to Upwell structure orders. CCP's Viridian example explicitly shows a 10% owner rate plus a separate 0.5% SCC amount; EVE University's current formula describes the combined rate as 0.5% plus the owner rate. [^ccp-broker-fees] [^ccp-viridian-fees] [^eveuni-tax]
 
 EVE University's market reference describes the Upwell broker fee as a 0.5% SCC component plus the owner-set percentage, which can vary by standings. Confirm the live structure fee before placing a large order. [^eveuni-market] [^eveuni-tax]
 
@@ -111,6 +117,8 @@ The first term charges the full broker-fee rate on any increase in order value. 
 EVE University documents a base relist discount of 50%, increased by 6 percentage points per level of Advanced Broker Relations, to 80% at level V. This is a secondary-source detail; the current order-modification quote is authoritative. [^eveuni-trade-skills] [^ccp-buy-sell-orders]
 
 A price change is not free. Repeatedly undercutting competitors can consume the margin that the order was intended to earn. Before modifying an order, compare the relist fee with the expected benefit of the new price and the cost of cancelling and creating a new order.
+
+EVE University's current Trading and Tax references document a 100 ISK minimum for both initial broker fees and relist fees. The deterministic calculator applies that floor when the new order value is positive. The linked CCP support articles explain the percentage formulas but do not explicitly describe this minimum, so treat the floor as secondary-source-backed and confirm it against the live quote for low-value orders. [^eveuni-tax] [^eveuni-station-trading]
 
 ## Immediate matching and order execution
 

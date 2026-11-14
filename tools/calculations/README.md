@@ -68,7 +68,7 @@ Run from the repository root:
 py -3 tools/calculations/market_fees.py --config tools/calculations/market-fees.example.json
 ```
 
-The calculator estimates Accounting-adjusted sales tax, NPC station broker fees from Broker Relations and unmodified standings, Upwell structure broker fees from the supplied owner rate plus the SCC component, and order relist fees from the supplied order values and Advanced Broker Relations level.
+The calculator estimates Accounting-adjusted sales tax, NPC station broker fees from Broker Relations and unmodified standings, Upwell structure broker fees from the supplied owner rate plus the SCC component, and order relist fees from the supplied order values and Advanced Broker Relations level. It applies a 100 ISK minimum to non-immediate order creation and relisting when the new order value is positive. The minimum is supported by EVE University's current fee reference; confirm the live quote for low-value orders.
 
 Set `create_non_immediate_order` to false for an immediate fill and `reprice_existing_order` to false when no existing order is being repriced. A non-immediate order creation incurs the broker fee; repricing an existing order incurs the relist fee. Sales tax still applies to the seller when units sell. For a mixed immediate fill and listed remainder, use the actual quote and wallet journal.
 
