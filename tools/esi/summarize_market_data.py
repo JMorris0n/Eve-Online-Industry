@@ -64,7 +64,12 @@ def sweep(levels: list[tuple[Decimal, int]], quantity: int) -> dict[str, Any]:
     }
 
 
-def summarize_book(orders: list[dict[str, Any]], quantities: list[int]) -> dict[str, Any]:
+def summarize_book(
+    orders: list[dict[str, Any]],
+    quantities: list[int],
+    *,
+    market_scope: str = "regional_composite",
+) -> dict[str, Any]:
     asks: dict[Decimal, int] = defaultdict(int)
     bids: dict[Decimal, int] = defaultdict(int)
     ask_count = bid_count = 0
@@ -98,7 +103,26 @@ def summarize_book(orders: list[dict[str, Any]], quantities: list[int]) -> dict[
         if spread is not None and best_ask and best_ask > 0
         else None
     )
+    is_crossed = (
+        best_bid is not None and best_ask is not None and best_bid > best_ask
+    )
+    if market_scope == "regional_composite":
+        caveat = (
+            "This is a region-wide composite. Orders can be at different stations "
+            "or structures, so the displayed best bid and ask may not be mutually "
+            "executable. A crossed regional composite is not proof of arbitrage."
+        )
+    elif market_scope == "single_location":
+        caveat = (
+            "This groups orders by their posted location only. Buy-order range, "
+            "minimum fill volume, operator access, fees, and snapshot changes are "
+            "not resolved; it is not a guaranteed executable quote."
+        )
+    else:
+        raise ValueError(f"unsupported market scope: {market_scope}")
     return {
+        "market_scope": market_scope,
+        "is_crossed": is_crossed,
         "order_count": ask_count + bid_count,
         "buy_order_count": bid_count,
         "sell_order_count": ask_count,
@@ -110,7 +134,7 @@ def summarize_book(orders: list[dict[str, Any]], quantities: list[int]) -> dict[
         "spread_pct_of_best_ask": spread_pct,
         "sell_into_bids": [sweep(bid_levels, quantity) for quantity in quantities],
         "buy_from_asks": [sweep(ask_levels, quantity) for quantity in quantities],
-        "caveat": "Regional orders include locations that may not be accessible to the operator; depth is a snapshot, not guaranteed execution.",
+        "caveat": caveat,
     }
 
 
@@ -219,6 +243,15 @@ def summarize_directory(input_dir: Path, quantities: list[int]) -> list[dict[str
                 raw_order_counts[key] += 1
                 if order_id in orders[key]:
                     duplicate_counts[key] += 1
+                location_id = order.get("location_id")
+                if location_id is not None and (
+                    isinstance(location_id, bool)
+                    or not isinstance(location_id, int)
+                    or location_id <= 0
+                ):
+                    raise ValueError(
+                        f"{path} contains order {order_id} with invalid location_id {location_id!r}"
+                    )
                 # Page files are processed in page-number order. If pagination
                 # drift repeats an order, retain the last observed copy once.
                 orders[key][order_id] = order
@@ -238,12 +271,39 @@ def summarize_directory(input_dir: Path, quantities: list[int]) -> list[dict[str
     for region_id, type_id in keys:
         key = (region_id, type_id)
         book_orders = list(orders.get(key, {}).values())
+        location_orders: dict[int, list[dict[str, Any]]] = defaultdict(list)
+        orders_without_location_id = 0
+        for order in book_orders:
+            location_id = order.get("location_id")
+            if location_id is None:
+                orders_without_location_id += 1
+            else:
+                location_orders[location_id].append(order)
+        location_books = []
+        for location_id, local_orders in sorted(location_orders.items()):
+            system_ids = sorted({
+                order["system_id"] for order in local_orders
+                if isinstance(order.get("system_id"), int)
+                and not isinstance(order.get("system_id"), bool)
+            })
+            location_books.append({
+                "location_id": location_id,
+                "system_ids": system_ids,
+                "order_book": summarize_book(
+                    local_orders, quantities, market_scope="single_location"
+                ),
+            })
         results.append({
             "region_id": region_id,
             "type_id": type_id,
             "raw_order_record_count": raw_order_counts.get(key, 0),
             "duplicate_order_ids_removed": duplicate_counts.get(key, 0),
-            "order_book": summarize_book(book_orders, quantities) if book_orders else None,
+            "orders_without_location_id": orders_without_location_id,
+            "location_count": len(location_books),
+            "location_books": location_books,
+            "order_book": summarize_book(
+                book_orders, quantities, market_scope="regional_composite"
+            ) if book_orders else None,
             "history": summarize_history(histories[(region_id, type_id)])
             if (region_id, type_id) in histories else None,
             "source_files": [
