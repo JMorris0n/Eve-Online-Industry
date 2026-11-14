@@ -93,7 +93,8 @@ status: draft
 - [x] Document ESI and SDE data acquisition, compatibility dates, OAuth scopes, caching, rate limits, pagination, and industrial endpoints.
   - [x] Add local CCP SDE download and archive-inspection scripts using the standard library.
 - [ ] Run the SDE downloader locally, record the current build manifest, and inspect the current JSONL schema.
-- [ ] Implement a read-only ESI collector with provenance, compatibility-date pinning, cache handling, and rate-limit compliance.
+- [x] Implement a read-only public ESI collector with provenance, compatibility-date pinning, cache handling, pagination, and rate-limit compliance.
+  - [ ] Run the collector locally with a small region/type-ID set and validate response schemas, cache behavior, and output hashes.
 - [x] Draft operational playbooks for product evaluation, T1/T2 production, PI, reactions, and market delivery from the documented concepts.
 - [ ] Verify playbooks against live in-game workflows and promote them only when their underlying mechanics are independently reviewed.
 
