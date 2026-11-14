@@ -153,16 +153,16 @@ class ESIClient:
                     return json.loads(body), info
 
             except urllib.error.HTTPError as exc:
-                response_headers = dict(exc.headers.items()) if exc.headers else {}
+                response_headers = {key.lower(): value for key, value in exc.headers.items()} if exc.headers else {}
 
                 if exc.code == 304 and cached_body is not None:
                     metadata = {
                         **cached_meta,
-                        "etag": response_headers.get("ETag", cached_meta.get("etag")),
+                        "etag": response_headers.get("etag", cached_meta.get("etag")),
                         "last_modified": response_headers.get(
-                            "Last-Modified", cached_meta.get("last_modified")
+                            "last-modified", cached_meta.get("last_modified")
                         ),
-                        "expires": response_headers.get("Expires", cached_meta.get("expires")),
+                        "expires": response_headers.get("expires", cached_meta.get("expires")),
                         "headers": {**cached_meta.get("headers", {}), **response_headers},
                         "saved_at": iso_now(),
                     }
