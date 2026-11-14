@@ -25,6 +25,12 @@ sources:
   - id: eveuni-planet-management
     resource: https://wiki.eveuniversity.org/Command_Center_Upgrades
     title: Skills:Planet Management | EVE University Wiki
+  - id: ccp-alpha-omega
+    resource: https://support.eveonline.com/hc/en-us/articles/213020969-Alpha-and-Omega-Clone
+    title: Alpha and Omega Clone | EVE Online Support (updated 2026-02-04)
+  - id: ccp-alpha-quick-facts
+    resource: https://support.eveonline.com/hc/en-us/articles/213811425-Alpha-Clones-and-Omega-Clone-lapsing-Quick-Facts
+    title: Alpha Clones and Omega Clone lapsing - Quick Facts | EVE Online Support (updated 2024-07-15)
   - id: eveuni-invention
     resource: https://wiki.eveuniversity.org/Invention
     title: Invention | EVE University Wiki
@@ -123,7 +129,7 @@ Priority skills:
 - Planetology and Advanced Planetology for scan resolution.
 - Customs Code Expertise for the CONCORD portion of high-security PI export tax.
 
-Planetology skills improve scan interpretation; they do not directly multiply extractor output. [^eveuni-planet-management]
+Planetology skills improve scan interpretation; they do not directly multiply extractor output. Alpha clones can import materials into colonies but cannot export colony goods, so a sale-oriented PI workflow requires an Omega character for export. [^eveuni-planet-management] [^ccp-alpha-omega] [^ccp-alpha-quick-facts]
 
 ## Skill categories and marginal effects
 
@@ -232,4 +238,6 @@ Open work:
 [^eveuni-resource-skills]: EVE University Wiki, Skills: Resource Processing (last modified 2026-01-27).
 [^eveuni-trade-skills]: EVE University Wiki, Skills:Trade (accessed 2026-11-14).
 [^eveuni-planet-management]: EVE University Wiki, Skills:Planet Management (accessed 2026-11-14).
+[^ccp-alpha-omega]: CCP Support, Alpha and Omega Clone (updated 2026-02-04).
+[^ccp-alpha-quick-facts]: CCP Support, Alpha Clones and Omega Clone lapsing - Quick Facts (updated 2024-07-15).
 [^eveuni-invention]: EVE University Wiki, Invention (last modified 2026-10-09).
