@@ -48,6 +48,16 @@ Inputs are deliberately explicit:
 
 The example values are illustrative and are not current EVE market prices or live fee quotes. The calculator does not retrieve recipes, prices, job quotes, or market depth.
 
+## Continuous integration
+
+The repository runs the standard-library unit tests through [GitHub Actions](../../.github/workflows/python-tests.yml) on pushes and pull requests that change `tools/calculations/`, and on manual workflow dispatch. The workflow uses Python 3.12.
+
+Run the same suite locally from the repository root:
+
+```powershell
+py -3 -m unittest discover -s tools/calculations -p "test_*.py" -v
+```
+
 ## General rules
 
 - Keep money inputs as decimal strings in JSON to avoid binary floating-point error.
