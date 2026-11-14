@@ -2,7 +2,7 @@
 
 ## 2026-11-14
 
-- Added a standard-library Markdown link checker and five unit tests, then integrated calculation tests, validation tests, and local Markdown-link checks into GitHub Actions for relevant code and documentation changes. The first scan found and corrected four broken root-relative links in the blueprint concept. [GitHub Actions run 18](https://github.com/JMorris0n/Eve-Online-Industry/actions/runs/43578417413) passed 17 calculation tests, 5 validation tests, and 571 local links across 93 Markdown files.
+- Added a standard-library Markdown link checker, five unit tests, and a one-command local validation runner. GitHub Actions now executes the same `py -3 tools/validation/run_all.py` workflow for relevant code and documentation changes. The first scan found and corrected four broken root-relative links in the blueprint concept. [GitHub Actions run 24](https://github.com/JMorris0n/Eve-Online-Industry/actions/runs/43578623979) passed 17 calculation tests, 5 validation tests, and 572 local links across 93 Markdown files.
 
 ## 2026-11-14
 
