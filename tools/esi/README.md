@@ -74,11 +74,16 @@ py -3 tools/esi/summarize_market_data.py \
     --output data/derived/market-summary.json
 ```
 
-The report groups all order-book pages by region and type, separates sell orders (asks) from buy orders (bids), calculates best bid/ask and spread, and sweeps the visible book to estimate the VWAP and unfilled quantity for each requested batch size. It also summarizes the supplied daily history using total and median/average daily volume and a volume-weighted average daily price.
+The report groups all order-book pages by region and type, deduplicates repeated order IDs, and summarizes two distinct views:
 
-The execution fields are deliberately named `buy_from_asks` and `sell_into_bids`. They describe the two sides of the book from the operator's perspective. A fillable quantity is only fillable in that observed snapshot. Regional orders may be located at structures or stations the operator cannot access.
+- `order_book` is a region-wide composite for discovery. Its best bid and best ask can come from different stations or structures. The report explicitly flags a crossed composite with `is_crossed=true`; a negative spread is **not** evidence of executable arbitrage.
+- `location_books` groups the same orders by their posted `location_id`, with system IDs where supplied. This is a more useful starting point for comparing local markets, but still is not a guaranteed executable quote.
 
-The summary retains SHA-256 hashes for the raw source files. It does not apply market fees, manufacturing costs, installation costs, hauling, or any demand forecast.
+Each view separates sell orders (asks) from buy orders (bids) and sweeps the visible volume for the requested batch sizes. The execution fields are deliberately named `buy_from_asks` and `sell_into_bids`. They describe the sides of the book from the operator's perspective.
+
+The location view is intentionally conservative and incomplete: it groups buy orders by where they were posted, but does not expand a buy order's system/region range to every location it may cover. The sweep also does not yet enforce each order's `min_volume`, operator access, market fees, broker charges, order expiry, or snapshot changes. Treat both regional and location views as screening signals, not firm quotes. A final evaluator must model the actual production and sale location, buy-order range, access, and minimum fill constraints.
+
+The report retains SHA-256 hashes for raw source files and includes source timestamps/cache metadata when present. It does not apply market fees, manufacturing costs, installation costs, hauling, or a demand forecast.
 
 ## Limitations
 
