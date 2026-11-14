@@ -24,6 +24,8 @@ status: draft
 
 ## Purpose
 
+The deterministic implementation is [`tools/calculations/manufacturing_profitability.py`](../../tools/calculations/manufacturing_profitability.py), with an illustrative input file and unit tests under the same directory. Run instructions are in the [calculations README](../../tools/calculations/README.md).
+
 This computation converts a defined production batch, timestamped price inputs, live job quotes, and a declared sale strategy into reproducible profitability metrics. It is a deterministic calculation once its inputs are fixed. It does not predict future market prices or guarantee that output will sell at the assumed price.
 
 ## Required input groups
@@ -216,9 +218,9 @@ The computation should return:
 - Maximum affordable input prices for selected bottleneck materials.
 - Price timestamps, locations, assumptions, and source provenance.
 
-## Limitations
+## Implementation limitations
 
-This version defines the deterministic calculation structure. It does not include a live market data client, a current ESI adjusted-price ingestion process, product-specific blueprint recipes, invention expected-cost allocation, or multi-stage optimization. Those will be added as separate inputs and computation modules.
+The script is deterministic once inputs are supplied. It does not fetch live market data, calculate product-specific blueprint recipes, create Industry quotes, infer invention expected cost, or optimize multi-stage production chains. Material quantities, prices, job fees, sale fills, and full-batch fee assumptions must be supplied and independently checked. The full-batch projection uses a single unit sale price and aggregate fee amounts; use a more detailed order-book model when price levels or fill quantities materially affect the result.
 
 [^ccp-broker-fees]: CCP Support, Broker Fee and Sales Tax (updated 2026-03-02).
 [^ccp-buy-sell-orders]: CCP Support, Buy and Sell Orders (updated 2020-03-10).
