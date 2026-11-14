@@ -166,7 +166,7 @@ Probability of at least one success:
 ```text
 1 - (1 - 0.45)^20
   = 1 - 0.55^20
-  ≈ 99.64%
+  ≈ 99.99936%
 ```
 
 Expected Tech II manufacturing runs:
