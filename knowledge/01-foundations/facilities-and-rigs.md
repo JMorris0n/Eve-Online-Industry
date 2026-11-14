@@ -46,6 +46,24 @@ sources:
   - id: eve-reactions-calculator-method
     resource: https://reactions.coalition.space/about
     title: EVE Reactions Calculator methodology
+  - id: everef-raitaru
+    resource: https://everef.net/types/35825
+    title: Raitaru | EVE Ref (current SDE-derived type attributes)
+  - id: everef-azbel
+    resource: https://everef.net/types/35826
+    title: Azbel | EVE Ref (current SDE-derived type attributes)
+  - id: everef-sotiyo
+    resource: https://everef.net/types/35827
+    title: Sotiyo | EVE Ref (current SDE-derived type attributes)
+  - id: everef-athanor
+    resource: https://everef.net/types/35835
+    title: Athanor | EVE Ref (current SDE-derived type attributes)
+  - id: everef-tatara
+    resource: https://everef.net/types/35836
+    title: Tatara | EVE Ref (current SDE-derived type attributes)
+  - id: everef-structure-rigs
+    resource: https://everef.net/structures/engineering-rigs
+    title: Structure Engineering Rigs | EVE Ref (current SDE-derived rig attributes)
 generated:
   by: openai/gpt-6
   at: 2026-11-14T06:25:24Z
@@ -158,12 +176,24 @@ A rig is not a generic percentage bonus to all industry. A ship manufacturing ri
 
 - A rig must match the structure's size and rig category.
 - A structure has only three rig slots, so fitting a rig is an opportunity cost against other rig effects.
-- Two rigs that affect the same attribute cannot be equipped together, including Tech I and Tech II variants of the same rig effect.
+- Two rigs of the same rig type cannot be equipped together, including Tech I and Tech II variants of that same rig type. Different rig types may coexist if their effects, structure compatibility, and calibration requirements permit.
 - Rigs improve selected activity parameters; they do not add job slots. Job-slot limits are character-level and documented in [Skills and Job Capacity](skills-and-job-capacity.md). [^ccp-upwell-quickfacts] [^eveuni-upwell-fitting]
 
 ### Security-space effects
 
-Structure rig effects can vary by security class and rig family. Reaction rig scaling is explicitly different from the commonly quoted manufacturing rig scaling. Do not apply a single universal high-sec/low-sec/null-sec multiplier to all structure rigs. For reaction modeling, use the reaction-specific method and security modifiers documented above. For other rig families, use the specific rig's current in-game attributes or SDE-backed data rather than copying a multiplier from another activity. [^eve-reactions-calculator-method] [^everef-engineering-rigs]
+Structure rig effects vary by security class and rig family. The current SDE-derived Structure Engineering Rigs table lists the following multipliers for the manufacturing-rig examples it enumerates: [^everef-structure-rigs]
+
+| Security class | Manufacturing rig multiplier |
+|---|---:|
+| High security | 1.0x |
+| Low security | 1.9x |
+| Null security and wormhole space | 2.1x |
+
+These are multipliers applied to the rig's base attribute, not percentage-point additions to the blueprint ME or structure role bonus. For example, a manufacturing material rig with a base 2.0% effect has a nominal rig attribute of 3.8% in low security (2.0% × 1.9) and 4.2% in null/wormhole space (2.0% × 2.1), before the game's other applicable modifiers and rounding. This is an illustration of the rig attribute, not a complete job material formula. [^everef-structure-rigs]
+
+**Reaction rigs use a different security scaling.** The EVE Reactions Calculator methodology documents a 1.0x multiplier in low security and 1.1x in null security/wormhole space. Reactions are not available in high security space. Do not apply the manufacturing 1.9x/2.1x multipliers to reaction rigs. [^eve-reactions-calculator-method] [^ccp-reactions]
+
+The exact base effect and eligible product/activity group remain rig-specific. Research-cost rigs, copy rigs, invention rigs, manufacturing rigs, and the three reaction families do not share a universal base percentage. Read the exact rig's SDE attributes and verify the job quote in game.
 
 ## Facility selection workflow
 
@@ -178,6 +208,12 @@ For a production, research, invention, or reaction job, evaluate the candidate f
 7. **Access and operational risk:** verify ACL access, asset location, service-module fuel continuity, structure vulnerability, logistics, and the risk of an interruption.
 
 The Structure Browser and Industry facility list are useful for discovering structures and their services, but the final job quote and the actual fitted rig/service configuration should decide the specific operation. [^eveuni-structure-browser]
+
+## Current structure attribute snapshot
+
+EVE Ref's current SDE-derived structure pages list three rig slots and 400 calibration points for Raitaru, Azbel, Sotiyo, Athanor, and Tatara. The structure rig-size mapping is M for Raitaru/Athanor, L for Azbel/Tatara, and XL for Sotiyo. This makes rig size a hard facility constraint: a medium rig cannot be fitted to a large or XL structure. [^everef-raitaru] [^everef-azbel] [^everef-sotiyo] [^everef-athanor] [^everef-tatara]
+
+The same current structure data confirms the role-bonus values already tabulated above: Raitaru (1% manufacturing materials, 15% manufacturing/science time, 3% manufacturing/science job ISK); Azbel (1%, 20%, 4%); Sotiyo (1%, 30%, 5%). The Tatara's reaction-time multiplier is 0.75 (25% shorter); the Athanor has no corresponding reaction-time reduction. These values are SDE-derived, so retain the current in-game job quote as the final operational check. [^everef-raitaru] [^everef-azbel] [^everef-sotiyo] [^everef-athanor] [^everef-tatara]
 
 ## Boundaries and open verification work
 
@@ -211,3 +247,9 @@ The following should be independently checked in game or against a current SDE s
 [^everef-refineries]: EVE Ref, Refineries (SDE-derived structure attributes).
 [^everef-engineering-rigs]: EVE Ref, Engineering Rigs (SDE-derived rig attributes).
 [^eve-reactions-calculator-method]: EVE Reactions Calculator, methodology.
+[^everef-raitaru]: EVE Ref, Raitaru type attributes (SDE-derived; accessed 2026-11-14).
+[^everef-azbel]: EVE Ref, Azbel type attributes (SDE-derived; accessed 2026-11-14).
+[^everef-sotiyo]: EVE Ref, Sotiyo type attributes (SDE-derived; accessed 2026-11-14).
+[^everef-athanor]: EVE Ref, Athanor type attributes (SDE-derived; accessed 2026-11-14).
+[^everef-tatara]: EVE Ref, Tatara type attributes (SDE-derived; accessed 2026-11-14).
+[^everef-structure-rigs]: EVE Ref, Structure Engineering Rigs (SDE-derived; accessed 2026-11-14).
