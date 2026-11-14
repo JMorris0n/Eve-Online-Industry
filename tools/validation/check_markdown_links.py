@@ -10,7 +10,7 @@ from pathlib import Path
 from urllib.parse import unquote, urlsplit
 
 LINK_PATTERN = re.compile(
-    r'!?\[[^\]]*\]\(\s*(<[^>]+>|[^)\s]+)(?:\s+(?:"[^"]*"|\'[^\']*\'))?\s*\)'
+    r"""!?\[[^\]]*\]\(\s*(<[^>]+>|[^)\s]+)(?:\s+["'][^"']*["'])?\s*\)"""
 )
 FENCE_PATTERN = re.compile(r"^\s*(`{3,}|~{3,})")
 INLINE_CODE_PATTERN = re.compile(r"`+[^\`]*`+")
