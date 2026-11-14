@@ -27,10 +27,10 @@ class MarketSummaryTests(unittest.TestCase):
 
     def test_book_separates_bids_and_asks(self):
         orders = [
-            {"price": 12, "volume_remain": 3, "is_buy_order": False},
-            {"price": 10, "volume_remain": 4, "is_buy_order": False},
-            {"price": 9, "volume_remain": 5, "is_buy_order": True},
-            {"price": 8, "volume_remain": 7, "is_buy_order": True},
+            {"price": 12, "volume_remain": 3, "is_buy_order": False, "location_id": 10},
+            {"price": 10, "volume_remain": 4, "is_buy_order": False, "location_id": 10},
+            {"price": 9, "volume_remain": 5, "is_buy_order": True, "location_id": 10},
+            {"price": 8, "volume_remain": 7, "is_buy_order": True, "location_id": 10},
         ]
         result = summarize_book(orders, [2])
         self.assertEqual(result["best_ask"], 10)
@@ -55,11 +55,11 @@ class MarketSummaryTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
             (root / "market-orders-region-100-type-200-page-1.json").write_text(
-                json.dumps([{"order_id": 1, "type_id": 200, "price": 5, "volume_remain": 3, "is_buy_order": False}]),
+                json.dumps([{"order_id": 1, "type_id": 200, "price": 5, "volume_remain": 3, "is_buy_order": False, "location_id": 6001, "system_id": 3001}]),
                 encoding="utf-8",
             )
             (root / "market-orders-region-100-type-200-page-2.json").write_text(
-                json.dumps([{"order_id": 2, "type_id": 200, "price": 4, "volume_remain": 2, "is_buy_order": True}]),
+                json.dumps([{"order_id": 2, "type_id": 200, "price": 4, "volume_remain": 2, "is_buy_order": True, "location_id": 6002, "system_id": 3002}]),
                 encoding="utf-8",
             )
             (root / "manifest.json").write_text(json.dumps({
@@ -88,13 +88,23 @@ class MarketSummaryTests(unittest.TestCase):
         self.assertEqual(result[0]["raw_order_record_count"], 2)
         self.assertEqual(result[0]["duplicate_order_ids_removed"], 0)
         self.assertEqual(result[0]["history"]["total_volume"], 2)
+        self.assertEqual(result[0]["location_count"], 2)
+        self.assertEqual(result[0]["orders_without_location_id"], 0)
+        location_ids = [item["location_id"] for item in result[0]["location_books"]]
+        self.assertEqual(location_ids, [6001, 6002])
+        self.assertEqual(
+            [item["order_book"]["order_count"] for item in result[0]["location_books"]],
+            [1, 1],
+        )
+        self.assertFalse(result[0]["order_book"]["is_crossed"])
+        self.assertEqual(result[0]["order_book"]["market_scope"], "regional_composite")
         page_one_source = next(item for item in result[0]["source_files"] if item["filename"].endswith("page-1.json"))
         self.assertEqual(page_one_source["retrieved_at"], "2026-11-14T10:00:01Z")
 
     def test_directory_deduplicates_order_ids_across_pages(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
-            repeated = {"order_id": 7, "type_id": 200, "price": 5, "volume_remain": 3, "is_buy_order": False}
+            repeated = {"order_id": 7, "type_id": 200, "price": 5, "volume_remain": 3, "is_buy_order": False, "location_id": 6001}
             (root / "market-orders-region-100-type-200-page-1.json").write_text(json.dumps([repeated]), encoding="utf-8")
             (root / "market-orders-region-100-type-200-page-2.json").write_text(json.dumps([repeated]), encoding="utf-8")
             result = summarize_directory(root, [1])
@@ -105,8 +115,8 @@ class MarketSummaryTests(unittest.TestCase):
     def test_order_pages_are_sorted_numerically_before_duplicate_resolution(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
-            page_two = {"order_id": 9, "type_id": 200, "price": 5, "volume_remain": 2, "is_buy_order": False}
-            page_ten = {"order_id": 9, "type_id": 200, "price": 5, "volume_remain": 7, "is_buy_order": False}
+            page_two = {"order_id": 9, "type_id": 200, "price": 5, "volume_remain": 2, "is_buy_order": False, "location_id": 6001}
+            page_ten = {"order_id": 9, "type_id": 200, "price": 5, "volume_remain": 7, "is_buy_order": False, "location_id": 6001}
             (root / "market-orders-region-100-type-200-page-2.json").write_text(json.dumps([page_two]), encoding="utf-8")
             (root / "market-orders-region-100-type-200-page-10.json").write_text(json.dumps([page_ten]), encoding="utf-8")
             result = summarize_directory(root, [1])
@@ -120,6 +130,30 @@ class MarketSummaryTests(unittest.TestCase):
             (root / "market-orders-region-100-type-200-page-1.json").write_text(json.dumps([order]), encoding="utf-8")
             with self.assertRaisesRegex(ValueError, "unexpected type_id"):
                 summarize_directory(root, [1])
+
+
+    def test_flags_crossed_regional_composite_without_calling_it_arbitrage(self):
+        orders = [
+            {"price": 20, "volume_remain": 5, "is_buy_order": True, "location_id": 6001},
+            {"price": 18, "volume_remain": 5, "is_buy_order": False, "location_id": 6002},
+        ]
+        result = summarize_book(orders, [1])
+        self.assertTrue(result["is_crossed"])
+        self.assertEqual(result["spread_isk"], 2)
+        self.assertIn("not proof of arbitrage", result["caveat"])
+
+    def test_directory_counts_orders_with_missing_location_id(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root / "market-orders-region-100-type-200-page-1.json").write_text(
+                json.dumps([
+                    {"order_id": 1, "type_id": 200, "price": 5, "volume_remain": 3, "is_buy_order": False}
+                ]),
+                encoding="utf-8",
+            )
+            result = summarize_directory(root, [1])
+        self.assertEqual(result[0]["orders_without_location_id"], 1)
+        self.assertEqual(result[0]["location_count"], 0)
 
     def test_rejects_invalid_buy_order_flag(self):
         with self.assertRaisesRegex(ValueError, "must be boolean"):
