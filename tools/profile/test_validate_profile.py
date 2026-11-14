@@ -69,6 +69,28 @@ class OperatingProfileTests(unittest.TestCase):
         }
         self.assertEqual(validate_profile_data(self.profile), [])
 
+    def test_unhashable_enum_values_return_validation_errors(self):
+        self.profile["characters"][0]["state"] = []
+        self.profile["capital"]["state"] = {}
+        self.profile["market_access"] = {
+            "state": [],
+            "locations": [{
+                "label": "Market",
+                "state": {},
+                "market_type": [],
+                "roles": [["procurement"]],
+            }],
+        }
+        self.profile["logistics"] = {
+            "state": [],
+            "preferred_method": ["self_haul"],
+            "max_route_jumps": None,
+            "max_active_minutes_per_batch": None,
+            "max_cargo_m3": None,
+        }
+        errors = validate_profile_data(self.profile)
+        self.assertGreaterEqual(len(errors), 6)
+
     def test_rejects_invalid_market_location_id(self):
         self.profile["market_access"] = {
             "state": "partial",
