@@ -1,0 +1,67 @@
+{
+  "profile_version": 1,
+  "profile_name": "Local industry profile (example)",
+  "last_reviewed": null,
+  "characters": [
+    {
+      "slot": 1,
+      "label": "Character 1",
+      "state": "unknown",
+      "skills": {},
+      "job_capacity": {
+        "manufacturing": null,
+        "science": null,
+        "reaction": null
+      },
+      "specializations": [],
+      "notes": []
+    },
+    {
+      "slot": 2,
+      "label": "Character 2",
+      "state": "unknown",
+      "skills": {},
+      "job_capacity": {
+        "manufacturing": null,
+        "science": null,
+        "reaction": null
+      },
+      "specializations": [],
+      "notes": []
+    },
+    {
+      "slot": 3,
+      "label": "Character 3",
+      "state": "unknown",
+      "skills": {},
+      "job_capacity": {
+        "manufacturing": null,
+        "science": null,
+        "reaction": null
+      },
+      "specializations": [],
+      "notes": []
+    }
+  ],
+  "capital": {
+    "state": "unknown",
+    "working_capital_isk": null,
+    "liquidity_reserve_isk": null,
+    "max_capital_at_risk_isk": null,
+    "notes": []
+  },
+  "operations": {
+    "state": "unknown",
+    "active_hours_per_week": null,
+    "max_setup_minutes_per_batch": null,
+    "target_liquidation_days": null,
+    "risk_tolerance": "unknown",
+    "notes": []
+  },
+  "facilities": [],
+  "blueprints": [],
+  "notes": [
+    "Template only. Replace placeholders in a local ignored copy.",
+    "Do not add character IDs, access tokens, wallet exports, or private account data to the public repository."
+  ]
+}
