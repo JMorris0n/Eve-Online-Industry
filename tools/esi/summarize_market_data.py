@@ -27,6 +27,8 @@ HISTORY_PATTERN = re.compile(
     r"market-history-region-(?P<region>\d+)-type-(?P<type>\d+)\.json$"
 )
 
+SUMMARY_SCHEMA_VERSION = 2
+
 
 def dec(value: Any, label: str) -> Decimal:
     try:
@@ -345,7 +347,7 @@ def main() -> int:
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(
             json.dumps({
-                "schema_version": 2,
+                "schema_version": SUMMARY_SCHEMA_VERSION,
                 "source": "public ESI regional market snapshots",
                 "input_directory": str(args.input_dir),
                 "requested_quantities": quantities,
