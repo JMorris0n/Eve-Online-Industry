@@ -3,6 +3,7 @@
 import copy
 import json
 import unittest
+from decimal import Decimal
 from pathlib import Path
 
 from hauling_cost import calculate
@@ -29,7 +30,7 @@ class HaulingCostTests(unittest.TestCase):
         self.assertEqual(result["self_haul"]["trips"], 4)
         self.assertEqual(
             result["self_haul"]["probability_at_least_one_trip_loss"],
-            str(1 - (1 - 0.015) ** 4),
+            str((Decimal("1") - (Decimal("1") - Decimal("0.015")) ** 4).normalize()),
         )
 
     def test_full_collateral_removes_uncovered_cargo_loss(self):
