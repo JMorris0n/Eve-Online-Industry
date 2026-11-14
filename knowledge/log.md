@@ -98,3 +98,5 @@
 - Added a structured verification-protocol suite covering ME rounding, BPC copying, job slots/remote range, facility/rig modifiers, installation fees, invention, reactions, Alpha PI permissions, ESI collector, and SDE acquisition.
 - Updated the verification queue to distinguish source-documented claims from claims that still require independent in-game or local execution checks. Reclassified the ME/TE research SCC surcharge question as source-resolved with live quote confirmation still open.
 - Added Q-015 for local SDE/ESI tool execution and sample-schema review; generic research can continue while that input is pending.
+
+- Replaced Minerals and Ore, Moon Materials, Gas and Fullerites, Sleeper Salvage, and Procurement and Reprocessing placeholders with source-backed concepts. Avoided stale ore-location/yield tables, recorded current moon extraction and gas-family mechanics, separated Sleeper blue loot from Ancient Salvage, and documented reprocessing formulas with explicit warnings where the community reference is flagged for update.
