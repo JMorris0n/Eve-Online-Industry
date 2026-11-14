@@ -2,6 +2,8 @@
 
 ## 2026-11-14
 
+- Accepted the operational manufacturing decision-support roadmap as the working plan and started M1 (public data foundation) and M2 (local operating profile) in parallel. Added an M1 audit documenting the current CCP SDE build 3698585 (2026-11-13), current JSONL/ESI source contracts, existing collector code-review findings, and execution evidence still required. Added a versioned JSON Schema and safe three-character example for the private local operating profile, with instructions to keep populated character, blueprint, facility, and capital data out of the public repository. No private operating values were committed.
+
 - Clarified and recorded the project's primary use case: evaluate manufacturing products and identify realistic opportunities for a low-attention, predictable-turnover null-sec operation, prioritizing ISK per active operator-hour over unnecessary vertical integration. Added a proposed milestone roadmap and aligned the project charter/backlog. Added Git ignore rules for private local operation profiles and exports; exact character, asset, and financial details are not stored in this public repository.
 - Added GitHub-native research/improvement and verification/defect issue templates plus a pull request checklist. Linked the intake process from the root README, LLM onboarding, and research-management index; updated CI path filters so template-only changes trigger validation.
 - Published a VS Code/PowerShell LLM Workflow Quick Start covering baseline capture, task packet creation, branch workflow, model-role routing, validation, and handoff closeout. Updated all onboarding and calculator documentation to use the single local validation command.
