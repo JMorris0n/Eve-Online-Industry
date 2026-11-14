@@ -1,8 +1,9 @@
 # 10 Research Management
 
+- [Operational Manufacturing Decision-Support Roadmap](operational-roadmap.md): proposed milestones for product discovery, practical evaluation, opportunity ranking, pilot production, and the local decision-support tool.
 - [Open Questions](open-questions.md)
 - [Claims Requiring Verification](claims-requiring-verification.md)
-- [Research Backlog](research-backlog.md)
+- [Research Backlog](research-backlog.md): detailed work items and dependencies supporting the roadmap.
 - [Verification Protocols](verification-protocols.md): repeatable in-game and data-pipeline tests for claims awaiting independent verification.
 
 ## Task intake and review
