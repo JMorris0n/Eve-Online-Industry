@@ -14,40 +14,29 @@ from pathlib import Path
 from typing import Any
 
 
-def _inventory_status(
-    profile: dict[str, Any],
-    recipe: dict[str, Any],
-    collection: str,
-    completeness_field: str,
-    match_field: str,
-    expected: Any,
-) -> tuple[str, str]:
-    records = profile.get(collection, [])
-    matches = [record for record in records if record.get(match_field) == expected]
+def _blueprint_status(profile: dict[str, Any], blueprint_type_id: int) -> tuple[str, str]:
+    records = profile.get("blueprints", [])
+    matches = [record for record in records if record.get("type_id") == blueprint_type_id]
     verified = [record for record in matches if record.get("state") == "verified"]
     partial = [record for record in matches if record.get("state") in {"partial", "unknown"}]
 
-    if collection == "blueprints":
-        usable = []
-        for record in verified:
-            if record.get("kind") == "BPO":
+    usable = []
+    for record in verified:
+        if record.get("kind") == "BPO":
+            usable.append(record)
+        elif record.get("kind") == "BPC":
+            runs = record.get("licensed_runs")
+            if isinstance(runs, int) and runs > 0:
                 usable.append(record)
-            elif record.get("kind") == "BPC":
-                runs = record.get("licensed_runs")
-                if isinstance(runs, int) and runs > 0:
-                    usable.append(record)
-                elif runs is None:
-                    partial.append(record)
-        if usable:
-            return "eligible", f"Verified usable blueprint copy/record found for type {expected}."
-    elif verified:
-        return "eligible", f"Verified facility supports {expected}."
-
+            elif runs is None:
+                partial.append(record)
+    if usable:
+        return "eligible", f"Verified usable blueprint copy/record found for type {blueprint_type_id}."
     if partial:
-        return "unknown", f"Matching {collection} record exists but is not fully verified or usable."
-    if profile.get(completeness_field) == "verified":
-        return "ineligible", f"{collection} inventory is verified complete and has no usable match for {expected}."
-    return "unknown", f"{collection} inventory is not verified complete; absence cannot be treated as non-ownership/non-access."
+        return "unknown", "A matching blueprint record exists but its usability is not fully verified."
+    if profile.get("blueprints_state") == "verified":
+        return "ineligible", f"Blueprint inventory is verified complete and has no usable copy for type {blueprint_type_id}."
+    return "unknown", "Blueprint inventory is not verified complete; absence cannot be treated as non-ownership."
 
 
 def _character_status(character: dict[str, Any], recipe: dict[str, Any]) -> tuple[str, list[str]]:
@@ -83,13 +72,8 @@ def _character_status(character: dict[str, Any], recipe: dict[str, Any]) -> tupl
 
 
 def evaluate_recipe(profile: dict[str, Any], recipe: dict[str, Any]) -> dict[str, Any]:
-    blueprint_status, blueprint_reason = _inventory_status(
-        profile, recipe, "blueprints", "blueprints_state",
-        "type_id", recipe["blueprint_type_id"],
-    )
-    facility_status, facility_reason = _inventory_status(
-        profile, recipe, "facilities", "facilities_state",
-        "services", recipe["activity"],
+    blueprint_status, blueprint_reason = _blueprint_status(
+        profile, recipe["blueprint_type_id"]
     )
     # Facilities use a list of supported services rather than a single ID.
     facility_records = profile.get("facilities", [])
