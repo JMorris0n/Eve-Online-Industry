@@ -2,6 +2,10 @@
 
 ## 2026-11-14
 
+- Added a standard-library Markdown link checker and five unit tests, then integrated calculation tests, validation tests, and local Markdown-link checks into GitHub Actions for relevant code and documentation changes. The first scan found and corrected four broken root-relative links in the blueprint concept. [GitHub Actions run 18](https://github.com/JMorris0n/Eve-Online-Industry/actions/runs/43578417413) passed 17 calculation tests, 5 validation tests, and 571 local links across 93 Markdown files.
+
+## 2026-11-14
+
 - Reworked the LLM collaboration protocol into an operational workflow with bounded tasks, portable context packets, coordinator/researcher/reviewer/implementer roles, blind-first independent review, synthesis, validation gates, and human-controlled integration. Updated onboarding and added provider-neutral role prompts plus task, research, review, and change-proposal templates.
 - Fixed the manufacturing profitability calculator's decimal quantity formatting, which caused the CI suite to fail when whole-number quantities were rendered in scientific notation. Added regression tests for whole numbers, large values, fractional values, and zero. GitHub Actions run 14 passed all 17 calculation tests.
 
