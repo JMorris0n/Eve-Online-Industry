@@ -19,7 +19,7 @@ sources:
     title: EVE Developer Documentation | Static Data Export
   - id: eve-dev-sde-rework
     resource: https://developers.eveonline.com/blog/reworking-the-sde-a-fresh-start-for-static-data
-    title: Reworking the SDE: a fresh start for static data (2025-09-22)
+    title: "Reworking the SDE: a fresh start for static data (2025-09-22)"
 generated:
   by: openai/gpt-6
   at: 2026-11-14T06:40:00Z
