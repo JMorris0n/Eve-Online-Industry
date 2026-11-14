@@ -1,39 +1,123 @@
 ---
-type: Concept
+type: Process
 title: Product Evaluation Playbook
 description: Repeatable workflow to evaluate an industrial product before committing capital.
 tags:
   - playbook
   - product-selection
 generated:
-  by: process:starter-scaffold
-  at: 2026-11-14T05:30:25Z
+  by: openai/gpt-6
+  at: 2026-11-14T09:50:00Z
 status: draft
 ---
 
-## Summary
+## Objective
 
-This concept is part of the planned EVE Online industrial knowledge base. It is a draft placeholder, not a verified explanation of current game behavior.
+Determine whether a specific product should be manufactured, bought, or avoided under a defined character, facility, market, and capital situation.
 
-## Research requirements
+This playbook operationalizes [Product Selection](../06-market-intelligence/product-selection.md), [Manufacturing Profitability](../04-industrial-economics/manufacturing-profitability.md), and [Demand and Liquidity](../06-market-intelligence/demand-and-liquidity.md).
 
-- Define the scope and terminology.
-- Identify primary dependencies and related concepts.
-- Research current mechanics using sources appropriate to each claim.
-- Separate mechanics, derived calculations, strategic recommendations, and hypotheses.
-- Record formulas with variables, units, assumptions, and rounding behavior.
-- Identify patch-sensitive details and known exceptions.
-- Add claim-level citations and update the relevant source catalog.
+## Required inputs
 
-## Findings
+- Product and type ID.
+- Blueprint/formula availability and ME/TE or licensed runs.
+- Character skills and free job slots.
+- Candidate production facility, system, rig, tax, and service state.
+- Input source and market region.
+- Output sale region/location.
+- Candidate batch size.
+- Available working capital and logistics method.
 
-Research has not yet been completed.
+If character or facility information is unavailable, use clearly labeled assumptions and do not describe the result as an executable plan.
 
-## Open questions
+## Procedure
 
-- What current mechanics or constraints materially affect this concept?
-- Which claims require in-game testing or live data rather than static documentation?
+### 1. Establish feasibility
 
-## Related Concepts
+- Confirm the blueprint or formula exists and can be used.
+- Confirm required skills and job slots.
+- Confirm the facility supports the activity and its service is online.
+- Confirm the blueprint, formula, and required inputs can be staged at the destination.
+- Identify any invention, reaction, copying, or component dependencies.
 
-Add links after the dependencies have been established.
+Reject or defer candidates that fail a hard constraint.
+
+### 2. Build the production plan
+
+- Select a realistic run count.
+- Respect BPC licensed runs and job limits.
+- Calculate output units, not just blueprint runs.
+- Use the exact material quote or a validated calculation.
+- Separate jobs where blueprint/BPC or material constraints require it.
+- Record the number of slot-hours consumed in each job pool.
+
+### 3. Price the inputs
+
+- Use replacement or opportunity cost, not zero cost for owned materials.
+- Use volume-weighted procurement prices for the planned quantity.
+- Include upstream reaction, copying, invention, and component costs.
+- Include logistics to the production facility.
+- Record the source, location, timestamp, and price basis.
+
+### 4. Price the job
+
+- Obtain the live Industry quote.
+- Record the activity-specific SCI, structure role, rigs, tax, SCC, and Alpha components.
+- Record the job duration and installation fee.
+- Do not assume one generic fee formula covers every activity.
+
+### 5. Estimate revenue
+
+Calculate at least two sale paths:
+- Immediate liquidation into current buy-order depth.
+- Sell order with broker fee, sales tax, expected relist fees, and a plausible fill horizon.
+
+Use quantity-aware VWAP. Keep any unfilled remainder as inventory rather than assigning it the top-of-book price.
+
+### 6. Evaluate liquidity and capital
+
+- Compare planned daily output with conservative daily volume.
+- Estimate liquidation days.
+- Calculate peak working capital and capital-days.
+- Calculate contribution per Manufacturing slot-hour.
+- Identify the current bottleneck and expected bottleneck after expansion.
+
+### 7. Stress-test
+
+Run low/base/high scenarios for output price, input price, market volume, fees, logistics, and time to sell. For invention-driven products, include expected failure cost and variance.
+
+### 8. Compare alternatives
+
+Compare:
+- Manufacture and sell.
+- Buy the finished product.
+- Sell the input materials.
+- Produce an intermediate internally versus buy it.
+- Use the same capital and slots for another product.
+
+### 9. Decide
+
+Use one of:
+- **Go:** positive contribution under realistic base and acceptable low-case assumptions, with capacity and capital available.
+- **Conditional:** positive expected contribution but one or more unresolved constraints or verification items remain.
+- **No-go:** negative contribution, insufficient liquidity, infeasible inputs/facility, or unacceptable risk.
+
+These are project workflow labels, not game mechanics.
+
+## Required evaluation record
+
+Record product/type ID, blueprint/formula ID, candidate runs, output, material bill, job quote, facility assumptions, source/destination market snapshots, fees, logistics, contribution, margin, slot-hours, capital-days, liquidation horizon, scenarios, and unresolved questions.
+
+## Stop conditions
+
+Do not commit capital when:
+- The job quote differs materially from the calculation and the difference is unexplained.
+- The source market lacks sufficient input depth.
+- The destination market cannot absorb the planned output.
+- Facility access or service state is uncertain.
+- A key recipe or success probability is unresolved.
+- The low case is unacceptable for the amount of capital exposed.
+
+## Follow-up
+
+After delivery and sale, replace estimates with actual material use, job duration, fee, hauling cost, sale proceeds, and holding time. Feed the differences back into the model.
