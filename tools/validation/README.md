@@ -26,7 +26,15 @@ py -3 -m unittest discover -s tools/validation -p "test_*.py" -v
 
 ## Full local quality check
 
-Run both calculation and validation tests, then scan local Markdown targets:
+From the repository root, run the complete local validation suite with one command:
+
+```powershell
+py -3 tools/validation/run_all.py
+```
+
+This executes the calculation unit tests, validation-tool unit tests, and Markdown link scan in sequence. It returns a non-zero exit code if any check group fails.
+
+To run individual stages, use:
 
 ```powershell
 py -3 -m unittest discover -s tools/calculations -p "test_*.py" -v
