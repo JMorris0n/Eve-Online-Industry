@@ -42,3 +42,5 @@
 - Researched and replaced the Market Fees and Taxation placeholder using CCP's March 2026 fee article and official order-matching/relist documentation. Documented NPC station, Upwell structure, Accounting, Broker Relations, and relist mechanics.
 - Researched and replaced the Manufacturing Profitability placeholder with batch-level economic cost, net proceeds, contribution, margin, ROI, slot-hour, break-even, and sensitivity frameworks.
 - Replaced the Manufacturing Profitability Computation placeholder with deterministic input schemas and equations. Updated navigation and backlog; live fee/market validation and a worked current-price example remain open.
+
+- Researched and replaced the Market Location Economics placeholder with a source-backed framework for activity-specific SCI, facility selection, ESI market data, remote installation, logistics, and total landed cost. A live location comparison remains open until current market and facility data are selected.
