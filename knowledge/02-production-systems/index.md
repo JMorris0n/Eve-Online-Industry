@@ -7,4 +7,4 @@
 - [Reactions](reactions.md): reactor families, restrictions, composite moon-material recipes, hybrid and biochemical chains, and reaction economics.
 - [Tech III Manufacturing](tech-3-manufacturing.md): four-stage T3 chain, relic reverse engineering, hybrid components, and final hull/subsystem production.
 - [Planetary Industry](planetary-industry.md): colonies, extraction, processor facilities, routing, skills, taxes, Customs Offices, and Skyhooks.
-- [Advanced Manufacturing](advanced-manufacturing.md)
+- [Advanced Manufacturing](advanced-manufacturing.md): Tech II/III, capital ships, Upwell structures, boosters, and specialist production chains.
