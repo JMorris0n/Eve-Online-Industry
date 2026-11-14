@@ -139,6 +139,19 @@ Do not use this catalog as evidence for a game mechanic. Individual concept file
 | eveuni-industry | EVE University Wiki, [Industry](https://wiki.eveuniversity.org/Industry) | Accessed 2026-11-14 | High-level activity taxonomy and industrial workflow overview |
 | eveuni-structure-browser | EVE University Wiki, [Structure Browser / Upwell Structures](https://wiki.eveuniversity.org/Structure_Browser) | Accessed 2026-11-14 | Capital/supercapital shipyard, structure components, and service-module dependencies |
 
+| eveuni-minerals | EVE University Wiki, [Minerals](https://wiki.eveuniversity.org/Minerals) | Accessed 2026-11-14 | Base mineral taxonomy; ore distribution tables carry a warning after the October 2020 distribution change |
+| eveuni-asteroids-ore | EVE University Wiki, [Asteroids and Ore](https://wiki.eveuniversity.org/Asteroids_and_ore) | Accessed 2026-11-14 | Ore families and mining distribution; verify live availability |
+| eveuni-mining | EVE University Wiki, [Mining](https://wiki.eveuniversity.org/Mining) | Accessed 2026-11-14 | Mining mechanics and output factors |
+| eveuni-moon-mining | EVE University Wiki, [Moon Mining](https://wiki.eveuniversity.org/Moon_mining) | Accessed 2026-11-14 | Moon ore classes, moon scans, extraction schedule; page carries an update warning |
+| eveuni-gas-harvesting | EVE University Wiki, [Gas Cloud Harvesting](https://wiki.eveuniversity.org/Gas_cloud_harvesting) | Accessed 2026-11-14 | Mykoserocin, Cytoserocin, Fullerite sources and gas-harvesting mechanics; includes 2026 Catalyst notes |
+| eveuni-wormhole-gas | EVE University Wiki, [Wormhole Gas Sites](https://wiki.eveuniversity.org/Wormhole_gas_sites) | Accessed 2026-11-14 | Fullerite reservoir/site family information |
+| eveuni-sleepers | EVE University Wiki, [Sleepers](https://wiki.eveuniversity.org/Sleepers) | Accessed 2026-11-14 | Sleeper wrecks, blue loot, and Ancient Salvage; page carries an update warning |
+| eveuni-salvaging | EVE University Wiki, [Salvaging](https://wiki.eveuniversity.org/Guide_To_Salvaging) | Accessed 2026-11-14 | Salvage access and salvage-type distribution |
+| eveuni-t3-production | EVE University Wiki, [Tech 3 Production](https://wiki.eveuniversity.org/Tech_3_Production) | Last modified 2024-09-22 | Tech III gas/reaction/salvage/component chain; check for changes before relying on item-specific details |
+| eveuni-reprocessing | EVE University Wiki, [Reprocessing](https://wiki.eveuniversity.org/Reprocessing) | Accessed 2026-11-14 | Yield formulas and skill/facility modifiers; page carries a review warning for ore skill changes |
+| eveuni-resource-skills | EVE University Wiki, [Skills: Resource Processing](https://wiki.eveuniversity.org/Skills:Resource_Processing) | Accessed 2026-11-14 | Reprocessing and material-specific processing skill definitions |
+| eveuni-compression | EVE University Wiki, [Compression](https://wiki.eveuniversity.org/Compression) | Accessed 2026-11-14 | Compression mechanics and logistics |
+
 ## Source limitations
 
 EVE University is a community educational resource. EVE Ref is a structured SDE-derived reference. The EVE Reactions Calculator explains its own algorithm. These sources help identify item attributes and model mechanics, but the current in-game Industry UI is authoritative for an actual job quote and a real facility's configured services, rigs, and taxes.
