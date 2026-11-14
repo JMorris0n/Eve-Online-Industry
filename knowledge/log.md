@@ -22,4 +22,7 @@
 - Researched and replaced the Tech II Invention placeholder with a source-backed draft covering required inputs/skills, the current skill-adjusted success formula, base chance categories, decryptor modifiers, output BPC runs/ME/TE, and expected-cost calculations.
 - Added official CCP invention, decryptor, datacore, and historical Phoebe patch-note sources, plus a current EVE University invention reference last modified 2026-10-09.
 - Added open verification questions for probability rounding/capping and multi-run datacore/decryptor consumption.
+- Researched and created a dedicated Blueprint Copying concept documenting the separate Job Runs and Runs per Copy fields, BPC inheritance, licensed-run limits, exceptional input scaling, base copy-time model, related skills, and operational purposes.
+- Linked Blueprint Copying from the production systems index and Tech I Manufacturing guide. Clarified invention expected-cost allocation so multi-run datacore/decryptor quantities must come from actual job inputs.
+- Added verification questions for copy-time modifiers, same-BPO concurrency, and the copy-specific input/fee scaling model.
 - Documentation milestones do not constitute independent in-game verification; all three new concepts remain draft.
