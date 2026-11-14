@@ -65,7 +65,6 @@ Once the current SDE has been extracted and normalized, compare its recipes with
 py -3 tools/profile/check_feasibility.py \
     --profile local/operating-profile.json \
     --recipes data/derived/industry-recipes.jsonl \
-    --product-type-id 34 \
     --output data/derived/feasibility.json
 ```
 
