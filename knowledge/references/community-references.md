@@ -136,6 +136,9 @@ Do not use this catalog as evidence for a game mechanic. Individual concept file
 | eve-pi-tool | [EvePiTool](https://evepitool.com/) | 2026-11-14 | PI resource and chain planner; validate data timestamps and assumptions. |
 | eve-industry-forum-tools | [EVE Omnitool developer thread](https://forums.eveonline.com/t/tool-eve-omnitool-com-free-market-industry-live-intel-tool-for-eve/519645) | 2026-10-25 | Developer announcement for current calculator and market features. |
 
+| eveuni-industry | EVE University Wiki, [Industry](https://wiki.eveuniversity.org/Industry) | Accessed 2026-11-14 | High-level activity taxonomy and industrial workflow overview |
+| eveuni-structure-browser | EVE University Wiki, [Structure Browser / Upwell Structures](https://wiki.eveuniversity.org/Structure_Browser) | Accessed 2026-11-14 | Capital/supercapital shipyard, structure components, and service-module dependencies |
+
 ## Source limitations
 
 EVE University is a community educational resource. EVE Ref is a structured SDE-derived reference. The EVE Reactions Calculator explains its own algorithm. These sources help identify item attributes and model mechanics, but the current in-game Industry UI is authoritative for an actual job quote and a real facility's configured services, rigs, and taxes.
