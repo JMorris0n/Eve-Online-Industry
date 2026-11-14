@@ -53,7 +53,8 @@ The persistent HTTP cache is stored under `data/cache/esi/`. These folders are e
 ## Important behavior
 
 - Uses public read-only endpoints only. No EVE SSO token is required.
-- Sends a pinned `X-Compatibility-Date` and a project User-Agent.
+- Uses CCP's unversioned ESI base URL and sends a pinned `X-Compatibility-Date` plus a project User-Agent.
+- Records both the requested compatibility date and ESI's matched response date. ESI may return the requested date or an earlier route-specific date; an earlier response date is not by itself a rejection.
 - Respects Expires and ETag metadata; it does not request a cached resource again before its Expires time.
 - Uses conditional requests after cache expiry.
 - Handles X-Pages pagination for regional market orders.

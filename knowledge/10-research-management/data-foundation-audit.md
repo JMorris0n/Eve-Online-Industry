@@ -98,3 +98,35 @@ The repository code review is not equivalent to local execution. The following r
 5. Do not feed normalized recipes into profitability calculations until material modifiers, facility bonuses, job quotes, and output quantities are implemented and separately tested.
 
 No current market price or profitability conclusion is asserted by this audit.
+
+
+## Local execution results supplied on 2026-11-14
+
+### SDE build 3698585
+
+- [x] Downloaded CCP JSONL archive using the repository downloader.
+- [x] Latest manifest reported build **3698585**, release date **2026-11-13T11:06:47Z**.
+- [x] Archive resolved to `eve-online-static-data-3698585-jsonl.zip`, size **99,758,284 bytes**.
+- [x] Archive SHA-256: `afda59ef777c8e89ef7c6864dd5e103e4b75455ab158f370b780c8f6e0826649`.
+- [x] ZIP integrity test passed.
+- [x] Archive inspection found 102 entries, including `blueprints.jsonl` (3,459,370 bytes), `types.jsonl` (155,972,886 bytes), and `planetSchematics.jsonl` (31,548 bytes).
+- [ ] Archive has not yet been extracted; the recipe parser has not yet been run against the actual archive.
+- [ ] The inspector's first sample was `accountingEntryTypes.jsonl`, not a blueprint or type record. Actual blueprint/type schema and joins therefore remain to be reconciled.
+
+### Public ESI smoke test
+
+- [x] Public `GET /industry/systems/` returned HTTP 200; body length **1,957,353 bytes**; SHA-256 `36a90f17429bf9ba5768767d7a370b63ef3e969e7722e8da75b6c95785c9a876`.
+- [x] Public `GET /markets/prices/` returned HTTP 200; body length **1,124,326 bytes**; SHA-256 `4042806df7f5b7f71a15a9e90d183937f38821ae23b759c328d16c39cf61b49d`.
+- [x] The client sent compatibility date **2026-11-13**. Both responses reported matched compatibility date **2020-01-01**. CCP's versioning guidance explicitly says the matched response date can be the requested date or earlier depending on route internals. This is not a failed request; retain both values for provenance.
+- [x] ESI supplied ETags, cache-expiry timestamps, and HTTP 200 responses. Both responses showed `X-Esi-Cache-Status: HIT`.
+- [ ] The example config contains empty `regions` and `type_ids`; consequently this run collected **no regional order books or market history**. It tested only the two global resources.
+- [ ] A bounded regional market order/history collection is still required to validate pagination, order depth, transaction history, and the market summarizer against live responses.
+
+### Private profile
+
+- [x] A local copy of the three-character example profile was created and passed the structural validator.
+- [ ] The profile is still the blank example. Character skills, job capacity, blueprint inventory, facility access, operating capital, and attention budget have not yet been populated or verified.
+
+### Audit interpretation
+
+The SDE download/integrity stage and the two global public ESI endpoint smoke tests are successful. M1 is not complete until the extracted current-build recipe parser and a small regional market-data collection have been validated. M2's local file/validator workflow is successful, but the actual operating profile remains unknown.

@@ -19,7 +19,7 @@ from email.utils import parsedate_to_datetime
 from pathlib import Path
 from typing import Any
 
-BASE_URL = "https://esi.evetech.net/latest"
+BASE_URL = "https://esi.evetech.net"
 DEFAULT_USER_AGENT = (
     "EveIndustrialKnowledge/0.1 "
     "(https://github.com/JMorris0n/Eve-Online-Industry)"
@@ -108,6 +108,10 @@ class ESIClient:
                     "status": "cache-hit",
                     "retrieved_at": iso_now(),
                     "from_cache": True,
+                    "requested_compatibility_date": self.compatibility_date,
+                    "matched_compatibility_date": cached_meta.get("headers", {}).get(
+                        "x-compatibility-date"
+                    ),
                     "headers": cached_meta.get("headers", {}),
                     "sha256": hashlib.sha256(cached_body).hexdigest(),
                 }
@@ -136,6 +140,10 @@ class ESIClient:
                         "status": response.status,
                         "retrieved_at": iso_now(),
                         "from_cache": False,
+                        "requested_compatibility_date": self.compatibility_date,
+                        "matched_compatibility_date": response_headers.get(
+                            "x-compatibility-date"
+                        ),
                         "headers": response_headers,
                         "sha256": hashlib.sha256(body).hexdigest(),
                     }
@@ -172,6 +180,10 @@ class ESIClient:
                         "status": 304,
                         "retrieved_at": iso_now(),
                         "from_cache": True,
+                        "requested_compatibility_date": self.compatibility_date,
+                        "matched_compatibility_date": metadata["headers"].get(
+                            "x-compatibility-date"
+                        ),
                         "headers": metadata["headers"],
                         "sha256": hashlib.sha256(cached_body).hexdigest(),
                     }
@@ -247,6 +259,8 @@ def save_response(
         "sha256": info["sha256"],
         "expires": info.get("headers", {}).get("expires"),
         "etag": info.get("headers", {}).get("etag"),
+        "requested_compatibility_date": info.get("requested_compatibility_date"),
+        "matched_compatibility_date": info.get("matched_compatibility_date"),
     }
 
 

@@ -7,7 +7,9 @@ import unittest
 from pathlib import Path
 from unittest.mock import Mock
 
-from collect_public_market_data import ESIClient, endpoint_url, parse_http_date, retry_after_seconds
+from collect_public_market_data import (
+    ESIClient, endpoint_url, parse_http_date, retry_after_seconds, save_response,
+)
 
 
 class ESICollectorTests(unittest.TestCase):
@@ -15,9 +17,30 @@ class ESICollectorTests(unittest.TestCase):
         url = endpoint_url("/markets/100/orders/", {
             "datasource": "tranquility", "order_type": "all", "type_id": 34,
         })
-        self.assertIn("/markets/100/orders/?", url)
+        self.assertTrue(url.startswith("https://esi.evetech.net/markets/100/orders/?"))
         self.assertIn("type_id=34", url)
         self.assertIn("order_type=all", url)
+
+    def test_public_base_url_uses_unversioned_esi_host(self):
+        url = endpoint_url("/industry/systems/")
+        self.assertEqual(url, "https://esi.evetech.net/industry/systems/")
+        self.assertNotIn("/latest/", url)
+
+    def test_save_response_preserves_requested_and_matched_compatibility_dates(self):
+        with tempfile.TemporaryDirectory() as temp:
+            info = {
+                "url": "https://esi.evetech.net/industry/systems/",
+                "status": 200,
+                "retrieved_at": "2026-11-14T17:28:08Z",
+                "from_cache": False,
+                "requested_compatibility_date": "2026-11-13",
+                "matched_compatibility_date": "2020-01-01",
+                "sha256": "abc123",
+                "headers": {"expires": "Sat, 14 Nov 2026 18:25:10 GMT", "etag": "tag"},
+            }
+            summary = save_response(Path(temp), "sample.json", [], info)
+        self.assertEqual(summary["requested_compatibility_date"], "2026-11-13")
+        self.assertEqual(summary["matched_compatibility_date"], "2020-01-01")
 
     def test_parse_http_date_handles_invalid_and_valid_values(self):
         self.assertIsNone(parse_http_date(None))
