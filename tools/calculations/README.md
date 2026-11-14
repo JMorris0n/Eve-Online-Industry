@@ -29,6 +29,25 @@ Run the calculator unit tests from the repository root:
 py -3 -m unittest discover -s tools/calculations -p "test_*.py"
 \`\`\`
 
+## Manufacturing profitability
+
+Run from the repository root:
+
+```powershell
+py -3 tools/calculations/manufacturing_profitability.py --config tools/calculations/manufacturing-profitability.example.json
+```
+
+The model reports economic material cost, installation/upstream/logistics costs, modeled realized sales, unsold inventory cost basis, full-batch projected contribution, net margin, ROI, slot-hour and elapsed-hour efficiency, break-even price, target-margin price, and a maximum affordable unit value for one selected input.
+
+Inputs are deliberately explicit:
+- Material quantities and values are supplied by the user. Each line can record its valuation basis, location, and source timestamp.
+- Installation fees should come from the actual Industry quote.
+- Sale fills should reflect actual executions or an explicitly labeled order-book estimate.
+- Sales tax is a decimal rate (for example, 3.375% is `0.03375`). Broker, relist, and other fees are entered as ISK amounts.
+- The full-batch projection is separate from actual/estimated fills and applies the supplied full-batch fee assumptions.
+
+The example values are illustrative and are not current EVE market prices or live fee quotes. The calculator does not retrieve recipes, prices, job quotes, or market depth.
+
 ## General rules
 
 - Keep money inputs as decimal strings in JSON to avoid binary floating-point error.
