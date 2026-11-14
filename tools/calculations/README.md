@@ -50,12 +50,12 @@ The example values are illustrative and are not current EVE market prices or liv
 
 ## Continuous integration
 
-The repository runs the standard-library unit tests through [GitHub Actions](../../.github/workflows/python-tests.yml) on pushes and pull requests that change `tools/calculations/`, and on manual workflow dispatch. The workflow uses Python 3.12.
+The repository runs its full local validation suite through [GitHub Actions](../../.github/workflows/python-tests.yml) when relevant code or documentation changes are pushed or opened as a pull request, and on manual workflow dispatch. The workflow uses Python 3.12 and executes calculation tests, validation-tool tests, and the local Markdown link checker.
 
-Run the same suite locally from the repository root:
+Run the same full suite locally from the repository root:
 
 ```powershell
-py -3 -m unittest discover -s tools/calculations -p "test_*.py" -v
+py -3 tools/validation/run_all.py
 ```
 
 ## Market fees and sales tax
