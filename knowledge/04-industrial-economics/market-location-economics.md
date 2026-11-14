@@ -32,9 +32,6 @@ sources:
   - id: eve-omnitool-manufacturing
     resource: https://eve-omnitool.com/industry/manufacturing/cost
     title: EVE Omnitool Industry Cost Calculator
-  - id: eo-map-industry
-    resource: https://eo-map.com/industry-cost-index/
-    title: EVE Online Industry Cost Index Map | EO-Map
 generated:
   by: openai/gpt-6
   at: 2026-11-14T07:00:00Z
@@ -210,4 +207,3 @@ Open work:
 [^eveuni-market]: EVE University Wiki, Trading / Market (accessed 2026-11-14).
 [^eveuni-industry-location]: EVE University Wiki, Industry (accessed 2026-11-14).
 [^eve-omnitool-manufacturing]: EVE Omnitool, Industry Cost Calculator (accessed 2026-11-14).
-[^eo-map-industry]: EO-Map, EVE Online Industry Cost Index Map (accessed 2026-11-14).
