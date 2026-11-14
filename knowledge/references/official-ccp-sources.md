@@ -48,6 +48,7 @@ For each source, record its stable ID, publisher, title, canonical URL, source t
 | ccp-market-price-data | CCP, [ESI API Explorer](https://esi.evetech.net/ui/?version=latest) | Accessed 2026-11-14 | API route reference, including public market-price and industry-system data |
 
 | ccp-ancient-relics | CCP Support, [Ancient Relics](https://support.eveonline.com/hc/en-us/articles/203210662-Ancient-Relics) | Updated 2024-08-29 | Relic families, T3 output mapping, licensed runs, and published base success chances |
+| eve-academy-tech3 | EVE Online, [EVE Academy: Tech 3 Production](https://www.eveonline.com/eve-academy/careers/industrialist/tech-3-production) | Accessed 2026-11-14 | Official high-level Tech III production overview and Sleeper/wormhole-material context |
 
 ## Source limitations
 
