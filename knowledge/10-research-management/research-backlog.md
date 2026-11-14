@@ -33,6 +33,16 @@ status: draft
 
 ## P1: Complete production systems
 
+- [x] Document high-level industry activity taxonomy, job pools, product families, and end-to-end supply-chain stages.
+- [x] Document advanced manufacturing families: Tech II/III, capital ships, Upwell structures, boosters, and specialist BPC products.
+- [x] Document asteroid ore and base mineral sourcing, mining/compression factors, and current-data limitations.
+- [x] Document moon extraction, R4–R64 ore classes, moon-material processing skills, and reaction-chain role.
+- [x] Document Mykoserocin/Cytoserocin and Fullerite gas sources, harvesting, and industrial uses.
+- [x] Document Sleeper Ancient Salvage, blue-loot distinction, and Tech III component supply.
+- [x] Document procurement channels, material valuation, reprocessing categories, and provisional yield models.
+  - [ ] Verify current reprocessing yield formulas, skills, taxes, and rig/structure modifiers against the live Reprocessing UI.
+  - [ ] Build current SDE-driven ore, moon-ore, reaction-gas, and salvage material matrices.
+
 - [x] Document Tech I manufacturing workflow, BPO/BPC use, run/output distinction, job-level material rounding, provisional time/material models, and delivery.
   - [ ] Independently test combined ME/TE, character, structure, and rig modifiers against Industry quotes.
   - [ ] Verify maximum job duration/run limits and BPO/BPC concurrent-use behavior.
