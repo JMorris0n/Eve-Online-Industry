@@ -57,6 +57,22 @@ py -3 tools/profile/validate_profile.py --profile local/operating-profile.json
 
 The validator uses only the Python standard library. It checks the three character slots, skill levels, job-pool capacities, capital fields, operating limits, facilities, and blueprint records. Unknown values may remain null; they are not interpreted as zero. The public example is also covered by automated unit tests.
 
+## Check recipe feasibility
+
+Once the current SDE has been extracted and normalized, compare its recipes with the local profile:
+
+```powershell
+py -3 tools/profile/check_feasibility.py \
+    --profile local/operating-profile.json \
+    --recipes data/derived/industry-recipes.jsonl \
+    --product-type-id 34 \
+    --output data/derived/feasibility.json
+```
+
+Omit `--product-type-id` to evaluate every recipe in the input file. The report distinguishes `eligible`, `ineligible`, and `unknown`. Missing blueprints or facilities only count as definite blockers when the corresponding inventory completeness state is `verified`. A character's omitted skill counts as level zero only when that character's `skills_state` is `verified`.
+
+This is a hard-constraint screen only. It does not calculate blueprint ME/TE effects, facility bonuses, job installation fees, material procurement, market access, or profitability. An eligible result means the profile supports the listed static requirements, not that a job can be installed at this moment.
+
 ## Current limitations
 
 This is the first profile contract and structural validator. A separate feasibility evaluator is being added to distinguish eligible, ineligible, and unknown character/blueprint/facility requirements. Do not use the template as a profitability recommendation by itself.
