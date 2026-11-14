@@ -130,7 +130,7 @@ class ESIClient:
             try:
                 with urllib.request.urlopen(request, timeout=self.timeout) as response:
                     body = response.read()
-                    response_headers = dict(response.headers.items())
+                    response_headers = {key.lower(): value for key, value in response.headers.items()}
                     info = {
                         "url": url,
                         "status": response.status,
@@ -142,9 +142,9 @@ class ESIClient:
                     body_path.write_bytes(body)
                     metadata = {
                         "url": url,
-                        "etag": response_headers.get("ETag"),
-                        "last_modified": response_headers.get("Last-Modified"),
-                        "expires": response_headers.get("Expires"),
+                        "etag": response_headers.get("etag"),
+                        "last_modified": response_headers.get("last-modified"),
+                        "expires": response_headers.get("expires"),
                         "headers": response_headers,
                         "saved_at": info["retrieved_at"],
                     }
@@ -172,22 +172,22 @@ class ESIClient:
                         "status": 304,
                         "retrieved_at": iso_now(),
                         "from_cache": True,
-                        "headers": response_headers,
+                        "headers": metadata["headers"],
                         "sha256": hashlib.sha256(cached_body).hexdigest(),
                     }
                     self.request_log.append(info)
                     return json.loads(cached_body), info
 
                 if exc.code == 420:
-                    remain = response_headers.get("X-ESI-Error-Limit-Remain")
-                    reset = response_headers.get("X-ESI-Error-Limit-Reset")
+                    remain = response_headers.get("x-esi-error-limit-remain")
+                    reset = response_headers.get("x-esi-error-limit-reset")
                     raise RuntimeError(
                         "ESI returned HTTP 420 (error limit). Stop requests and wait "
                         f"for the reset. Remaining={remain}, reset_seconds={reset}"
                     ) from exc
 
                 if exc.code == 429:
-                    wait = retry_after_seconds(response_headers.get("Retry-After"))
+                    wait = retry_after_seconds(response_headers.get("retry-after"))
                     if wait is None or attempt >= self.max_retries:
                         raise RuntimeError(
                             "ESI returned HTTP 429; Retry-After was missing or retry "
@@ -216,7 +216,7 @@ class ESIClient:
     def get_pages(self, url: str) -> list[tuple[Any, dict[str, Any]]]:
         first_url = url + ("&" if "?" in url else "?") + "page=1"
         first_data, first_info = self.get_json(first_url)
-        page_count = int(first_info.get("headers", {}).get("X-Pages", "1"))
+        page_count = int(first_info.get("headers", {}).get("x-pages", "1"))
         pages = [(first_data, first_info)]
 
         for page_number in range(2, page_count + 1):
@@ -245,8 +245,8 @@ def save_response(
         "retrieved_at": info["retrieved_at"],
         "from_cache": info["from_cache"],
         "sha256": info["sha256"],
-        "expires": info.get("headers", {}).get("Expires"),
-        "etag": info.get("headers", {}).get("ETag"),
+        "expires": info.get("headers", {}).get("expires"),
+        "etag": info.get("headers", {}).get("etag"),
     }
 
 
