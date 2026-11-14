@@ -53,7 +53,10 @@ status: draft
   - [ ] Verify reverse-engineering skill modifiers and optional decryptor behavior.
   - [ ] Build and validate the complete Hybrid Tech Component recipe/skill matrix.
   - [ ] Verify R.A.M.- Starship Tech requirements and current hull/subsystem manufacturing inputs.
-- [ ] Planetary industry extraction, routing, schematics, and taxes.
+- [x] Document Planetary Industry colony mechanics, extraction programs, processor roles, skills, routing, storage, taxes, Customs Offices, Skyhooks, and Alpha restrictions.
+- [x] Document P0-P4 commodity tiers, representative schematic recipes, and standard batch structures from the community reference.
+  - [ ] Rebuild the full PI schematic and commodity matrix from the current CCP SDE and verify against the in-game UI.
+  - [ ] Confirm Equinox-era planet eligibility, Skyhook transfer fees, and any changes to colony restrictions.
 
 ## P2: Industrial economics
 
