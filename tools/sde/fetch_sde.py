@@ -11,7 +11,6 @@ import argparse
 import hashlib
 import json
 import re
-import shutil
 import sys
 import time
 import urllib.error
@@ -123,54 +122,37 @@ def main() -> int:
             sde_record = record.get("_value", record)
             break
 
-    # CCP's documented latest archive URL redirects to a build-numbered file.
-    # The final URL is the authoritative build identifier for this download.
+    # Download once to a staging file. The resolved URL contains the build
+    # number, avoiding a separate HEAD request and a possible release race.
+    staging = args.output_dir / f"eve-online-static-data-latest-{args.variant}.zip"
+    if staging.exists():
+        staging.unlink()
+    info = download_file(latest_archive_url, staging, timeout=args.timeout)
     filename_pattern = re.compile(
-        r"eve-online-static-data-(\d+)-" + re.escape(args.variant) + r"\.zip$"
+        r"eve-online-static-data-(\\d+)-" + re.escape(args.variant) + r"\\.zip$"
     )
-    latest_probe = urllib.request.Request(
-        latest_archive_url, headers={"User-Agent": USER_AGENT}, method="HEAD"
-    )
-    try:
-        with urllib.request.urlopen(latest_probe, timeout=args.timeout) as response:
-            resolved_url = response.geturl()
-    except (urllib.error.URLError, TimeoutError, OSError):
-        # Some CDNs do not support HEAD; the GET download below still resolves it.
-        resolved_url = latest_archive_url
+    match = filename_pattern.search(info["resolved_url"])
+    if not match:
+        staging.unlink(missing_ok=True)
+        raise RuntimeError(
+            "CCP archive URL did not contain the expected build number: "
+            + info["resolved_url"]
+        )
 
-    match = filename_pattern.search(resolved_url)
-    build_number = match.group(1) if match else None
-    if build_number is None:
-        # Download once to learn the redirected build URL, then rename into a
-        # versioned directory. This avoids guessing a build number.
-        staging = args.output_dir / f"eve-online-static-latest-{args.variant}.zip"
-        if staging.exists() and not args.force:
-            raise RuntimeError(
-                "Latest archive exists but its build number is unknown. "
-                "Use --force to retrieve the current redirected archive."
+    build_number = match.group(1)
+    target_dir = args.output_dir / build_number
+    target_dir.mkdir(parents=True, exist_ok=True)
+    archive = target_dir / f"eve-online-static-data-{build_number}-{args.variant}.zip"
+
+    if archive.exists() and not args.force:
+        existing_hash = hashlib.sha256(archive.read_bytes()).hexdigest()
+        staging.unlink(missing_ok=True)
+        if existing_hash != info["sha256"]:
+            raise FileExistsError(
+                f"{archive} exists but its checksum differs; use --force to replace it"
             )
-        info = download_file(latest_archive_url, staging, timeout=args.timeout)
-        match = filename_pattern.search(info["resolved_url"])
-        if not match:
-            raise RuntimeError(
-                "CCP archive URL did not contain the expected build number: "
-                + info["resolved_url"]
-            )
-        build_number = match.group(1)
-        target_dir = args.output_dir / build_number
-        target_dir.mkdir(parents=True, exist_ok=True)
-        archive = target_dir / f"eve-online-static-data-{build_number}-{args.variant}.zip"
-        if archive.exists() and not args.force:
-            staging.unlink(missing_ok=True)
-            raise FileExistsError(f"{archive} already exists; use --force to replace it")
-        staging.replace(archive)
     else:
-        target_dir = args.output_dir / build_number
-        target_dir.mkdir(parents=True, exist_ok=True)
-        archive = target_dir / f"eve-online-static-data-{build_number}-{args.variant}.zip"
-        if archive.exists() and not args.force:
-            raise FileExistsError(f"{archive} already exists; use --force to replace it")
-        info = download_file(latest_archive_url, archive, timeout=args.timeout)
+        staging.replace(archive)
 
     if not zipfile.is_zipfile(archive):
         raise RuntimeError(f"Downloaded file is not a valid ZIP archive: {archive}")
