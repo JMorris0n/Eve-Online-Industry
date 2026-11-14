@@ -73,3 +73,5 @@
 - Researched and replaced the Product Selection placeholder with a multi-criteria framework for feasibility, contribution, slot/capital efficiency, liquidity, make-versus-buy, portfolio risk, and Pareto screening. Live product ranking remains open until a market region, character skills, and operating constraints are selected.
 
 - Researched and replaced the ESI and Market Data placeholder with current ESI versioning/compatibility dates, OpenAPI transition, SSO scopes, caching, rate limiting, pagination, industrial endpoint map, and SDE/ESI separation. Implementation remains open.
+
+- Researched and replaced the Data Quality and Reconciliation placeholder with claim classes, evidence hierarchy, source/ESI/SDE provenance, freshness, normalization, validation dimensions, conflict resolution, and verification-state controls.
