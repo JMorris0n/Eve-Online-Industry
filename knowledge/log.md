@@ -85,3 +85,5 @@
 
 - Added local CCP SDE acquisition tooling: a standard-library downloader that records build/URL/hash metadata and verifies ZIP integrity, plus an archive inspector. Added usage documentation and ignored raw/generated data paths in Git.
 - Updated the root README to reflect the current research repository state and local SDE workflow.
+
+- Resolved the SCC surcharge research question at the documentation level: CCP's 2025-07-18 post reduced ME/TE research surcharge from 4% to 2% and described the reduction as temporary. No later official reversal was found as of 2026-11-14; live in-game quote verification remains open. Replaced the Installation Costs foundation placeholder with an overview linking to the detailed fee computation.
