@@ -49,3 +49,5 @@
 
 - Researched and replaced the Capital and Asset Management placeholder with working-capital, inventory, capital-turnover, asset-concentration, and capital-allocation guidance.
 - Replaced the Capital Turnover Computation placeholder with dated cash-flow, peak working capital, capital-days, inventory-turnover, collateral, and cash-conversion formulas. Live production-cycle validation remains open.
+
+- Researched and replaced the Manufacturing Throughput placeholder with slot-capacity formulas, job/output rate calculations, BPO/BPC parallelism constraints, batch-rounding considerations, and normalized bottleneck analysis. Independent in-game schedule and quote validation remains open.
