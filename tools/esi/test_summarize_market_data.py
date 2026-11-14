@@ -7,7 +7,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from summarize_market_data import summarize_book, summarize_directory, summarize_history, sweep
+from summarize_market_data import SUMMARY_SCHEMA_VERSION, summarize_book, summarize_directory, summarize_history, sweep
 
 
 class MarketSummaryTests(unittest.TestCase):
@@ -154,6 +154,9 @@ class MarketSummaryTests(unittest.TestCase):
             result = summarize_directory(root, [1])
         self.assertEqual(result[0]["orders_without_location_id"], 1)
         self.assertEqual(result[0]["location_count"], 0)
+
+    def test_report_schema_version_is_current(self):
+        self.assertEqual(SUMMARY_SCHEMA_VERSION, 2)
 
     def test_rejects_invalid_buy_order_flag(self):
         with self.assertRaisesRegex(ValueError, "must be boolean"):
