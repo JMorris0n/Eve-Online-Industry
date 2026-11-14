@@ -53,3 +53,5 @@
 - Researched and replaced the Manufacturing Throughput placeholder with slot-capacity formulas, job/output rate calculations, BPO/BPC parallelism constraints, batch-rounding considerations, and normalized bottleneck analysis. Independent in-game schedule and quote validation remains open.
 
 - Researched and replaced the Science and Invention Throughput placeholder with shared Science slot-hour budgeting, ME/TE research and copying output rates, expected invention BPC/run formulas, and Science-to-Manufacturing bottleneck analysis. Live mixed-schedule validation remains open.
+
+- Researched and replaced the Reaction Throughput placeholder with Reaction slot-hour budgeting, formula input/output rates, reactor and security constraints, time/material rig effects, and normalized reaction-chain bottleneck analysis. Live formula/rig quote validation remains open.
