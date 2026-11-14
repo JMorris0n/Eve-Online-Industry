@@ -50,6 +50,12 @@ For each source, record its stable ID, publisher, title, canonical URL, source t
 | ccp-ancient-relics | CCP Support, [Ancient Relics](https://support.eveonline.com/hc/en-us/articles/203210662-Ancient-Relics) | Updated 2024-08-29 | Relic families, T3 output mapping, licensed runs, and published base success chances |
 | eve-academy-tech3 | EVE Online, [EVE Academy: Tech 3 Production](https://www.eveonline.com/eve-academy/careers/industrialist/tech-3-production) | Accessed 2026-11-14 | Official high-level Tech III production overview and Sleeper/wormhole-material context |
 
+| ccp-planetary-interaction | CCP Support, [Planetary Interaction](https://support.eveonline.com/hc/en-us/articles/203269871-Planetary-Interaction) | Updated 2024-03-01 | PI purpose, high-sec tax treatment, Customs Code Expertise, command-center launches, and Alpha import/export restriction |
+| ccp-skyhook | CCP Support, [Orbital Skyhook](https://support.eveonline.com/hc/en-us/articles/14339732733724-Orbital-Skyhook) | Updated 2024-06-11 | Skyhook replacement of Customs Offices in sovereign nullsec and its PI/sovereignty functions |
+| ccp-equinox | EVE Online, [Equinox Expansion Notes](https://www.eveonline.com/news/view/equinox-expansion-notes) | 2024 | Skyhook functionality and new colony resources introduced with Equinox |
+| eve-dev-sde | EVE Developer Documentation, [Static Data](https://developers.eveonline.com/docs/services/static-data/) | Accessed 2026-11-14 | Current SDE formats, release cadence, and schema changelog |
+| eve-dev-sde-rework | EVE Developer Documentation, [Reworking the SDE](https://developers.eveonline.com/blog/reworking-the-sde-a-fresh-start-for-static-data) | Published 2025-09-22 | Major SDE format/schema rework and compatibility implications |
+
 ## Source limitations
 
 CCP Support's blueprint, skill, and structure support pages have displayed update dates from 2022-2024. The 2025 SCC relief announcement explicitly calls its ME/TE research change temporary; keep it provisional until current in-game quotes or a later CCP statement establish its status. The Exordium change is a regional exception and the patch note does not provide a complete global fee model. The ESI overview is a live developer reference and may change as the API is versioned. Continue to check current patch notes and in-game UI before revising fee constants.
