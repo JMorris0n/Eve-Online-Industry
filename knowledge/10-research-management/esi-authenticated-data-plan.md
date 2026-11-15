@@ -96,7 +96,7 @@ Defer until the use case exists:
 7. [ ] Reconcile derived free job capacity against the in-game Industry window for each character, including any ready-to-deliver jobs older than ESI's 90-day completed-job history window.
 8. [x] Run the local personal asset ledger against the three character snapshots; it produced 3,681 records and 168 conservative candidate stock lines.
 9. [x] Review the redacted asset-ledger readiness report. All three snapshots are fresh; the 168 candidate stock lines are concentrated on character slot 1.
-10. [ ] Generate a private item/location reconciliation CSV with SDE item names and resolved NPC station names. Keep the CSV local because it contains exact IDs and quantities.
+10. [x] Generate the private item/location reconciliation CSV with SDE item names and resolved NPC station names. The reviewed export has 168 rows, 151 distinct item types, and 16 NPC station locations; it remains unverified against the EVE client and must remain local. The user's Dropbox upload is a privacy exception that should be remediated.
 11. [ ] Reconcile candidate locations and quantities against the in-game inventory and check whether selected inputs appear as available in the Industry UI. Keep non-station and ambiguous locations excluded.
 12. [ ] Review personal blueprint counts against the client and confirm that personal blueprints are excluded from material-stock candidates.
 13. [ ] Build facility discovery using the public facilities directory plus targeted character structure searches; explicitly retain gaps in facility coverage.

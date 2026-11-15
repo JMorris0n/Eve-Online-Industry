@@ -1,3 +1,21 @@
+## 2026-11-15 - Milestone review and private reconciliation export inspected
+
+- Reviewed the user's Dropbox-root `asset-stock-reconciliation.csv` (19.14 KB; modified 2026-11-15 20:35:51Z). It contains 168 candidate stock lines, 151 distinct type IDs, 16 distinct NPC station locations, and 183 underlying asset records. All 168 item names and station names resolved. All three in-game verification columns are blank.
+- The CSV covers character slot 1 only. Three aggregated rows represent multiple source asset records; the CSV total reconciles to the readiness report's 183 candidate asset records and 168 stock lines.
+- Important interpretation: the ledger's candidate rule is a location/stack/blueprint filter, not a recipe-input classifier. Candidate rows include general stacked inventory and must be intersected with actual SDE recipe materials and owned blueprints before they are treated as production inputs.
+- Privacy exception: the full CSV contains exact item names, type IDs, station names/IDs, and quantities. It was uploaded to Dropbox despite the repository's explicit local-only rule. Dropbox metadata shows a parent shared-folder ID; this alone does not establish a public link, but folder members may have access. Recommend removing the CSV from Dropbox and retaining it only at ignored `local/asset-stock-reconciliation.csv`. No row-level inventory values were added to Git.
+- Updated the roadmap and ESI plan to record completion of CSV generation while leaving actual in-game inventory/quantity/Industry-input reconciliation open. Marked the three-character snapshot/profile review acceptance criterion complete.
+- CI head remains `77c2e959449121cea8ac07d46622b069f93240bd`, with validation run `43748078973` successful. This milestone review/handoff is a documentation update only; it does not make any candidate stock line verified.
+
+## 2026-11-15 - Milestone review and private reconciliation export inspected
+
+- Reviewed the user's Dropbox-root `asset-stock-reconciliation.csv` (19.14 KB; modified 2026-11-15 20:35:51Z). It contains 168 candidate stock lines, 151 distinct type IDs, 16 distinct NPC station locations, and 183 underlying asset records. All 168 item names and station names resolved. All three in-game verification columns are blank.
+- The CSV covers character slot 1 only. Three aggregated rows represent multiple source asset records; the CSV total reconciles to the readiness report's 183 candidate asset records and 168 stock lines.
+- Important interpretation: the ledger's candidate rule is a location/stack/blueprint filter, not a recipe-input classifier. Candidate rows include general stacked inventory and must be intersected with actual SDE recipe materials and owned blueprints before they are treated as production inputs.
+- Privacy exception: the full CSV contains exact item names, type IDs, station names/IDs, and quantities. It was uploaded to Dropbox despite the repository's explicit local-only rule. Dropbox metadata shows a parent shared-folder ID; this alone does not establish a public link, but folder members may have access. Recommend removing the CSV from Dropbox and retaining it only at ignored `local/asset-stock-reconciliation.csv`. No row-level inventory values were added to Git.
+- Updated the roadmap and ESI plan to record completion of CSV generation while leaving actual in-game inventory/quantity/Industry-input reconciliation open. Marked the three-character snapshot/profile review acceptance criterion complete.
+- CI head remains `77c2e959449121cea8ac07d46622b069f93240bd`, with validation run `43748078973` successful. This milestone review/handoff is a documentation update only; it does not make any candidate stock line verified.
+
 ## 2026-11-15 - Asset readiness report reviewed; reconciliation export added
 
 - Reviewed the user-uploaded root Dropbox report `/asset-ledger-readiness.json` (generated 2026-11-15 18:26:57Z; modified 18:27:32Z). The report has no private identifiers, type/location names, quantities, or ISK values.

@@ -104,7 +104,7 @@ Elapsed job time, active player time, character slot-hours, and cash-conversion 
 
 ## Milestones
 
-The roadmap is accepted as the working plan. Milestones M1 and M2 are now in progress. Completion still requires the evidence listed in each milestone's acceptance criteria.
+The roadmap is accepted as the working plan. M1 is complete for its bounded public-data sample; M2 remains in progress. Completion still requires the evidence listed in each milestone's acceptance criteria.
 
 ### M0. Confirm the operating objective
 
@@ -178,6 +178,7 @@ The roadmap is accepted as the working plan. Milestones M1 and M2 are now in pro
 - [x] Personal blueprint inventory for the three authorized characters imported and verified (375 records total); operation-wide blueprint coverage remains partial because corporation-owned blueprints are not imported.
 - [x] ESI skill inventories/queues and current-job summaries are imported for all three characters with verified skill state; the latest readiness report confirms all nine Manufacturing, Science, and Reaction capacity pools report available capacity.
 - [x] The local asset-ledger builder ran against all three characters' snapshots, producing 3,681 personal asset records and 168 conservative candidate stock lines; the output keeps non-station and ambiguous locations out of candidate stock and excludes personal blueprints.
+- [x] Generate the private candidate-stock reconciliation CSV with SDE item names and public ESI NPC station names. The reviewed export contains 168 rows, 151 distinct type IDs, 16 station locations, and 183 source asset records. It is an inventory review aid, not proof of in-game availability or recipe-input relevance; it must remain local and must not be uploaded or committed.
 - [ ] Reconcile candidate stock locations and quantities against the in-game inventory/Industry UI before treating any line as a usable material or procurement offset.
 - [ ] Derived job-slot values are reconciled against the in-game Industry display, including any ready-to-deliver jobs older than ESI's 90-day completed-job history window.
 - [ ] Facility access is populated from public facilities and targeted structure lookups, with incomplete coverage explicitly recorded.
@@ -315,7 +316,7 @@ The roadmap is accepted as the working plan. Milestones M1 and M2 are now in pro
 - [x] Native PKCE authorization, token validation/refresh, and Windows Credential Manager-backed keyring storage are implemented and regression-tested.
 - [x] All three character grants are authorized (user-confirmed).
 - [x] Offline snapshot-to-profile import and redacted readiness generation are implemented with regression tests.
-- [ ] All three character snapshots are fetched and validated locally, and the generated profile/readiness outputs are reviewed.
+- [x] All three character snapshots were fetched and validated locally, and the generated profile/readiness outputs were reviewed; the latest redacted reports are schema-valid with no errors.
 - [x] Facility-access discovery limitation is represented explicitly rather than overstated.
 - [x] The local client config is Git-ignored, refresh tokens use the OS credential store, and private snapshots are written only to Git-ignored paths.
 - [x] Public-data functionality remains available when SSO is disconnected.
