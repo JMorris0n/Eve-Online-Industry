@@ -83,7 +83,7 @@ The job_capacity values in the profile are current free jobs, not the theoretica
 
 ### Blueprints
 
-The importer captures the three authorized characters' **personal** blueprint inventories and distinguishes BPOs from BPCs using ESI's blueprint run/quantity markers. It retains type ID, BPO/BPC type, copy runs, ME, TE, count, and the local ESI location reference.
+The importer captures the three authorized characters' **personal** blueprint inventories and distinguishes BPOs from BPCs using ESI's blueprint run/quantity markers. A BPO normally has `quantity = -1` and `runs = -1`; a BPC has `quantity = -2` and non-negative `runs`. ESI also permits a positive `quantity` with `runs = -1` for a stack of fresh, unworked BPOs. The importer preserves that positive stack quantity instead of rejecting the record or treating it as a BPC. It retains type ID, BPO/BPC type, copy runs, ME, TE, count, and the local ESI location reference.
 
 blueprints_state remains partial by design because this first import does not retrieve corporation-owned blueprints. The private import manifest and redacted readiness report identify this coverage boundary. An absent personal blueprint is not proof that the corporation does not own or provide one.
 

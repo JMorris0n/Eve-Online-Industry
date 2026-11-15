@@ -424,13 +424,15 @@ def normalize_blueprints(
             raise ProfileImportError(f"Blueprint record {index} has invalid runs or quantity.")
         if quantity < -2:
             raise ProfileImportError(f"Blueprint record {index} has an invalid quantity marker.")
-        is_original = quantity == -1 and runs == -1
-        is_copy = quantity == -2 and runs >= 0
-        if is_original:
+
+        # ESI uses quantity=-1 for a singleton BPO and quantity=-2 for a
+        # singleton BPC. A positive quantity with runs=-1 is also valid: it
+        # represents a stack of fresh, unworked blueprint originals.
+        if runs == -1 and quantity != -2:
             kind = "BPO"
-            blueprint_quantity = 1
+            blueprint_quantity = quantity if quantity > 0 else 1
             licensed_runs = None
-        elif is_copy:
+        elif runs >= 0 and quantity == -2:
             kind = "BPC"
             blueprint_quantity = 1
             licensed_runs = runs

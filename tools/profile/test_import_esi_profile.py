@@ -170,6 +170,12 @@ class EsiProfileImporterTests(unittest.TestCase):
                     "material_efficiency": 4, "time_efficiency": 8,
                     "quantity": -2, "runs": 55,
                 },
+                {
+                    "item_id": 7003, "type_id": 333,
+                    "location_id": 60000003, "location_flag": "Hangar",
+                    "material_efficiency": 0, "time_efficiency": 0,
+                    "quantity": 4, "runs": -1,
+                },
             ],
         )
         self.write_three_snapshots({101: payloads})
@@ -195,11 +201,20 @@ class EsiProfileImporterTests(unittest.TestCase):
             "Personal blueprints for the three authorized characters only; "
             "corporation-owned blueprints are not imported.",
         )
-        self.assertEqual(len(profile["blueprints"]), 2)
-        original = next(row for row in profile["blueprints"] if row["kind"] == "BPO")
+        self.assertEqual(len(profile["blueprints"]), 3)
+        original = next(
+            row for row in profile["blueprints"]
+            if row["kind"] == "BPO" and row["type_id"] == 111
+        )
+        stacked_original = next(
+            row for row in profile["blueprints"]
+            if row["kind"] == "BPO" and row["type_id"] == 333
+        )
         copy = next(row for row in profile["blueprints"] if row["kind"] == "BPC")
         self.assertEqual(original["quantity"], 1)
         self.assertIsNone(original["licensed_runs"])
+        self.assertEqual(stacked_original["quantity"], 4)
+        self.assertIsNone(stacked_original["licensed_runs"])
         self.assertEqual(copy["licensed_runs"], 55)
         self.assertEqual(profile["capital"]["working_capital_isk"], 123456)
         self.assertEqual(profile["facilities_state"], "unknown")
