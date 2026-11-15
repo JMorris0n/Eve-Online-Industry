@@ -65,6 +65,8 @@ The importer records the active_skill_level from ESI for every skill in each cha
 
 An empty skill map means "not recorded", not "untrained". Each character has a separate skills_state; only when it is verified can an omitted skill be treated as level zero. A stale snapshot, malformed queue entry, or completed-but-unreflected queue entry lowers the state to partial.
 
+The completed-queue recovery has been exercised successfully for the previously partial character: after logging into the character and syncing only its snapshot, its skill state and all three job-capacity pools became verified. Retain the diagnostic procedure below for future imports if the same ESI state occurs again.
+
 If the redacted report shows `completed_skill_queue_level_not_reflected`, ESI has returned at least one queue entry whose completion time is in the past while the trained skill level is still lower in the skills response. ESI documents that the completed level is applied to `/skills` the next time the character logs in. Log into the affected character once, then refresh only that character's snapshot. Identify the private slot-to-character mapping from `data/private/esi/profile-import-manifest.json` locally; do not share it.
 
 ~~~powershell

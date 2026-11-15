@@ -1,3 +1,12 @@
+## 2026-11-15 - All three skill inventories verified
+
+- Reviewed the latest redacted readiness report uploaded at 2026-11-15T04:40:49Z. It is schema-valid with **0 validation errors**.
+- All three character slots now have `skills_state = verified`; known skill counts are 358, 55, and 59. All three job-capacity pools (Manufacturing, Science, Reaction) report `available` on all three characters. All skill and job-capacity diagnostic-code arrays are empty.
+- The prior slot-2 diagnostic `completed_skill_queue_level_not_reflected` is resolved. The user logged into the affected character and refreshed only that character's ESI snapshot; no new authorization was needed.
+- Personal blueprint inventory remains verified at **375 records**, but operation-wide coverage remains partial because corporation-owned blueprints are not imported. Facility inventory remains unknown; market access, allocated capital, operating thresholds, risk tolerance, and logistics remain unentered.
+- Updated M2 roadmap and ESI integration plan. Marked all three characters' ESI skill/queue and current-job summaries complete. Kept live in-game slot reconciliation as a separate open gate; ESI's 90-day completed-job history caveat remains.
+- Next local data-engineering task is normalization of personal asset records into a location-aware stock ledger. Do not treat all ESI assets as usable industry inputs: resolve nested containers and flags, distinguish blueprints and non-stock assets, and preserve ambiguous or inaccessible locations as unknown.
+
 ## 2026-11-15 - Diagnose partial skills for character slot 2
 
 - The refreshed redacted readiness report identifies exactly one skill diagnostic for slot 2: `completed_skill_queue_level_not_reflected`. Job-capacity uncertainty is downstream of the partial skill state; it is not an independent job-record error.
