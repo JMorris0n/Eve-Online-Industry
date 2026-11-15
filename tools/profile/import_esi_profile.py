@@ -720,7 +720,7 @@ def run_import(args: argparse.Namespace) -> tuple[dict[str, Any], dict[str, Any]
             "must_remain_local": True,
         },
     }
-    readiness = build_readiness_report(populated_profile)
+    readiness = build_readiness_report(populated_profile, import_manifest)
     readiness["blueprint_inventory"]["coverage"] = (
         "Personal blueprints for the three authorized characters only; "
         "corporation-owned blueprints are not imported."

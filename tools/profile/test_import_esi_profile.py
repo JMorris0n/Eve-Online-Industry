@@ -265,6 +265,14 @@ class EsiProfileImporterTests(unittest.TestCase):
         char = profile["characters"][0]
         self.assertEqual(char["skills_state"], "partial")
         self.assertIsNone(char["job_capacity"]["manufacturing"])
+        self.assertIn(
+            "completed_skill_queue_level_not_reflected",
+            readiness["character_slots"][0]["skills_diagnostic_codes"],
+        )
+        self.assertIn(
+            "job_capacity_blocked_by_partial_skills",
+            readiness["character_slots"][0]["job_capacity_diagnostic_codes"],
+        )
 
     def test_unknown_active_job_activity_prevents_slot_inference(self):
         payloads = make_payloads(jobs=[{"activity_id": 77, "status": "active"}])

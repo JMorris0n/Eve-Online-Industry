@@ -36,8 +36,10 @@ py -3 tools/profile/validate_profile.py --profile local/operating-profile.json
 The importer also writes the readiness report. To regenerate it later without reimporting ESI data:
 
 ~~~powershell
-py -3 tools/profile/readiness_report.py --profile local/operating-profile.json --output local/profile-readiness.json
+py -3 tools/profile/readiness_report.py --profile local/operating-profile.json --manifest data/private/esi/profile-import-manifest.json --output local/profile-readiness.json
 ~~~
+
+When the private import manifest is present, the report adds generic diagnostic reason codes per character slot. It does not copy raw warnings, character identifiers/names, skill IDs/levels, blueprint identifiers, or asset/job item IDs into the readiness report. This makes partial skill and job-capacity states easier to troubleshoot without sharing the private manifest.
 
 The importer is an offline transformation. It reads the local authorized-character registry and timestamped snapshots; it does not contact EVE, refresh tokens, or upload any data.
 

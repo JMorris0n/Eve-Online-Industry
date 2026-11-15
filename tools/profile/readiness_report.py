@@ -12,6 +12,7 @@ from typing import Any
 from validate_profile import validate_profile_data
 
 CAPACITY_POOLS = ("manufacturing", "science", "reaction")
+DEFAULT_IMPORT_MANIFEST = Path("data/private/esi/profile-import-manifest.json")
 CAPITAL_FIELDS = (
     "working_capital_isk",
     "liquidity_reserve_isk",
@@ -36,12 +37,67 @@ def _capacity_state(value: Any) -> str:
     return "available" if value > 0 else "none"
 
 
-def build_readiness_report(profile: dict[str, Any]) -> dict[str, Any]:
+def _diagnostic_codes(warnings: Any, category: str) -> list[str]:
+    """Map private importer warnings to generic, non-identifying reason codes."""
+    if not isinstance(warnings, list):
+        return []
+    codes: set[str] = set()
+    for warning in warnings:
+        if not isinstance(warning, str):
+            continue
+        message = warning.casefold()
+        if category == "skills":
+            if "snapshot exceeds" in message:
+                codes.add("snapshot_stale")
+            elif "skill api level is behind" in message:
+                codes.add("completed_skill_queue_level_not_reflected")
+            elif "skill-queue row" in message and "malformed" in message:
+                codes.add("malformed_skill_queue_entry")
+            elif "skill-queue row" in message and "completion time" in message:
+                codes.add("unreadable_skill_queue_finish_time")
+        elif category == "jobs":
+            if "snapshot exceeds" in message:
+                codes.add("snapshot_stale")
+            elif "industry-job row" in message and "malformed" in message:
+                codes.add("malformed_industry_job_record")
+            elif "no valid status" in message:
+                codes.add("missing_industry_job_status")
+            elif "unrecognized status" in message:
+                codes.add("unrecognized_industry_job_status")
+            elif "no valid activity id" in message:
+                codes.add("missing_industry_activity_id")
+            elif "unrecognized activity id" in message:
+                codes.add("unrecognized_industry_activity_id")
+            elif "free-slot count could not be verified" in message:
+                codes.add("free_slot_count_unverified")
+        if not codes and message:
+            codes.add("other_import_warning")
+    return sorted(codes)
+
+
+def build_readiness_report(
+    profile: dict[str, Any],
+    import_manifest: dict[str, Any] | None = None,
+) -> dict[str, Any]:
     """Return a low-disclosure readiness summary; never return account values."""
     errors = validate_profile_data(profile)
     characters = profile.get("characters", [])
     if not isinstance(characters, list):
         characters = []
+
+    manifest_rows = (
+        import_manifest.get("character_mapping", [])
+        if isinstance(import_manifest, dict) else []
+    )
+    if not isinstance(manifest_rows, list):
+        manifest_rows = []
+    manifest_by_slot = {
+        row.get("slot"): row
+        for row in manifest_rows
+        if isinstance(row, dict)
+        and isinstance(row.get("slot"), int)
+        and not isinstance(row.get("slot"), bool)
+    }
 
     character_rows = []
     unfilled: list[str] = []
@@ -62,12 +118,34 @@ def build_readiness_report(profile: dict[str, Any]) -> dict[str, Any]:
             pool: _capacity_state(capacities.get(pool))
             for pool in CAPACITY_POOLS
         }
+        import_row = manifest_by_slot.get(slot, {})
+        warnings = import_row.get("warnings", []) if isinstance(import_row, dict) else []
+        skills_reasons = _diagnostic_codes(warnings, "skills")
+        jobs_reasons = _diagnostic_codes(warnings, "jobs")
+        if isinstance(import_row, dict) and import_row.get("snapshot_stale") is True:
+            if "snapshot_stale" not in skills_reasons:
+                skills_reasons = sorted([*skills_reasons, "snapshot_stale"])
+            if "snapshot_stale" not in jobs_reasons:
+                jobs_reasons = sorted([*jobs_reasons, "snapshot_stale"])
+        if import_manifest is not None and skills_state != "verified" and not skills_reasons:
+            skills_reasons = ["unclassified_partial_state"]
+        if (
+            import_manifest is not None
+            and any(status == "unknown" for status in capacity_summary.values())
+            and not jobs_reasons
+        ):
+            jobs_reasons = (
+                ["job_capacity_blocked_by_partial_skills"]
+                if skills_reasons else ["job_capacity_unverified"]
+            )
         character_rows.append({
             "slot": slot,
             "record_state": _state(character.get("state")),
             "skills_state": skills_state,
             "known_skill_count": len(skills),
             "job_capacity_status": capacity_summary,
+            "skills_diagnostic_codes": skills_reasons,
+            "job_capacity_diagnostic_codes": jobs_reasons,
         })
         if skills_state != "verified":
             unfilled.append(f"character_slot_{slot}: verify the relevant skill inventory")
@@ -207,13 +285,24 @@ def main() -> int:
         default=Path("local/operating-profile.json"),
         help="Private profile path (default: local/operating-profile.json)",
     )
+    parser.add_argument(
+        "--manifest",
+        type=Path,
+        default=DEFAULT_IMPORT_MANIFEST,
+        help="Private import manifest used to add redacted diagnostic reason codes.",
+    )
     parser.add_argument("--output", type=Path, help="Optional JSON output path")
     args = parser.parse_args()
     try:
         profile = json.loads(args.profile.read_text(encoding="utf-8"))
         if not isinstance(profile, dict):
             raise ValueError("Profile root must be a JSON object")
-        report = build_readiness_report(profile)
+        import_manifest = None
+        if args.manifest.is_file():
+            import_manifest = json.loads(args.manifest.read_text(encoding="utf-8"))
+            if not isinstance(import_manifest, dict):
+                raise ValueError("Import manifest root must be a JSON object")
+        report = build_readiness_report(profile, import_manifest)
     except (OSError, json.JSONDecodeError, ValueError) as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 1

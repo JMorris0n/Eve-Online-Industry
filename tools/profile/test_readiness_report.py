@@ -82,6 +82,45 @@ class ProfileReadinessTests(unittest.TestCase):
         self.assertEqual(result["logistics"]["preferred_method"], "unknown")
         self.assertNotIn("PRIVATE VALUE", serialized)
 
+    def test_import_diagnostics_are_generic_and_do_not_expose_private_values(self):
+        self.profile["characters"][1]["skills_state"] = "partial"
+        self.profile["characters"][1]["job_capacity"] = {
+            "manufacturing": None,
+            "science": None,
+            "reaction": None,
+        }
+        manifest = {
+            "character_mapping": [{
+                "slot": 2,
+                "character_id": 99887766,
+                "character_name": "PRIVATE CHARACTER NAME",
+                "snapshot_stale": False,
+                "warnings": [
+                    "Skill-queue row 0 has an unreadable completion time.",
+                    "Industry-job row 1 has an unrecognized activity ID.",
+                    "Reaction free-slot count could not be verified.",
+                ],
+            }],
+        }
+        result = build_readiness_report(self.profile, manifest)
+        row = result["character_slots"][1]
+        serialized = json.dumps(result)
+        self.assertIn(
+            "unreadable_skill_queue_finish_time",
+            row["skills_diagnostic_codes"],
+        )
+        self.assertIn(
+            "unrecognized_industry_job_activity_id",
+            row["job_capacity_diagnostic_codes"],
+        )
+        self.assertIn(
+            "free_slot_count_unverified",
+            row["job_capacity_diagnostic_codes"],
+        )
+        for private_value in ("99887766", "PRIVATE CHARACTER NAME", "Skill-queue row", "Reaction"):
+            self.assertNotIn(private_value, serialized)
+
+
     def test_verified_profile_sections_are_recognized(self):
         self.profile["blueprints_state"] = "verified"
         self.profile["facilities_state"] = "verified"
