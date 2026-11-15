@@ -1,3 +1,11 @@
+## 2026-11-15 - Diagnose partial skills for character slot 2
+
+- The refreshed redacted readiness report identifies exactly one skill diagnostic for slot 2: `completed_skill_queue_level_not_reflected`. Job-capacity uncertainty is downstream of the partial skill state; it is not an independent job-record error.
+- The importer emits this code when a skill-queue entry has a `finish_date` at or before snapshot retrieval and its `finished_level` exceeds the corresponding `trained_skill_level` in the ESI skills response.
+- Verified the ESI route documentation: past-finish queue entries are completed but may not yet be applied to `/skills`; the documented behavior is that the new skill level is applied the next time the character logs in. This is distinct from HTTP cache freshness. See the ESI [skillqueue route](https://esi.evetech.net/ui/?version=latest#/Skills/get_characters_character_id_skillqueue), [skills route](https://esi.evetech.net/ui/?version=latest#/Skills/get_characters_character_id_skills), and CCP's [2026-01-27 event-based cache update](https://developers.eveonline.com/blog/smarter-caching-when-events-drive-invalidation).
+- Decision: do not silently promote the old ESI `active_skill_level` or guess the active level from trained level. Log into the affected character once, then perform a targeted `sso_local.py sync --character-id ...`, re-run the importer, and reconcile the profile. The existing local CLI supports targeted sync, so no new authorization and no resync of the other two characters is required.
+- Updated the ESI operating-data plan and profile README with this diagnosis and a local-only recovery procedure. The character ID and slot mapping remain private and must not be uploaded.
+
 ## 2026-11-15 - Redacted importer diagnostics
 
 - Extended the readiness report to read the local import manifest and translate private importer warnings into generic, slot-scoped `skills_diagnostic_codes` and `job_capacity_diagnostic_codes`. The report does not expose raw warning text, character IDs/names, skill IDs/levels, blueprint identifiers, or asset/job item IDs.

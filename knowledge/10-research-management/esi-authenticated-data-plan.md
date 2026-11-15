@@ -35,6 +35,19 @@ The skills endpoint exposes both `active_skill_level` and `trained_skill_level`.
 
 The skills and industry-jobs endpoints do not directly promise a current free-slot counter. The importer derives theoretical job capacity from active skill levels and subtracts occupied jobs by pool: Manufacturing = 1 + Mass Production + Advanced Mass Production; Science = 1 + Laboratory Operation + Advanced Laboratory Operation; Reaction = 1 + Mass Reactions + Advanced Mass Reactions. CCP documents these job categories and per-level skill additions in [Activities and Job Types](https://support.eveonline.com/hc/en-us/articles/203210272-Activities-and-Job-Types). Activity IDs 1, 3, 4, 5, 7, 8, and 9 map respectively to Manufacturing, Science research/copying/reverse engineering/invention, and Reaction. Jobs in active, paused, or ready status occupy a slot; delivered, cancelled, and reverted jobs do not.
 
+### Completed skill training while a character is offline
+
+ESI documents an expected difference between the skills and skillqueue endpoints. A skillqueue entry whose `finish_date` is in the past is complete, but the new level may not yet appear in `/skills`; ESI states that it is applied the next time that character logs in. The skills endpoint documentation explicitly says to apply past-finish queue entries over the returned skills list to derive the current trained-skill state. See the [ESI skillqueue route](https://esi.evetech.net/ui/?version=latest#/Skills/get_characters_character_id_skillqueue) and [ESI skills route](https://esi.evetech.net/ui/?version=latest#/Skills/get_characters_character_id_skills).
+
+The current importer deliberately marks this condition partial instead of guessing the active level, which can differ from trained level under clone restrictions or temporary effects. If the redacted readiness report contains `completed_skill_queue_level_not_reflected` for a character slot:
+
+1. Identify that slot's character locally using `data/private/esi/profile-import-manifest.json`. Do not share the mapping.
+2. Log into that EVE character once so the completed training is applied.
+3. Run a targeted snapshot sync for that character with `py -3 tools/esi/sso_local.py sync --character-id CHARACTER_ID --compatibility-date 2026-11-13`.
+4. Re-run `py -3 tools/profile/import_esi_profile.py`, validate the private profile, and regenerate the redacted readiness report.
+
+The `--character-id` option refreshes only the selected character. Existing fresh snapshots for the other characters remain in use. This condition does not require a new SSO authorization. The ESI cache transition to event-based invalidation is separate from this game-state behavior; CCP's [2026-01-27 caching update](https://developers.eveonline.com/blog/smarter-caching-when-events-drive-invalidation) describes how skill and skillqueue endpoint caches are invalidated.
+
 The local sync requests completed job records to avoid silently omitting recent ready-to-deliver jobs. ESI completed-job history is limited to the past 90 days. If a ready-to-deliver job may be older than 90 days, reconcile the calculated free slots against the in-game Industry window before treating the slot count as definitive. Keep derived values and calculation provenance separate from API-reported facts.
 
 ## Facility-access limitation
