@@ -1,6 +1,6 @@
 # Local EVE SSO and null-sec operating-data plan
 
-**Status:** Approved strategic direction. The local PKCE SSO client and snapshot-to-profile importer are implemented and regression-tested. The user reports that all three character authorizations completed successfully; the first live ESI sync, profile import, and endpoint-data review remain pending.  
+**Status:** Approved strategic direction. The local PKCE SSO client and snapshot-to-profile importer are implemented and regression-tested. The first three-character live sync and offline import have completed using three fresh snapshots. The uploaded redacted readiness report is schema-valid with zero errors. Personal blueprint coverage is verified for 375 records across the three authorized characters. Skill inventories are verified for character slots 1 and 3 (358 and 59 skills); slot 2 remains partial (55 known skills), and its job capacity is unknown. All three job pools are currently available on slots 1 and 3. In-game slot reconciliation, asset normalization, facility/market access, and manual operating inputs remain open.  
 **Decision date:** 2026-11-14  
 **Purpose:** Replace manual transcription of character-specific data with narrowly scoped, read-only EVE SSO/ESI imports while keeping credentials and personal operating data on the user's machine.
 
@@ -77,12 +77,13 @@ Defer until the use case exists:
 1. [x] Build a local PKCE authorization client and OS credential-store integration in `tools/esi/sso_local.py`; validate issuer, audience, scopes, callback state, and PKCE.
 2. [x] Complete separate authorization grants for all three characters. The user reports all three authorizations succeeded; the local registry can be checked with `py -3 tools/esi/sso_local.py list`.
 3. [x] Implement an offline snapshot-to-profile importer with snapshot hash/freshness checks, active-skill normalization, job-slot derivation, personal blueprint normalization, and redacted readiness output. Regression tests cover these transformations.
-4. [ ] Run the first live three-character ESI sync and verify all expected endpoint snapshots, pagination metadata, and response shapes.
-5. [ ] Execute the local profile importer and review the resulting private profile and redacted readiness summary.
-6. [ ] Verify calculated job capacity against the in-game Industry window, especially any ready-to-deliver jobs older than ESI's 90-day completed-job history window. Review blueprint counts and asset/location samples against the client.
-7. Build facility discovery using the public facilities directory plus targeted character structure searches; explicitly retain gaps in facility coverage.
-7. After the alliance is selected, ingest doctrine fittings, buyback prices/terms, staging markets, accessible facilities/services, and courier/self-haul constraints.
-8. Then select candidates across alliance-local manufacture, higher-value export production, and other opportunistic work. Run fresh market collection only for selected candidate routes, inputs, outputs, and quantities.
+4. [x] Run the first live three-character ESI sync; the redacted readiness report confirms three fresh snapshots and no stale snapshots.
+5. [x] Execute the local profile importer and review the redacted readiness report; it is schema-valid with zero validation errors and confirms 375 personal blueprint records.
+6. [ ] Resolve the partial skills state for character slot 2, verify skill-queue/job coverage across all characters, and reconcile free job capacity against the in-game Industry window. Check for ready-to-deliver jobs older than ESI's 90-day completed-job history window.
+7. [ ] Review personal blueprint counts and asset/location samples against the client; normalize useful personal assets into a material-stock/location ledger without treating raw asset records as immediately usable inputs.
+8. Build facility discovery using the public facilities directory plus targeted character structure searches; explicitly retain gaps in facility coverage.
+9. After the alliance is selected, ingest doctrine fittings, buyback prices/terms, staging markets, accessible facilities/services, and courier/self-haul constraints.
+10. Then select candidates across alliance-local manufacture, higher-value export production, and other opportunistic work. Run fresh market collection only for selected candidate routes, inputs, outputs, and quantities.
 
 ## Verification and stop conditions
 

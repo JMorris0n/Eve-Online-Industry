@@ -1,3 +1,12 @@
+## 2026-11-15 - First live three-character profile import
+
+- Reviewed the user's redacted `profile-readiness.json` from Dropbox. The report is schema-valid with **0 validation errors** and confirms **3 fresh snapshots out of 3**, with no stale snapshots.
+- Character slot 1 is verified with 358 known skills; Manufacturing, Science, and Reaction job capacity are each reported available. Character slot 2 is partial with 55 known skills; all three job-capacity values remain unknown. Character slot 3 is verified with 59 known skills; all three job-capacity values are each reported available.
+- Personal blueprint inventory is verified for the three authorized characters, with **375 records**. The broader blueprint inventory remains partial because corporation-owned blueprints are outside the current import scope.
+- Facility inventory remains unknown (zero verified facilities); market access is not entered; working capital, liquidity reserve, maximum capital at risk, active-hours budget, setup tolerance, liquidation target, and risk tolerance remain unknown; logistics is not entered.
+- The report confirms it contains no character labels, skill IDs/levels, blueprint IDs, market-location IDs/names, or ISK amounts. No private profile or raw ESI data was uploaded or committed.
+- Next M2 evidence gates: investigate why character slot 2 is partial, verify skill/job data and free slots against the in-game Industry window (including the 90-day completed-job history caveat), inspect asset/location samples, and normalize useful personal assets without assuming every located item is available for industry. Facility, market, capital, operations, and logistics configuration remain separate manual/targeted checks.
+
 # Knowledge Base Log
 
 ## 2026-11-14
