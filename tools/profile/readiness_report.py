@@ -70,8 +70,6 @@ def _diagnostic_codes(warnings: Any, category: str) -> list[str]:
                 codes.add("unrecognized_industry_activity_id")
             elif "free-slot count could not be verified" in message:
                 codes.add("free_slot_count_unverified")
-        if not codes and message:
-            codes.add("other_import_warning")
     return sorted(codes)
 
 
@@ -129,15 +127,13 @@ def build_readiness_report(
                 jobs_reasons = sorted([*jobs_reasons, "snapshot_stale"])
         if import_manifest is not None and skills_state != "verified" and not skills_reasons:
             skills_reasons = ["unclassified_partial_state"]
-        if (
-            import_manifest is not None
-            and any(status == "unknown" for status in capacity_summary.values())
-            and not jobs_reasons
+        if import_manifest is not None and any(
+            status == "unknown" for status in capacity_summary.values()
         ):
-            jobs_reasons = (
-                ["job_capacity_blocked_by_partial_skills"]
-                if skills_reasons else ["job_capacity_unverified"]
-            )
+            if skills_reasons:
+                jobs_reasons = sorted([*jobs_reasons, "job_capacity_blocked_by_partial_skills"])
+            elif not jobs_reasons:
+                jobs_reasons = ["job_capacity_unverified"]
         character_rows.append({
             "slot": slot,
             "record_state": _state(character.get("state")),
