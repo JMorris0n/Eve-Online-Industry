@@ -191,4 +191,4 @@ py -3 tools/esi/sso_local.py forget --character-id CHARACTER_ID
 
 This removes the local credential only. To revoke the EVE SSO grant, use the EVE Developer Portal's Authorized Applications page.
 
-**Important:** The code and regression tests can validate the local protocol helpers, but live SSO authorization has not yet been tested against your characters. Never upload `sso-config.json`, tokens, the populated operating profile, or anything under `data/private/` to Dropbox or GitHub.
+**Important:** The JWT validator accepts CCP's documented `iss` values `https://login.eveonline.com` and `login.eveonline.com` (without a trailing slash). Regression tests cover both values and reject an unexpected issuer. Live SSO authorization has not yet been tested against your characters. Never upload `sso-config.json`, tokens, the populated operating profile, or anything under `data/private/` to Dropbox or GitHub.

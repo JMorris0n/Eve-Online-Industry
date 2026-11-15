@@ -62,7 +62,7 @@ Defer until the use case exists:
 
 - Register one EVE SSO application using **Authentication & API Access** and the native/desktop Authorization Code with PKCE flow.
 - Use a local loopback callback URI that exactly matches the URI registered in the developer portal. The implementation will use `http://127.0.0.1:8765/callback/`.
-- Use PKCE S256, random state, exact redirect matching, and validation of the returned EVE SSO token.
+- Use PKCE S256, random state, exact redirect matching, and validation of the returned EVE SSO token. CCP documents the accepted JWT `iss` claim as either `https://login.eveonline.com` or `login.eveonline.com`, with no trailing slash.
 - Do not use or store the application client secret in a native PKCE flow.
 - Store refresh tokens in the operating system credential store (Windows Credential Manager on the user's Windows machine), not in the repository, Dropbox, or exported reports.
 - Store raw authenticated ESI responses and normalized character profiles under Git-ignored `data/private/` and `local/` paths.

@@ -33,6 +33,9 @@ DEFAULT_USER_AGENT = (
     "(https://github.com/JMorris0n/Eve-Online-Industry)"
 )
 
+# CCP documents both the host-name issuer and the HTTPS issuer without a trailing slash.
+EVE_SSO_ISSUERS = ("https://login.eveonline.com", "login.eveonline.com")
+
 REQUIRED_SCOPES = (
     "esi-skills.read_skills.v1",
     "esi-skills.read_skillqueue.v1",
@@ -273,7 +276,7 @@ def verify_access_token(
             token,
             signing_key,
             algorithms=["RS256"],
-            issuer=("https://login.eveonline.com/", "login.eveonline.com"),
+            issuer=EVE_SSO_ISSUERS,
             options={"verify_aud": False},
         )
     except Exception as exc:
