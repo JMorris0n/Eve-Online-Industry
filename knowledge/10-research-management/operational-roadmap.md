@@ -145,15 +145,15 @@ The roadmap is accepted as the working plan. Milestones M1 and M2 are now in pro
 
 ### M2. Define the local operating profile
 
-**Status:** In progress. The profile schema, validator, readiness report, feasibility screen, SDE skill reference, and first local SSO importer are implemented. The importer uses native PKCE, JWT validation, OS-backed refresh-token storage, and timestamped read-only snapshots. Live authorization for the three characters and snapshot verification remain pending. See [Local EVE SSO and null-sec operating-data plan](esi-authenticated-data-plan.md). The 58-skill SDE reference remains useful for explaining recipe requirements, but import all trained skills for each character rather than manually transcribing this list.
+**Status:** In progress. The profile schema, validator, readiness report, feasibility screen, SDE skill reference, local PKCE SSO client, and offline snapshot-to-profile importer are implemented. The user reports that all three character grants completed successfully. The first live sync, profile population, and review of endpoint data remain pending. The importer uses ESI active skill levels for current capability, checks trained levels against the skill queue, derives free job slots from CCP's job-type rules, and imports personal blueprints. Corporation-owned blueprints, normalized asset stock, facility access, and manual operating constraints remain open. See [Local EVE SSO and null-sec operating-data plan](esi-authenticated-data-plan.md). The 58-skill SDE reference explains recipe requirements; it is no longer the mechanism for manually transcribing character skills.
 
 **Purpose:** Make product feasibility depend on the actual operation rather than generic character assumptions.
 
 **Work:**
 - Build a local, read-only SSO/ESI import for the three industrial characters using PKCE and minimum scopes.
-- Import all character skills and skill queue, blueprint inventory, relevant personal assets, and active industry jobs into timestamped local snapshots.
+- Import all character skills and skill queue, personal blueprint inventory, personal assets, and current/recent industry jobs into timestamped local snapshots. Completed-job history in ESI is limited to 90 days.
 - Populate the private operating profile from imported data, retaining unknowns and provenance.
-- Derive job capacity only from verified skills and active jobs after validating the applicable skill rules.
+- Derive job capacity from active skill levels and jobs in active, paused, or ready status, using CCP's published Manufacturing, Science, and Reaction slot skills; reconcile older ready-to-deliver jobs in-game when applicable.
 - Discover public facilities and known accessible Upwell structures without claiming ESI can enumerate every structure ACL.
 - Retain the SDE skill-requirements reference to explain and filter recipe skill requirements.
 - Capture relevant blueprint/BPC availability and any limits on location or licensed runs.
@@ -172,8 +172,10 @@ The roadmap is accepted as the working plan. Milestones M1 and M2 are now in pro
 - [x] A local skill-reference generator ranks published, known skill requirements across complete, resolved SDE recipes and preserves exclusion reasons.
 - [x] Run and review the skill reference against the local normalized recipe file; it identifies 58 published skills across the full manufacturing/reaction catalog.
 - [x] A local PKCE client, JWT validation, refresh-token rotation, and OS-backed credential-store integration are implemented with regression tests.
-- [ ] Live authorization is completed separately for each of the three industrial characters using the minimum read-only scopes.
-- [ ] Full skill inventories/queues, blueprints, relevant assets, and current industry jobs are imported locally with provenance.
+- [x] Live authorization is completed separately for each of the three industrial characters using the minimum read-only scopes (user-confirmed).
+- [x] The local snapshot-to-profile importer and redacted readiness output are implemented and regression-tested.
+- [ ] First live sync imports full skill inventories/queues, personal blueprints, relevant assets, and current/recent industry jobs locally with provenance.
+- [ ] Job-slot values are reconciled against the in-game Industry display, including any ready-to-deliver jobs older than ESI's 90-day completed-job history window.
 - [ ] Facility access is populated from public facilities and targeted structure lookups, with incomplete coverage explicitly recorded.
 - [ ] Manual operating constraints (capital budget, attention, risk, hauling limits) and alliance-dependent market/facility information are added when known.
 - [x] No private profile, balance, asset export, or credential is committed to Git.
@@ -306,8 +308,10 @@ The roadmap is accepted as the working plan. Milestones M1 and M2 are now in pro
 
 **Acceptance criteria:**
 - [x] Required character endpoints and minimum initial OAuth scopes are documented in the local ESI integration plan.
-- [x] Native PKCE authorization, token validation/refresh, and Windows Credential Manager-backed keyring storage are implemented and regression-tested. Live EVE SSO authorization remains pending.
-- [ ] All three character grants are authorized and imported into timestamped local snapshots.
+- [x] Native PKCE authorization, token validation/refresh, and Windows Credential Manager-backed keyring storage are implemented and regression-tested.
+- [x] All three character grants are authorized (user-confirmed).
+- [x] Offline snapshot-to-profile import and redacted readiness generation are implemented with regression tests.
+- [ ] All three character snapshots are fetched and validated locally, and the generated profile/readiness outputs are reviewed.
 - [x] Facility-access discovery limitation is represented explicitly rather than overstated.
 - [x] The local client config is Git-ignored, refresh tokens use the OS credential store, and private snapshots are written only to Git-ignored paths.
 - [x] Public-data functionality remains available when SSO is disconnected.

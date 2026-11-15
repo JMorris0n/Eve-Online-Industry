@@ -1,118 +1,167 @@
 # Local operating profile
 
-This profile records the constraints that determine whether a manufacturing opportunity is actually executable by this operation. It is local input, not canonical knowledge.
+The operating profile records the constraints that determine whether an industry opportunity is executable by this operation. The populated profile, import manifest, and raw character snapshots are private local data, not canonical project knowledge.
 
-## Create a private copy
+## Quick start: sync the three characters
 
-From the repository root in PowerShell:
+Run these commands from the repository root in PowerShell.
 
-```powershell
-New-Item -ItemType Directory -Force local | Out-Null
-Copy-Item config/operating-profile.example.json local/operating-profile.json
-```
+First, make sure you have the latest code and that all three refresh-token entries are present:
 
-The `local/` directory is excluded by `.gitignore`. Keep the populated profile there. Do not commit it, paste credentials into it, or include character IDs, access tokens, wallet exports, or other account secrets. The public example is deliberately blank.
+~~~powershell
+git pull --ff-only origin main
+py -3 tools/esi/sso_local.py list
+~~~
 
-## Files
+The list should show three authorized characters. Do not paste the list into a public issue or commit it; it contains character identifiers and names.
 
-- `config/operating-profile.schema.json`: JSON Schema 2020-12 contract.
-- `config/operating-profile.example.json`: safe template with three character slots and unknown values.
-- `local/operating-profile.json`: your private working copy (not tracked by Git).
+Fetch one read-only ESI snapshot for each authorized character. Use a compatibility date that has been reviewed in the ESI API Explorer. The following is the date already used for this project:
+
+~~~powershell
+py -3 tools/esi/sso_local.py sync --compatibility-date 2026-11-13
+~~~
+
+Build the private operating profile and redacted readiness report from those snapshots:
+
+~~~powershell
+py -3 tools/profile/import_esi_profile.py
+~~~
+
+Validate the populated profile:
+
+~~~powershell
+py -3 tools/profile/validate_profile.py --profile local/operating-profile.json
+~~~
+
+The importer also writes the readiness report. To regenerate it later without reimporting ESI data:
+
+~~~powershell
+py -3 tools/profile/readiness_report.py --profile local/operating-profile.json --output local/profile-readiness.json
+~~~
+
+The importer is an offline transformation. It reads the local authorized-character registry and timestamped snapshots; it does not contact EVE, refresh tokens, or upload any data.
+
+## Files and privacy boundary
+
+- config/operating-profile.schema.json: JSON Schema 2020-12 contract.
+- config/operating-profile.example.json: safe template with three character slots and unknown values.
+- data/private/esi/authorized-characters.json: local character registry created by the SSO tool.
+- data/private/esi/snapshots/: timestamped raw ESI responses and per-file hashes.
+- data/private/esi/profile-import-manifest.json: local mapping between character IDs and profile slots, import provenance, counts, and warnings.
+- local/operating-profile.json: populated private profile. It contains character labels, skill IDs and levels, blueprint type IDs, local location references, and manual operating inputs.
+- local/profile-readiness.json: deliberately redacted summary that can be shared for review.
+
+The data/private/ and local/ directories and the local SSO configuration are excluded by .gitignore. Never commit or upload the populated profile, import manifest, raw snapshots, SSO configuration, refresh tokens, asset exports, or other account data. Share only local/profile-readiness.json after checking that it contains no private details.
+
+The importer preserves manual profile sections such as capital, operating constraints, facilities, market access, and logistics. It replaces the imported character skills, current free-slot values, and personal blueprint records from the latest validated snapshots. It maintains stable profile-slot assignments using the private import manifest.
+
+## What the importer populates
+
+### Skills
+
+The importer records the active_skill_level from ESI for every skill in each character's returned skill inventory. This is the level currently usable by the character. ESI's active_skill_level can be lower than trained_skill_level because of Alpha clone limits or active expert systems. The trained level is used only to detect a skill-queue entry whose finish time has passed but whose trained level is not yet reflected by the skills endpoint. See the [ESI skills response schema](https://esi.evetech.net/ui/?version=latest#/Skills/get_characters_character_id_skills).
+
+An empty skill map means "not recorded", not "untrained". Each character has a separate skills_state; only when it is verified can an omitted skill be treated as level zero. A stale snapshot, malformed queue entry, or completed-but-unreflected queue entry lowers the state to partial.
+
+### Current job capacity
+
+The importer derives free jobs by activity pool from the ESI active skill levels and the jobs returned for that character:
+
+| Pool | Maximum jobs |
+|---|---|
+| Manufacturing | 1 + Mass Production level + Advanced Mass Production level |
+| Science | 1 + Laboratory Operation level + Advanced Laboratory Operation level |
+| Reaction | 1 + Mass Reactions level + Advanced Mass Reactions level |
+
+These skills add one concurrent job per active skill level. The activity-to-pool mapping follows CCP's [Activities and Job Types](https://support.eveonline.com/hc/en-us/articles/203210272-Activities-and-Job-Types) reference. Manufacturing, Science, and Reaction are separate pools.
+
+Jobs with status active, paused, or ready count as occupying a slot. Jobs with status delivered, cancelled, or reverted do not. Unknown statuses or activity IDs prevent the importer from claiming a fully known free-slot count.
+
+The importer requests completed jobs as well as current jobs so recent ready/completed records are not silently omitted. CCP's ESI documentation limits completed-job history to the past 90 days. Verify the in-game Industry window if a character may have a ready-to-deliver job older than 90 days; ESI history alone cannot rule that out. The readiness report carries this limitation.
+
+The job_capacity values in the profile are current free jobs, not the theoretical maximum. They should be refreshed after jobs are installed or delivered. A null value means unknown, not zero.
+
+### Blueprints
+
+The importer captures the three authorized characters' **personal** blueprint inventories and distinguishes BPOs from BPCs using ESI's blueprint run/quantity markers. It retains type ID, BPO/BPC type, copy runs, ME, TE, count, and the local ESI location reference.
+
+blueprints_state remains partial by design because this first import does not retrieve corporation-owned blueprints. The private import manifest and redacted readiness report identify this coverage boundary. An absent personal blueprint is not proof that the corporation does not own or provide one.
+
+The personal blueprint endpoint is authoritative for the returned character inventory, but a blueprint's location does not establish that the character can access an Industry service at that location.
+
+### Assets and industry facilities
+
+The raw personal asset responses are retained in the local snapshots for later location and stock analysis. This first profile importer records asset-record counts but does not yet normalize assets into a material-stock ledger or infer usable input quantities.
+
+The public /industry/facilities/ endpoint is also captured. It does not prove a character can dock at a listed structure, use its Industry service, or access every structure in its corporation/alliance. Therefore facilities_state remains unknown until targeted access and service checks are completed. Structure access must not be inferred from the public directory or from a name search alone.
 
 ## Data-state convention
 
-Every major record has a `state` field:
+Every major record has a state field:
 
-- `unknown`: not entered or not yet checked.
-- `partial`: some values are entered, but the record is incomplete.
-- `verified`: checked against an authoritative in-game or account source, with any caveats recorded.
+- unknown: not entered or not yet checked.
+- partial: some values are known, but the record is incomplete or has a stated coverage limitation.
+- verified: checked against an authoritative in-game or account source, with material caveats recorded.
 
-An empty skill map means "not recorded", not "untrained". Skill keys are SDE skill type IDs as strings, for example \`\"16622\": 4\`. Each character has a separate \`skills_state\`: only when it is \`verified\` can an omitted skill be treated as untrained (level zero). A null capacity or capital value means unknown, not zero. The root \`blueprints_state\` and \`facilities_state\` fields indicate whether the corresponding inventory lists are complete; an absent entry is not proof of non-ownership or non-access unless that inventory is verified. Do not mark a record verified merely because a value was estimated.
+A null capacity or capital value means unknown, not zero. The root blueprints_state and facilities_state fields indicate whether the corresponding operation-wide inventories are complete. Do not mark a record verified merely because a value was estimated or because a public list exists.
 
-## Character records
+## Manual operating inputs still required
 
-Exactly three character slots are represented. Use labels such as "Manufacturing", "Science", or "Market" if role labels help, but do not assume a character's specialization until its trained skills and available slots have been checked.
+The importer does not infer:
 
-Skill levels are integers from 0 to 5, keyed by SDE type ID. The profile records the skills needed by candidate products; it is not necessary to export every skill at the outset. Record \`skills_state\` as \`partial\` while building the relevant skill list and \`verified\` only when the skill inventory is complete enough for absence to mean level zero. The `job_capacity` values are the number of currently free jobs available in Manufacturing, Science, and Reaction, not a theoretical skill-derived maximum. Update them when jobs are installed or completed; use null when the current free count is unknown.
+- Working capital, liquidity reserve, or maximum capital at risk.
+- Active operator-hours available per week, setup-time tolerance, or target liquidation horizon.
+- Risk tolerance.
+- Which market locations can actually be used for procurement and sales.
+- Facility access, installed Industry services, rig profiles, taxes, or structure ACLs.
+- Whether hauling will use personal transport or an alliance courier, and the practical cargo, route, and active-time limits.
+- Corporation-owned blueprint inventory or corporation-owned assets/jobs.
 
+Keep these values unknown until they are checked or explicitly selected as operating constraints. These are planning limits, not a request to disclose total account balances; enter only the capital actually allocated to this operation.
 
-## Build the skill reference before entering character skills
+## Manual profile setup or recovery
 
-The recipe-derived skill reference narrows the manual character review to skills actually required by complete, published manufacturing and reaction recipes. From the repository root, run:
+If you need a fresh blank profile, create a private copy of the example:
 
-```powershell
-py -3 tools/sde/build_skill_requirements.py `
-    --input "data/derived/industry-recipes.jsonl" `
-    --output "data/derived/skill-requirements.json" `
-    --activity all
-```
+~~~powershell
+New-Item -ItemType Directory -Force local | Out-Null
+Copy-Item config/operating-profile.example.json local/operating-profile.json
+~~~
 
-Open data/derived/skill-requirements.json locally. Start with profile_capture_skills, sorted by the number of candidate recipes that require each skill. The per-skill record shows the maximum required level and level distribution. all_observed_skill_types and unpublished_skill_exceptions preserve skill IDs that appeared in source recipes but did not qualify for the published candidate set.
+This is not normally required before the ESI import. The importer uses the existing local/operating-profile.json when present; otherwise it starts from the public example. Existing valid manual sections are preserved.
 
-For each character, enter the level you verify in-game using the skill's decimal type ID as the profile key, for example 16622: 4. Do not infer a character's level from another character. Keep skills_state as partial while the relevant list is being checked. Set it to verified only when that character's skill inventory has been reviewed completely enough that an omitted skill really means level zero.
+Skill keys are SDE skill type IDs as decimal strings. For a manually entered or corrected level, use the character's current active level, not an inactive trained level. Do not infer one character's level from another character.
 
-The generated reference contains only public SDE recipe requirements. It does not reveal your characters' actual skills, and it does not require EVE SSO. A skill being listed does not establish that a specific character has it or that a recipe is currently profitable.
+Facility records should describe only locations where access and Industry services have been confirmed. Market access should distinguish NPC stations from Upwell structures and record whether each location is usable for procurement, sales, or both. Logistics values should remain null until the method, route, cargo constraints, and active hauling time are known.
 
-## Blueprints and facilities
+## SDE skill-requirements reference
 
-Blueprint records use SDE type IDs, distinguish BPO from BPC, and include ME, TE, licensed runs, quantity, and a local location label where known. For a BPO, quantity is the number of owned copies; for a BPC, quantity is the number of copies with the same recorded properties. Keep distinct ME/TE/run variants as separate records.
+The recipe-derived skill reference remains useful for understanding which skills the public SDE assigns to each recipe. It is not needed to populate character skills after the ESI import.
 
-Facility records describe only facilities you can actually access. Record available services, relevant rigs, system ID, and tax rate only when known. Structure names and access details remain local.
+~~~powershell
+py -3 tools/sde/build_skill_requirements.py --input data/derived/industry-recipes.jsonl --output data/derived/skill-requirements.json --activity all
+~~~
 
-## Market access and logistics
+The resulting file describes public recipe requirements only. It does not reveal what any character has trained or currently has active.
 
-The optional `market_access` section records locations where the operation can actually procure inputs or sell finished output. For each location, record its region ID, solar-system ID, location ID, whether it is an NPC station or Upwell structure, and the roles it supports (`procurement`, `sales`, or both). Mark the section `verified` only when the list is complete for the markets you intend to use. A public regional ESI order does not prove access to an Upwell structure.
+## Validate profile and screen recipe feasibility
 
-The optional `logistics` section records the preferred method (`self_haul`, `courier`, `either`, or `none`), practical route-jump and cargo-volume limits, and the maximum active hauling time you are willing to spend per batch. Unknown values should remain null. These constraints help flag plans that are technically profitable but operationally inconvenient.
+Validate the private profile:
 
-## Capital and operating constraints
-
-Use integer ISK values. Keep working capital, liquidity reserve, and maximum capital at risk separate. Operating constraints include active hours per week, maximum acceptable setup time per batch, target liquidation horizon, and qualitative risk tolerance.
-
-These are planning limits, not a request to disclose balances in the public repository. Enter only the amount you intend to allocate to this operation.
-
-## Authentication is not required for manual profile setup
-
-The current profile validator and readiness report do not connect to EVE, inspect the launcher session, or perform EVE SSO. The local profile is populated manually. A successful validation only confirms the file structure and data types; it does not import or verify character/account data.
-
-The current SDE and public regional market-data steps also do not require character authorization. Character-specific and corporation/structure data may require authenticated ESI routes and route-specific OAuth scopes. Optional local SSO is a later roadmap milestone, not a prerequisite for using this template. Do not enter EVE credentials, access tokens, or refresh tokens in the profile.
-
-## Validate the private profile
-
-After entering values, run:
-
-```powershell
+~~~powershell
 py -3 tools/profile/validate_profile.py --profile local/operating-profile.json
-```
+~~~
 
-The validator uses only the Python standard library. It checks the three character slots, skill levels, job-pool capacities, capital fields, operating limits, facilities, and blueprint records. Unknown values may remain null; they are not interpreted as zero. The public example is also covered by automated unit tests.
+The feasibility screen compares the static SDE recipe requirements with the known character skills, blueprint coverage, and facilities:
 
-## Check recipe feasibility
+~~~powershell
+py -3 tools/profile/check_feasibility.py --profile local/operating-profile.json --recipes data/derived/industry-recipes.jsonl --output data/derived/feasibility.json
+~~~
 
-Once the current SDE has been extracted and normalized, compare its recipes with the local profile:
+Omit --product-type-id to evaluate every recipe in the input file. The optional --product-type-id filter restricts evaluation to a specific output type ID. The report distinguishes eligible, ineligible, and unknown. A missing blueprint or facility is only a definite blocker when the corresponding inventory completeness state is verified. A character's omitted skill counts as level zero only when that character's skills_state is verified.
 
-```powershell
-py -3 tools/profile/check_feasibility.py \
-    --profile local/operating-profile.json \
-    --recipes data/derived/industry-recipes.jsonl \
-    --output data/derived/feasibility.json
-```
+This is a hard-constraint screen. It does not calculate blueprint ME/TE effects, facility bonuses, job installation fees, material procurement, market access, logistics, or profitability. An eligible result means the profile supports the listed static requirements, not that a job can be installed or that the product is profitable.
 
-Omit `--product-type-id` to evaluate every recipe in the input file. The optional `--product-type-id` filter restricts evaluation to a specific output type ID. The report distinguishes `eligible`, `ineligible`, and `unknown`. It also checks SDE recipe-field completeness: records with omitted/null material, product, or skill arrays cannot be treated as confirmed feasible. Missing blueprints or facilities only count as definite blockers when the corresponding inventory completeness state is `verified`. A character's omitted skill counts as level zero only when that character's `skills_state` is `verified`.
+## Redacted readiness report
 
-This is a hard-constraint screen only. It does not calculate blueprint ME/TE effects, facility bonuses, job installation fees, material procurement, market access, or profitability. An eligible result means the profile supports the listed static requirements, not that a job can be installed at this moment.
-
-## Current limitations
-
-The profile validator checks structure and field types. The feasibility evaluator distinguishes eligible, ineligible, and unknown character/blueprint/facility requirements, but remains a hard-constraint screen. Neither tool calculates live market access from permissions, procurement cost, installation quotes, logistics cost, or profitability. An eligible result is not a production recommendation.
-
-## Private profile readiness report
-
-After entering local profile data, run:
-
-```powershell
-py -3 tools/profile/readiness_report.py `
-    --profile local/operating-profile.json
-```
-
-The report contains statuses and counts only. It intentionally omits character labels, skill IDs and levels, blueprint type IDs, facility and market names/IDs, and all ISK amounts. You can share the printed readiness report without sending the private profile. A valid schema does not mean the profile is complete: use the `unfilled_areas` list to identify what still needs verification.
+The readiness report contains statuses and counts only. It intentionally omits character labels and IDs, skill IDs and levels, blueprint type IDs, facility/market names and IDs, and all ISK amounts. It includes the snapshot freshness count, personal-blueprint coverage, and the facility/job-history caveats. Share this report for review; do not share the private profile or raw ESI data.

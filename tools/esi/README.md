@@ -111,7 +111,7 @@ Initial read-only character scopes:
 
 | Purpose | ESI scope |
 |---|---|
-| Trained skills | `esi-skills.read_skills.v1` |
+| Active and trained skill levels | `esi-skills.read_skills.v1` |
 | Skill queue | `esi-skills.read_skillqueue.v1` |
 | Personal blueprints | `esi-characters.read_blueprints.v1` |
 | Personal assets and asset locations/names | `esi-assets.read_assets.v1` |
@@ -191,4 +191,37 @@ py -3 tools/esi/sso_local.py forget --character-id CHARACTER_ID
 
 This removes the local credential only. To revoke the EVE SSO grant, use the EVE Developer Portal's Authorized Applications page.
 
-**Important:** The JWT validator accepts CCP's documented `iss` values `https://login.eveonline.com` and `login.eveonline.com` (without a trailing slash). Regression tests cover both values and reject an unexpected issuer. Live SSO authorization has not yet been tested against your characters. Never upload `sso-config.json`, tokens, the populated operating profile, or anything under `data/private/` to Dropbox or GitHub.
+**Important:** The JWT validator accepts CCP's documented `iss` values `https://login.eveonline.com` and `login.eveonline.com` (without a trailing slash). Regression tests cover both values and reject an unexpected issuer. Authorization and snapshot sync are separate checks: a successful grant does not prove that all ESI endpoints have returned and validated correctly. Never upload `sso-config.json`, tokens, the populated operating profile, or anything under `data/private/` to Dropbox or GitHub.
+
+### Sync and build the private profile
+
+After each of the three characters has been authorized, check the local registry:
+
+~~~powershell
+py -3 tools/esi/sso_local.py list
+~~~
+
+Then refresh all three characters and capture timestamped, read-only snapshots. Supply a compatibility date reviewed in the current ESI API Explorer:
+
+~~~powershell
+py -3 tools/esi/sso_local.py sync --compatibility-date YYYY-MM-DD
+~~~
+
+The job request includes recent completed jobs so a ready-to-deliver job is not silently missed. ESI's completed-job history is limited to the preceding 90 days; verify the Industry window in-game if any ready-to-deliver job may be older than 90 days.
+
+Build the private operating profile and redacted readiness report from the snapshots:
+
+~~~powershell
+py -3 tools/profile/import_esi_profile.py
+py -3 tools/profile/validate_profile.py --profile local/operating-profile.json
+~~~
+
+The profile importer is an offline transformation. It validates snapshot file hashes and freshness, uses ESI active skill levels for current capability, derives free Manufacturing/Science/Reaction slots from skills and returned jobs, and imports personal blueprints. It does not contact EVE or refresh credentials.
+
+Private outputs:
+- `data/private/esi/snapshots/`: raw per-character ESI responses and manifests.
+- `data/private/esi/profile-import-manifest.json`: private character-to-profile mapping, counts, import state, and warnings.
+- `local/operating-profile.json`: private populated profile.
+- `local/profile-readiness.json`: redacted readiness summary for review.
+
+The profile deliberately remains partial for operation-wide blueprint inventory because corporation-owned blueprints are not yet imported. Facility access also remains unknown: the public industry-facility directory is not a structure-access list. Personal asset data is retained in snapshots but is not yet transformed into an inventory/stock ledger. Capital, operating hours, risk limits, market access, and hauling constraints remain manual inputs. See [the profile workflow](../profile/README.md) and [the authenticated data plan](../../knowledge/10-research-management/esi-authenticated-data-plan.md) for the import contract and limitations.

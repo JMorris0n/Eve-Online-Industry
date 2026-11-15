@@ -1,6 +1,6 @@
 # Local EVE SSO and null-sec operating-data plan
 
-**Status:** Approved strategic direction. The first local, read-only PKCE importer is implemented and regression-tested; live character authorization and snapshot verification remain pending.  
+**Status:** Approved strategic direction. The local PKCE SSO client and snapshot-to-profile importer are implemented and regression-tested. The user reports that all three character authorizations completed successfully; the first live ESI sync, profile import, and endpoint-data review remain pending.  
 **Decision date:** 2026-11-14  
 **Purpose:** Replace manual transcription of character-specific data with narrowly scoped, read-only EVE SSO/ESI imports while keeping credentials and personal operating data on the user's machine.
 
@@ -22,18 +22,20 @@ ESI is character-oriented and has no account-level endpoint. Each of the three i
 
 | Data required | ESI endpoint | Minimum scope | Project use |
 |---|---|---|---|
-| Trained skill inventory | `GET /characters/{character_id}/skills/` | `esi-skills.read_skills.v1` | Import every trained skill ID, level, and skill points into the local profile |
+| Active and trained skill levels | `GET /characters/{character_id}/skills/` | `esi-skills.read_skills.v1` | Import active skill levels for current capability and use trained levels to reconcile the skill queue |
 | Skill queue | `GET /characters/{character_id}/skillqueue/` | `esi-skills.read_skillqueue.v1` | Reconcile skill completions that may not yet appear in the skills endpoint |
 | Personal blueprint inventory | `GET /characters/{character_id}/blueprints/` | `esi-characters.read_blueprints.v1` | Import blueprint type, location, BPO/BPC quantity, ME, TE, and remaining runs |
 | Personal assets | `GET /characters/{character_id}/assets/` | `esi-assets.read_assets.v1` | Locate stored inputs, components, ships, and useful inventory; resolve location/item names where supported |
-| Personal industry jobs | `GET /characters/{character_id}/industry/jobs/` | `esi-industry.read_character_jobs.v1` | Identify active jobs, activity, blueprint, facility, runs, status, and expected completion |
+| Personal industry jobs | `GET /characters/{character_id}/industry/jobs/` | `esi-industry.read_character_jobs.v1` | Derive current free job slots from active, paused, and ready job records; the sync requests recent completed jobs as well |
 | Search known accessible Upwell structures | `GET /characters/{character_id}/search/` with `categories=structure` | `esi-search.search_structures.v1` | Resolve structure IDs by a known or supplied structure-name query |
 | Resolve a known Upwell structure | `GET /universe/structures/{structure_id}/` | `esi-universe.read_structures.v1` | Retrieve structure name, system, type, and owner when the character has docking access |
 | Public industry facility directory | `GET /industry/facilities/` | Public; no SSO scope | Discover publicly accessible industrial facilities and published facility data |
 
-The skills endpoint can be stale for skills that completed while a character was offline. Import the skill queue as well and reconcile entries whose completion time has passed; mark ambiguous results for in-game verification rather than treating them as confirmed.
+The skills endpoint exposes both `active_skill_level` and `trained_skill_level`. Active level can be lower than trained level because of Alpha clone limits or active expert systems; use active level for current recipe eligibility and job-slot bonuses. Use trained level when checking whether a queue entry with a finish time in the past is reflected by the skills response. Import the skill queue as well and mark ambiguous results partial rather than treating them as confirmed.
 
-The skills and industry-jobs endpoints do not directly promise a current free-slot counter. The project should derive maximum job capacity from verified skill state and subtract relevant active jobs only after the applicable slot rules have been verified. Keep derived values and calculation provenance separate from API-reported facts.
+The skills and industry-jobs endpoints do not directly promise a current free-slot counter. The importer derives theoretical job capacity from active skill levels and subtracts occupied jobs by pool: Manufacturing = 1 + Mass Production + Advanced Mass Production; Science = 1 + Laboratory Operation + Advanced Laboratory Operation; Reaction = 1 + Mass Reactions + Advanced Mass Reactions. CCP documents these job categories and per-level skill additions in [Activities and Job Types](https://support.eveonline.com/hc/en-us/articles/203210272-Activities-and-Job-Types). Activity IDs 1, 3, 4, 5, 7, 8, and 9 map respectively to Manufacturing, Science research/copying/reverse engineering/invention, and Reaction. Jobs in active, paused, or ready status occupy a slot; delivered, cancelled, and reverted jobs do not.
+
+The local sync requests completed job records to avoid silently omitting recent ready-to-deliver jobs. ESI completed-job history is limited to the past 90 days. If a ready-to-deliver job may be older than 90 days, reconcile the calculated free slots against the in-game Industry window before treating the slot count as definitive. Keep derived values and calculation provenance separate from API-reported facts.
 
 ## Facility-access limitation
 
@@ -72,12 +74,13 @@ Defer until the use case exists:
 
 ## Implementation sequence
 
-1. [x] Build a local PKCE authorization client and OS credential-store integration. The helper is implemented in `tools/esi/sso_local.py`; live SSO exchange still awaits user application registration.
-2. [ ] Authorize each of the three characters individually using the minimum scope set.
-3. Import and validate skills, skill queue, blueprints, assets, and active industry jobs into timestamped local snapshots.
-4. Populate the local operating profile from those snapshots, while retaining original source responses for reproducibility.
-5. Build facility discovery using the public facilities directory plus targeted character structure searches; explicitly retain gaps in facility coverage.
-6. Verify job-capacity calculations and a sample of imported blueprint/asset data against the in-game client.
+1. [x] Build a local PKCE authorization client and OS credential-store integration in `tools/esi/sso_local.py`; validate issuer, audience, scopes, callback state, and PKCE.
+2. [x] Complete separate authorization grants for all three characters. The user reports all three authorizations succeeded; the local registry can be checked with `py -3 tools/esi/sso_local.py list`.
+3. [x] Implement an offline snapshot-to-profile importer with snapshot hash/freshness checks, active-skill normalization, job-slot derivation, personal blueprint normalization, and redacted readiness output. Regression tests cover these transformations.
+4. [ ] Run the first live three-character ESI sync and verify all expected endpoint snapshots, pagination metadata, and response shapes.
+5. [ ] Execute the local profile importer and review the resulting private profile and redacted readiness summary.
+6. [ ] Verify calculated job capacity against the in-game Industry window, especially any ready-to-deliver jobs older than ESI's 90-day completed-job history window. Review blueprint counts and asset/location samples against the client.
+7. Build facility discovery using the public facilities directory plus targeted character structure searches; explicitly retain gaps in facility coverage.
 7. After the alliance is selected, ingest doctrine fittings, buyback prices/terms, staging markets, accessible facilities/services, and courier/self-haul constraints.
 8. Then select candidates across alliance-local manufacture, higher-value export production, and other opportunistic work. Run fresh market collection only for selected candidate routes, inputs, outputs, and quantities.
 

@@ -649,7 +649,9 @@ def sync_character(
         (
             "industry_jobs",
             f"/characters/{character_id}/industry/jobs/",
-            {"include_completed": "false"},
+            # Include recent completed jobs so ready-for-delivery work is not lost.
+            # The importer counts active/paused/ready and ignores delivered/cancelled/reverted.
+            {"include_completed": "true"},
         ),
     ):
         data[key], page_meta = client.get_all_pages(path, params=params)
