@@ -177,3 +177,9 @@
 - Added paginated pulls for personal blueprints, assets, and active industry jobs, plus skills, skill queue, and the public industry facility directory. Snapshots include per-page response headers, ESI compatibility date, granted scopes, retrieval timestamp, record counts, and SHA-256 hashes.
 - Added `tools/esi/requirements-sso.txt`, a safe config example, and regression tests for PKCE, scope construction, and loopback redirect validation.
 - Live SSO authorization and character imports remain unverified until the user registers a local EVE SSO app and authorizes each character.
+## 2026-11-15 - Fix EVE SSO JWT issuer validation
+
+- User's first live PKCE authorizations reached the token-validation stage but failed with `Invalid issuer`; no refresh token was saved and no local character was registered.
+- Compared CCP's current JWT validation documentation and token issuer update notice. The documented issuers are `https://login.eveonline.com` and legacy `login.eveonline.com`, with no trailing slash. The initial validator incorrectly allowed the HTTPS issuer only with a trailing slash.
+- Updated the accepted issuer allowlist and added regression tests for both accepted values and rejection of the slash-terminated value. Repository CI passed all six validation groups; the SSO test module now has 6 tests.
+- User should pull the correction and retry authorization for one character before authorizing the remaining two. Do not ask the user to expose access tokens, refresh tokens, authorization codes, or callback URLs containing codes.
