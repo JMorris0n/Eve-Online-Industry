@@ -1,3 +1,10 @@
+## 2026-11-15 - Redacted importer diagnostics
+
+- Extended the readiness report to read the local import manifest and translate private importer warnings into generic, slot-scoped `skills_diagnostic_codes` and `job_capacity_diagnostic_codes`. The report does not expose raw warning text, character IDs/names, skill IDs/levels, blueprint identifiers, or asset/job item IDs.
+- Added reason-code coverage for stale snapshots, completed-but-unreflected skill-queue entries, malformed/unreadable queue entries, malformed or unrecognized industry-job activity/status records, unverified free-slot counts, and capacity blocked by partial skill data.
+- Updated the documented report-regeneration command to include the private manifest. No ESI sync or reauthorization is required to regenerate the report from the existing local profile and manifest.
+- GitHub Actions run [43677050949](https://github.com/JMorris0n/Eve-Online-Industry/actions/runs/43677050949) passed the full repository validation suite after the diagnostic tests were corrected.
+
 ## 2026-11-15 - First live three-character profile import
 
 - Reviewed the user's redacted `profile-readiness.json` from Dropbox. The report is schema-valid with **0 validation errors** and confirms **3 fresh snapshots out of 3**, with no stale snapshots.
