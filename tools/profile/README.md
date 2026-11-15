@@ -124,6 +124,21 @@ py -3 tools/profile/summarize_asset_ledger.py --ledger data/private/esi/asset-le
 
 Only `local/asset-ledger-readiness.json` may be shared. It contains counts and freshness states by character slot, plus aggregate location and candidate-state counts. It omits character names/IDs, item/type/location IDs, item names, quantities, and ISK values. Never upload `asset-ledger.json`.
 
+Build a **private reconciliation CSV** to make the candidate lines practical to inspect in the EVE client:
+
+~~~powershell
+py -3 tools/profile/export_asset_reconciliation.py `
+    --ledger data/private/esi/asset-ledger.json `
+    --sde-dir data/raw/sde/3698585/extracted `
+    --output local/asset-stock-reconciliation.csv
+~~~
+
+Replace the SDE build directory if the local extracted build differs. The exporter joins type IDs to English item names from the local SDE and resolves each distinct NPC station ID through the public ESI station endpoint (no character authentication or additional SSO scope is required). If offline, add `--no-station-name-lookup`; the CSV will retain numeric station IDs. Failed lookups do not discard candidate rows.
+
+The CSV includes character slot, station, item name, type ID, candidate quantity, source-record count, and blank in-game confirmation columns. Use it locally to compare inventory locations and quantities, then verify that relevant items are selectable as available inputs in the Industry window. Do not install or submit a job just to perform this check. Mark an input eligible only when the client confirms it is available to the intended job.
+
+**The reconciliation CSV is private operating data.** It contains station locations, item/type identifiers, and quantities. Keep it under Git-ignored `local/`; never upload it to Dropbox or commit it. Share only aggregate confirmation outcomes, not the CSV or row details.
+
 The location resolver follows CCP's ESI asset-tree convention: an asset's `location_id` can be its parent asset's `item_id`; non-item `other` locations are left unresolved instead of being guessed. See the [ESI asset location reference](https://docs.esi.evetech.net/docs/asset_location_id.html) and the current [ESI documentation overview](https://developers.eveonline.com/docs/services/esi/overview/).
 
 The public /industry/facilities/ endpoint is also captured. It does not prove a character can dock at a listed structure, use its Industry service, or access every structure in its corporation/alliance. Therefore facilities_state remains unknown until targeted access and service checks are completed. Structure access must not be inferred from the public directory or from a name search alone.

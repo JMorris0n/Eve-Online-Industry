@@ -1,6 +1,6 @@
 # Local EVE SSO and null-sec operating-data plan
 
-**Status:** Approved strategic direction. The local PKCE SSO client and snapshot-to-profile importer are implemented and regression-tested. The first three-character live sync and profile import are complete. The latest redacted readiness report is schema-valid with zero errors and confirms verified skill inventories for all three characters (358, 55, and 59 known skills), with all three job pools reporting available capacity on every character. Slot 2's previously pending completed skill-queue level was applied after the user logged into that character and refreshed only its snapshot; no reauthorization was required. Personal blueprint coverage is verified for 375 records, while operation-wide blueprint coverage remains partial because corporation-owned blueprints are not included. Asset normalization, in-game job-slot reconciliation, facility/market access, and manual operating inputs remain open.  
+**Status:** Approved strategic direction. The local PKCE SSO client and snapshot-to-profile importer are implemented and regression-tested. The first three-character live sync and profile import are complete. The latest redacted readiness report is schema-valid with zero errors and confirms verified skill inventories for all three characters (358, 55, and 59 known skills), with all three Manufacturing, Science, and Reaction pools reporting available capacity on every character. Slot 2's previously pending completed skill-queue level was applied after the user logged into that character and refreshed only its snapshot; no reauthorization was required. Personal blueprint coverage is verified for 375 records, while operation-wide blueprint coverage remains partial because corporation-owned blueprints are not included. Personal assets are normalized into a local, location-aware ledger; the latest redacted report confirms 3,681 asset records and 168 candidate stock lines, all on character slot 1. The candidate lines remain unconfirmed pending in-game location, quantity, and Industry-input checks. In-game job-slot reconciliation, facility/market access, and manual operating inputs remain open. 
 **Decision date:** 2026-11-14  
 **Purpose:** Replace manual transcription of character-specific data with narrowly scoped, read-only EVE SSO/ESI imports while keeping credentials and personal operating data on the user's machine.
 
@@ -95,11 +95,13 @@ Defer until the use case exists:
 6. [x] Resolve the partial skills state for character slot 2. The user logged into that character and refreshed only its snapshot; the latest readiness report now verifies skill and capacity state for all three characters.
 7. [ ] Reconcile derived free job capacity against the in-game Industry window for each character, including any ready-to-deliver jobs older than ESI's 90-day completed-job history window.
 8. [x] Run the local personal asset ledger against the three character snapshots; it produced 3,681 records and 168 conservative candidate stock lines.
-9. [ ] Reconcile candidate location/quantity samples against the in-game inventory and Industry UI. Keep non-station and ambiguous locations excluded from candidate stock.
-10. [ ] Review personal blueprint counts against the client and confirm that personal blueprints are excluded from material-stock candidates.
-10. [ ] Build facility discovery using the public facilities directory plus targeted character structure searches; explicitly retain gaps in facility coverage.
-11. [ ] After the alliance is selected, ingest doctrine fittings, buyback prices/terms, staging markets, accessible facilities/services, and courier/self-haul constraints.
-12. [ ] Then select candidates across alliance-local manufacture, higher-value export production, and other opportunistic work. Run fresh market collection only for selected candidate routes, inputs, outputs, and quantities.
+9. [x] Review the redacted asset-ledger readiness report. All three snapshots are fresh; the 168 candidate stock lines are concentrated on character slot 1.
+10. [ ] Generate a private item/location reconciliation CSV with SDE item names and resolved NPC station names. Keep the CSV local because it contains exact IDs and quantities.
+11. [ ] Reconcile candidate locations and quantities against the in-game inventory and check whether selected inputs appear as available in the Industry UI. Keep non-station and ambiguous locations excluded.
+12. [ ] Review personal blueprint counts against the client and confirm that personal blueprints are excluded from material-stock candidates.
+13. [ ] Build facility discovery using the public facilities directory plus targeted character structure searches; explicitly retain gaps in facility coverage.
+14. [ ] After the alliance is selected, ingest doctrine fittings, buyback prices/terms, staging markets, accessible facilities/services, and courier/self-haul constraints.
+15. [ ] Then select candidates across alliance-local manufacture, higher-value export production, and other opportunistic work. Run fresh market collection only for selected candidate routes, inputs, outputs, and quantities.
 
 ## Verification and stop conditions
 

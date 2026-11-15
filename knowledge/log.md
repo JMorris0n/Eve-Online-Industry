@@ -1,3 +1,13 @@
+## 2026-11-15 - Asset readiness report reviewed; reconciliation export added
+
+- Reviewed the user-uploaded root Dropbox report `/asset-ledger-readiness.json` (generated 2026-11-15 18:26:57Z; modified 18:27:32Z). The report has no private identifiers, type/location names, quantities, or ISK values.
+- Confirmed all three asset snapshots are fresh (13.78–14.20 hours old). The report reconciles to **3,681 personal asset records**, **375 blueprint asset records**, **183 candidate asset records**, and **168 aggregated candidate stock lines**.
+- Distribution: slot 1 contains 3,624 assets, all 375 blueprint records, all 183 candidate asset records, and all 168 candidate stock lines. Slots 2 and 3 contain 24 and 33 asset records respectively, with no candidate material stock lines.
+- Location resolution: 3,657 records resolved and 24 have unresolved parent locations. There are no Asset Safety, parent-cycle, unresolved-other-location, or unsupported-location-type records in this report. The 168 candidate stock lines remain explicitly unconfirmed.
+- Added `tools/profile/export_asset_reconciliation.py` and regression tests. It exports a private CSV with SDE item names, optional public ESI NPC station-name lookups, candidate quantities, source-record counts, and empty in-game verification fields. It validates the ledger's conservative candidate state and does not alter the source ledger or contact authenticated character endpoints.
+- The CSV is private because it contains exact station IDs/names, item/type IDs, and quantities. Keep it under ignored `local/`; never upload it or commit it.
+- Next evidence gate: compare candidate stock with in-game inventory and Industry input availability. Also reconcile the nine derived job-capacity pools against each character's Industry window, including older ready-to-deliver jobs beyond ESI's 90-day completed-job history.
+
 ## 2026-11-15 - Local asset ledger generated
 
 - User successfully executed the private asset-ledger builder against all three characters' existing snapshots: **3,681 personal asset records** and **168 candidate station-hangar stock lines** were generated.
