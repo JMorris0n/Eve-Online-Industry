@@ -51,10 +51,18 @@ def validate_assets(rows: Any) -> list[dict[str, Any]]:
         location_id = positive_id(row.get("location_id"), f"Asset record {index} location_id")
         quantity = row.get("quantity")
         singleton = row.get("is_singleton")
-        if isinstance(quantity, bool) or not isinstance(quantity, int) or quantity < 1:
-            raise AssetLedgerError(f"Asset record {index} has an invalid quantity.")
         if not isinstance(singleton, bool):
             raise AssetLedgerError(f"Asset record {index} has an invalid is_singleton flag.")
+        if isinstance(quantity, bool) or not isinstance(quantity, int):
+            raise AssetLedgerError(f"Asset record {index} has an invalid quantity.")
+        if quantity > 0:
+            normalized_quantity = quantity
+        elif singleton and quantity in {-1, -2}:
+            # Preserve the ESI marker while representing the physical item count
+            # as one. Singleton rows are never material-stock candidates.
+            normalized_quantity = 1
+        else:
+            raise AssetLedgerError(f"Asset record {index} has an invalid quantity.")
         location_flag = row.get("location_flag")
         location_type = row.get("location_type")
         if not isinstance(location_flag, str) or not location_flag:
@@ -73,9 +81,10 @@ def validate_assets(rows: Any) -> list[dict[str, Any]]:
             "location_id": location_id,
             "location_type": location_type,
             "location_flag": location_flag,
-            "quantity": quantity,
+            "quantity": normalized_quantity,
+            "reported_quantity": quantity,
             "is_singleton": singleton,
-            "is_blueprint_copy": copy_flag is True,
+            "is_blueprint_copy": copy_flag is True or quantity == -2,
         })
     return normalized
 

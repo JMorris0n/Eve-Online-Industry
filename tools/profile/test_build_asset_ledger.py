@@ -50,6 +50,18 @@ class AssetValidationTests(unittest.TestCase):
         bad = asset(1002, 34, 60000001, "station", quantity=0)
         with self.assertRaisesRegex(AssetLedgerError, "quantity"):
             validate_assets([bad])
+        bad = asset(1003, 34, 60000001, "station", quantity=-1, singleton=False)
+        with self.assertRaisesRegex(AssetLedgerError, "quantity"):
+            validate_assets([bad])
+
+    def test_preserves_singleton_quantity_markers_as_one_physical_item(self):
+        rows = validate_assets([
+            asset(1001, 34, 60000001, "station", quantity=-1, singleton=True),
+            asset(1002, 34, 60000001, "station", quantity=-2, singleton=True),
+        ])
+        self.assertEqual([row["quantity"] for row in rows], [1, 1])
+        self.assertEqual([row["reported_quantity"] for row in rows], [-1, -2])
+        self.assertEqual([row["is_blueprint_copy"] for row in rows], [False, True])
 
 
 class AssetLocationTests(unittest.TestCase):
