@@ -112,9 +112,17 @@ Raw personal asset responses are retained in timestamped, hashed local snapshots
 py -3 tools/profile/build_asset_ledger.py --output data/private/esi/asset-ledger.json
 ~~~
 
-The ledger preserves ESI's reported quantity marker for singleton assets while normalizing their physical item count to one. It resolves nested asset-parent chains where ESI identifies `location_type = item`, matches blueprint item IDs against the personal blueprint endpoint, and excludes blueprint copies from candidate material stock. Only non-singleton, non-blueprint stacks whose complete location path resolves to a station and uses the standard `Hangar` flag at every level are aggregated as candidate stock. Assets in cargo, deliveries, corporation hangar divisions, specialized holds, Asset Safety, unresolved parents, or non-station/other locations are retained with explicit non-candidate states.
+The ledger validates ESI's positive stack quantity and separate `is_singleton` flag. Blueprint-copy status comes from the asset `is_blueprint_copy` flag and the character blueprint endpoint. It resolves nested asset-parent chains where ESI identifies `location_type = item`, matches blueprint item IDs against the personal blueprint endpoint, and excludes blueprint copies from candidate material stock. Only non-singleton, non-blueprint stacks whose complete location path resolves to a station and uses the standard `Hangar` flag at every level are aggregated as candidate stock. Assets in cargo, deliveries, corporation hangar divisions, specialized holds, Asset Safety, unresolved parents, or non-station/other locations are retained with explicit non-candidate states.
 
 A candidate line is not confirmed usable material. It does not prove the character can access an Industry service, install a job at that location, or select the item for a particular job. Reconcile the location and quantity against the in-game inventory and Industry UI before treating it as a procurement offset. The full asset ledger contains character, item, type, and location IDs. It must remain under Git-ignored `data/private/` and must never be uploaded or committed.
+
+After building the ledger, generate an identifier-free summary that is safe to share for review:
+
+~~~powershell
+py -3 tools/profile/summarize_asset_ledger.py --ledger data/private/esi/asset-ledger.json --output local/asset-ledger-readiness.json
+~~~
+
+Only `local/asset-ledger-readiness.json` may be shared. It contains counts and freshness states by character slot, plus aggregate location and candidate-state counts. It omits character names/IDs, item/type/location IDs, item names, quantities, and ISK values. Never upload `asset-ledger.json`.
 
 The location resolver follows CCP's ESI asset-tree convention: an asset's `location_id` can be its parent asset's `item_id`; non-item `other` locations are left unresolved instead of being guessed. See the [ESI asset location reference](https://docs.esi.evetech.net/docs/asset_location_id.html) and the current [ESI documentation overview](https://developers.eveonline.com/docs/services/esi/overview/).
 

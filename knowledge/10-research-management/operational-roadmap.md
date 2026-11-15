@@ -177,7 +177,8 @@ The roadmap is accepted as the working plan. Milestones M1 and M2 are now in pro
 - [x] First live three-character ESI sync and offline profile import completed from three fresh snapshots; source provenance remains local and a redacted readiness report was generated.
 - [x] Personal blueprint inventory for the three authorized characters imported and verified (375 records total); operation-wide blueprint coverage remains partial because corporation-owned blueprints are not imported.
 - [x] ESI skill inventories/queues and current-job summaries are imported for all three characters with verified skill state; the latest readiness report confirms all nine Manufacturing, Science, and Reaction capacity pools report available capacity.
-- [ ] Personal assets are normalized into a usable stock/location ledger, with nested container locations resolved where possible and inaccessible or ambiguous locations kept unknown; personal blueprints and non-stock items are not double-counted as usable materials.
+- [x] The local asset-ledger builder ran against all three characters' snapshots, producing 3,681 personal asset records and 168 conservative candidate stock lines; the output keeps non-station and ambiguous locations out of candidate stock and excludes personal blueprints.
+- [ ] Reconcile candidate stock locations and quantities against the in-game inventory/Industry UI before treating any line as a usable material or procurement offset.
 - [ ] Derived job-slot values are reconciled against the in-game Industry display, including any ready-to-deliver jobs older than ESI's 90-day completed-job history window.
 - [ ] Facility access is populated from public facilities and targeted structure lookups, with incomplete coverage explicitly recorded.
 - [ ] Manual operating constraints (capital budget, attention, risk, hauling limits) and alliance-dependent market/facility information are added when known.

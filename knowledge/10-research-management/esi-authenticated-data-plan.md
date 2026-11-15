@@ -94,8 +94,9 @@ Defer until the use case exists:
 5. [x] Execute the local profile importer and review the redacted readiness report; it is schema-valid with zero validation errors and confirms 375 personal blueprint records.
 6. [x] Resolve the partial skills state for character slot 2. The user logged into that character and refreshed only its snapshot; the latest readiness report now verifies skill and capacity state for all three characters.
 7. [ ] Reconcile derived free job capacity against the in-game Industry window for each character, including any ready-to-deliver jobs older than ESI's 90-day completed-job history window.
-8. [ ] Run the local personal asset ledger against fresh snapshots and reconcile candidate location/quantity samples against the in-game inventory. Keep non-station and ambiguous locations excluded from candidate stock.
-9. [ ] Review personal blueprint counts against the client and confirm that personal blueprints are excluded from material-stock candidates.
+8. [x] Run the local personal asset ledger against the three character snapshots; it produced 3,681 records and 168 conservative candidate stock lines.
+9. [ ] Reconcile candidate location/quantity samples against the in-game inventory and Industry UI. Keep non-station and ambiguous locations excluded from candidate stock.
+10. [ ] Review personal blueprint counts against the client and confirm that personal blueprints are excluded from material-stock candidates.
 10. [ ] Build facility discovery using the public facilities directory plus targeted character structure searches; explicitly retain gaps in facility coverage.
 11. [ ] After the alliance is selected, ingest doctrine fittings, buyback prices/terms, staging markets, accessible facilities/services, and courier/self-haul constraints.
 12. [ ] Then select candidates across alliance-local manufacture, higher-value export production, and other opportunistic work. Run fresh market collection only for selected candidate routes, inputs, outputs, and quantities.

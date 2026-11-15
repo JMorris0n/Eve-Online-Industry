@@ -1,3 +1,11 @@
+## 2026-11-15 - Local asset ledger generated
+
+- User successfully executed the private asset-ledger builder against all three characters' existing snapshots: **3,681 personal asset records** and **168 candidate station-hangar stock lines** were generated.
+- This confirms successful local transformation only. Candidate lines are still labeled `candidate_not_confirmed_usable`; exact locations, quantities, container paths, and usable Industry input status have not yet been reconciled against the client.
+- Added an identifier-free asset-ledger summary tool so the user can share aggregate counts and location-state distribution without uploading the private ledger. The redacted report omits character/item/type/location identifiers, item details, quantities, and ISK values.
+- Corrected a defensive quantity assumption: ESI's character-assets response exposes a positive stack `quantity` separately from the `is_singleton` boolean; the `-1`/`-2` original/copy marker belongs to the character-blueprints response and must not be inferred from asset quantity. The asset parser now requires positive quantity and uses the actual `is_blueprint_copy` field plus blueprint item-ID cross-reference. ESI's [character-assets response example](https://share.apidog.com/apidoc/docs-site/346592/api-3531035) shows these separate fields; the [asset location reference](https://docs.esi.evetech.net/docs/asset_location_id.html) documents parent-item and special-location resolution.
+- Added redacted summary tests for privacy, aggregate consistency, unknown states, and required three-slot coverage. Local candidate-to-inventory reconciliation remains open.
+
 ## 2026-11-15 - Asset ledger singleton edge-case hardening
 
 - Hardened asset-row normalization for singleton quantity markers: negative `-1`/`-2` values are accepted only when `is_singleton` is true, retained as `reported_quantity`, and normalized to one physical item. A `-2` marker also identifies a blueprint copy for exclusion from stock candidates. Non-singleton negative quantities remain invalid.
