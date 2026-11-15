@@ -1,3 +1,12 @@
+## 2026-11-15 - Implement conservative personal asset ledger
+
+- Added `tools/profile/build_asset_ledger.py` to transform existing, hash-verified personal asset and blueprint snapshots into a Git-ignored local ledger. It uses the existing stable character-slot manifest and snapshot freshness validation; it does not contact EVE or refresh tokens.
+- The resolver follows ESI's asset-tree relationship for `location_type = item`, traces nested parent items to a station/system root when possible, and records missing parents, cycles, Asset Safety, non-item `other` locations, and unsupported types without guessing.
+- Personal blueprint items are cross-referenced by ESI item ID and blueprint-copy flags are also excluded from candidate material stock. Initial candidate stock is deliberately narrow: non-singleton stacks with resolved station roots and `Hangar` flags across the full hierarchy. Cargo, deliveries, corp divisions, specialized holds, stale snapshots, and ambiguous locations are excluded.
+- Candidate quantities are labeled `candidate_not_confirmed_usable`; they do not prove Industry service access or job input eligibility. The output includes character, item, type, and location identifiers and remains private under `data/private/esi/`.
+- Added 11 regression tests covering row validation, duplicate IDs, nested containers, cargo exclusion, missing parents, Asset Safety, unresolved `other` locations, cycles, blueprint exclusion, stale snapshots, and aggregation. GitHub Actions run [43678441892](https://github.com/JMorris0n/Eve-Online-Industry/actions/runs/43678441892) passed the full repository validation suite.
+- Local execution and reconciliation against the user's in-game inventory remain pending; do not mark the asset-ledger acceptance criterion complete until the user runs it and its sample candidates are checked.
+
 ## 2026-11-15 - All three skill inventories verified
 
 - Reviewed the latest redacted readiness report uploaded at 2026-11-15T04:40:49Z. It is schema-valid with **0 validation errors**.

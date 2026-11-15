@@ -106,7 +106,17 @@ The personal blueprint endpoint is authoritative for the returned character inve
 
 ### Assets and industry facilities
 
-The raw personal asset responses are retained in the local snapshots for later location and stock analysis. This first profile importer records asset-record counts but does not yet normalize assets into a material-stock ledger or infer usable input quantities.
+Raw personal asset responses are retained in timestamped, hashed local snapshots. Build a separate local asset ledger after syncing/importing the characters:
+
+~~~powershell
+py -3 tools/profile/build_asset_ledger.py --output data/private/esi/asset-ledger.json
+~~~
+
+The ledger resolves nested asset-parent chains where ESI identifies `location_type = item`, matches blueprint item IDs against the personal blueprint endpoint, and excludes blueprint copies from candidate material stock. Only non-singleton, non-blueprint stacks whose complete location path resolves to a station and uses the standard `Hangar` flag at every level are aggregated as candidate stock. Assets in cargo, deliveries, corporation hangar divisions, specialized holds, Asset Safety, unresolved parents, or non-station/other locations are retained with explicit non-candidate states.
+
+A candidate line is not confirmed usable material. It does not prove the character can access an Industry service, install a job at that location, or select the item for a particular job. Reconcile the location and quantity against the in-game inventory and Industry UI before treating it as a procurement offset. The full asset ledger contains character, item, type, and location IDs. It must remain under Git-ignored `data/private/` and must never be uploaded or committed.
+
+The location resolver follows CCP's ESI asset-tree convention: an asset's `location_id` can be its parent asset's `item_id`; non-item `other` locations are left unresolved instead of being guessed. See the [ESI asset location reference](https://docs.esi.evetech.net/docs/asset_location_id.html) and the current [ESI documentation overview](https://developers.eveonline.com/docs/services/esi/overview/).
 
 The public /industry/facilities/ endpoint is also captured. It does not prove a character can dock at a listed structure, use its Industry service, or access every structure in its corporation/alliance. Therefore facilities_state remains unknown until targeted access and service checks are completed. Structure access must not be inferred from the public directory or from a name search alone.
 
