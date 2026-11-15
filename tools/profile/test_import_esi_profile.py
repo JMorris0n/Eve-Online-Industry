@@ -258,7 +258,7 @@ class EsiProfileImporterTests(unittest.TestCase):
             }],
         )
         self.write_three_snapshots({101: payloads})
-        profile, manifest, _ = run_import(self.args())
+        profile, manifest, readiness = run_import(self.args())
         row = next(item for item in manifest["character_mapping"] if item["character_id"] == 101)
         self.assertEqual(row["skills_state"], "partial")
         self.assertIsNone(row["job_capacity"]["manufacturing"]["free_slots"])

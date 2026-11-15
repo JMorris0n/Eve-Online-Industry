@@ -110,7 +110,7 @@ class ProfileReadinessTests(unittest.TestCase):
             row["skills_diagnostic_codes"],
         )
         self.assertIn(
-            "unrecognized_industry_job_activity_id",
+            "unrecognized_industry_activity_id",
             row["job_capacity_diagnostic_codes"],
         )
         self.assertIn(
