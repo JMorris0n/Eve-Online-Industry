@@ -96,9 +96,9 @@ Defer until the use case exists:
 7. [ ] Reconcile derived free job capacity against the in-game Industry window for each character, including any ready-to-deliver jobs older than ESI's 90-day completed-job history window.
 8. [ ] Run the local personal asset ledger against fresh snapshots and reconcile candidate location/quantity samples against the in-game inventory. Keep non-station and ambiguous locations excluded from candidate stock.
 9. [ ] Review personal blueprint counts against the client and confirm that personal blueprints are excluded from material-stock candidates.
-8. Build facility discovery using the public facilities directory plus targeted character structure searches; explicitly retain gaps in facility coverage.
-9. After the alliance is selected, ingest doctrine fittings, buyback prices/terms, staging markets, accessible facilities/services, and courier/self-haul constraints.
-10. Then select candidates across alliance-local manufacture, higher-value export production, and other opportunistic work. Run fresh market collection only for selected candidate routes, inputs, outputs, and quantities.
+10. [ ] Build facility discovery using the public facilities directory plus targeted character structure searches; explicitly retain gaps in facility coverage.
+11. [ ] After the alliance is selected, ingest doctrine fittings, buyback prices/terms, staging markets, accessible facilities/services, and courier/self-haul constraints.
+12. [ ] Then select candidates across alliance-local manufacture, higher-value export production, and other opportunistic work. Run fresh market collection only for selected candidate routes, inputs, outputs, and quantities.
 
 ## Verification and stop conditions
 

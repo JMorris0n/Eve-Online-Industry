@@ -1,3 +1,10 @@
+## 2026-11-15 - Asset ledger singleton edge-case hardening
+
+- Hardened asset-row normalization for singleton quantity markers: negative `-1`/`-2` values are accepted only when `is_singleton` is true, retained as `reported_quantity`, and normalized to one physical item. A `-2` marker also identifies a blueprint copy for exclusion from stock candidates. Non-singleton negative quantities remain invalid.
+- Added a regression covering singleton `-1` and `-2` markers, rejected negative stack quantities, and updated the local ledger documentation.
+- GitHub Actions run [43678739086](https://github.com/JMorris0n/Eve-Online-Industry/actions/runs/43678739086) passed the full repository validation suite, including **53 profile tests** (14 asset-ledger tests).
+- The tool is ready for local execution against the user's existing fresh snapshots. The ledger itself is private and must not be uploaded or committed.
+
 ## 2026-11-15 - Implement conservative personal asset ledger
 
 - Added `tools/profile/build_asset_ledger.py` to transform existing, hash-verified personal asset and blueprint snapshots into a Git-ignored local ledger. It uses the existing stable character-slot manifest and snapshot freshness validation; it does not contact EVE or refresh tokens.
